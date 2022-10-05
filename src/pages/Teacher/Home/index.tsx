@@ -22,7 +22,13 @@ const Home = () => {
           {t('count.decrease')}
         </button>
       </div>
-      <BreadCrumb />
+      <BreadCrumb
+        routes={[
+          {
+            name: (t('breadCrumb.classList')),
+            path: "/classes"
+          }
+        ]} />
       <div>
         <button
           onClick={() => {
