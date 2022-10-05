@@ -1,3 +1,4 @@
+import BreadCrumb from 'components/BreadCrumb/BreadCrumb';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -21,6 +22,7 @@ const Home = () => {
           {t('count.decrease')}
         </button>
       </div>
+      <BreadCrumb />
       <div>
         <button
           onClick={() => {
