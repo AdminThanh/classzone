@@ -1,7 +1,13 @@
+import { useTransition } from "react";
+
 const StudentLayout = () => {
-    return <div>
-        StudentLayout
-    </div>;
-}
- 
+    const { t } = useTransition();
+  return (
+    <div>
+      StudentLayout
+        {t("count.increase")}
+    </div>
+  );
+};
+
 export default StudentLayout;

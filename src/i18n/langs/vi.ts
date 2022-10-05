@@ -1,6 +1,14 @@
 export default {
     count: {
         increase: "Tăng",
-        decrease: "Giảm"
+        decrease: "Giảm",
+        change_language: "Đổi ngôn ngữ",
+    },
+
+    shared: {
+        save: "Lưu",
     }
+
+    // Admin
+    
 }
