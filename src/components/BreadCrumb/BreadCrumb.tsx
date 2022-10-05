@@ -2,8 +2,13 @@ import "./BreadCrumb.scss";
 import { HomeOutlined } from '@ant-design/icons';
 import { Breadcrumb } from 'antd';
 
+interface RouteItem {
+    name: string,
+    path: string
+}
+
 interface Props {
-    routes: any[];
+    routes: RouteItem[],
 }
 
 function BreadCrumb(props: Props) {
