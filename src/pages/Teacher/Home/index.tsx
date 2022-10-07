@@ -26,7 +26,7 @@ const Home = () => {
             i18next.changeLanguage(i18next.language === 'vi' ? 'en' : 'vi');
           }}
         >
-          {t("count.change_language")}
+          {t('count.change_language')}
         </button>
       </div>
     </div>
