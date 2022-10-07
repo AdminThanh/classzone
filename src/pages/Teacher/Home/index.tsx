@@ -11,13 +11,12 @@ const Home = () => {
   const { t } = useTranslation();
   return (
     <div>
-      Home Teacher: {state}
+      Home Teacher: {state} - {i18next.language}
       <div>
         <button onClick={() => dispatch(increase())}>
           {t('count.increase')}
         </button>
         <button onClick={() => dispatch(decrease())}>
-          {' '}
           {t('count.decrease')}
         </button>
       </div>
@@ -27,7 +26,7 @@ const Home = () => {
             i18next.changeLanguage(i18next.language === 'vi' ? 'en' : 'vi');
           }}
         >
-          Change lang
+          {t('count.change_language')}
         </button>
       </div>
     </div>

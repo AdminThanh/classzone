@@ -43,7 +43,7 @@ export const routes: IRoute[] = [
    * Student routes:
    */
   {
-    path: ['/home'],
+    path: ['/home', '/'],
     element: TeacherHome,
     role: ['student'],
     layout: StudentLayout,

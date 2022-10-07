@@ -1,6 +1,7 @@
 export default {
     count: {
         increase: "Increase",
-        decrease: "Decreas"
+        decrease: "Decreas",
+        change_language: "Change language",
     }
 }
