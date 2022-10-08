@@ -1,7 +1,12 @@
+import { useTranslation } from 'react-i18next';
+
 const StudentLayout = () => {
-    return <div>
-        StudentLayout
-    </div>;
-}
- 
+  const { t } = useTranslation();
+  return (
+    <div>
+      StudentLayout
+    </div>
+  );
+};
+
 export default StudentLayout;

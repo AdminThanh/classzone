@@ -1,0 +1,5 @@
+@use "src/assets/styles/_color.scss" as c;
+
+div {
+    background-color: c.$primary;
+}

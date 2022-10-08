@@ -3,7 +3,15 @@ export default {
         increase: "Tăng",
         decrease: "Giảm"
     },
-    breadCrumb: {
-        classList : "Danh sách lớp học",
+    bread_crumb: {
+        class_list : "Danh sách lớp học",
+        change_language: "Đổi ngôn ngữ",
+    },
+
+    shared: {
+        save: "Lưu",
     }
+
+    // Admin
+    
 }

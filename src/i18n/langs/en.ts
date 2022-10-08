@@ -3,7 +3,8 @@ export default {
         increase: "Increase",
         decrease: "Decreas"
     },
-    breadCrumb: {
-        classList : "Class list",
+    bread_crumb: {
+        class_list : "Class list",
+        change_language: "Change language",
     }
 }

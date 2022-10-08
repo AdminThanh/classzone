@@ -1,12 +1,15 @@
-import React from "react";
+import React from 'react';
 import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Outlet
-} from "react-router-dom";
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+  useRoutes,
+} from 'react-router-dom';
+import { routes } from './routes';
 
-// Import pages 
+// Import pages
 
 /* Teacher routes */
 const HomeTeacher = React.lazy(() => import('pages/Teacher/Home'));
@@ -16,20 +19,37 @@ const HomeTeacher = React.lazy(() => import('pages/Teacher/Home'));
 /* Admin routes */
 
 const Router = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<div>App <Outlet /></div>}>
-                    <Route index element={<HomeTeacher />} />
-                    {/* <Route path="teams" element={<Teams />}>
-                        <Route path=":teamId" element={<Team />} />
-                        <Route path="new" element={<NewTeamForm />} />
-                        <Route index element={<LeagueStandings />} />
-                    </Route> */}
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
-}
+  return (
+    <BrowserRouter>
+      <Routes>
+        {routes.map((route, idx) => {
+          let Layout = route.layout;
+          let Element = route.element;
+
+          // Đợi API login ms xử lý case này
+          if (route.role.includes('teacher')) {
+            // if (route.role.includes('student')) {
+            return (
+              <Route
+                key={idx}
+                path={route.path}
+                element={
+                  Layout ? (
+                    <Layout>
+                      <Element />
+                    </Layout>
+                  ) : (
+                    <Element />
+                  )
+                }
+              />
+            );
+          }
+        })}
+        <Route path="home" element={<Navigate to="/not-found" />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default Router;
