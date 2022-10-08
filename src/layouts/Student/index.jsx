@@ -1,11 +1,10 @@
-import { useTransition } from "react";
+import { useTranslation } from 'react-i18next';
 
 const StudentLayout = () => {
-    const { t } = useTransition();
+  const { t } = useTranslation();
   return (
     <div>
       StudentLayout
-        {t("count.increase")}
     </div>
   );
 };
