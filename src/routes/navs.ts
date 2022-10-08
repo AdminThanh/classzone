@@ -1,5 +1,7 @@
-export default {
-    name: "myclass",
-    icon: "",
-    path: ""
-}
+export default [
+  {
+    name: 'myclass',
+    icon: '',
+    path: '',
+  },
+];
