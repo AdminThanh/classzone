@@ -1,11 +1,13 @@
+import Navbar from 'components/Navbar';
 import { useEffect } from 'react';
-import api from 'utils/api';
+import { TeacherRoutes } from 'routes/navs';
 
 const TeacherLayout = () => {
-  useEffect(() => {
-    const hello = api.get('http://localhost:4000/api/asd');
-  }, []);
-  return <div>TeacherLayouts</div>;
+  return (
+    <div className="teacherLayout">
+      <Navbar navList={TeacherRoutes} />
+    </div>
+  );
 };
 
 export default TeacherLayout;

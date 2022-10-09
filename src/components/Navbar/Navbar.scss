@@ -1,0 +1,126 @@
+@use '/src/assets/styles/colors' as c;
+
+.navbar {
+  background-color: c.$primary;
+  width: 100%;
+  height: 64px;
+
+  .navbar__logo {
+    width: 100px;
+    height: 100%;
+  }
+
+  .navbar__skeleton {
+    padding: 14px;
+    max-width: 1366px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+  }
+
+  .navbar__listItem {
+    flex-grow: 1;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    column-gap: 35px;
+  }
+
+  .navbar__item {
+    
+  }
+
+  .navbar__link {
+    display: flex;
+    font-weight: bold;
+    column-gap: 5px;
+
+    .navbar__icon,
+    .navbar__label {
+      color: c.$second;
+      transition: 0.3s;
+    }
+
+    &:hover {
+      .navbar__icon,
+      .navbar__label {
+        color: c.$primary_hover;
+      }
+    }
+  }
+
+  .navbar__user {
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    &:before {
+      content: '';
+      display: block;
+      width: 200px;
+      height: 100px;
+      // background: red;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    &:hover {
+      .navbar__popup {
+        display: block;
+      }
+    }
+
+    .navbar__label,
+    .navbar__avatar {
+      color: c.$second;
+      font-weight: bold;
+    }
+
+    .navbar__avatar {
+      width: 32px;
+      height: 32px;
+    }
+
+    .navbar__popup {
+      position: absolute;
+      width: 160px;
+      border-radius: 10px;
+      color: c.$second;
+      top: 40px;
+      right: 0px;
+      background-color: c.$second;
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+      display: none;
+    }
+  }
+
+  .navbar__listControl {
+    padding-left: 0;
+    margin-bottom: 0;
+
+    .navbar__controlItem {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+      padding: 5px 10px;
+      justify-content: flex-start;
+
+      &:hover {
+        .navbar__control-icon,
+        .navbar__control-label {
+          color: c.$primary;
+        }
+      }
+    }
+
+    .navbar__control-icon,
+    .navbar__control-label {
+      color: #000;
+    }
+  }
+}
