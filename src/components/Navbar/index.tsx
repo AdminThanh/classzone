@@ -44,8 +44,8 @@ const Navbar = (props: INavbarProps) => {
       <div className="navbar__skeleton">
         <div className="navbar__logo"></div>
         <ul className="navbar__listItem">
-          {navList?.map((item) => (
-            <li className="navbar__item">
+          {navList?.map((item, idx) => (
+            <li key={idx} className="navbar__item">
               <Link to="#" className="navbar__link">
                 <item.icon className="navbar__icon" />
                 <span className="navbar__label">
@@ -59,11 +59,11 @@ const Navbar = (props: INavbarProps) => {
           <div className="navbar__label">Chào, Hồ Thị Bích Ngọc</div>
           <DefaultAvatar className="navbar__avatar" />
 
-          {/* Popup */}
-          <div className="navbar__popup">
+          {/* dropdown */}
+          <div className="navbar__dropdown">
             <div className="navbar__listControl">
-              {listUserControl.map((item) => (
-                <Link to="" className="navbar__controlItem">
+              {listUserControl.map((item, idx) => (
+                <Link key={idx} to="" className="navbar__controlItem">
                   <item.icon className="navbar__control-icon"></item.icon>
                   <span className="navbar__control-label">
                     {t(`user_control.${item.label}`)}

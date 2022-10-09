@@ -6,3 +6,6 @@ export { ReactComponent as ProfileIcon } from 'assets/images/profile-icon.svg';
 export { ReactComponent as SettingIcon } from 'assets/images/setting-icon.svg';
 export { ReactComponent as TestIcon } from 'assets/images/test-icon.svg';
 export { ReactComponent as QuestionIcon } from 'assets/images/question-icon.svg';
+export { ReactComponent as DownArrowIcon } from 'assets/images/down-arrow-icon.svg';
+export { ReactComponent as UpArrowIcon } from 'assets/images/up-arrow-icon.svg';
+export { ReactComponent as DatePickerIcon } from 'assets/images/datepicker-icon.svg';
