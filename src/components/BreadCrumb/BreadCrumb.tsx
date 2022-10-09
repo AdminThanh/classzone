@@ -20,8 +20,8 @@ function BreadCrumb(props: Props) {
                 <HomeOutlined />
             </Breadcrumb.Item>
             {
-                routes.map((route, index) => (
-                    <Breadcrumb.Item key={index} href={route.path}>
+                routes.map((route) => (
+                    <Breadcrumb.Item href={route.path}>
                         <span>{route.name}</span>
                     </Breadcrumb.Item>
                 ))
