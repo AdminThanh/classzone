@@ -6,15 +6,28 @@
   height: 64px;
 
   .navbar__logo {
-    width: 100px;
+    // width: 100px;
     height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 14px;
+
+    img {
+      height: 40px;
+    }
+  }
+
+  .navbar__skin {
+    max-width: 1366px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
   }
 
   .navbar__skeleton {
     padding: 14px;
-    max-width: 1366px;
-    margin: 0 auto;
-    height: 100%;
+    flex-grow: 1;
     display: flex;
   }
 
@@ -29,7 +42,6 @@
   }
 
   .navbar__item {
-    
   }
 
   .navbar__link {
@@ -88,7 +100,7 @@
 
     .navbar__dropdown {
       position: absolute;
-      width: 160px;
+      width: 200px;
       border-radius: 10px;
       color: c.$second;
       top: 40px;

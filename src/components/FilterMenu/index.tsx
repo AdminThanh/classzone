@@ -25,9 +25,11 @@ export interface ISelection extends IFilterItem {
   options: IOption[];
 }
 
+export type TField = IDatepicker | ISelection;
+
 interface IPropsFilterMenu {
   searchPlaceholder: string;
-  fields: (IDatepicker | ISelection)[];
+  fields: TField[];
   initialValues: {
     [key: string]: any;
   };
@@ -76,7 +78,7 @@ const FilterMenu = (props: IPropsFilterMenu) => {
       ...values,
       ...changeValue,
     };
-    
+
     setValues(newValues);
 
     if (fireChange) {

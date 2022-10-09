@@ -1,11 +1,11 @@
 import { DatePicker, Select } from 'antd';
-import { IDatepicker, ISelection } from 'components/FilterMenu';
+import { IDatepicker, ISelection, TField } from 'components/FilterMenu';
 import React from 'react';
 import { DatePickerIcon } from 'utils/drawer';
 import './DropdownFilter.scss';
 
 interface IPropsDropdownFilter {
-  fields: (IDatepicker | ISelection)[];
+  fields: TField[];
   onChange?: (changeValue: any) => void;
 }
 
@@ -20,7 +20,7 @@ const DropdownFilter = (props: IPropsDropdownFilter) => {
     }
   };
 
-  const renderInput = (fld: IDatepicker | ISelection) => {
+  const renderInput = (fld: TField) => {
     switch (fld.type) {
       case 'datepicker':
         return (
