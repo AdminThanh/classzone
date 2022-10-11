@@ -18,12 +18,11 @@ export declare namespace JSX {
 }
 
 type TRole = 'teacher' | 'student' | 'admin';
-
 interface IRoute {
   path: string;
-  element: () => ReactElement;
-  role: TRole[];
-  layout: () => ReactElement;
+  element: (props: any) => ReactElement;
+  role?: TRole[];
+  layout: (props: any) => ReactElement;
 }
 
 export const routes: IRoute[] = [
@@ -33,7 +32,7 @@ export const routes: IRoute[] = [
    */
   {
     path: '/',
-    element: StudentHome,
+    element: TeacherHome,
     role: ['teacher'],
     layout: TeacherLayout,
   },
@@ -44,7 +43,7 @@ export const routes: IRoute[] = [
    */
   {
     path: '/',
-    element: TeacherHome,
+    element: StudentHome,
     role: ['student'],
     layout: StudentLayout,
   },
