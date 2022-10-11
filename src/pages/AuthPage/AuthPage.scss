@@ -6,13 +6,18 @@
   padding: 0;
 }
 
-.auth-page {
-  width: 100%;
-  background: no-repeat center/cover
-    url('../../assets/images/background/bg-auth.png');
+.auth {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #3cbcf3;
+  .auth-page {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bg-right {
+    width: 20%;
+  }
 }
 
 .auth-content {
@@ -78,9 +83,19 @@
 }
 
 @media only screen and (max-width: 675px) {
-  .auth-page {
-    width: 100%;
-    background: none;
+  .auth {
+    display: flex;
+    background: #3cbcf3;
+    .auth-page {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bg-right {
+      display: none;
+      background: #3cbcf3;
+    }
   }
   .auth-content {
     background: c.$second;
