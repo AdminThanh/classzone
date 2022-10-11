@@ -82,7 +82,7 @@
   }
 }
 
-@media only screen and (max-width: 1028px) {
+@media only screen and (max-width: 1366px) {
   .auth {
     display: flex;
     background: #3cbcf3;
@@ -120,6 +120,7 @@
     }
   }
   .auth-content {
+    width: 100%;
     background: c.$second;
     border-radius: 20px;
     padding: 0;
@@ -128,6 +129,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    .ant-tabs {
+      width: 100%;
+    }
     .ant-tabs-nav-wrap {
       display: flex;
       align-items: center;
@@ -136,7 +140,7 @@
         url('../../assets/images/background/bg-tabs-nav.png');
       padding: 20px;
       .ant-tabs-nav-list {
-        min-width: 290px;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
