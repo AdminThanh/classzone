@@ -6,10 +6,19 @@ import { useSelector } from 'react-redux';
 import { decrease, increase } from 'redux/reducers/counterSlice';
 import { RootState, useAppDispatch } from 'redux/store';
 import { useMemo, FunctionComponent } from 'react';
+
+import { useQuery } from "@apollo/client";
+import { getAllUser } from 'graphql-client/userQueries';
 // import { t } from 'i18n';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
+  const { loading, error, data } = useQuery(getAllUser)
+
+  if(loading) {
+    console.log("data", data)
+  }
+
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
