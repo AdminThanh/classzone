@@ -1,7 +1,7 @@
 import "./Register.scss";
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { GoogleIcon, StudenIcon, TeacherIcon } from "utils/drawer";
+import { StudenIcon, TeacherIcon } from "utils/drawer";
 import { useState } from "react";
 import clsx from "clsx";
 
@@ -87,7 +87,8 @@ function Register() {
                     </Button>
                     <div className="or"><p>Hoặc đăng ký bằng tài khoản</p></div>
                     <Button type="primary" htmlType="submit" className="submit-btn">
-                        <GoogleIcon />
+                        <img className="google-icon" src={require("assets/images/google-icon.png")} alt="" />
+
                         <p>Đăng nhập với Google</p>
                     </Button>
                 </Form.Item>

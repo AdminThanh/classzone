@@ -1,7 +1,6 @@
 import "./Login.scss";
 import { Button, Form, Input } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { GoogleIcon } from "utils/drawer";
 
 function Login() {
     const [form] = Form.useForm();
@@ -52,7 +51,7 @@ function Login() {
                     </Button>
                     <div className="or"><p>Hoặc đăng ký bằng tài khoản</p></div>
                     <Button type="primary" htmlType="submit" className="submit-btn">
-                        <GoogleIcon />
+                        <img className="google-icon" src={require("assets/images/google-icon.png")} alt="" />
                         <p>Đăng nhập với Google</p>
                     </Button>
                 </Form.Item>
