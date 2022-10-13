@@ -100,6 +100,7 @@ const Classes = () => {
                 setOpenModal(true);
               }}
             >
+              Thêm lớp học
             </Button>
             {openModal ? (
               <EditClass title="Thêm lớp học mới" setOpenModal={setOpenModal} />
