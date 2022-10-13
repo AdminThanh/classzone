@@ -1,0 +1,17 @@
+@use '/src/assets/styles/colors' as c;
+
+.classdetail__list {
+    gap: 15px;
+    .ant-avatar {
+      width: 70px;
+      height: 70px;
+    }
+    .ant-avatar-string {
+      left: 50%;
+      font-size: 28px;
+      top: 50%;
+      transform: translate(-50%, -50%) !important;
+    }
+    
+  }
+  

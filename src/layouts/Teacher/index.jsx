@@ -9,8 +9,8 @@ const TeacherLayout = () => {
   }, []);
   return (
     <div>
-      <Classes/>
-      {/* <ClassDetail/> */}
+      {/* <Classes/> */}
+      <ClassDetail/>
     </div>
   );
 };

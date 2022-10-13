@@ -58,7 +58,7 @@ const EditClass = (props: any) => {
   const handleCancel = () => {
     setOpen(false);
     setOpenModal(false);
-  };
+  };  
 
   return (
     <Modal

@@ -2,6 +2,7 @@ import './ClassDetail.scss';
 import { Avatar, Col, Row, Tabs } from 'antd';
 import { useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import StudentList from 'pages/Student/Components/StudentList/Index';
 
 export interface IStudentInfo {
   _id: string;
@@ -51,28 +52,9 @@ const ClassDetail = () => {
           <div className="classdetail__tab">
             <Tabs defaultActiveKey="1">
               <Tabs.TabPane tab="Học sinh" key="1">
-                <Row className="classdetail__list">
-                  {dataStudent?.length !== 0 &&
-                    dataStudent?.map((item) => (
-                      <Col
-                        key={item._id}
-                        span={3}
-                        className="classdetail__item"
-                      >
-                        <Avatar src={item.avatar}>
-                          {item.name.charAt(0).toUpperCase()}
-                        </Avatar>
-                        <div className="name">
-                          <a href={item._id}>{item.name}</a>
-                        </div>
-                      </Col>
-                    ))}
-                  <Col span={3} className="classdetail__item">
-                    <PlusCircleOutlined />
-                  </Col>
-                </Row>
+                <StudentList dataStudent={dataStudent} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Nhóm 2" key="2">
+              <Tabs.TabPane tab="Nhóm" key="2">
                 Nhóm
               </Tabs.TabPane>
             </Tabs>
