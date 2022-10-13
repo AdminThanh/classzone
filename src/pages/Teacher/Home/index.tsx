@@ -3,21 +3,14 @@ import FilterMenu, { TField } from 'components/FilterMenu';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { decrease, increase } from 'redux/reducers/counterSlice';
 import { RootState, useAppDispatch } from 'redux/store';
-import { useMemo, FunctionComponent } from 'react';
-
-import { useQuery } from "@apollo/client";
-import { getAllUser } from 'graphql-client/userQueries';
-// import { t } from 'i18n';
+import { useMemo } from 'react';
+import { useQuery } from '@apollo/client';
+import { GetUsersQueryDocument } from 'gql/graphql';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
-  const { loading, error, data } = useQuery(getAllUser)
-
-  if(loading) {
-    console.log("data", data)
-  }
+  const { data, loading } = useQuery(GetUsersQueryDocument);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();

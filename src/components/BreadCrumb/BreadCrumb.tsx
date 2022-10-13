@@ -1,33 +1,33 @@
-import "./BreadCrumb.scss";
+import './BreadCrumb.scss';
 import { HomeOutlined } from '@ant-design/icons';
 import { Breadcrumb } from 'antd';
 
 interface RouteItem {
-    name: string,
-    path: string
+  name: string;
+  path: string;
 }
 
 interface Props {
-    routes: RouteItem[],
+  routes: RouteItem[];
 }
 
 function BreadCrumb(props: Props) {
-    const { routes } = props;
+  const { routes } = props;
 
-    return (<div className="breadcrumb">
-        <Breadcrumb>
-            <Breadcrumb.Item href="">
-                <HomeOutlined />
-            </Breadcrumb.Item>
-            {
-                routes.map((route) => (
-                    <Breadcrumb.Item href={route.path}>
-                        <span>{route.name}</span>
-                    </Breadcrumb.Item>
-                ))
-            }
-        </Breadcrumb>
-    </div>);
+  return (
+    <div className="breadcrumb">
+      <Breadcrumb>
+        <Breadcrumb.Item href="">
+          <HomeOutlined />
+        </Breadcrumb.Item>
+        {routes.map((route) => (
+          <Breadcrumb.Item key={route.path} href={route.path}>
+            <span>{route.name}</span>
+          </Breadcrumb.Item>
+        ))}
+      </Breadcrumb>
+    </div>
+  );
 }
 
 export default BreadCrumb;

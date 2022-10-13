@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const getAllUser = gql`
+  # Query
   query getUsersQuery {
     getAllUsers {
       username
@@ -8,4 +9,6 @@ export const getAllUser = gql`
       _id
     }
   }
+
+  # Mutation
 `;
