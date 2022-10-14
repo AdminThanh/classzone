@@ -1,5 +1,5 @@
 import './ClassItem.scss';
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import {
   QrcodeOutlined,
   ClockCircleOutlined,
@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Col, Dropdown, Menu, Space } from 'antd';
 import EditClass from '../EditClass/Index';
+import { useTranslation } from 'react-i18next';
 
 interface IClassInfo {
   name: string;
@@ -62,6 +63,7 @@ const ClassItem = (props: IClassInfo) => {
     scoreFactor,
   } = props;
   const [openModal, setOpenModal] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="class-item">
@@ -82,19 +84,19 @@ const ClassItem = (props: IClassInfo) => {
         <ul className="list-desc">
           <li className="item">
             <QrcodeOutlined />
-            Mã Code: <span>{qr_code}</span>
+            {t('my_class.qr_code')}: <span>{qr_code}</span>
           </li>
           <li className="item">
             <ClockCircleOutlined />
-            Ngày bắt đầu: <span>{learn_date}</span>
+            {t('my_class.start_date')}: <span>{learn_date}</span>
           </li>
           <li className="item">
             <ClockCircleOutlined />
-            Ngày kết thúc: <span>{learn_date_end}</span>
+            {t('my_class.end_date')}: <span>{learn_date_end}</span>
           </li>
           <li className="item">
             <UserOutlined />
-            Giáo viên: <span>{teacher}</span>
+            {t('my_class.teacher')}: <span>{teacher}</span>
           </li>
         </ul>
 
@@ -106,12 +108,12 @@ const ClassItem = (props: IClassInfo) => {
             setOpenModal(true);
           }}
         >
-          Chi tiết
+          {t('action.detail')}
         </Button>
 
         {openModal ? (
           <EditClass
-            title="Chỉnh sửa lớp học"
+            title={t('my_class.edit_class')}
             name={name}
             image={image}
             learn_date={learn_date}

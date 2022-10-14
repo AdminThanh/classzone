@@ -1,0 +1,53 @@
+@use '/src/assets/styles/colors' as c;
+.student {
+  width: 100%;
+  &-box:last-child {
+    margin-top: 30px;
+    padding-top: 10px;
+  }
+  .border-top {
+    border-top: 1px solid c.$gray3_color;
+  }
+  &-link {
+    font-size: 16px;
+  }
+  .student-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 5px;
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid c.$gray4_color;
+      border-radius: 8px;
+      outline: 0;
+      background-color: #f6f8fa;
+      height: 40px;
+    }
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+      border: 1px solid c.$gray4_color;
+      border-radius: 8px;
+      outline: 0;
+      background-color: #f6f8fa;
+    }
+   
+    .coppy {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      background-color: c.$primary;
+      height: 40px;
+      padding: 10px;
+      color: c.$second;
+      border-bottom-right-radius: 8px;
+      border-top-right-radius: 8px;
+      &:hover {
+        cursor: pointer;
+        background-color: c.$primary_hover;
+      }
+    }
+  }
+}

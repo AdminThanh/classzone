@@ -31,6 +31,7 @@ const EditClass = (props: any) => {
   const [fileImage, setFileImage] = useState();
 
   const uploadVideo = (selectorFiles: any) => {
+    console.log(selectorFiles[0].name);
     if (selectorFiles) {
       setFileImage(selectorFiles[0]);
     }

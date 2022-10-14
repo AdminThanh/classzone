@@ -19,6 +19,10 @@ export default {
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
 
+    // Fied
+    qr_code: "Mã code",
+    teacher: "Giáo viên",
+
     // Placeholder
     choose_start_date: 'Chọn ngày bắt đầu',
     choose_end_date: 'Chọn ngày kết thúc',
@@ -28,7 +32,31 @@ export default {
     // Options
     is_activating: 'Đang hoạt động',
     is_finished: 'Đã kết thúc',
-  },
 
+    // Actions
+    add_class: "Thêm lớp học",
+    edit_class: "Chỉnh sửa lớp học",
+    invite_member: "Mời thành viên",
+
+    // Babel
+    class_link: "Liên kết lớp",
+
+  },
+  action: {
+    view_detail: "Xem chi tiết",
+    detail: "Chi tiết",
+    delete: "Xóa",
+    edit: "Sửa",
+    setting: "Cài đặt",
+    coppy_success: "Sao chép thành công!",
+    coppy_error: "Sao chép thất bại!",
+    coppy: "Sao chép",
+  },
+  field:{
+    email_address: "Địa chỉ email",
+  },
+  my_group:{
+    create: "Tạo nhóm mới",
+  },
   // Admin
 };

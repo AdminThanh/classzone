@@ -9,6 +9,9 @@ import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
 import TeacherHome from 'pages/Teacher/Home';
+import TeacherClasses from 'pages/Teacher/Classes';
+
+import ClassDetail from 'pages/Teacher/ClassDetail';
 
 import React, { ReactElement } from 'react';
 
@@ -33,7 +36,13 @@ export const routes: IRoute[] = [
    */
   {
     path: '/',
-    element: TeacherHome,
+    element: TeacherClasses,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/classDetail',
+    element: ClassDetail,
     role: ['teacher'],
     layout: TeacherLayout,
   },

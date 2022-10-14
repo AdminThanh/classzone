@@ -3,34 +3,32 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Avatar, Col, Modal, Row } from 'antd';
 import StudentItem from '../StudentItem/Index';
 import { useState } from 'react';
-import AddStudent from '../AddStudent/Index';
+import InviteStudents from '../InviteStudents/Index';
+import { useTranslation } from 'react-i18next';
 
 const StudentList = (props: any) => {
-  const [showAddStudent, setShowAddStudent] = useState(false);
-
+  const [showInviteStudents, setShowInviteStudents] = useState(false);
   const { dataStudent } = props;
-
+  const { t } = useTranslation();
   return (
     <Row className="classdetail__list">
       {dataStudent?.length !== 0 &&
-        dataStudent?.map((item: any) => (
-          <Col key={item._id} span={3} className="classdetail__item">
+        dataStudent?.map((item: any, index: any) => (
+          <Col key={index} span={3} className="classdetail__item">
             <StudentItem _id={item._id} name={item.name} avatar={item.avatar} />
           </Col>
         ))}
       <Col
         onClick={() => {
-          setShowAddStudent(true);
+          setShowInviteStudents(true);
         }}
         span={3}
         className="classdetail__item"
       >
         <PlusCircleOutlined />
       </Col>
-      {showAddStudent ? (
-        <Modal open={true} title="xin chào">
-          <AddStudent />
-        </Modal>
+      {showInviteStudents ? (
+        <InviteStudents setShowInviteStudents={setShowInviteStudents} />
       ) : (
         ''
       )}

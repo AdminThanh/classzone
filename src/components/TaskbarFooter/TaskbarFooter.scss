@@ -1,0 +1,35 @@
+@use '/src/assets/styles/colors' as c;
+
+.taskbar_footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid c.$gray3_color;
+  background-color: c.$second;
+  .tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    .tab-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 5px 15px;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: 500;
+      color: c.$gray8_color;
+      margin: 0 10px;
+      &:hover {
+        cursor: pointer;
+        color: c.$primary;
+      }
+    }
+    span {
+      font-size: 25px;
+    }
+  }
+}

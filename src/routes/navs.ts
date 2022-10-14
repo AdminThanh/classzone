@@ -11,7 +11,7 @@ export const TeacherRoutes: INavItem[] = [
   {
     label: 'my_class',
     icon: ClassIcon,
-    path: '/',
+    path: '/classes',
   },
   {
     label: 'test_management',
