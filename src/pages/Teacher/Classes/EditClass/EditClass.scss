@@ -1,0 +1,52 @@
+@use '/src/assets/styles/colors' as c;
+
+.ant-modal {
+  top: 20px !important;
+}
+.content {
+  .image_class {
+    position: relative;
+    img {
+      width: 100%;
+      max-height: 200px;
+      min-height: 150px;
+      object-fit: cover;
+    }
+    &:hover .background {
+      display: block;
+      cursor: pointer;
+    }
+    .background {
+      display: none;
+      position: absolute;
+      inset: 0;
+      content: '';
+      background-color: #2323237d;
+    }
+    .icon_upload {
+      // float: right;
+      
+      padding: 5px;
+      span {
+        font-size: 22px;
+        color: c.$second;
+      }
+    }
+    .input_file{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      // overflow: hidden;
+    }
+  }
+  .ant-picker,
+  .ant-input-number.ant-input-number-in-form-item,
+  .ant-input {
+    width: 350px;
+    float: right;
+  }
+  form.action {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,34 @@
+@use '/src/assets/styles/colors' as c;
+
+
+.site_container {
+  width: 100%;
+  padding: 0 48px;
+  .classes {
+    margin-top: 45px;
+  }
+  .taskbars {
+    padding: 0 20px;
+    .fillter {
+      float: left;
+    }
+    .addclass {
+      float: right;
+    }
+  }
+}
+
+button.primary {
+  background-color: c.$parimary_button;
+  color: c.$second;
+  padding: 8px 35px;
+  border: none;
+  outline: none;
+  border-radius: 7px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 500;
+}
+button.primary:hover {
+  background-color: c.$primary;
+}
