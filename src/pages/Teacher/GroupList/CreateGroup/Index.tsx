@@ -1,21 +1,14 @@
-import { message, Modal, Button, Form, Input, InputNumber } from 'antd';
+import { message, Modal, Button, Form, Input, InputNumber, Select } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 24 },
+  wrapperCol: { span: 24 },
 };
 
 const validateMessages = {
-  required: '${label} is required!',
-  types: {
-    email: '${label} is not a valid email!',
-    number: '${label} is not a valid number!',
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
+  required: 'Vui lòng nhập ${label}',
 };
 
 const CreateGroup = (props: any) => {
@@ -27,26 +20,22 @@ const CreateGroup = (props: any) => {
     setShowCreateGroup(false);
   };
 
-  const handleOk = () => {
+  const onFinish = (values: any) => {
+    console.log(values);
     setLoadingOK(true);
     setTimeout(() => {
       setLoadingOK(false);
       setShowCreateGroup(false);
-      message.success('Tạo thành công');
+      message.success(t('action.create_success') as string);
     }, 2000);
-  };
-
-  const onFinish = (values: any) => {
-    console.log(values);
   };
 
   return (
     <Modal
       open={true}
-      onOk={handleOk}
       onCancel={handleCancel}
       title={t('my_group.create')}
-      confirmLoading={loadingOK}
+      footer={null}
     >
       <Form
         {...layout}
@@ -55,35 +44,35 @@ const CreateGroup = (props: any) => {
         validateMessages={validateMessages}
       >
         <Form.Item
-          name={['user', 'name']}
-          label="Name"
+          name={['group', 'name']}
+          label={t('my_group.name_group')}
           rules={[{ required: true }]}
         >
-          <Input />
+          <Input placeholder={t('my_group.name_group')} />
         </Form.Item>
+
         <Form.Item
-          name={['user', 'email']}
-          label="Email"
-          rules={[{ type: 'email' }]}
+          name={['group', 'members']}
+          label={t('my_group.members')}
+          rules={[{ required: true }]}
         >
-          <Input />
+          <Select
+            mode="tags"
+            style={{ width: '100%' }}
+            tokenSeparators={[',']}
+            placeholder={t('my_group.members')}
+          ></Select>
         </Form.Item>
-        <Form.Item
-          name={['user', 'age']}
-          label="Age"
-          rules={[{ type: 'number', min: 0, max: 99 }]}
-        >
-          <InputNumber />
-        </Form.Item>
-        <Form.Item name={['user', 'website']} label="Website">
-          <Input />
-        </Form.Item>
-        <Form.Item name={['user', 'introduction']} label="Introduction">
-          <Input.TextArea />
-        </Form.Item>
-        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
+        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 0 }}>
+          <Button loading={loadingOK} type="primary" htmlType="submit">
+            {t('my_group.create')}
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            onClick={handleCancel}
+            key="back"
+          >
+            {t('action.close')}
           </Button>
         </Form.Item>
       </Form>

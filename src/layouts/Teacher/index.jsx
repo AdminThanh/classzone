@@ -1,4 +1,4 @@
-import ClassDetail from 'pages/Teacher/ClassDetail/Index';
+import ClassDetail from 'pages/Teacher/ClassDetail';
 import Classes from 'pages/Teacher/Classes/Index';
 import { useEffect } from 'react';
 import api from 'utils/api';

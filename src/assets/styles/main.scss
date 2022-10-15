@@ -38,6 +38,14 @@ button.ouline:hover {
   border: 1px solid c.$primary;
 }
 
+.ant-btn-primary {
+  color: c.$second !important;
+  border-color: c.$primary !important;
+  background: c.$primary !important;
+  &:hover{
+    opacity: 0.9;
+  }
+}
 
 /* width */
 ::-webkit-scrollbar {

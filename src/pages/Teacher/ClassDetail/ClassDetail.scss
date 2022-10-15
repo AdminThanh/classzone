@@ -4,6 +4,9 @@
   width: 100%;
   padding: 0 48px;
   margin-top: 20px;
+  .ant-tabs-tab:hover {
+    color: c.$primary;
+  }
   &__tab {
     .ant-tabs-tab.ant-tabs-tab-active {
       background-color: c.$primary;

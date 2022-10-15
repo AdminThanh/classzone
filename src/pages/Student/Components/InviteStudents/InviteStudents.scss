@@ -1,6 +1,20 @@
 @use '/src/assets/styles/colors' as c;
 .student {
   width: 100%;
+  .ant-form-item-label > label {
+    font-size: 16px !important;
+  }
+  .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional):before {
+    content: unset;
+  }
+  .ant-col.ant-col-24.ant-form-item-label{
+    padding-bottom: 0;
+  }
+  .ant-form-item-with-help .ant-form-item-explain {
+    margin: 5px 0 20px 0;
+  }
+ 
   &-box:last-child {
     margin-top: 30px;
     padding-top: 10px;
@@ -26,13 +40,13 @@
       background-color: #f6f8fa;
       height: 40px;
     }
-    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
       border: 1px solid c.$gray4_color;
       border-radius: 8px;
       outline: 0;
       background-color: #f6f8fa;
     }
-   
+
     .coppy {
       position: absolute;
       top: 50%;

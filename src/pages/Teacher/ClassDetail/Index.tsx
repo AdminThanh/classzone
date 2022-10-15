@@ -2,7 +2,7 @@ import './ClassDetail.scss';
 import { Avatar, Col, Row, Tabs } from 'antd';
 import { useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import StudentList from 'pages/Student/Components/StudentList';
+import StudentList from 'pages/Student/Components/StudentList/Index';
 import TaskbarFooter from 'components/TaskbarFooter/TaskbarFooter';
 import GroupList from '../GroupList/Index';
 
@@ -84,13 +84,13 @@ const ClassDetail = () => {
                 <StudentList dataStudent={dataStudent} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Nhóm" key="2">
-                <GroupList/>
+                <GroupList />
               </Tabs.TabPane>
             </Tabs>
           </div>
         </div>
       </div>
-        {/* <TaskbarFooter/> */}
+      <TaskbarFooter/>
     </div>
   );
 };

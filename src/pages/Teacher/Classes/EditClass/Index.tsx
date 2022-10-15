@@ -1,9 +1,19 @@
 import './EditClass.scss';
 import React, { useState } from 'react';
 import { DatePicker, Form, Input, InputNumber, Modal } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { CameraOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Upload } from 'antd';
 import { current } from '@reduxjs/toolkit';
+
+const layout = {
+  labelCol: { span: 24 },
+  wrapperCol: { span: 24 },
+};
+
+const validateMessages = {
+  required: 'Vui lòng nhập ${label}',
+};
 
 const EditClass = (props: any) => {
   const {
@@ -17,12 +27,14 @@ const EditClass = (props: any) => {
     teacher,
     scoreFactor,
   } = props;
+  console.log(props);
 
   const [open, setOpen] = useState(true);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const { t } = useTranslation();
 
-  const [inputName, setInputName] = useState(name);
   const [inputImage, setInputImage] = useState(image);
+  const [inputName, setInputName] = useState(name);
   const [inputLearn_date, setInputLearn_date] = useState(learn_date);
   const [inputLearn_date_end, setInputLearn_date_end] = useState(props.label);
   const [inputScoreFactor, setInputScoreFactor] = useState(scoreFactor);
@@ -37,19 +49,12 @@ const EditClass = (props: any) => {
     }
   };
 
-  const handleOk = () => {
-    // Lấy data khi submit form
-    const dataForm = {
-      name: inputName,
-      image: inputImage,
-      learn_date: inputLearn_date,
-      learn_date_end: inputLearn_date_end,
-      scoreFactor: inputScoreFactor,
-    };
-    console.log(dataForm);
-
+  const handleOk = (values: any) => {
     setConfirmLoading(true);
     setTimeout(() => {
+      console.log(values);
+      console.log(inputImage);
+
       setOpen(false);
       setOpenModal(false);
       setConfirmLoading(false);
@@ -59,15 +64,15 @@ const EditClass = (props: any) => {
   const handleCancel = () => {
     setOpen(false);
     setOpenModal(false);
-  };  
+  };
 
   return (
     <Modal
       title={title}
       open={open}
-      onOk={handleOk}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
+      footer={null}
     >
       <div className="content" id="content">
         <div className="image_class">
@@ -87,46 +92,78 @@ const EditClass = (props: any) => {
             </div>
           </div>
         </div>
-        <form action="" className="action">
-          <Form.Item label="Tên lớp">
+        <Form
+          name="nest-messages"
+          onFinish={handleOk}
+          validateMessages={validateMessages}
+          className="action"
+        >
+          <Form.Item
+            name={['class_invite', 'inputName']}
+            label={t('my_class.name_class')}
+            rules={[{ required: true }]}
+          >
             <Input
-              placeholder="Nhập tên lớp"
-              value={inputName}
+              placeholder={t('my_class.name_class')}
+              defaultValue={name}
               onChange={(e) => {
                 setInputName(e.target.value);
               }}
             />
           </Form.Item>
-          <Form.Item label="Ngày bắt đầu">
-            {/* <DatePicker placeholder="Ngày bắt đầu học" value={learn_date} /> */}
+          <Form.Item
+            name={['class_invite', 'inputLearn_date']}
+            label={t('my_class.start_date')}
+            rules={[{ required: true }]}
+          >
             <Input
-              placeholder="Ngày bắt đầu học"
-              value={inputLearn_date}
+              placeholder={t('my_class.start_date')}
+              defaultValue={learn_date}
               onChange={(e) => {
                 setInputLearn_date(e.target.value);
               }}
             />
           </Form.Item>
-          <Form.Item label="Ngày kết thúc">
-            {/* <DatePicker placeholder="Ngày kết thúc" value={learn_date_end} /> */}
+          <Form.Item
+            name={['class_invite', 'inputLearn_date_end']}
+            rules={[{ required: true }]}
+            label={t('my_class.end_date')}
+          >
+            {/* <DatePicker placeholder={t('my_class.end_date')} defaultValue={learn_date_end} /> */}
             <Input
-              placeholder="Ngày kết thúc"
-              value={inputLearn_date_end}
+              placeholder={t('my_class.end_date')}
+              defaultValue={props.label}
               onChange={(e) => {
                 setInputLearn_date_end(e.target.value);
               }}
             />
           </Form.Item>
-          <Form.Item label="Hệ số điểm">
+          <Form.Item
+            name={['class_invite', 'inputScoreFactor']}
+            rules={[{ required: true }]}
+            label={t('my_class.score_factor')}
+          >
             <InputNumber
-              placeholder="Nhập hệ số điểm lớp học"
-              value={inputScoreFactor}
+              placeholder={t('my_class.score_factor')}
+              defaultValue={scoreFactor}
               onChange={(e) => {
                 setInputScoreFactor(e.target.value);
               }}
             />
           </Form.Item>
-        </form>
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 0 }}>
+            <Button loading={confirmLoading} type="primary" htmlType="submit">
+              {title}
+            </Button>
+            <Button
+              style={{ marginLeft: '10px' }}
+              onClick={handleCancel}
+              key="back"
+            >
+              {t('action.close')}
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     </Modal>
   );

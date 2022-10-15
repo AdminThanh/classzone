@@ -1,23 +1,30 @@
 import './InviteStudents.scss';
 import copy from 'copy-to-clipboard';
-import { Input, message, Modal, Select } from 'antd';
+import { Button, Input, message, Modal, Select, Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 const { Option } = Select;
 
+const layout = {
+  labelCol: { span: 24 },
+  wrapperCol: { span: 24 },
+};
+
+const validateMessages = {
+  required: 'Vui lòng nhập ${label}',
+};
+
 const InviteStudents = (props: any) => {
   const { setShowInviteStudents } = props;
   const [loadingOK, setLoadingOK] = useState(false);
-  const [emailInvite, setEmailInvite] = useState('');
-
   const { t } = useTranslation();
   const link = 'https://www.figma.com/file/ZD6Kk4DPwMSHkiuAau0HuG';
 
   const copyToClipboard = () => {
     if (copy(link)) {
-      message.success('Sao chép thành công!');
+      message.success(t('action.coppy_success') as string);
     } else {
-      message.error('Sao chép thất bại!');
+      message.error(t('action.coppy_error') as string);
     }
   };
 
@@ -25,13 +32,13 @@ const InviteStudents = (props: any) => {
     setShowInviteStudents(false);
   };
 
-  const handleOk = () => {
+  const handleOk = (values: any) => {
     setLoadingOK(true);
     setTimeout(() => {
       setLoadingOK(false);
       setShowInviteStudents(false);
-      console.log(emailInvite);
-      message.success("Mời thành công");
+      console.log(values);
+      message.success(t('action.invite_success') as string);
     }, 2000);
   };
 
@@ -40,8 +47,9 @@ const InviteStudents = (props: any) => {
       open={true}
       onOk={handleOk}
       onCancel={handleCancel}
-      title={t('my_class.invite_member')}
+      title={t('my_class.add_member')}
       confirmLoading={loadingOK}
+      footer={null}
     >
       <div className="student">
         <div className="student-box">
@@ -56,20 +64,39 @@ const InviteStudents = (props: any) => {
           </div>
         </div>
         <div className="student-box border-top">
-          <label htmlFor="" className="student-link">
-            {t('field.email_address')}
-          </label>
-          <div className="student-form">
-            <Select
-              mode="tags"
-              style={{ width: '100%' }}
-              onChange={(value) => {
-                setEmailInvite(value);
-              }}
-              tokenSeparators={[',']}
-              placeholder={t('field.email_address')}
-            ></Select>
-          </div>
+          <Form
+            {...layout}
+            name="nest-messages"
+            onFinish={handleOk}
+            validateMessages={validateMessages}
+          >
+            <Form.Item
+              name={['class_invite', 'emailInvite']}
+              label={t('field.email_address')}
+              rules={[{ required: true }]}
+            >
+              <div className="student-form">
+                <Select
+                  mode="tags"
+                  style={{ width: '100%' }}
+                  tokenSeparators={[',']}
+                  placeholder={t('field.email_address')}
+                ></Select>
+              </div>
+            </Form.Item>
+            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 0 }}>
+              <Button loading={loadingOK} type="primary" htmlType="submit">
+                {t('my_class.add_member')}
+              </Button>
+              <Button
+                style={{ marginLeft: '10px' }}
+                onClick={handleCancel}
+                key="back"
+              >
+                {t('action.close')}
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
       </div>
     </Modal>

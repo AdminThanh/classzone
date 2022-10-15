@@ -18,6 +18,8 @@ export default {
     start_date: 'Start date',
     end_date: 'End date',
     status: 'Status',
+    name_class: 'Class Name',
+    score_factor: 'Score factor',
 
     // Fied
     qr_code: "Mã code",
@@ -37,6 +39,7 @@ export default {
     add_class: "Add class",
     edit_class: "Edit class",
     invite_member: "Invite members",
+    add_member: "Add members",
 
     // Babel
     class_link: "Class link",
@@ -51,11 +54,19 @@ export default {
     coppy_success: "Coppy success!",
     coppy_error: "Coppy failed!",
     coppy: "Coppy",
+    create_success: "Create success",
+    edit_success: "Edit success",
+    add_success: "Add success",
+    invite_success: "Invite success",
+    close: "Close",
   },
-  field:{
+  field: {
     email_address: "Email address",
+    please_enter: "Please enter",
   },
-  my_group:{
+  my_group: {
     create: "Create a new group",
+    members: "Members",
+    name_group: "Name group",
   },
 };

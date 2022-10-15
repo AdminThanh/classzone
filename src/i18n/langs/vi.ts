@@ -18,6 +18,8 @@ export default {
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
+    name_class: 'Tên lớp',
+    score_factor: 'Hệ số điểm',
 
     // Fied
     qr_code: "Mã code",
@@ -37,6 +39,7 @@ export default {
     add_class: "Thêm lớp học",
     edit_class: "Chỉnh sửa lớp học",
     invite_member: "Mời thành viên",
+    add_member: "Thêm thành viên",
 
     // Babel
     class_link: "Liên kết lớp",
@@ -51,12 +54,20 @@ export default {
     coppy_success: "Sao chép thành công!",
     coppy_error: "Sao chép thất bại!",
     coppy: "Sao chép",
+    create_success: "Tạo thành công",
+    edit_success: "Sửa thành công",
+    add_success: "Thêm thành công",
+    invite_success: "Mời thành công",
+    close: "Đóng",
   },
-  field:{
+  field: {
     email_address: "Địa chỉ email",
+    please_enter: "Vui lòng nhập",
   },
-  my_group:{
+  my_group: {
     create: "Tạo nhóm mới",
+    members: "Các thành viên",
+    name_group: "Tên nhóm",
   },
   // Admin
 };

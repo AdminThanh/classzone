@@ -11,7 +11,7 @@ import StudentHome from 'pages/Student/Home';
 import TeacherHome from 'pages/Teacher/Home';
 import TeacherClasses from 'pages/Teacher/Classes';
 
-import ClassDetail from 'pages/Teacher/ClassDetail';
+import ClassDetail from 'pages/Teacher/ClassDetail/Index';
 
 import React, { ReactElement } from 'react';
 
