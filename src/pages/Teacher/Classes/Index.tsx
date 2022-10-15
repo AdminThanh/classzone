@@ -2,10 +2,10 @@ import './Classes.scss';
 import { Button, Col, Modal, Row, Select } from 'antd';
 import BreadCrumb from 'components/BreadCrumb/BreadCrumb';
 import { useTranslation } from 'react-i18next';
-import ClassItem from './ClassItem/Index';
+import ClassItem from './components/ClassItem';
 import React, { useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import EditClass from './EditClass/Index';
+import EditClass from './components/EditClass';
 
 export interface IClassInfo {
   name: string;
@@ -103,7 +103,10 @@ const Classes = () => {
               {t('my_class.add_class')}
             </Button>
             {openModal ? (
-              <EditClass title={t('my_class.add_class')} setOpenModal={setOpenModal} />
+              <EditClass
+                title={t('my_class.add_class')}
+                setOpenModal={setOpenModal}
+              />
             ) : (
               ''
             )}

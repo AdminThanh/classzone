@@ -9,7 +9,7 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 import { Button, Col, Dropdown, Menu, Space } from 'antd';
-import EditClass from '../EditClass/Index';
+import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
 
 interface IClassInfo {

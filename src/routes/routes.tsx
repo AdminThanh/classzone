@@ -9,11 +9,11 @@ import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
 import TeacherHome from 'pages/Teacher/Home';
-import TeacherClasses from 'pages/Teacher/Classes';
 
 import ClassDetail from 'pages/Teacher/ClassDetail/Index';
 
 import React, { ReactElement } from 'react';
+import TeacherClasses from 'pages/Teacher/Classes';
 
 export declare namespace JSX {
   interface IntrinsicElements {
