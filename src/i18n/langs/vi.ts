@@ -18,6 +18,12 @@ export default {
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
+    name_class: 'Tên lớp',
+    score_factor: 'Hệ số điểm',
+
+    // Fied
+    qr_code: "Mã code",
+    teacher: "Giáo viên",
 
     // Placeholder
     choose_start_date: 'Chọn ngày bắt đầu',
@@ -28,7 +34,40 @@ export default {
     // Options
     is_activating: 'Đang hoạt động',
     is_finished: 'Đã kết thúc',
-  },
 
+    // Actions
+    add_class: "Thêm lớp học",
+    edit_class: "Chỉnh sửa lớp học",
+    invite_member: "Mời thành viên",
+    add_member: "Thêm thành viên",
+
+    // Babel
+    class_link: "Liên kết lớp",
+
+  },
+  action: {
+    view_detail: "Xem chi tiết",
+    detail: "Chi tiết",
+    delete: "Xóa",
+    edit: "Sửa",
+    setting: "Cài đặt",
+    coppy_success: "Sao chép thành công!",
+    coppy_error: "Sao chép thất bại!",
+    coppy: "Sao chép",
+    create_success: "Tạo thành công",
+    edit_success: "Sửa thành công",
+    add_success: "Thêm thành công",
+    invite_success: "Mời thành công",
+    close: "Đóng",
+  },
+  field: {
+    email_address: "Địa chỉ email",
+    please_enter: "Vui lòng nhập",
+  },
+  my_group: {
+    create: "Tạo nhóm mới",
+    members: "Các thành viên",
+    name_group: "Tên nhóm",
+  },
   // Admin
 };

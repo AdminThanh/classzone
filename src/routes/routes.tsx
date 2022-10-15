@@ -10,7 +10,10 @@ import StudentHome from 'pages/Student/Home';
 /* Teacher */
 import TeacherHome from 'pages/Teacher/Home';
 
+import ClassDetail from 'pages/Teacher/ClassDetail/Index';
+
 import React, { ReactElement } from 'react';
+import TeacherClasses from 'pages/Teacher/Classes';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -33,7 +36,13 @@ export const routes: IRoute[] = [
    */
   {
     path: '/',
-    element: TeacherHome,
+    element: TeacherClasses,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/classDetail',
+    element: ClassDetail,
     role: ['teacher'],
     layout: TeacherLayout,
   },

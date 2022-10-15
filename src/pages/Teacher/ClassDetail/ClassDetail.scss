@@ -1,0 +1,88 @@
+@use '/src/assets/styles/colors' as c;
+
+.classdetail {
+  width: 100%;
+  padding: 0 48px;
+  margin-top: 20px;
+  .ant-tabs-tab:hover {
+    color: c.$primary;
+  }
+  &__tab {
+    .ant-tabs-tab.ant-tabs-tab-active {
+      background-color: c.$primary;
+      .ant-tabs-tab-btn {
+        color: c.$second;
+      }
+    }
+    .ant-tabs-top > .ant-tabs-nav:before {
+      border: none;
+    }
+    .ant-tabs-tab {
+      padding: 8px 40px;
+    }
+    .ant-tabs-nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ant-tabs-nav-list {
+      border: 2px solid c.$primary;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  }
+  .ant-tabs-tab + .ant-tabs-tab {
+    margin: 0;
+  }
+  .ant-tabs-ink-bar {
+    display: none;
+  }
+  .classdetail__list {
+    gap: 15px;
+    .ant-avatar {
+      width: 70px;
+      height: 70px;
+    }
+    .ant-avatar-string {
+      left: 50%;
+      font-size: 28px;
+      top: 50%;
+      transform: translate(-50%, -50%) !important;
+    }
+    .classdetail__item {
+      width: 100%;
+      min-height: 160px;
+      background: c.$second;
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 15px;
+      .anticon {
+        font-size: 30px;
+        color: c.$primary;
+      }
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 5px 0px rgba(25, 15, 0, 0.25);
+      }
+      .name {
+        text-align: center;
+        a {
+          font-size: 17px;
+          color: c.$color_dark;
+        }
+      }
+    }
+  }
+  
+
+.ant-tabs-content-holder {
+  max-height: 600px;
+  overflow-y: auto;
+  margin-bottom: 100px;
+}
+
+}
