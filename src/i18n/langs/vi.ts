@@ -7,7 +7,7 @@ export default {
   user_control: {
     account_management: 'Quản lý tài khoản',
     setting: 'Cài đặt',
-    quit: 'Thoát',
+    logout: 'Thoát',
   },
   bread_crumb: {
     class_list: 'Danh sách lớp học',

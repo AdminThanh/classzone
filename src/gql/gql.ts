@@ -3,12 +3,18 @@ import * as types from './graphql';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 const documents = {
-    "\n  # Query\n\n  # Mutation\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n    }\n  }\n": types.RegisterDocument,
-    "\n  # Query\n  query getUsersQuery {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n\n  # Mutation\n": types.GetUsersQueryDocument,
+    "\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n": types.RegisterDocument,
+    "\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n      user {\n        _id\n        username\n        email\n        updatedAt\n        createdAt\n      }\n    }\n  }\n": types.LoginDocument,
+    "\n  mutation Logout {\n    logout {\n      code\n      message\n      success\n    }\n  }\n": types.LogoutDocument,
+    "\n  query me {\n    me {\n      _id\n      username\n      email\n      createdAt\n      updatedAt\n      token_version\n    }\n  }\n": types.MeDocument,
+    "\n  # Query\n  query getAllUser {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n": types.GetAllUserDocument,
 };
 
-export function graphql(source: "\n  # Query\n\n  # Mutation\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n    }\n  }\n"): (typeof documents)["\n  # Query\n\n  # Mutation\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n    }\n  }\n"];
-export function graphql(source: "\n  # Query\n  query getUsersQuery {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n\n  # Mutation\n"): (typeof documents)["\n  # Query\n  query getUsersQuery {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n\n  # Mutation\n"];
+export function graphql(source: "\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n"];
+export function graphql(source: "\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n      user {\n        _id\n        username\n        email\n        updatedAt\n        createdAt\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n      user {\n        _id\n        username\n        email\n        updatedAt\n        createdAt\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation Logout {\n    logout {\n      code\n      message\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation Logout {\n    logout {\n      code\n      message\n      success\n    }\n  }\n"];
+export function graphql(source: "\n  query me {\n    me {\n      _id\n      username\n      email\n      createdAt\n      updatedAt\n      token_version\n    }\n  }\n"): (typeof documents)["\n  query me {\n    me {\n      _id\n      username\n      email\n      createdAt\n      updatedAt\n      token_version\n    }\n  }\n"];
+export function graphql(source: "\n  # Query\n  query getAllUser {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n"): (typeof documents)["\n  # Query\n  query getAllUser {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n"];
 
 export function graphql(source: string): unknown;
 export function graphql(source: string) {

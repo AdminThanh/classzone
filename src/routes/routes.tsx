@@ -49,7 +49,6 @@ export const routes: IRoute[] = [
   {
     path: '/login',
     element: AuthPage,
-    role: ['teacher'],
   },
   // {
   //   path: '/register',

@@ -7,7 +7,7 @@ export default {
   user_control: {
     account_management: 'Account management',
     setting: 'Setting',
-    quit: 'Quit',
+    logout: 'Logout',
   },
   bread_crumb: {
     class_list: 'Class list',

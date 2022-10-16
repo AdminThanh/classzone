@@ -1,4 +1,4 @@
-import { useAuth } from 'hooks/useAuth';
+import { useAuth } from 'contexts/AuthContext';
 import { ReactElement, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,12 +8,12 @@ interface IGuard {
 
 export const RequireAuth = (props: IGuard) => {
   const { children } = props;
-  const auth = useAuth();
+  const { auth } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth) {
+    if (!Object.keys(auth || {}).length) {
       navigate('/login');
     }
   }, [auth]);
@@ -23,12 +23,13 @@ export const RequireAuth = (props: IGuard) => {
 
 export const RequireGuest = (props: IGuard) => {
   const { children } = props;
-  const auth = useAuth();
+  const { auth } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth) {
+    console.log('Chạy require guest');
+    if (Object.keys(auth || {}).length) {
       navigate('/');
     }
   }, [auth]);

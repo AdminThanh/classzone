@@ -1,9 +1,8 @@
 import { RequireAuth, RequireGuest } from 'components/Auth';
-import { AuthContext } from 'contexts/AuthContext';
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from 'contexts/AuthContext';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { routes } from './routes';
-import { useState, useContext, useEffect } from 'react';
 
 // Import pages
 
@@ -16,7 +15,7 @@ const HomeTeacher = React.lazy(() => import('pages/Teacher/Home'));
 
 const Router = () => {
   const [loading, setLoading] = useState(true);
-  const { checkAuth } = useContext(AuthContext);
+  const { checkAuth } = useAuth();
   useEffect(() => {
     const authenticate = async () => {
       await checkAuth();
@@ -36,7 +35,7 @@ const Router = () => {
           let Element = route.element;
 
           // Đợi API login ms xử lý case này
-          if (route.role.includes('teacher')) {
+          // if (route.role.includes('teacher')) {
             // if (route.role.includes('student')) {
             return (
               <Route
@@ -62,7 +61,7 @@ const Router = () => {
                 }
               />
             );
-          }
+          // }
         })}
         <Route path="home" element={<Navigate to="/not-found" />} />
       </Routes>
