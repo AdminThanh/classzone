@@ -1,0 +1,160 @@
+@use '../../assets/styles/colors' as c;
+
+.edit-profile-page {
+  padding: 68px 48px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: c.$primary_active;
+    border-radius: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: c.$gray4_color;
+    border-radius: 10px;
+  }
+  .input-profile-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: c.$white;
+    border-radius: 20px;
+  }
+}
+
+.upload-avatar {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .icon-upload {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+  }
+  input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.form-profile {
+  width: 100%;
+  max-height: 740px;
+  .ant-form {
+    width: 100%;
+    .ant-form-item {
+      width: 100%;
+      .ant-form-item-label {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .input-profile {
+        border: 1px solid c.$border_gray;
+        filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+        border-radius: 12px;
+        padding: 15px;
+      }
+      .input-password-first {
+        border: 1px solid c.$border_gray;
+        filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+        border-radius: 12px;
+        padding: 15px;
+        .ant-input-suffix {
+          color: c.$primary;
+          font-size: 14px;
+          cursor: pointer;
+        }
+        .btn-show {
+          background: inherit;
+          border: none;
+          font-size: 14px;
+          color: c.$primary;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  .primary-btn {
+    background: c.$primary;
+    border: 1px solid c.$primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 25px;
+    border-radius: 10px;
+    gap: 10px;
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    &:hover {
+      background: c.$primary_active;
+      border: 1px solid c.$primary_active;
+    }
+    &:focus {
+      background: c.$primary !important;
+      border: 1px solid c.$primary !important;
+    }
+  }
+  .edit-btn {
+    display: flex;
+    gap: 30px;
+    .cancel-btn {
+      background: c.$gray3_color;
+      border: 1px solid c.$gray3_color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 48px;
+      border-radius: 10px;
+      gap: 10px;
+      p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+      }
+      p,
+      svg {
+        color: c.$black;
+      }
+      &:hover {
+        background: c.$gray4_color;
+        border: 1px solid c.$gray4_color;
+        p,
+        svg {
+          color: c.$primary_active;
+        }
+      }
+    }
+  }
+}

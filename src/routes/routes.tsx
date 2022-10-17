@@ -1,6 +1,8 @@
 // Layout
 import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
+import AuthPage from 'pages/AuthPage/AuthPage';
+import EditProfile from 'pages/EditProfile/EditProfile';
 
 // Pages
 /* Student */
@@ -22,7 +24,7 @@ interface IRoute {
   path: string;
   element: (props: any) => ReactElement;
   role?: TRole[];
-  layout: (props: any) => ReactElement;
+  layout?: (props: any) => ReactElement;
 }
 
 export const routes: IRoute[] = [
@@ -35,6 +37,18 @@ export const routes: IRoute[] = [
     element: TeacherHome,
     role: ['teacher'],
     layout: TeacherLayout,
+  },
+
+  {
+    path: '/login',
+    element: AuthPage,
+    role: ['teacher'],
+  },
+
+  {
+    path: '/edit-profile',
+    element: EditProfile,
+    role: ['teacher'],
   },
 
   /**

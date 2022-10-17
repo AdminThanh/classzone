@@ -49,7 +49,7 @@ const Navbar = (props: INavbarProps) => {
           <ul className="navbar__listItem">
             {navList?.map((item, idx) => (
               <li key={idx} className="navbar__item">
-                <Link to="#" className="navbar__link">
+                <Link to={item.path} className="navbar__link">
                   <item.icon className="navbar__icon" />
                   <span className="navbar__label">
                     {t(`navbar.${item.label}`)}

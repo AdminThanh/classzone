@@ -28,7 +28,7 @@
     .ant-form-item {
       width: 100%;
       .ant-input-affix-wrapper {
-        border: 1px solid c.$border;
+        border: 1px solid c.$border_gray;
         border-radius: 12px;
         padding: 12px;
       }
@@ -55,14 +55,14 @@
           content: '';
           height: 1px;
           width: 100%;
-          background: c.$border;
+          background: c.$border_gray;
           margin-right: 10px;
         }
         &::after {
           content: '';
           height: 1px;
           width: 100%;
-          background: c.$border;
+          background: c.$border_gray;
           margin-left: 10px;
         }
       }
@@ -91,7 +91,7 @@
       }
       .submit-btn {
         background: c.$second;
-        border: 1px solid c.$border;
+        border: 1px solid c.$border_gray;
         padding: 10px 0 !important;
         color: c.$black;
         .google-icon {

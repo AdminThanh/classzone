@@ -1,6 +1,6 @@
 import "./Register.scss";
-import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { Button, Form, Input } from 'antd';
 import { StudenIcon, TeacherIcon } from "utils/drawer";
 import { useState } from "react";
 import clsx from "clsx";
