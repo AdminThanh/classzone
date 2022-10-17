@@ -1,6 +1,6 @@
 import './Classes.scss';
 import { Button, Col, Modal, Row, Select } from 'antd';
-import BreadCrumb from 'components/BreadCrumb/BreadCrumb';
+import BreadCrumb from 'components/BreadCrumb';
 import { useTranslation } from 'react-i18next';
 import ClassItem from './components/ClassItem';
 import React, { useState } from 'react';

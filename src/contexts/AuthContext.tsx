@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import JWTManager from 'utils/jwt';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ILoginForm } from 'components/Login/Login';
+import { ILoginForm } from 'components/Login';
 import React from 'react';
 
 interface IAuthContext {

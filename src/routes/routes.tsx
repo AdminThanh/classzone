@@ -10,7 +10,7 @@ import StudentHome from 'pages/Student/Home';
 /* Teacher */
 import TeacherHome from 'pages/Teacher/Home';
 
-import ClassDetail from 'pages/Teacher/ClassDetail/Index';
+import ClassDetail from 'pages/Teacher/ClassDetail';
 
 import React, { ReactElement } from 'react';
 import TeacherClasses from 'pages/Teacher/Classes';

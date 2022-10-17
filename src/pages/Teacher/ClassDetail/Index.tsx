@@ -1,10 +1,8 @@
+import { Tabs } from 'antd';
+import TaskbarFooter from 'components/TaskbarFooter';
+import StudentList from 'pages/Student/components/StudentList';
+import GroupList from '../GroupList';
 import './ClassDetail.scss';
-import { Avatar, Col, Row, Tabs } from 'antd';
-import { useState } from 'react';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import StudentList from 'pages/Student/Components/StudentList/Index';
-import TaskbarFooter from 'components/TaskbarFooter/TaskbarFooter';
-import GroupList from '../GroupList/Index';
 
 export interface IStudentInfo {
   _id: string;
@@ -90,7 +88,7 @@ const ClassDetail = () => {
           </div>
         </div>
       </div>
-      <TaskbarFooter/>
+      <TaskbarFooter />
     </div>
   );
 };

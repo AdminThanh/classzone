@@ -2,7 +2,6 @@ import './StudentItem.scss';
 import { Avatar } from 'antd';
 
 const StudentItem = (props: any) => {
-
   const { avatar, name, _id } = props;
 
   return (

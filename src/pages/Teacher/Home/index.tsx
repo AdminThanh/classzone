@@ -1,4 +1,4 @@
-import BreadCrumb from 'components/BreadCrumb/BreadCrumb';
+import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';

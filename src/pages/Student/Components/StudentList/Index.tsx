@@ -1,9 +1,9 @@
 import './StudentList.scss';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Avatar, Col, Modal, Row } from 'antd';
-import StudentItem from '../StudentItem/Index';
+import StudentItem from '../StudentItem';
 import { useState } from 'react';
-import InviteStudents from '../InviteStudents/Index';
+import InviteStudents from '../InviteStudents';
 import { useTranslation } from 'react-i18next';
 
 const StudentList = (props: any) => {
