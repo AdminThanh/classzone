@@ -24,18 +24,18 @@ import { ILoginForm } from 'components/Login/Login';
 import React from 'react';
 
 interface IAuthContext {
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | null;
   auth: any;
-  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+  setIsAuthenticated: Dispatch<SetStateAction<boolean | null>>;
   checkAuth: () => Promise<void>;
   logout: () => Promise<void>;
   login: (param: ILoginForm) => Promise<FetchResult<LoginMutation>>;
 }
 
-const defaultIsAuthenticated = false;
+const defaultIsAuthenticated = null;
 
 export const AuthContext = createContext<IAuthContext>({
-  isAuthenticated: defaultIsAuthenticated,
+  isAuthenticated: null,
   auth: {},
   setIsAuthenticated: () => {},
   checkAuth: () => Promise.resolve(),
@@ -52,7 +52,7 @@ export const useAuth = () => {
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [auth, setAuth] = useState<any>();
-  const [isAuthenticated, setIsAuthenticated] = useState(
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
     defaultIsAuthenticated
   );
   const [fireLogoutServer] = useMutation(LogoutDocument);
@@ -70,14 +70,14 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const checkAuth = useCallback(async () => {
     const token = JWTManager.getToken();
 
-    if (token) setIsAuthenticated(true);
-    else {
-      if (JWTManager.getIsRefreshToken()) {
-        const success = await JWTManager.refreshToken();
-        if (success) {
-          setIsAuthenticated(true);
-          setAuth(JWTManager.getAuthInfo());
-        }
+    setIsAuthenticated(false);
+    if (!token && JWTManager.getIsRefreshToken()) {
+      const success = await JWTManager.refreshToken();
+      if (success) {
+        setIsAuthenticated(true);
+        setAuth(JWTManager.getAuthInfo());
+      } else {
+        setAuth({});
       }
     }
   }, []);
@@ -97,6 +97,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       },
     });
 
+    setAuth(res.data?.login.user as User);
     JWTManager.setAuthInfo(res.data?.login.user as User);
 
     return res;

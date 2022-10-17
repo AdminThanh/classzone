@@ -16,7 +16,6 @@ export interface ILoginForm {
 function Login() {
   const { setIsAuthenticated, login } = useAuth();
   const [form] = Form.useForm();
-  const [fireLogin] = useMutation(LoginDocument);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -32,7 +31,7 @@ function Login() {
       setIsAuthenticated(true);
 
       notification.success({
-        message: t('register.register_success') as string,
+        message: t('register.login_success') as string,
       });
 
       setTimeout(() => {

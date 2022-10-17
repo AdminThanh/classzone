@@ -1,0 +1,62 @@
+.app-color-picker {
+  position: relative;
+  max-width: 65px;
+
+  .toggle-btn {
+    padding: 0;
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s;
+
+    &:hover {
+      border: 1px solid #666;
+      color: #000;
+    }
+
+    .color-preview {
+      width: 50px;
+      height: 30px;
+      background-color: transparent;
+      border-right: 1px solid;
+
+      &.no-color {
+        background-color: unset;
+        background-image: repeating-linear-gradient(
+          -45deg,
+          #ccc,
+          #ccc 2px,
+          #eee 2px,
+          #eee 4px
+        );
+      }
+    }
+
+    .toggle-btn-icon {
+      line-height: 30px;
+    }
+  }
+
+  .color-picker-wrapper {
+    position: absolute;
+    z-index: 2;
+    top: calc(100% + 5px);
+    left: 0;
+  }
+
+  .color-picker-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+}
