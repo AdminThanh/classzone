@@ -31,7 +31,7 @@ function Login() {
       setIsAuthenticated(true);
 
       notification.success({
-        message: t('register.login_success') as string,
+        message: t('auth.login_success') as string,
       });
 
       setTimeout(() => {

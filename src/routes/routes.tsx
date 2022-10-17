@@ -1,20 +1,21 @@
 // Layout
 import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
-import AuthPage from 'pages/AuthPage/AuthPage';
 
 // Pages
+/* General */
+import AuthPage from 'pages/AuthPage';
+import ClassDetail from 'pages/ClassDetail';
+import TeacherHome from 'pages/Home';
+import TeacherClasses from 'pages/Classes';
+import Home from 'pages/Home';
+
 /* Student */
 import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
-import TeacherHome from 'pages/Teacher/Home';
-
-import ClassDetail from 'pages/Teacher/ClassDetail';
 
 import React, { ReactElement } from 'react';
-import TeacherClasses from 'pages/Teacher/Classes';
-import Home from 'pages/Teacher/Home';
 
 export declare namespace JSX {
   interface IntrinsicElements {

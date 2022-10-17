@@ -7,7 +7,7 @@ import { routes } from './routes';
 // Import pages
 
 /* Teacher routes */
-const HomeTeacher = React.lazy(() => import('pages/Teacher/Home'));
+// const HomeTeacher = React.lazy(() => import('pages/Teacher/Home'));
 
 /* Student routes */
 

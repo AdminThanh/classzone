@@ -1,4 +1,8 @@
 export default {
+  auth: {
+    login_success: 'Đăng nhập thành công',
+    logout_success: 'Đăng nhập thất bại',
+  },
   navbar: {
     my_class: 'Lớp của tôi',
     test_management: 'Quản lý bài kiểm tra',

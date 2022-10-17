@@ -1,4 +1,8 @@
 export default {
+  auth: {
+    login_success: 'Login success',
+    logout_success: 'Logout success',
+  },
   navbar: {
     my_class: 'My class',
     test_management: 'Test management',

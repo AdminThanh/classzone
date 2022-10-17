@@ -1,10 +1,10 @@
-import './Classes.scss';
-import { Button, Col, Modal, Row, Select } from 'antd';
-import BreadCrumb from 'components/BreadCrumb';
-import { useTranslation } from 'react-i18next';
-import ClassItem from './components/ClassItem';
-import React, { useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Select } from 'antd';
+import BreadCrumb from 'components/BreadCrumb';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import './Classes.scss';
+import ClassItem from './components/ClassItem';
 import EditClass from './components/EditClass';
 
 export interface IClassInfo {

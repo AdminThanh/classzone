@@ -7,7 +7,7 @@ import {
 import { useState } from 'react';
 import { Avatar, Button, Col, Row, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
-import CreateGroup from './CreateGroup';
+import CreateGroup from './components/CreateGroup';
 
 export interface IGroupInfo {
   _id: string;
