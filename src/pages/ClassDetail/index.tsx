@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
 import TaskbarFooter from 'components/TaskbarFooter';
-import StudentList from 'pages/Student/components/StudentList';
+import StudentList from 'pages/ClassDetail/components/StudentList';
 import GroupList from '../GroupList';
 import './ClassDetail.scss';
 
