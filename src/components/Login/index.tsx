@@ -6,39 +6,39 @@ import { FetchResult, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import JWTManager from 'utils/jwt';
+import { useAuth } from 'contexts/AuthContext';
 
-interface ILoginForm {
-  email: 'string';
-  password: 'string';
+export interface ILoginForm {
+  email: string;
+  password: string;
 }
 
 function Login() {
+  const { setIsAuthenticated, login } = useAuth();
   const [form] = Form.useForm();
-  const [fireLogin] = useMutation(LoginDocument);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const onFinish = async ({ email, password }: ILoginForm) => {
-    const { data }: FetchResult<LoginMutation> = await fireLogin({
-      variables: {
-        loginInput: {
-          email,
-          password,
-        },
-      },
+    const { data } = await login({
+      email,
+      password,
     });
 
     if (data?.login.success) {
       JWTManager.setToken(data.login.accessToken as string);
+      JWTManager.setIsHaveRefreshToken(true);
+      setIsAuthenticated(true);
+
       notification.success({
-        message: t('register.register_success') as string,
+        message: t('auth.login_success') as string,
       });
 
       setTimeout(() => {
         navigate('/');
       }, 500);
-
     } else {
+      JWTManager.setIsHaveRefreshToken(false);
       notification.error({
         message: data?.login?.message,
       });

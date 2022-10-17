@@ -2,13 +2,12 @@ import { gql } from '@apollo/client';
 
 export const getAllUser = gql`
   # Query
-  query getUsersQuery {
+  query getAllUser {
     getAllUsers {
       username
       email
       _id
     }
   }
-
-  # Mutation
 `;
+

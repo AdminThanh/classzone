@@ -7,7 +7,7 @@ import {
 import { useState } from 'react';
 import { Avatar, Button, Col, Row, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
-import CreateGroup from './CreateGroup/Index';
+import CreateGroup from './components/CreateGroup';
 
 export interface IGroupInfo {
   _id: string;
@@ -51,9 +51,13 @@ const GroupList = () => {
         className="groups_list-item add"
         span={5}
       >
-        <PlusCircleOutlined/>
+        <PlusCircleOutlined />
       </Col>
-      {showCreateGroup ? <CreateGroup setShowCreateGroup={setShowCreateGroup}  /> : ''}
+      {showCreateGroup ? (
+        <CreateGroup setShowCreateGroup={setShowCreateGroup} />
+      ) : (
+        ''
+      )}
     </Row>
   );
 };

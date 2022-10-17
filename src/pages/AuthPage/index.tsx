@@ -1,7 +1,7 @@
 import "./AuthPage.scss";
 import { Tabs } from 'antd';
-import Register from "components/Register/Register";
-import Login from "components/Login/Login";
+import Register from "components/Register";
+import Login from "components/Login";
 
 function AuthPage() {
 
