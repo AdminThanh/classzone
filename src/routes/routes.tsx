@@ -1,6 +1,8 @@
 // Layout
+import AuthLayout from 'layouts/Auth';
 import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
+import Login from 'pages/Login/Login';
 
 // Pages
 /* Student */
@@ -32,9 +34,9 @@ export const routes: IRoute[] = [
    */
   {
     path: '/',
-    element: TeacherHome,
+    element: Login,
     role: ['teacher'],
-    layout: TeacherLayout,
+    layout: AuthLayout,
   },
 
   /**

@@ -9,13 +9,14 @@ import { useMemo, FunctionComponent } from 'react';
 
 import { useQuery } from "@apollo/client";
 import { getAllUser } from 'graphql-client/userQueries';
+import Login from 'pages/Login/Login';
 // import { t } from 'i18n';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
   const { loading, error, data } = useQuery(getAllUser)
 
-  if(loading) {
+  if (loading) {
     console.log("data", data)
   }
 
@@ -92,6 +93,7 @@ const Home = () => {
         searchPlaceholder={t('my_class.fill_in_class_name')}
         changeDelay={1000}
       />
+      <Login />
     </div>
   );
 };
