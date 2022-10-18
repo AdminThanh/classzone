@@ -1,5 +1,5 @@
-import { useAuth } from 'hooks/useAuth';
-import { ReactElement, useEffect } from 'react';
+import { useAuth } from 'contexts/AuthContext';
+import { ReactElement, useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface IGuard {
@@ -8,30 +8,37 @@ interface IGuard {
 
 export const RequireAuth = (props: IGuard) => {
   const { children } = props;
-  const auth = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth) {
-      navigate('/login');
+    if (isAuthenticated === null) {
+      // return;
+    } else {
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
     }
-  }, [auth]);
+  }, [isAuthenticated]);
 
-  return <div>{children}</div>;
+  return <div>{isAuthenticated && children}</div>;
 };
 
 export const RequireGuest = (props: IGuard) => {
   const { children } = props;
-  const auth = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth) {
-      navigate('/');
+    if (isAuthenticated === null) {
+    } else {
+      if (isAuthenticated) {
+        navigate('/');
+      }
     }
-  }, [auth]);
+  }, [isAuthenticated]);
 
-  return <div>{children}</div>;
+  return <div>{!isAuthenticated && children}</div>;
 };

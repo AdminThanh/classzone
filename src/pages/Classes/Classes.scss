@@ -1,0 +1,18 @@
+@use '/src/assets/styles/colors' as c;
+
+.site_container {
+  width: 100%;
+  padding: 0 48px;
+  .classes {
+    margin-top: 70px;
+  }
+  .taskbars {
+    padding: 0 20px;
+    .fillter {
+      float: left;
+    }
+    .addclass {
+      float: right;
+    }
+  }
+}
