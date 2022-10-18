@@ -26,13 +26,13 @@
   }
 }
 .ant-form {
-  width: 100% !important;
+  width: 100%;
   .ant-form-item {
-    width: 100% !important;
+    width: 100%;
     .ant-input-affix-wrapper {
-      border: 1px solid c.$gray4_color !important;
-      border-radius: 12px !important;
-      padding: 12px !important;
+      border: 1px solid c.$gray4_color;
+      border-radius: 12px;
+      padding: 12px;
     }
     label {
       font-size: 16px;
@@ -116,11 +116,11 @@
 }
 
 .or {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  margin: 8px 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 8px 0;
   p {
     font-size: 14px;
     width: 100%;
@@ -146,47 +146,49 @@
   }
 }
 
-.ant-btn {
-  width: 100% !important;
-  height: auto !important;
-  border-radius: 12px !important;
-  margin-top: 8px !important;
-  font-size: 16px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  p {
-    margin: 0;
+.register-tab {
+  .ant-btn {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-top: 8px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+      margin: 0;
+    }
   }
-}
-.primary-btn {
-  background: c.$primary_active !important;
-  border: 1px solid c.$primary_active !important;
-  color: c.$second !important;
-  font-weight: 700;
-  padding: 12px 0 !important;
-  &:hover {
-    background: c.$primary_hover !important;
+  .primary-btn {
+    background: c.$primary_active;
+    border: 1px solid c.$primary_active;
+    color: c.$second;
+    font-weight: 700;
+    padding: 12px 0;
+    &:hover {
+      background: c.$primary_hover;
+    }
   }
-}
-.submit-btn {
-  background: c.$second !important;
-  border: 1px solid c.$gray4_color !important;
-  padding: 10px 0 !important;
-  color: c.$black !important;
-  .google-icon {
-    width: 36px !important;
+  .submit-btn {
+    background: c.$second;
+    border: 1px solid c.$gray4_color;
+    padding: 10px 0;
+    color: c.$black;
+    .google-icon {
+      width: 36px;
+    }
+    p {
+      margin-left: 24px;
+    }
+    &:hover {
+      background: c.$second_hover;
+    }
   }
-  p {
-    margin-left: 24px !important;
-  }
-  &:hover {
-    background: c.$second_hover !important;
-  }
-}
 
-.ant-radio {
-  display: none !important;
+  .ant-radio {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 675px) {
