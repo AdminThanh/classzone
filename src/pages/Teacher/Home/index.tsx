@@ -9,7 +9,6 @@ import { useMemo, FunctionComponent } from 'react';
 
 import { useQuery } from "@apollo/client";
 import { getAllUser } from 'graphql-client/userQueries';
-import EditProfile from 'pages/EditProfile/EditProfile';
 // import { t } from 'i18n';
 
 const Home = () => {
@@ -93,7 +92,6 @@ const Home = () => {
         searchPlaceholder={t('my_class.fill_in_class_name')}
         changeDelay={1000}
       />
-      <EditProfile />
     </div>
   );
 };

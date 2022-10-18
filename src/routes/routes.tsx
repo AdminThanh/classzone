@@ -49,6 +49,7 @@ export const routes: IRoute[] = [
     path: '/edit-profile',
     element: EditProfile,
     role: ['teacher'],
+    layout: TeacherLayout,
   },
 
   /**
