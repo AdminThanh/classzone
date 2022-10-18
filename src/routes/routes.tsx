@@ -18,6 +18,7 @@ import StudentHome from 'pages/Student/Home';
 import React, { ReactElement } from 'react';
 import AuthPage from 'pages/AuthPage';
 import Login from 'pages/Login';
+import Question from 'pages/Question';
 import Register from 'pages/Register';
 
 export declare namespace JSX {
@@ -39,15 +40,21 @@ export const routes: IRoute[] = [
    * *********************************************
    * Teacher routes:
    */
-  {
+   {
     path: '/',
     element: TeacherClasses,
     role: ['teacher'],
     layout: TeacherLayout,
   },
   {
-    path: '/classDetail',
+    path: '/class_detail',
     element: ClassDetail,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/question',
+    element: Question,
     role: ['teacher'],
     layout: TeacherLayout,
   },
@@ -69,22 +76,18 @@ export const routes: IRoute[] = [
     role: ['teacher'],
     layout: TeacherLayout,
   },
-  // {
-  //   path: '/register',
-  //   element: Login,
-  //   role: ['teacher'],
-  // },
+
 
   /**
    * **********************************************
    * Student routes:
    */
-  {
-    path: '/',
-    element: StudentHome,
-    role: ['student'],
-    layout: StudentLayout,
-  },
+  // {
+  //   path: '/',
+  //   element: StudentHome,
+  //   role: ['student'],
+  //   layout: StudentLayout,
+  // },
   /**
    * **********************************************
    * Admin routes:

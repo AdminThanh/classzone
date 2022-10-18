@@ -77,4 +77,12 @@ export default {
     enter_tag_name: 'Enter tag name',
     enter_color_code: 'Enter color code',
   },
+  my_quession: {
+    tags: 'Tags',
+    quession: 'Quession',
+    day_create: 'Day create',
+    type_quession: 'Type',
+  },
+
+  // Admin
 };

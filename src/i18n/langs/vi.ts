@@ -46,7 +46,7 @@ export default {
     add_member: 'Thêm thành viên',
 
     // Babel
-    class_link: 'Liên kết lớp',
+    class_link: "Liên kết lớp",
   },
   action: {
     view_detail: 'Xem chi tiết',
@@ -76,6 +76,12 @@ export default {
     add_tag: 'Thêm thẻ',
     enter_tag_name: 'Điền vào tên thẻ',
     enter_color_code: 'Điền vào mã màu',
+  },
+  my_quession: {
+    tags: 'Thẻ',
+    quession: 'Câu hỏi',
+    day_create: 'Ngày tạo',
+    type_quession: 'Loại',
   },
   // Admin
 };

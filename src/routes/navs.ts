@@ -21,6 +21,6 @@ export const TeacherRoutes: INavItem[] = [
   {
     label: 'question_management',
     icon: QuestionIcon,                                                                                                                                                                  
-    path: '/',
+    path: '/question',
   },
 ];
