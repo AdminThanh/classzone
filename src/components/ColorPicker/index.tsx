@@ -50,7 +50,7 @@ const ColorPicker = (props: IColorPicker) => {
       '#e75874',
       '#e52165',
     ],
-    onChangeColor = () => {},
+    onChangeColor = () => { },
     // className = '',
     ...rest
   } = props;
@@ -95,7 +95,7 @@ const ColorPicker = (props: IColorPicker) => {
                 // onChangeComplete={handleChangeSelectedColor}
                 disableAlpha={false}
                 presetColors={defaultColorCollections}
-                //   width={250}
+              //   width={250}
               />
             </div>
           </>

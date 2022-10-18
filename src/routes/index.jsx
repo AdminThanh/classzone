@@ -45,18 +45,18 @@ const Router = () => {
               element={
                 <>
                   {route?.role?.length && (
-                    <RequireAuth>
-                      <Layout>
-                        <Element />
-                      </Layout>
-                    </RequireAuth>
+                    // <RequireAuth>
+                    <Layout>
+                      <Element />
+                    </Layout>
+                    // </RequireAuth>
                   )}
                   {!route?.role?.length && (
-                    <RequireGuest>
-                      <Layout>
-                        <Element />
-                      </Layout>
-                    </RequireGuest>
+                    // <RequireGuest>
+                    <Layout>
+                      <Element />
+                    </Layout>
+                    // </RequireGuest>
                   )}
                 </>
               }

@@ -1,5 +1,5 @@
 import './Register.scss';
-import { Button, Form, Input, notification } from 'antd';
+import { Button, Form, Input, notification, Radio } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { StudenIcon, TeacherIcon } from 'utils/drawer';
 import { useState } from 'react';
@@ -65,25 +65,7 @@ function Register() {
         <h2>ĐĂNG KÝ MIỄN PHÍ NGAY</h2>
         <p>Vui lòng điền các thông tin bên dưới</p>
       </div>
-      <div className="role-option">
-        <h4 className="role-title">Đăng ký dành cho: </h4>
-        <div className="role-select">
-          <div
-            className={clsx('role-item', { active: roleSelect === 1 })}
-            onClick={() => handleRoleSelect(1)}
-          >
-            <StudenIcon />
-            <h4>Học sinh</h4>
-          </div>
-          <div
-            className={clsx('role-item', { active: roleSelect === 2 })}
-            onClick={() => handleRoleSelect(2)}
-          >
-            <TeacherIcon />
-            <h4>Giáo viên</h4>
-          </div>
-        </div>
-      </div>
+
       <Form
         name="basic"
         labelCol={{ span: 24 }}
@@ -94,6 +76,27 @@ function Register() {
         autoComplete="off"
         form={form}
       >
+        <Form.Item name="role">
+          <div className="role-option">
+            <h4 className="role-title">Đăng ký dành cho: </h4>
+            <Radio.Group className="role-select">
+              <Radio value="student"><div
+                className={clsx('role-item', { active: roleSelect === 1 })}
+                onClick={() => handleRoleSelect(1)}
+              >
+                <StudenIcon />
+                <h4>Học sinh</h4>
+              </div> </Radio>
+              <Radio value="teacher">  <div
+                className={clsx('role-item', { active: roleSelect === 2 })}
+                onClick={() => handleRoleSelect(2)}
+              >
+                <TeacherIcon />
+                <h4>Giáo viên</h4>
+              </div> </Radio>
+            </Radio.Group>
+          </div>
+        </Form.Item>
         <Form.Item
           label="Username"
           name="username"

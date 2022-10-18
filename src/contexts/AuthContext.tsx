@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import JWTManager from 'utils/jwt';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ILoginForm } from 'components/Login';
+import { ILoginForm } from 'pages/Login';
 import React from 'react';
 
 interface IAuthContext {
@@ -37,7 +37,7 @@ const defaultIsAuthenticated = null;
 export const AuthContext = createContext<IAuthContext>({
   isAuthenticated: null,
   auth: {},
-  setIsAuthenticated: () => {},
+  setIsAuthenticated: () => { },
   checkAuth: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   login: () =>
@@ -64,7 +64,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     if (isAuthenticated) {
     } else {
     }
-    return () => {};
+    return () => { };
   }, [auth, isAuthenticated]);
 
   const checkAuth = useCallback(async () => {

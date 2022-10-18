@@ -1,10 +1,10 @@
 // Layout
+import AuthLayout from 'layouts/Auth';
 import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
 
 // Pages
 /* General */
-import AuthPage from 'pages/AuthPage';
 import ClassDetail from 'pages/ClassDetail';
 import TeacherHome from 'pages/Home';
 import TeacherClasses from 'pages/Classes';
@@ -16,6 +16,9 @@ import StudentHome from 'pages/Student/Home';
 /* Teacher */
 
 import React, { ReactElement } from 'react';
+import AuthPage from 'pages/AuthPage';
+import Login from 'pages/Login';
+import Register from 'pages/Register';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -50,7 +53,15 @@ export const routes: IRoute[] = [
   },
   {
     path: '/login',
-    element: AuthPage,
+    element: Login,
+    role: ['teacher'],
+    layout: AuthLayout,
+  },
+  {
+    path: '/register',
+    element: Register,
+    role: ['teacher'],
+    layout: AuthLayout,
   },
   {
     path: '/home',
