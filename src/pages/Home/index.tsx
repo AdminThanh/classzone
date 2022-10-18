@@ -1,31 +1,20 @@
-import BreadCrumb from 'components/BreadCrumb/BreadCrumb';
+import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { decrease, increase } from 'redux/reducers/counterSlice';
 import { RootState, useAppDispatch } from 'redux/store';
-import { useMemo, FunctionComponent } from 'react';
-
-import { useQuery } from "@apollo/client";
-import { getAllUser } from 'graphql-client/userQueries';
-import Login from 'pages/Login/Login';
-// import { t } from 'i18n';
+import { useMemo } from 'react';
+import { useQuery } from '@apollo/client';
+import { GetAllUserDocument } from 'gql/graphql';
+import FilterTags, { IOptionTag } from 'components/FilterTags';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
-  const { loading, error, data } = useQuery(getAllUser)
-
-  if (loading) {
-    console.log("data", data)
-  }
+  const { data, loading } = useQuery(GetAllUserDocument);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  const handleChangeFilterMenu = (values: any) => {
-    console.log('Change', values);
-  };
 
   const fields: TField[] = useMemo(
     () => [
@@ -61,6 +50,28 @@ const Home = () => {
     [i18next.language]
   );
 
+  const tagOpts: IOptionTag[] = useMemo(
+    () => [
+      {
+        label: 'Tiếng Anh',
+        value: '1',
+      },
+      {
+        label: 'Tiếng Đức',
+        value: '2',
+      },
+    ],
+    []
+  );
+
+  const handleChangeFilterMenu = (values: any) => {
+    console.log('Change', values);
+  };
+
+  const handleChangeFilterTags = (value: string[]) => {
+    console.log('Change', value);
+  };
+
   return (
     <div>
       Home Teacher: {state} - {i18next.language}
@@ -93,7 +104,11 @@ const Home = () => {
         searchPlaceholder={t('my_class.fill_in_class_name')}
         changeDelay={1000}
       />
-      <Login />
+      <FilterTags
+        isShowTagControl
+        opts={tagOpts}
+        onChange={handleChangeFilterTags}
+      />
     </div>
   );
 };

@@ -1,83 +1,5 @@
 @use '../../assets/styles/colors' as c;
 
-.login-page {
-  display: flex;
-  background: #3cbcf3;
-  .auth {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .auth-content {
-      background: c.$second;
-      border-radius: 20px;
-      padding: 39px 64px;
-      margin: 32px auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      .ant-tabs-nav::before {
-        display: none;
-      }
-      .ant-tabs-nav-wrap {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .ant-tabs-nav-list {
-          min-width: 500px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: c.$gray3_color;
-          padding: 5px;
-          border-radius: 50px;
-          .ant-tabs-tab {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            margin: 0;
-            transition: 0.75s;
-            flex: 1;
-            .ant-tabs-tab-btn {
-              color: c.$black;
-            }
-          }
-          .ant-tabs-tab-active {
-            background: c.$primary;
-            .ant-tabs-tab-btn {
-              color: c.$white;
-            }
-          }
-        }
-        .ant-tabs-nav-more {
-          display: none;
-        }
-        .ant-tabs-ink-bar {
-          display: none;
-        }
-      }
-
-      .ant-tabs-content-holder {
-        min-width: 675px;
-        min-height: 925px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  }
-  .bg-right {
-    width: 20%;
-  }
-}
-
-.ant-tabs-nav-more {
-  display: none !important;
-}
 .login-tab {
   width: 100%;
   display: flex;
@@ -90,6 +12,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 30px;
     h2 {
       text-align: center;
       font-size: 28px;
@@ -186,106 +109,8 @@
   }
 }
 
-@media only screen and (max-width: 1366px) {
-  .login-page {
-    display: flex;
-    background: #3cbcf3;
-    .auth {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .ant-tabs-content-holder {
-        min-width: 375px !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-      }
-    }
-    .bg-right {
-      display: none;
-    }
-  }
-}
-
 @media only screen and (max-width: 675px) {
-  .login-page {
-    min-width: 375px;
-    display: flex;
-    background: c.$second;
-    .auth {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .auth-content {
-        width: 100%;
-        background: c.$second;
-        border-radius: 20px;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        .ant-tabs {
-          width: 100%;
-        }
-        .ant-tabs-nav-wrap {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: no-repeat center/cover
-            url('../../assets/images/background/bg-tabs-nav.png');
-          padding: 20px;
-          .ant-tabs-nav-list {
-            min-width: 375px !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 5px;
-            border-radius: 50px;
-            .ant-tabs-tab {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              padding: 12px;
-              border-radius: 50px;
-              cursor: pointer;
-              margin: 0;
-              transition: 0.75s;
-              flex: 1;
-              .ant-tabs-tab-btn {
-                color: c.$white;
-              }
-            }
-            .ant-tabs-tab-active {
-              background: c.$white;
-              .ant-tabs-tab-btn {
-                color: c.$primary;
-              }
-            }
-          }
-          .ant-tabs-nav-more {
-            display: none;
-          }
-          .ant-tabs-ink-bar {
-            display: none;
-          }
-        }
-      }
-      .ant-tabs-content-holder {
-        min-width: 375px !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-      }
-    }
-    .bg-right {
-      display: none;
-    }
+  .login-tab {
+    padding: 0 30px;
   }
 }

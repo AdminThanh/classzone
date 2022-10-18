@@ -1,0 +1,151 @@
+@use '../../assets/styles/colors' as c;
+
+.auth-layout {
+  display: flex;
+  background: hsl(198, 88%, 59%);
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-layout-container {
+  display: flex;
+  background: c.$second;
+  border-radius: 20px;
+  padding: 39px 64px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  .tab-change {
+    min-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: c.$gray3_color;
+    padding: 5px;
+    border-radius: 50px;
+    .btn-tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 0;
+      transition: 0.75s;
+      flex: 1;
+      color: c.$black;
+      border: none;
+      &.active {
+        background: c.$primary;
+        color: c.$white;
+      }
+    }
+  }
+}
+.bg-right {
+  width: 27%;
+  height: 100%;
+}
+@media only screen and (max-width: 1366px) {
+  .bg-right {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .auth-layout {
+    display: flex;
+    background: c.$white;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-layout-container {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    margin: 0;
+    .tab-wrapper {
+      width: 100%;
+      .tab-change {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: c.$gray3_color;
+        padding: 5px;
+        border-radius: 50px;
+        .btn-tab {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px;
+          &.active {
+            background: c.$primary;
+            color: c.$white;
+          }
+        }
+      }
+    }
+  }
+  .bg-right {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 675px) {
+  .auth-layout {
+    min-width: 375px;
+    display: flex;
+    background: c.$second;
+    .auth-layout-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      .tab-wrapper {
+        min-width: 375px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: no-repeat center/cover
+          url('../../assets/images/background/bg-tabs-nav.png');
+        padding: 20px;
+        .tab-change {
+          min-width: 375px !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.5);
+          padding: 5px;
+          border-radius: 50px;
+        }
+        .btn-tab {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 12px;
+          border-radius: 50px;
+          cursor: pointer;
+          margin: 0;
+          transition: 0.75s;
+          flex: 1;
+          color: c.$white;
+          background: none;
+          &.active {
+            background: c.$white;
+            color: c.$primary;
+          }
+        }
+      }
+    }
+  }
+  .bg-right {
+    display: none;
+  }
+}
