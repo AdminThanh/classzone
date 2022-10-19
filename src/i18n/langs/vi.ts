@@ -10,8 +10,10 @@ export default {
     logout: 'Thoát',
   },
   bread_crumb: {
+    home : "Trang chủ",
     class_list: 'Danh sách lớp học',
     change_language: 'Đổi ngôn ngữ',
+    edit_profile: 'Chỉnh sửa thông tin',
   },
   my_class: {
     // Label

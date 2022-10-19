@@ -10,8 +10,10 @@ export default {
     logout: 'Logout',
   },
   bread_crumb: {
+    home : "Home",
     class_list: 'Class list',
     change_language: 'Change language',
+    edit_profile: 'Edit profile',
   },
   my_class: {
     // Label

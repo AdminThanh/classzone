@@ -1,31 +1,37 @@
 @use '../../assets/styles/colors' as c;
 
 .edit-profile-page {
-  padding: 68px 48px;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 15px;
-  }
+  padding: 98px 48px;
+  background: azure;
 
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: c.$primary_active;
-    border-radius: 10px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: c.$gray4_color;
-    border-radius: 10px;
-  }
-  .input-profile-form {
+  .input-content {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     background: c.$white;
+    padding: 68px 70px;
     border-radius: 20px;
+    overflow-y: auto;
+    max-height: 900px;
+    .ant-row {
+      width: 100%;
+    }
+    &::-webkit-scrollbar {
+      width: 15px;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: c.$primary_active;
+      border-radius: 10px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: c.$gray4_color;
+      border-radius: 10px;
+    }
   }
 }
 
@@ -59,7 +65,7 @@
 
 .form-profile {
   width: 100%;
-  max-height: 740px;
+  margin-top: 30px;
   .ant-form {
     width: 100%;
     .ant-form-item {
@@ -70,19 +76,20 @@
       }
       .input-profile {
         border: 1px solid c.$border_gray;
-        filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
         border-radius: 12px;
-        padding: 15px;
+        padding: 20px 15px;
       }
       .input-password-first {
         border: 1px solid c.$border_gray;
-        filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
         border-radius: 12px;
-        padding: 15px;
+        padding: 20px 15px;
         .ant-input-suffix {
           color: c.$primary;
           font-size: 14px;
           cursor: pointer;
+          .anticon {
+            display: none;
+          }
         }
         .btn-show {
           background: inherit;
@@ -90,9 +97,19 @@
           font-size: 14px;
           color: c.$primary;
           cursor: pointer;
+          display: block;
         }
       }
     }
+  }
+}
+
+.show-repassword {
+  width: 100%;
+  transform: translateY(-400%);
+  transition: 0.6s ease-in-out;
+  &.show {
+    transform: translateY(0);
   }
 }
 
@@ -101,6 +118,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-top: 30px !important;
   .primary-btn {
     background: c.$primary;
     border: 1px solid c.$primary;

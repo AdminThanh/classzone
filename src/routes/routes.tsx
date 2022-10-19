@@ -7,7 +7,6 @@ import EditProfile from 'pages/EditProfile/EditProfile';
 // Pages
 /* General */
 import ClassDetail from 'pages/ClassDetail';
-import TeacherHome from 'pages/Home';
 import TeacherClasses from 'pages/Classes';
 import Home from 'pages/Home';
 
@@ -16,9 +15,9 @@ import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
 
-import React, { ReactElement } from 'react';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
+import { ReactElement } from 'react';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -68,17 +67,6 @@ export const routes: IRoute[] = [
     element: Home,
     role: ['teacher'],
     layout: TeacherLayout,
-  },
-  {
-    path: '/register',
-    element: Register,
-    role: ['teacher'],
-  },
-
-  {
-    path: '/login',
-    element: Login,
-    role: ['teacher'],
   },
 
   {
