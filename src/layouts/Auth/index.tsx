@@ -24,13 +24,15 @@ const AuthLayout = (props: any) => {
     return (
         <div className='auth-layout'>
             <div className='auth-layout-container'>
-                <div className="tab-wrapper">
-                    <div className="tab-change">
-                        <button type="button" className={clsx("btn-tab", { active: tabChange === 1 })} onClick={() => handleChangeTab(1)}>Đăng ký</button>
-                        <button type="button" className={clsx("btn-tab", { active: tabChange === 2 })} onClick={() => handleChangeTab(2)}>Đăng nhập</button>
+                <div className="auth-layout-skeleton">
+                    <div className="tab-wrapper">
+                        <div className="tab-change">
+                            <button type="button" className={clsx("btn-tab", { active: tabChange === 1 })} onClick={() => handleChangeTab(1)}>Đăng ký</button>
+                            <button type="button" className={clsx("btn-tab", { active: tabChange === 2 })} onClick={() => handleChangeTab(2)}>Đăng nhập</button>
+                        </div>
                     </div>
+                    {children}
                 </div>
-                {children}
             </div>
             <img className="bg-right" src={require("assets/images/background/right-bg.png")} alt="" />
         </div>

@@ -11,5 +11,8 @@ export { ReactComponent as QuestionIcon } from 'assets/images/question-icon.svg'
 export { ReactComponent as DownArrowIcon } from 'assets/images/down-arrow-icon.svg';
 export { ReactComponent as UpArrowIcon } from 'assets/images/up-arrow-icon.svg';
 export { ReactComponent as DatePickerIcon } from 'assets/images/datepicker-icon.svg';
+export { ReactComponent as EditIcon } from 'assets/images/edit-icon.svg';
+export { ReactComponent as CancelIcon } from 'assets/images/cancel-icon.svg';
+export { ReactComponent as SaveIcon } from 'assets/images/save-icon.svg';
 export { ReactComponent as BinIcon } from 'assets/images/bin-icon.svg';
 
