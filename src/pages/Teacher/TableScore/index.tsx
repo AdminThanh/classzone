@@ -1,26 +1,92 @@
-import Table, { ColumnsType, ColumnType } from 'antd/lib/table';
 import { PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import Table, { ColumnsType, ColumnType } from 'antd/lib/table';
 
-import './tableScore.scss';
-import { Button, Dropdown, Input, InputRef, Menu, Modal, Space } from 'antd';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { FilterConfirmProps, SorterResult } from 'antd/lib/table/interface';
+import {
+  Button,
+  Dropdown,
+  Input,
+  InputNumber,
+  InputRef,
+  Modal,
+  Space,
+} from 'antd';
+import { FilterConfirmProps } from 'antd/lib/table/interface';
+import { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import ModalFormColumn from './components/ModalFormColumn';
-import DropdownAction from './components/DropdownAction';
 import { useTranslation } from 'react-i18next';
+import { getAverage } from 'utils/calculator';
+import DropdownAction from './components/DropdownAction';
+import ModalFormColumn from './components/ModalFormColumn';
+import './tableScore.scss';
 interface DataType {
   key: React.Key;
   name: string;
-  average: number;
-  fiveteen_minutes: number;
+  sadasdaccans: number;
+  dasdjosakfoaskdas: number;
+  student_id: string;
+  // [key: string]: number | any;
 }
 
 type DataIndex = keyof DataType;
 
+const fetchColumnTable = [
+  {
+    _id: 'dasdjosakfoaskdas',
+    name: 'Bài kiểm tra 15 phút',
+    type: 'normal',
+    test: '15',
+    multiplier: 1,
+  },
+  {
+    _id: 'sadasdaccans',
+    name: 'Bài kiểm tra 45 phút',
+    type: 'normal',
+    test: '45',
+    multiplier: 2,
+  },
+];
+
 const TableScore = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [data, setData] = useState<DataType[]>(() => {
+    const result = [];
+
+    result.push({
+      key: '1',
+      name: 'Đào Đức Minh Khôi',
+      sadasdaccans: 9,
+      dasdjosakfoaskdas: 10,
+      student_id: '101',
+    });
+
+    result.push({
+      key: '2',
+      name: 'Phan Trọng Nghĩa',
+      sadasdaccans: 5,
+      dasdjosakfoaskdas: 7.5,
+      student_id: '102',
+    });
+
+    result.push({
+      key: '3',
+      name: 'Hồ Đắc Di',
+      sadasdaccans: 6,
+      dasdjosakfoaskdas: 8.3,
+      student_id: '103',
+    });
+
+    // for (let i = 0; i < 10; i++) {
+    //   result.push({
+    //     key: i,
+    //     name: `Clone ${i}`,
+    //     average: randomNumber(0, 10),
+    //     sadasdaccans: randomNumber(0, 10),
+    //     dasdjosakfoaskdas: randomNumber(0, 10),
+    //   });
+    // }
+    return result;
+  });
   const [modalCol, setModalCol] = useState<{
     data?: any;
     isOpen: boolean;
@@ -36,6 +102,84 @@ const TableScore = () => {
   const randomNumber = (min: number, max: number) =>
     Math.round(Math.random() * max + min);
 
+  const handleChangeScoreStudent = (
+    { value, student_id }: { value: number; student_id: string },
+    { record }: any,
+    colId: string
+  ) => {
+    const newState: any = structuredClone(data);
+
+    const index = newState.findIndex(
+      (record: any) => record.student_id === student_id
+    );
+
+    newState[index][colId] = value;
+    setData(newState);
+  };
+
+  const renderScoreColumn = (columns: any) => {
+    return columns.map((col: any, index: number) => {
+      return {
+        title: (
+          <Dropdown
+            overlay={() => (
+              <DropdownAction
+                data={col}
+                handleDeleteCol={handleDeleteCol}
+                handleUpdateCol={handleUpdateCol}
+              />
+            )}
+            trigger={['contextMenu']}
+          >
+            <div>{col.name}</div>
+          </Dropdown>
+        ),
+        dataIndex: col._id,
+        render: (text: any, record: any) => {
+          return (
+            <InputNumber
+              value={text}
+              max={10}
+              min={0}
+              onChange={(value) =>
+                handleChangeScoreStudent(
+                  { value, student_id: record.student_id },
+                  {
+                    text,
+                    record,
+                  },
+                  col._id
+                )
+              }
+            />
+          );
+        },
+        width: '15%',
+        sorter: (a: any, b: any) => a[col._id] - b[col._id],
+        filters: [
+          {
+            text: t('table_score.above_average'),
+            value: 'above average',
+          },
+          {
+            text: t('table_score.below_average'),
+            value: 'below average',
+          },
+        ],
+        onFilter: (type: any, record: any) => {
+          switch (type) {
+            case 'above average':
+              return record[col._id] >= 5;
+            case 'below average':
+              return record[col._id] < 5;
+            default:
+              throw new Error('Type filter not found');
+          }
+        },
+      };
+    });
+  };
+
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
@@ -46,14 +190,16 @@ const TableScore = () => {
     setSearchedColumn(dataIndex);
   };
 
-  const handleUpdateCol = (id: string) => {
+  const handleUpdateCol = (data: any) => {
     setModalCol({
-      data: {
-        id,
-      },
+      data,
       isOpen: true,
       isDirty: false,
     });
+  };
+
+  const handleDeleteCol = (_id: string) => {
+    console.log('Delete', _id);
   };
 
   const handleReset = (clearFilters: () => void) => {
@@ -69,6 +215,7 @@ const TableScore = () => {
     });
   };
 
+  // Render score column of data in api
   const getColumnSearchProps = (
     dataIndex: DataIndex
   ): ColumnType<DataType> => ({
@@ -101,14 +248,14 @@ const TableScore = () => {
             size="small"
             style={{ width: 90 }}
           >
-            Search
+            {t('table_score.search')}
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}
           >
-            Reset
+            {t('table_score.reset')}
           </Button>
           <Button
             type="link"
@@ -119,7 +266,7 @@ const TableScore = () => {
               setSearchedColumn(dataIndex);
             }}
           >
-            Filter
+            {t('table_score.filter')}
           </Button>
         </Space>
       </div>
@@ -160,44 +307,10 @@ const TableScore = () => {
       sorter: (a, b) => a.name.localeCompare(b.name),
       ...getColumnSearchProps('name'),
     },
-    {
-      title: (
-        <Dropdown
-          overlay={() => (
-            <DropdownAction
-              dataIndex={'fiveteen_minutes'}
-              handleUpdateCol={handleUpdateCol}
-            />
-          )}
-          trigger={['contextMenu']}
-        >
-          <div>Điểm kiểm tra 15 phút</div>
-        </Dropdown>
-      ),
-      dataIndex: 'fiveteen_minutes',
-      width: '15%',
-      sorter: (a, b) => a.fiveteen_minutes - b.fiveteen_minutes,
-      filters: [
-        {
-          text: 'Trên trung bình',
-          value: 'above average',
-        },
-        {
-          text: 'Dưới trung bình',
-          value: 'below average',
-        },
-      ],
-      onFilter: (type, record) => {
-        switch (type) {
-          case 'above average':
-            return record.fiveteen_minutes >= 5;
-          case 'below average':
-            return record.fiveteen_minutes < 5;
-          default:
-            throw new Error('Type filter not found');
-        }
-      },
-    },
+
+    // Render score column
+    ...renderScoreColumn(fetchColumnTable),
+
     {
       title: (
         <div
@@ -210,33 +323,40 @@ const TableScore = () => {
             })
           }
         >
-          <PlusCircleOutlined /> <span>Thêm cột</span>
+          <PlusCircleOutlined />
+          <span>{t('table_score.add_score_column')}</span>
         </div>
       ),
     },
     {
-      title: 'Điểm trung bình',
+      title: t('table_score.average'),
       key: 'average',
       dataIndex: 'average',
       fixed: 'right',
-      width: 100,
-      sorter: (a, b) => a.average - b.average,
-      //   render: (value) => <div>{value}</div>,
+      width: 200,
+      // sorter: (a, b) => a.average - b.average,
+      render: (value, record: any) => {
+        const scores: any = [];
+        Object.keys(record || {}).forEach((key) => {
+          if (key === 'key' || key === 'name' || key === 'student_id') {
+            return;
+          }
+
+          const indexOfColumn = fetchColumnTable.findIndex(
+            (col) => col._id === key
+          );
+          const multiplier = fetchColumnTable[indexOfColumn]?.multiplier || 1;
+
+          // Handle multiplier
+          for (let i = 0; i < multiplier; i++) {
+            scores.push(record[key] as number);
+          }
+        });
+
+        return <div>{getAverage(scores).toFixed(2)}</div>;
+      },
     },
   ];
-
-  const data: DataType[] = useMemo(() => {
-    const result = [];
-    for (let i = 0; i < 50; i++) {
-      result.push({
-        key: i,
-        name: `Edrward ${i}`,
-        average: randomNumber(0, 10),
-        fiveteen_minutes: randomNumber(0, 10),
-      });
-    }
-    return result;
-  }, []);
 
   return (
     <div className="tableScore">
@@ -247,26 +367,33 @@ const TableScore = () => {
         dataSource={data}
         scroll={{ x: 1500 }}
         locale={{
-          triggerDesc: 'Sắp xếp giảm dần',
-          triggerAsc: 'Sắp xếp tăng dần',
-          cancelSort: 'Hủy sắp xếp',
+          triggerDesc: t('table_score.sort_desc'),
+          triggerAsc: t('table_score.sort_asc'),
+          cancelSort: t('table_score.cancel_sort'),
         }}
       />
 
       <Modal
-        title={modalCol.data?.id ? 'Sửa cột điểm' : 'Thêm cột điểm'}
+        title={
+          modalCol.data?._id
+            ? t('table_score.update_score_column')
+            : t('table_score.add_score_column')
+        }
         open={modalCol.isOpen}
         // onOk={handleOk}
         destroyOnClose={true}
         onCancel={handleCancelModal}
         footer={null}
       >
-        <ModalFormColumn type={modalCol.data?.id ? 'edit' : 'add'} />
+        <ModalFormColumn
+          data={modalCol.data}
+          type={modalCol.data?._id ? 'update' : 'add'}
+        />
       </Modal>
 
       <Modal closable={false}>
         <div style={{ color: 'yellow', background: 'orange' }}>
-          Dữ liệu chưa được lưu bạn có chắc muốn tắt
+          {t('table_score.message_close_modal')}
         </div>
       </Modal>
     </div>

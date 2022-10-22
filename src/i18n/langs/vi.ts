@@ -148,11 +148,42 @@ export default {
   },
 
   table_score: {
+    // Field
     full_name: 'Họ và tên',
     average: 'Điểm trung bình',
+    score: 'Điểm',
+    score_lowercase: 'điểm',
+    plus_lowercase: 'cộng',
+    minus_lowercase: 'trừ',
+    score_column_name: 'Tên cột điểm',
+    multiplier: 'Hệ số nhân',
+    score_column_type: 'Loại cột điểm',
+    automatic_score_entry: 'Tự động nhập điểm',
+    test: 'Bài kiểm tra',
+    test_score: "Điểm kiểm tra",
+    plus_score: "Điểm cộng",
+    minus_score: "Điểm trừ",
 
     // Action
     add_action: 'Thêm',
     update_action: 'Sửa',
+    delete_action: 'Xóa',
+    sort_desc: 'Sắp xếp giảm dần',
+    sort_asc: 'Sắp xếp tăng dần',
+    cancel_sort: 'Hủy sắp xếp',
+    update_score_column: 'Cập nhật cột điểm',
+    add_score_column: 'Thêm cột điểm',
+    search: 'Tìm ',
+    reset: 'Đặt lại',
+    filter: 'Lọc',
+
+    // Other
+    above_average: 'Trên trung bình',
+    below_average: 'Dưới trung bình',
+
+    // Message
+    message_close_modal: 'Dữ liệu chưa được lưu bạn có chắc muốn tắt',
+    message_choose_test_for_auto_score_column:
+      'Chọn bài kiểm tra cho cột điểm tự động',
   },
 };

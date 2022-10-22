@@ -145,11 +145,42 @@ export default {
   },
 
   table_score: {
+    // Field
     full_name: 'Full name',
     average: 'Average',
+    score: 'Score',
+    score_lowercase: 'score',
+    plus_lowercase: 'plus',
+    minus_lowercase: 'minus',
+    score_column_name: 'Score column name',
+    multiplier: 'Multiplier',
+    score_column_type: 'Score column type',
+    automatic_score_entry: 'Automatic score entry',
+    test: 'Test',
+    test_score: 'Test score',
+    plus_score: 'Plus score',
+    minus_score: 'Minus score',
 
     // Action
     add_action: 'Add',
     update_action: 'Update',
+    delete_action: 'Delete',
+    sort_desc: 'Sort descrease',
+    sort_asc: 'Sort ascending',
+    cancel_sort: 'Cancel sort',
+    update_score_column: 'Update score column',
+    add_score_column: 'Add score column',
+    search: 'Search',
+    reset: 'Reset',
+    filter: 'Filter',
+
+    // Other
+    above_average: 'Above average',
+    below_average: 'Below average',
+
+    // Message
+    message_close_modal: 'Unsaved data are you sure you want to turn it off',
+    message_choose_test_for_auto_score_column:
+      'Select the test for the automatic score column',
   },
 };
