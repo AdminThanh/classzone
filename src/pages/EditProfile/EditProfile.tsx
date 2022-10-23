@@ -319,9 +319,6 @@ function EditProfile() {
                                         className='input-profile' value="*******************"
                                         placeholder="Nhập mật khẩu" />
                                 </Form.Item>
-
-
-
                             </div>
                         )
                     }
