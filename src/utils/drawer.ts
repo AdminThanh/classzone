@@ -15,4 +15,4 @@ export { ReactComponent as EditIcon } from 'assets/images/edit-icon.svg';
 export { ReactComponent as CancelIcon } from 'assets/images/cancel-icon.svg';
 export { ReactComponent as SaveIcon } from 'assets/images/save-icon.svg';
 export { ReactComponent as BinIcon } from 'assets/images/bin-icon.svg';
-
+export { ReactComponent as ShowmoreIocn } from 'assets/images/icons/showmore.svg';
