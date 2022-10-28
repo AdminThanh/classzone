@@ -1,12 +1,14 @@
 import { useQuery } from '@apollo/client';
 import logo from 'assets/images/logo.png';
+import clsx from 'clsx';
 import { useAuth } from 'contexts/AuthContext';
 import { getAllUser } from 'graphql/user';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { INavItem } from 'routes/navs';
 import {
+  CloseIcon,
   DefaultAvatar,
   ExitIcon,
   ProfileIcon,
@@ -26,10 +28,9 @@ export interface INavbarProps {
 const Navbar = (props: INavbarProps) => {
   const { navList = [] } = props;
   const { isAuthenticated, logout, auth } = useAuth();
+  const [isSidebar, setIsSidebar] = useState(false);
   const { refetch } = useQuery(getAllUser);
   const { t } = useTranslation();
-
-  console.log('user', auth);
 
   const listUserControl: IUserControl[] = useMemo(() => {
     return [
@@ -64,6 +65,14 @@ const Navbar = (props: INavbarProps) => {
     ];
   }, []);
 
+  const handleOpenSidebar = () => {
+    setIsSidebar(true);
+  };
+
+  const handleCloseSidebar = () => {
+    setIsSidebar(false);
+  };
+
   return (
     <>
       <div className="navbar">
@@ -84,14 +93,14 @@ const Navbar = (props: INavbarProps) => {
                 </li>
               ))}
             </ul>
-            <div className="navbar__showmore">
+            <div className="navbar__showmore" onClick={handleOpenSidebar}>
               <ShowmoreIocn />
             </div>
 
             {/* User control */}
             {isAuthenticated && (
               <div className="navbar__user">
-                <div className="navbar__label">Chào, {auth.username}</div>
+                <div className="navbar__label">Chào, {auth?.username}</div>
                 <DefaultAvatar className="navbar__avatar" />
 
                 {/* dropdown */}
@@ -119,25 +128,40 @@ const Navbar = (props: INavbarProps) => {
       </div>
 
       {/* Responsive navbar */}
-      <div className="navbar__modal navbar__modal--active">
-        <div className="navbar__modal__skin">
+      <div
+        className={clsx({
+          navbar__modal: true,
+          'navbar__modal--active': isSidebar,
+        })}
+      >
+        <div
+          className={clsx({
+            navbar__modal__skin: true,
+            'navbar__modal__skin--active': isSidebar,
+          })}
+        >
           <div className="navbar__modal__header">
-            <div className="navbar__modal__avatar">
-              <DefaultAvatar className="navbar__avatar" />
-            </div>
-            <div className="nav__modal_username">Chào, {auth?.username}</div>
+            <CloseIcon onClick={handleCloseSidebar} />
           </div>
           <div className="navbar__modal__body">
-            {navList?.map((item, idx) => (
-              <div key={idx} className="navbar__modal__item ">
-                <Link to={item.path} className="navbar__modal__link">
-                  <item.icon className="navbar__modal__icon" />
-                  <span className="navbar__modal__label">
-                    {t(`navbar.${item.label}`)}
-                  </span>
-                </Link>
+            <div className="navbar__modal__user">
+              <div className="navbar__modal__avatar">
+                <DefaultAvatar className="navbar__avatar" />
               </div>
-            ))}
+              <div className="nav__modal_username">Chào, {auth?.username}</div>
+            </div>
+            <div className="navbar__modal__listItem">
+              {navList?.map((item, idx) => (
+                <div key={idx} className="navbar__modal__item ">
+                  <Link to={item.path} className="navbar__modal__link">
+                    <item.icon className="navbar__modal__icon" />
+                    <span className="navbar__modal__label">
+                      {t(`navbar.${item.label}`)}
+                    </span>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="navbar__modal__footer">
             <div className="navbar__modal__footer__container">

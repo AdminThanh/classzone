@@ -198,11 +198,13 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
-  z-index: 9999;
+  visibility: hidden;
   display: flex;
-  opacity: 0;
+  z-index: 999;
+  // display: none;
 
   .navbar__modal__skin {
+    display: flex;
     flex-direction: column;
     background: #fff;
     max-width: 300px;
@@ -213,23 +215,39 @@
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
     transform: translateX(-100%);
-    transition: all 3.4s ease-in;
+    transition: all 0.3s ease-out;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+
+    &--active {
+      transform: translateX(0%);
+    }
   }
 
   &--active {
-    opacity: 1;
-
-    .navbar__modal__skin {
-      transform: translateX(0%);
-    }
+    visibility: visible;
   }
 
   /* Navbar header */
   .navbar__modal__header {
     display: flex;
-    justify-content: space-between;
-    padding: 20px 19px;
+    justify-content: flex-end;
+    padding: 10px 19px;
     align-items: center;
+    background-color: c.$primary;
+    border-top-right-radius: 12px;
+    color: #fff;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  /* Navbar body */
+  .navbar__modal__user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 19px;
   }
 
   .navbar__modal__avatar {
@@ -241,7 +259,6 @@
   .navbar__modal__username {
   }
 
-  /* Navbar body */
   .navbar__modal__item {
     display: block;
     padding: 20px 10px;
@@ -251,7 +268,7 @@
 
     &--active {
       background-color: c.$primary;
-      
+
       .navbar__modal__link.navbar__modal__label {
         color: c.$second;
       }
@@ -269,7 +286,6 @@
     font-weight: bold;
     column-gap: 5px;
     color: c.$primary;
-   
 
     .navbar__modal__icon,
     .navbar__modal__label {
@@ -287,6 +303,6 @@
   /* Footer */
 
   .navbar__modal__footer {
-    
+    margin-top: auto;
   }
 }

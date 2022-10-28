@@ -54,7 +54,7 @@ button.ouline:hover {
 
 /* width */
 // ::-webkit-scrollbar {
-  // width: 8px;
+// width: 8px;
 // }
 
 // /* Track */
@@ -71,3 +71,10 @@ button.ouline:hover {
 // ::-webkit-scrollbar-thumb:hover {
 //   background: c.$primary_active;
 // }
+
+@keyframes rotate {
+  
+  to {
+    transform: rotate(360deg);
+  }
+}

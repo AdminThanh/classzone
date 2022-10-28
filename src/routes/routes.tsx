@@ -19,6 +19,7 @@ import Login from 'pages/Login';
 import Register from 'pages/Register';
 import { ReactElement } from 'react';
 import TableScore from 'pages/Teacher/TableScore';
+import WheelOfNames from 'components/WheelOfNames';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -50,6 +51,11 @@ export const routes: IRoute[] = [
     element: TableScore,
     role: ['teacher'],
     layout: TeacherLayout,
+  },
+  {
+    path: '/wheel',
+    element: WheelOfNames,
+    role: ['teacher'],
   },
   {
     path: '/classDetail',
