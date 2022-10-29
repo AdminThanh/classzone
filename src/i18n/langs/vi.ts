@@ -176,6 +176,7 @@ export default {
     search: 'Tìm ',
     reset: 'Đặt lại',
     filter: 'Lọc',
+    save_table: "Lưu",
 
     // Other
     above_average: 'Trên trung bình',

@@ -11,7 +11,7 @@ import {
   Space,
 } from 'antd';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useTranslation } from 'react-i18next';
 import { getAverage } from 'utils/calculator';
@@ -36,7 +36,7 @@ interface IColumnTable {
   multiplier: number;
 }
 
-const fakeAPI: Promise<IColumnTable[]> = new Promise((resolve, reject) => {
+const fakeAPITable: Promise<IColumnTable[]> = new Promise((resolve, reject) => {
   setTimeout(() => {
     const fetchColumnTable: IColumnTable[] = [
       {
@@ -58,51 +58,49 @@ const fakeAPI: Promise<IColumnTable[]> = new Promise((resolve, reject) => {
   }, 1000);
 });
 
+const fakeAPIScoreStudent: Promise<DataType[]> = new Promise(
+  (resolve, reject) => {
+    resolve([
+      {
+        key: '1',
+        name: 'Đào Đức Minh Khôi',
+        sadasdaccans: 9,
+        dasdjosakfoaskdas: 10,
+        student_id: '101',
+      },
+      {
+        key: '2',
+        name: 'Phan Trọng Nghĩa',
+        sadasdaccans: 5,
+        dasdjosakfoaskdas: 7.5,
+        student_id: '102',
+      },
+      {
+        key: '3',
+        name: 'Hồ Đắc Di',
+        sadasdaccans: 6,
+        dasdjosakfoaskdas: 8.3,
+        student_id: '103',
+      },
+      {
+        key: '4',
+        name: 'Nguyễn Tất Thành',
+        sadasdaccans: 9,
+        dasdjosakfoaskdas: 9.5,
+        student_id: '103',
+      },
+    ]);
+  }
+);
+
 const TableScore = () => {
+  const searchInput = useRef<InputRef>(null);
+  const { t } = useTranslation();
+
   const [searchText, setSearchText] = useState<string>('');
   const [searchedColumn, setSearchedColumn] = useState<DataIndex>('');
-  const [dataTable, setDataTable] = useState<IColumnTable[] | undefined>(
-    undefined
-  );
-
-  const [data, setData] = useState<DataType[]>(() => {
-    const result = [];
-
-    result.push({
-      key: '1',
-      name: 'Đào Đức Minh Khôi',
-      sadasdaccans: 9,
-      dasdjosakfoaskdas: 10,
-      student_id: '101',
-    });
-
-    result.push({
-      key: '2',
-      name: 'Phan Trọng Nghĩa',
-      sadasdaccans: 5,
-      dasdjosakfoaskdas: 7.5,
-      student_id: '102',
-    });
-
-    result.push({
-      key: '3',
-      name: 'Hồ Đắc Di',
-      sadasdaccans: 6,
-      dasdjosakfoaskdas: 8.3,
-      student_id: '103',
-    });
-
-    // for (let i = 0; i < 10; i++) {
-    //   result.push({
-    //     key: i,
-    //     name: `Clone ${i}`,
-    //     average: randomNumber(0, 10),
-    //     sadasdaccans: randomNumber(0, 10),
-    //     dasdjosakfoaskdas: randomNumber(0, 10),
-    //   });
-    // }
-    return result;
-  });
+  const [dataTable, setDataTable] = useState<IColumnTable[] | undefined>();
+  const [dataScoreStudent, setDataScoreStudent] = useState<DataType[]>([]);
   const [modalCol, setModalCol] = useState<{
     data?: any;
     isOpen: boolean;
@@ -112,12 +110,15 @@ const TableScore = () => {
     isOpen: false,
     isDirty: false,
   });
-  const searchInput = useRef<InputRef>(null);
-  const { t } = useTranslation();
 
   useEffect(() => {
-    fakeAPI.then((res) => {
+    fakeAPITable.then((res) => {
       setDataTable(res);
+    });
+
+    // Fake data
+    fakeAPIScoreStudent.then((res) => {
+      setDataScoreStudent(res);
     });
   }, []);
 
@@ -126,14 +127,14 @@ const TableScore = () => {
     { record, value: valueChange }: { record: DataType; value: number },
     colId: string
   ) => {
-    const newState: DataType[] = structuredClone(data);
+    const newState: DataType[] = structuredClone(dataScoreStudent);
 
     const index = newState.findIndex(
       (record) => record.student_id === student_id
     );
 
     newState[index][colId] = value;
-    setData(newState);
+    setDataScoreStudent(newState);
   };
 
   const renderScoreColumn = (columns?: IColumnTable[]) => {
@@ -210,6 +211,10 @@ const TableScore = () => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex as string);
+  };
+
+  const handleSaveTableScore = (e: React.MouseEvent<HTMLElement>) => {
+    console.log('Data', dataScoreStudent);
   };
 
   const handleUpdateCol = (data: any) => {
@@ -322,6 +327,7 @@ const TableScore = () => {
   });
 
   const columns: ColumnsType<DataType> = [
+    // Cột họ và tên
     {
       title: t('table_score.full_name'),
       width: '20%',
@@ -332,9 +338,10 @@ const TableScore = () => {
       ...getColumnSearchProps('name'),
     },
 
-    // Render score column in api
+    // Render score columns from api response
     ...(renderScoreColumn(dataTable) as any),
 
+    // Cột thêm cột điểm
     {
       title: (
         <div
@@ -393,7 +400,7 @@ const TableScore = () => {
         className="tableScore__table"
         columns={columns}
         pagination={false}
-        dataSource={data}
+        dataSource={dataScoreStudent}
         scroll={{ x: 1500 }}
         locale={{
           triggerDesc: t('table_score.sort_desc'),
@@ -401,6 +408,11 @@ const TableScore = () => {
           cancelSort: t('table_score.cancel_sort'),
         }}
       />
+      <div className="tableScore__footer">
+        <Button onClick={handleSaveTableScore}>
+          {t('table_score.save_table')}
+        </Button>
+      </div>
 
       <Modal
         title={

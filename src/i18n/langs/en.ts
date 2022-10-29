@@ -173,6 +173,7 @@ export default {
     search: 'Search',
     reset: 'Reset',
     filter: 'Filter',
+    save_table: "Save",
 
     // Other
     above_average: 'Above average',
