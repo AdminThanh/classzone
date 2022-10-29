@@ -1,33 +1,46 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import React, { useEffect, useRef, useState } from 'react';
-import { getDatasetAtEvent, Pie } from 'react-chartjs-2';
-import './WheelOfNames.scss';
 import dingAudio from 'assets/audio/ding.mp3';
 import votayAudio from 'assets/audio/votay.mp3';
+import { ArcElement, Chart as ChartJS } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { FunctionComponent, useState } from 'react';
+import { Pie } from 'react-chartjs-2';
 import Swal from 'sweetalert2';
+import './WheelOfNames.scss';
 
-const WheelOfNames = () => {
+interface IPropsWheelOfNames {
+  names?: string[];
+  onClick?: (values: string) => void;
+}
+
+const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
+  const {
+    names = [
+      'Đào Đức Minh Khôi',
+      'Phan Trọng Nghĩa',
+      'Trường Trung Kiên',
+      'Phan Quốc Huy',
+      'Nguyễn Đăng Thành',
+      'Lý Quốc Sư',
+      'OPtimus',
+      'Phan Bội Chau',
+      'Huỳnh Văn Hưng',
+      'Lê Thị Thúy',
+      'Mỹ Nga',
+      'PKD',
+      'Hình ',
+      'Ảnh',
+      'Của',
+      'Ai',
+    ],
+    onClick,
+  } = props;
+
   ChartJS.register(ArcElement);
+  // Spinner count
+  // Số vòng thực nhỏ nhất và lớn nhất sẽ bị nhân 2 lên
+  const MIN_ROUNDS = 7;
+  const MAX_ROUNDS = 8;
 
-  const names = [
-    'Đào Đức Minh Khôi',
-    'Phan Trọng Nghĩa',
-    'Trường Trung Kiên',
-    'Phan Quốc Huy',
-    'Nguyễn Đăng Thành',
-    'Lý Quốc Sư',
-    'OPtimus',
-    'Phan Bội Chau',
-    'Huỳnh Văn Hưng',
-    'Lê Thị Thúy',
-    'Mỹ Nga',
-    'PKD',
-    'Hình ',
-    'Ảnh',
-    'Của',
-    'Ai',
-  ];
   const dingSound = new Audio(dingAudio);
   const votaySound = new Audio(votayAudio);
 
@@ -83,11 +96,6 @@ const WheelOfNames = () => {
     },
   };
 
-  // Spinner count
-  // Số vòng thực nhỏ nhất và lớn nhất sẽ bị nhân 2 lên
-  const MIN_ROUNDS = 7;
-  const MAX_ROUNDS = 8;
-
   // Start spinning
   const handleSpinning = () => {
     // Empty final value
@@ -141,6 +149,7 @@ const WheelOfNames = () => {
 
     setTimeout(() => {
       Swal.fire('Xin chúc mừng !', newData[winner]);
+      if (onClick) onClick(newData[winner]);
       votaySound.play();
     }, 7500);
   };

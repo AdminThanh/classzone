@@ -18,6 +18,7 @@ import { getAverage } from 'utils/calculator';
 import DropdownAction from './components/DropdownAction';
 import ModalFormColumn from './components/ModalFormColumn';
 import './tableScore.scss';
+import { StringLiteral } from 'typescript';
 interface DataType {
   key: React.Key;
   name: string;
@@ -29,7 +30,29 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-const fetchColumnTable = [
+interface IColumnTable {
+  // Cần xử lý khi có api vì typescript không chạy trên runtime
+  _id: 'sadasdaccans' | 'dasdjosakfoaskdas'; // Interface này phải là tất cả id của từng bảng
+  name: string;
+  type: string;
+  test: string;
+  multiplier: number;
+}
+
+interface IScoreColumn {
+  title: JSX.Element;
+  dataIndex: string;
+  render: (value: number, record: DataType) => JSX.Element;
+  width: string;
+  sorter: (a: DataType, b: DataType) => number;
+  filters: {
+    text: string;
+    value: string;
+  }[];
+  onFilter: (type: string, record: DataType) => boolean;
+}
+
+const fetchColumnTable: IColumnTable[] = [
   {
     _id: 'dasdjosakfoaskdas',
     name: 'Bài kiểm tra 15 phút',
@@ -99,9 +122,6 @@ const TableScore = () => {
   const searchInput = useRef<InputRef>(null);
   const { t } = useTranslation();
 
-  const randomNumber = (min: number, max: number) =>
-    Math.round(Math.random() * max + min);
-
   const handleChangeScoreStudent = (
     { value, student_id }: { value: number; student_id: string },
     { record }: any,
@@ -117,67 +137,67 @@ const TableScore = () => {
     setData(newState);
   };
 
-  const renderScoreColumn = (columns: any) => {
-    return columns.map((col: any, index: number) => {
-      return {
-        title: (
-          <Dropdown
-            overlay={() => (
-              <DropdownAction
-                data={col}
-                handleDeleteCol={handleDeleteCol}
-                handleUpdateCol={handleUpdateCol}
-              />
-            )}
-            trigger={['contextMenu']}
-          >
-            <div>{col.name}</div>
-          </Dropdown>
-        ),
-        dataIndex: col._id,
-        render: (text: any, record: any) => {
-          return (
-            <InputNumber
-              value={text}
-              max={10}
-              min={0}
-              onChange={(value) =>
-                handleChangeScoreStudent(
-                  { value, student_id: record.student_id },
-                  {
-                    text,
-                    record,
-                  },
-                  col._id
-                )
-              }
+  const renderScoreColumn = (columns: IColumnTable[]): IScoreColumn[] => {
+    return columns.map((col: IColumnTable) => ({
+      title: (
+        <Dropdown
+          overlay={() => (
+            <DropdownAction
+              data={col}
+              handleDeleteCol={handleDeleteCol}
+              handleUpdateCol={handleUpdateCol}
             />
-          );
+          )}
+          trigger={['contextMenu']}
+        >
+          <div>{col.name}</div>
+        </Dropdown>
+      ),
+      dataIndex: col._id,
+      render: (value: number, record: DataType) => (
+        <InputNumber
+          value={value}
+          max={10}
+          min={0}
+          onChange={(value) => {
+            if (value) {
+              handleChangeScoreStudent(
+                { value, student_id: record.student_id },
+                {
+                  value,
+                  record,
+                },
+                col._id
+              );
+            }
+          }}
+        />
+      ),
+      width: '15%',
+      sorter: (a: DataType, b: DataType) => {
+        return a[col._id] - b[col._id];
+      },
+      filters: [
+        {
+          text: t('table_score.above_average'),
+          value: 'above average',
         },
-        width: '15%',
-        sorter: (a: any, b: any) => a[col._id] - b[col._id],
-        filters: [
-          {
-            text: t('table_score.above_average'),
-            value: 'above average',
-          },
-          {
-            text: t('table_score.below_average'),
-            value: 'below average',
-          },
-        ],
-        onFilter: (type: any, record: any) => {
-          switch (type) {
-            case 'above average':
-              return record[col._id] >= 5;
-            case 'below average':
-              return record[col._id] < 5;
-            default:
-              throw new Error('Type filter not found');
-          }
+        {
+          text: t('table_score.below_average'),
+          value: 'below average',
         },
-      };
-    });
+      ],
+      onFilter: (type: string, record: DataType) => {
+        switch (type) {
+          case 'above average':
+            return record[col._id] >= 5;
+          case 'below average':
+            return record[col._id] < 5;
+          default:
+            throw new Error('Type filter not found');
+        }
+      },
+    }));
   };
 
   const handleSearch = (
@@ -201,6 +221,8 @@ const TableScore = () => {
   const handleDeleteCol = (_id: string) => {
     console.log('Delete', _id);
   };
+
+  const handleSaveTable = () => {};
 
   const handleReset = (clearFilters: () => void) => {
     clearFilters();
@@ -309,7 +331,7 @@ const TableScore = () => {
     },
 
     // Render score column
-    ...renderScoreColumn(fetchColumnTable),
+    ...(renderScoreColumn(fetchColumnTable) as any),
 
     {
       title: (
@@ -335,9 +357,9 @@ const TableScore = () => {
       fixed: 'right',
       width: 200,
       // sorter: (a, b) => a.average - b.average,
-      render: (value, record: any) => {
+      render: (_, record: any) => {
         const scores: any = [];
-        Object.keys(record || {}).forEach((key) => {
+        Object.keys(record || {}).forEach((key: any) => {
           if (key === 'key' || key === 'name' || key === 'student_id') {
             return;
           }
