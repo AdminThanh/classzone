@@ -166,7 +166,7 @@ const Navbar = (props: INavbarProps) => {
           <div className="navbar__modal__footer">
             <div className="navbar__modal__footer__container">
               {listUserControl.map((item, idx) => (
-                <div className="navbar__modal__item">
+                <div className="navbar__modal__item" key={idx}>
                   <Link
                     onClick={item.onClick}
                     key={idx}

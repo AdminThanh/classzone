@@ -11,67 +11,60 @@ import {
   Space,
 } from 'antd';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useTranslation } from 'react-i18next';
 import { getAverage } from 'utils/calculator';
 import DropdownAction from './components/DropdownAction';
 import ModalFormColumn from './components/ModalFormColumn';
 import './tableScore.scss';
-import { StringLiteral } from 'typescript';
 interface DataType {
   key: React.Key;
   name: string;
-  sadasdaccans: number;
-  dasdjosakfoaskdas: number;
+  [key: string]: number | string;
   student_id: string;
-  // [key: string]: number | any;
 }
 
 type DataIndex = keyof DataType;
 
 interface IColumnTable {
   // Cần xử lý khi có api vì typescript không chạy trên runtime
-  _id: 'sadasdaccans' | 'dasdjosakfoaskdas'; // Interface này phải là tất cả id của từng bảng
+  _id: string;
   name: string;
   type: string;
   test: string;
   multiplier: number;
 }
 
-interface IScoreColumn {
-  title: JSX.Element;
-  dataIndex: string;
-  render: (value: number, record: DataType) => JSX.Element;
-  width: string;
-  sorter: (a: DataType, b: DataType) => number;
-  filters: {
-    text: string;
-    value: string;
-  }[];
-  onFilter: (type: string, record: DataType) => boolean;
-}
-
-const fetchColumnTable: IColumnTable[] = [
-  {
-    _id: 'dasdjosakfoaskdas',
-    name: 'Bài kiểm tra 15 phút',
-    type: 'normal',
-    test: '15',
-    multiplier: 1,
-  },
-  {
-    _id: 'sadasdaccans',
-    name: 'Bài kiểm tra 45 phút',
-    type: 'normal',
-    test: '45',
-    multiplier: 2,
-  },
-];
+const fakeAPI: Promise<IColumnTable[]> = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const fetchColumnTable: IColumnTable[] = [
+      {
+        _id: 'dasdjosakfoaskdas',
+        name: 'Bài kiểm tra 15 phút',
+        type: 'normal',
+        test: '15',
+        multiplier: 1,
+      },
+      {
+        _id: 'sadasdaccans',
+        name: 'Bài kiểm tra 45 phút',
+        type: 'normal',
+        test: '45',
+        multiplier: 2,
+      },
+    ];
+    resolve(fetchColumnTable);
+  }, 1000);
+});
 
 const TableScore = () => {
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  const [searchText, setSearchText] = useState<string>('');
+  const [searchedColumn, setSearchedColumn] = useState<DataIndex>('');
+  const [dataTable, setDataTable] = useState<IColumnTable[] | undefined>(
+    undefined
+  );
+
   const [data, setData] = useState<DataType[]>(() => {
     const result = [];
 
@@ -122,82 +115,91 @@ const TableScore = () => {
   const searchInput = useRef<InputRef>(null);
   const { t } = useTranslation();
 
+  useEffect(() => {
+    fakeAPI.then((res) => {
+      setDataTable(res);
+    });
+  }, []);
+
   const handleChangeScoreStudent = (
     { value, student_id }: { value: number; student_id: string },
-    { record }: any,
+    { record, value: valueChange }: { record: DataType; value: number },
     colId: string
   ) => {
-    const newState: any = structuredClone(data);
+    const newState: DataType[] = structuredClone(data);
 
     const index = newState.findIndex(
-      (record: any) => record.student_id === student_id
+      (record) => record.student_id === student_id
     );
 
     newState[index][colId] = value;
     setData(newState);
   };
 
-  const renderScoreColumn = (columns: IColumnTable[]): IScoreColumn[] => {
-    return columns.map((col: IColumnTable) => ({
-      title: (
-        <Dropdown
-          overlay={() => (
-            <DropdownAction
-              data={col}
-              handleDeleteCol={handleDeleteCol}
-              handleUpdateCol={handleUpdateCol}
-            />
-          )}
-          trigger={['contextMenu']}
-        >
-          <div>{col.name}</div>
-        </Dropdown>
-      ),
-      dataIndex: col._id,
-      render: (value: number, record: DataType) => (
-        <InputNumber
-          value={value}
-          max={10}
-          min={0}
-          onChange={(value) => {
-            if (value) {
-              handleChangeScoreStudent(
-                { value, student_id: record.student_id },
-                {
-                  value,
-                  record,
-                },
-                col._id
-              );
-            }
-          }}
-        />
-      ),
-      width: '15%',
-      sorter: (a: DataType, b: DataType) => {
-        return a[col._id] - b[col._id];
-      },
-      filters: [
-        {
-          text: t('table_score.above_average'),
-          value: 'above average',
+  const renderScoreColumn = (columns?: IColumnTable[]) => {
+    return (
+      columns?.map((col: IColumnTable) => ({
+        key: col._id,
+        title: (
+          <Dropdown
+            overlay={() => (
+              <DropdownAction
+                data={col}
+                handleDeleteCol={handleDeleteCol}
+                handleUpdateCol={handleUpdateCol}
+              />
+            )}
+            trigger={['contextMenu']}
+          >
+            <div>{col.name}</div>
+          </Dropdown>
+        ),
+        dataIndex: col._id,
+        render: (value: number, record: DataType) => (
+          <InputNumber
+            value={value}
+            max={10}
+            min={0}
+            onChange={(value) => {
+              if (value) {
+                handleChangeScoreStudent(
+                  { value, student_id: record.student_id },
+                  {
+                    value,
+                    record,
+                  },
+                  col._id
+                );
+              }
+            }}
+          />
+        ),
+        width: '15%',
+        sorter: (a: DataType, b: DataType): number => {
+          return +a[col._id].valueOf() - +b[col._id].valueOf();
         },
-        {
-          text: t('table_score.below_average'),
-          value: 'below average',
+        filters: [
+          {
+            text: t('table_score.above_average'),
+            value: 'above average',
+          },
+          {
+            text: t('table_score.below_average'),
+            value: 'below average',
+          },
+        ],
+        onFilter: (type: string, record: DataType) => {
+          switch (type) {
+            case 'above average':
+              return record[col._id] >= 5;
+            case 'below average':
+              return record[col._id] < 5;
+            default:
+              throw new Error('Type filter not found');
+          }
         },
-      ],
-      onFilter: (type: string, record: DataType) => {
-        switch (type) {
-          case 'above average':
-            return record[col._id] >= 5;
-          case 'below average':
-            return record[col._id] < 5;
-          default:
-            throw new Error('Type filter not found');
-        }
-      },
-    }));
+      })) || []
+    );
   };
 
   const handleSearch = (
@@ -207,7 +209,7 @@ const TableScore = () => {
   ) => {
     confirm();
     setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
+    setSearchedColumn(dataIndex as string);
   };
 
   const handleUpdateCol = (data: any) => {
@@ -330,8 +332,8 @@ const TableScore = () => {
       ...getColumnSearchProps('name'),
     },
 
-    // Render score column
-    ...(renderScoreColumn(fetchColumnTable) as any),
+    // Render score column in api
+    ...(renderScoreColumn(dataTable) as any),
 
     {
       title: (
@@ -357,17 +359,22 @@ const TableScore = () => {
       fixed: 'right',
       width: 200,
       // sorter: (a, b) => a.average - b.average,
-      render: (_, record: any) => {
-        const scores: any = [];
-        Object.keys(record || {}).forEach((key: any) => {
+      render: (_, record: DataType) => {
+        const scores: number[] = [];
+        Object.keys(record || {}).forEach((key: string) => {
           if (key === 'key' || key === 'name' || key === 'student_id') {
             return;
           }
 
-          const indexOfColumn = fetchColumnTable.findIndex(
-            (col) => col._id === key
-          );
-          const multiplier = fetchColumnTable[indexOfColumn]?.multiplier || 1;
+          const indexOfColumn = dataTable?.findIndex((col) => col._id === key);
+
+          let multiplier;
+
+          if (dataTable && indexOfColumn) {
+            multiplier = dataTable[indexOfColumn]?.multiplier || 1;
+          } else {
+            multiplier = 1;
+          }
 
           // Handle multiplier
           for (let i = 0; i < multiplier; i++) {
