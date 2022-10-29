@@ -2,7 +2,7 @@
 import AuthLayout from 'layouts/Auth';
 import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
-import EditProfile from 'pages/EditProfile/EditProfile';
+import EditProfile from 'pages/EditProfile';
 
 // Pages
 /* General */
@@ -70,7 +70,7 @@ export const routes: IRoute[] = [
   },
 
   {
-    path: '/edit-profile',
+    path: '/profile',
     element: EditProfile,
     role: ['teacher'],
     layout: TeacherLayout,
