@@ -15,9 +15,11 @@ import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
 
+import WheelOfNames from 'components/WheelOfNames';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
-import { ReactElement } from 'react';
+import TableScore from 'pages/Teacher/TableScore';
+import { FunctionComponent } from 'react';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -28,9 +30,9 @@ export declare namespace JSX {
 type TRole = 'teacher' | 'student' | 'admin';
 interface IRoute {
   path: string;
-  element: (props: any) => ReactElement;
+  element: FunctionComponent<any>;
   role?: TRole[];
-  layout?: (props: any) => ReactElement;
+  layout?: FunctionComponent<any>;
 }
 
 export const routes: IRoute[] = [
@@ -43,6 +45,17 @@ export const routes: IRoute[] = [
     element: TeacherClasses,
     role: ['teacher'],
     layout: TeacherLayout,
+  },
+  {
+    path: '/table_score',
+    element: TableScore,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/wheel',
+    element: WheelOfNames,
+    role: ['teacher'],
   },
   {
     path: '/classDetail',

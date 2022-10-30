@@ -1,0 +1,25 @@
+.wheel-of-name {
+  .wheel-spin {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .wheel {
+    transition: all 7s ease-in-out;
+  }
+
+  .wheel-spin__result {
+    position: absolute;
+    // border-width: 100px;
+    width: 200px;
+    height: 50px;
+    border: 50px solid transparent;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-right-color: red;
+    transform: translateY(-50%);
+    top: 50%;
+    right: 0px;
+  }
+}
