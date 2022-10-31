@@ -57,7 +57,7 @@ function EditProfile() {
           },
           {
             name: t('bread_crumb.edit_profile'),
-            path: '/edit-profile',
+            path: '/profile',
           },
         ]}
       />
@@ -83,6 +83,7 @@ function EditProfile() {
                         accept="image/jpg, image/jpeg, image/png"
                         id="upload"
                         onChange={handleChangeFile}
+                        disabled={!isEdit}
                       />
                       {avatar ? (
                         <img
@@ -110,17 +111,17 @@ function EditProfile() {
                 <Col span={24} xs={24} xl={11}>
                   <Row>
                     <Form.Item
-                      label="Họ"
+                      label={t('edit_profile.lastname')}
                       name="lastname"
                       rules={[
-                        { required: true, message: 'Mời bạn nhập họ của bạn' },
+                        { required: true, message: t('edit_profile.val_lastname') },
                       ]}
                       className="input-profile"
                     >
                       <Row>
                         <Input
                           className="input-profile"
-                          placeholder="Nhập họ của bạn"
+                          placeholder={t('edit_profile.ph_lastname')}
                           disabled={!isEdit}
                         />
                       </Row>
@@ -130,15 +131,15 @@ function EditProfile() {
                 <Col span={24} xs={24} xl={11}>
                   <Form.Item
                     className="input-profile"
-                    label="Tên"
+                    label={t('edit_profile.firstname')}
                     name="firstname"
                     rules={[
-                      { required: true, message: 'Mời bạn nhập tên của bạn' },
+                      { required: true, message: t('edit_profile.val_firstname') },
                     ]}
                   >
                     <Input
                       className="input-profile"
-                      placeholder="Nhập tên của bạn"
+                      placeholder={t('edit_profile.ph_firstname')}
                       disabled={!isEdit}
                     />
                   </Form.Item>
@@ -150,59 +151,59 @@ function EditProfile() {
                     className="input-profile"
                     label="Email"
                     name="email"
-                    rules={[{ required: true, message: '' }]}
+                    rules={[{ required: true, message: t('edit_profile.val_email') }]}
                   >
                     <Input
                       disabled
                       className="input-profile"
-                      placeholder="Nhập email của bạn"
+                      placeholder={t('edit_profile.ph_email')}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={24} xs={24} xl={11}>
                   <Form.Item
                     className="input-profile"
-                    label="SĐT"
+                    label={t('edit_profile.phone')}
                     name="phone"
                     rules={[
-                      { required: true, message: 'Mời bạn nhập số điện thoại' },
+                      { required: true, message: t('edit_profile.val_phone') },
                     ]}
                   >
                     <Input
                       disabled={!isEdit}
                       className="input-profile"
-                      placeholder="Nhập số điện thoại của bạn"
+                      placeholder={t('edit_profile.ph_phone')}
                     />
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item
                 className="input-profile"
-                label="Địa chỉ"
+                label={t('edit_profile.address')}
                 name="address"
                 rules={[
-                  { required: true, message: 'Mời bạn nhập địa chỉ của bạn' },
+                  { required: true, message: t('edit_profile.val_address') },
                 ]}
               >
                 <Input
                   disabled={!isEdit}
                   className="input-profile"
-                  placeholder="Nhập địa chỉ của bạn"
+                  placeholder={t('edit_profile.ph_address')}
                 />
               </Form.Item>
 
               <Form.Item
-                label="Mật khẩu"
+                label={t('edit_profile.password')}
                 name="firstpassword"
                 rules={[
-                  { required: true, message: 'Mời bạn nhập mật khẩu!' },
-                  { min: 6, message: 'Mật khẩu tối thiểu 6 chữ số!' },
+                  { required: true, message: t('edit_profile.val_password') },
+                  { min: 6, message: t('edit_profile.val_countpass') },
                 ]}
               >
                 <Input
                   disabled={!isEdit}
                   className="input-password-first"
-                  placeholder="Nhập mật khẩu"
+                  placeholder={t('edit_profile.ph_password')}
                   value="*******************"
                   suffix={
                     <button
@@ -210,7 +211,7 @@ function EditProfile() {
                       className="btn-show"
                       onClick={handleShowChangePassword}
                     >
-                      Change password
+                      {t('edit_profile.btn_change')}
                     </button>
                   }
                 />
@@ -223,24 +224,24 @@ function EditProfile() {
                   })}
                 >
                   <Form.Item
-                    label="Mật khẩu Mới"
+                    label={t('edit_profile.newpassword')}
                     name="inputpassword"
                     rules={[
-                      { required: true, message: 'Mời bạn nhập mật khẩu mới!' },
-                      { min: 6, message: 'Mật khẩu tối thiểu 6 chữ số!' },
+                      { required: true, message: t('edit_profile.val_newpassword') },
+                      { min: 6, message: t('edit_profile.val_countpass') },
                     ]}
                   >
                     <Input.Password
                       className="input-profile"
-                      placeholder="Nhập mật khẩu mới"
+                      placeholder={t('edit_profile.ph_newpassword')}
                     />
                   </Form.Item>
                   <Form.Item
-                    label="Nhập lại mật khẩu"
+                    label={t('edit_profile.repassword')}
                     name="repassword"
                     rules={[
-                      { required: true, message: 'Mời bạn nhập lại mật khẩu!' },
-                      { min: 6, message: 'Mật khẩu tối thiểu 6 chữ số!' },
+                      { required: true, message: t('edit_profile.val_repassword') },
+                      { min: 6, message: t('edit_profile.val_countpass') },
                       ({ getFieldValue }) => ({
                         validator(_, value) {
                           if (
@@ -250,7 +251,7 @@ function EditProfile() {
                             return Promise.resolve();
                           }
                           return Promise.reject(
-                            new Error('Hai mật khẩu không trùng khớp!')
+                            new Error(t('edit_profile.val_samepass'))
                           );
                         },
                       }),
@@ -258,7 +259,7 @@ function EditProfile() {
                   >
                     <Input.Password
                       className="input-profile"
-                      placeholder="Nhập lại mật khẩu"
+                      placeholder={t('edit_profile.ph_repassword')}
                     />
                   </Form.Item>
                 </div>
@@ -275,7 +276,7 @@ function EditProfile() {
                 onClick={handleChangeEdit}
               >
                 <EditIcon />
-                <p>Chỉnh sửa profile</p>
+                <p>{t('edit_profile.btn_edit')}</p>
               </Button>
             ) : (
               <div className="edit-btn">
@@ -286,7 +287,7 @@ function EditProfile() {
                   onClick={handleChangeEdit}
                 >
                   <CancelIcon />
-                  <p>Hủy</p>
+                  <p>{t('edit_profile.btn_cancel')}</p>
                 </Button>
                 <Button
                   type="primary"
@@ -294,14 +295,14 @@ function EditProfile() {
                   className="primary-btn"
                 >
                   <SaveIcon />
-                  <p>Lưu profile</p>
+                  <p>{t('edit_profile.btn_save')}</p>
                 </Button>
               </div>
             )}
           </Form.Item>
         </Form>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 
