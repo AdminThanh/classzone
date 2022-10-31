@@ -1,0 +1,64 @@
+@use '/src/assets/styles/colors' as c;
+
+.questionItem-drag {
+  display: flex;
+
+  padding: 10px;
+
+  background-color: #fff;
+  border: #e3e3e3 1px solid;
+  border-radius: 6px;
+}
+
+.questionItem-drag__label-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 30px;
+  padding: 0 10px;
+}
+
+.questionItem-drag__content {
+  padding: 13px 38px;
+  width: 100%;
+  // display: flex;
+}
+
+.questionItem-drag__drag-icon {
+  cursor: pointer;
+}
+
+.questionItem-drag__label {
+  font-weight: bold;
+  font-size: 16px;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.questionItem-drag__question {
+  line-height: 18px;
+  max-height: 36px;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+
+  &--showmore {
+    max-height: 300px;
+  }
+}
+
+.questionItem-drag__action {
+  display: flex;
+  align-items: center;
+}
+
+.questionItem-drag__showmore {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  color: c.$blue;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,17 @@
+.create-assignment {
+  .create-assignment__skin {
+  }
+
+  .create-assignment__add-button {
+  }
+
+  .create-assignment__questions-skin {
+    margin: 10px;
+  }
+
+  .create-assignment__question-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+}
