@@ -187,4 +187,10 @@ export default {
     message_choose_test_for_auto_score_column:
       'Chọn bài kiểm tra cho cột điểm tự động',
   },
+
+  //404 error
+  error_page : {
+    not_found : "Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm",
+    back_home : "Quay lại trang chủ",
+  },
 };
