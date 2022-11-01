@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult,
-  ResponderProvided,
+  ResponderProvided
 } from 'react-beautiful-dnd';
 // import { ShowmoreIcon } from 'utils/drawer';
+import BreadCrumb from 'components/BreadCrumb';
 import QuestionItem from './components/QuestionItem';
-import dragDropIcon from 'assets/images/icons/showmore.svg';
 import './CreateAssignment.scss';
 
 const fakeAPI: Promise<IQuestions[]> = new Promise((resolve) => {
@@ -109,6 +109,16 @@ const CreateAssignment = () => {
       {/* Nav & Breadcrumb */}
       <div className="create-assignment__skin">
         <div className="create-assignment__add-button"></div>
+        <div className="create-assignment__header">
+          <BreadCrumb
+            routes={[ 
+              {
+                name: 'Tạo bài kiểm tra',
+                path: '/create_assignment',
+              },
+            ]}
+          />
+        </div>
         <div className="create-assignment__questions-skin">
           <div className="create-assignment__question-list">
             <DragDropContext
@@ -159,18 +169,10 @@ const CreateAssignment = () => {
                             ref={provided.innerRef}
                             _id={item?._id}
                             question={item?.question}
-                            order={item?.order}
+                            order={index + 1}
                             keyRender={index}
                             draggableProps={provided.draggableProps}
                             dragHandleProps={provided.dragHandleProps}
-                            isShowmoreBtn={Boolean(
-                              listShowmoretBn[item?._id]?.isShowmoreBtn
-                            )}
-                            isShowmore={Boolean(
-                              listShowmoretBn[item?._id]?.isShowmore
-                            )}
-                            handleSetAShowmoreBtn={handleSetAShowmoreBtn}
-                            handleSetAShowmore={handleSetAShowmore}
                           />
                         )}
                       </Draggable>
