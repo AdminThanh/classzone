@@ -3,8 +3,14 @@
 
 * {
   font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
+body {
+  height: 100%;
+}
 
 button.primary {
   background-color: c.$primary;
@@ -20,7 +26,6 @@ button.primary {
 button.primary:hover {
   background-color: c.$primary;
 }
-
 
 button.ouline {
   background-color: c.$second;
@@ -38,31 +43,38 @@ button.ouline:hover {
   border: 1px solid c.$primary;
 }
 
-.ant-btn-primary {
-  color: c.$second !important;
-  border-color: c.$primary !important;
-  background: c.$primary !important;
-  &:hover{
-    opacity: 0.9;
-  }
-}
+// .ant-btn-primary {
+//   color: c.$second !important;
+//   border-color: c.$primary !important;
+//   background: c.$primary !important;
+//   &:hover{
+//     opacity: 0.9;
+//   }
+// }
 
 /* width */
-::-webkit-scrollbar {
-  width: 8px;
-}
+// ::-webkit-scrollbar {
+// width: 8px;
+// }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
+// /* Track */
+// ::-webkit-scrollbar-track {
+//   background: #f1f1f1;
+// }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: c.$primary;
-}
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   background: c.$primary;
+// }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: c.$primary_active;
+// /* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+//   background: c.$primary_active;
+// }
+
+@keyframes rotate {
+  
+  to {
+    transform: rotate(360deg);
+  }
 }

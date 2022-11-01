@@ -1,0 +1,60 @@
+.filter__tags {
+  .ant-select-selection-overflow {
+    height: 45px;
+  }
+
+  .ant-select-selection-item {
+    padding: 4px;
+    height: auto !important;
+    border-radius: 6px;
+  }
+
+  .filter__action {
+    display: none;
+  }
+}
+
+.filter_popup {
+  padding: 0;
+  .filter__tagControl {
+    padding: 10px;
+  }
+
+  .filter__tagItem {
+    .ant-select-item-option-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .filter__action {
+      padding: 6px;
+
+      &:hover {
+        border-radius: 6px;
+        background-color: rgb(235, 235, 235);
+        svg {
+          color: red;
+        }
+      }
+    }
+  }
+
+  .tag__color {
+    display: flex;
+  }
+
+  .ant-select-dropdown-input {
+    // margin: 10px 0;
+    padding: 5px 0;
+  }
+
+  .tag__button {
+    text-align: right;
+    margin: 10px 0;
+  }
+
+  .ant-select-item-option-state {
+    display: none;
+  }
+}

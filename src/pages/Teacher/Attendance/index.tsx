@@ -1,4 +1,4 @@
-import BreadCrumb from "components/BreadCrumb/BreadCrumb";
+import BreadCrumb from "components/BreadCrumb";
 import { useState } from "react";
 import "./Attendance.scss";
 

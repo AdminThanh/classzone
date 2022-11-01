@@ -1,0 +1,52 @@
+.tableScore {
+  margin-top: 80px;
+  padding: 0 48px;
+
+  .tableScore__table {
+    th.ant-table-cell {
+      height: 0;
+
+      .ant-table-column-sorters {
+        height: 100%;
+      }
+
+      .ant-table-filter-column {
+        height: 100%;
+        align-items: center;
+      }
+
+      .ant-table-filter-column .ant-table-column-title {
+        height: 100%;
+      }
+
+      .ant-table-column-sorters .ant-table-column-title,
+      div.ant-dropdown-trigger {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .tableScore__footer {
+    margin: 10px 0;
+    text-align: right;
+  }
+
+  .tableScore__addColBtn {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      color: green;
+      cursor: pointer;
+    }
+  }
+}

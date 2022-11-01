@@ -1,19 +1,28 @@
 // Layout
 import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
-import AuthPage from 'pages/AuthPage/AuthPage';
 
 // Pages
+/* General */
+import Home from 'pages/Home';
+
 /* Student */
 import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
-
-import ClassDetail from 'pages/Teacher/ClassDetail';
-
 import Attendance from 'pages/Teacher/Attendance';
-import TeacherClasses from 'pages/Teacher/Classes';
 import { ReactElement } from 'react';
+import WheelOfNames from 'components/WheelOfNames';
+import Login from 'pages/Login';
+import Register from 'pages/Register';
+import TableScore from 'pages/Teacher/TableScore';
+import { FunctionComponent } from 'react';
+import AuthPage from 'pages/AuthPage';
+import AuthLayout from 'layouts/Auth';
+import ClassDetail from 'pages/ClassDetail';
+import EditProfile from 'pages/EditProfile';
+import Classes from 'pages/Classes';
+import ErrorPage from 'pages/404Page';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -24,9 +33,9 @@ export declare namespace JSX {
 type TRole = 'teacher' | 'student' | 'admin';
 interface IRoute {
   path: string;
-  element: (props: any) => ReactElement;
+  element: FunctionComponent<any>;
   role?: TRole[];
-  layout?: (props: any) => ReactElement;
+  layout?: FunctionComponent<any>;
 }
 
 export const routes: IRoute[] = [
@@ -36,9 +45,25 @@ export const routes: IRoute[] = [
    */
   {
     path: '/',
-    element: TeacherClasses,
+    element: Classes,
     role: ['teacher'],
     layout: TeacherLayout,
+  },
+  {
+    path: '/table_score',
+    element: TableScore,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/wheel',
+    element: WheelOfNames,
+    role: ['teacher'],
+  },
+  {
+    path: '/error',
+    element: ErrorPage,
+    role: ['teacher'],
   },
   {
     path: '/classDetail',
@@ -59,14 +84,29 @@ export const routes: IRoute[] = [
   },
   {
     path: '/login',
-    element: AuthPage,
+    element: Login,
     role: ['teacher'],
+    layout: AuthLayout,
   },
-  // {
-  //   path: '/register',
-  //   element: Login,
-  //   role: ['teacher'],
-  // },
+  {
+    path: '/register',
+    element: Register,
+    role: ['teacher'],
+    layout: AuthLayout,
+  },
+  {
+    path: '/home',
+    element: Home,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+
+  {
+    path: '/profile',
+    element: EditProfile,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
 
   /**
    * **********************************************
