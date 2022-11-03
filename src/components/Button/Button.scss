@@ -1,143 +1,141 @@
 @use 'src/assets/styles/_colors' as c;
 
-.btn__content {
-  .btn {
-    outline: none;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 25px;
-    padding: 6px 8px;
-    min-width: 175px;
-    cursor: pointer;
-    white-space: nowrap;
+.btn {
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  padding: 6px 8px;
+  min-width: 175px;
+  cursor: pointer;
+  white-space: nowrap;
 
-    &:active {
-      transform: scale(0.97);
+  &:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      filter: opacity(0.8);
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+  }
+
+  &__icon-wrapper {
+    display: block;
+    margin-right: 10px;
+
+    > img {
+      display: block;
     }
 
-    @media (hover: hover) {
-      &:hover {
-        filter: opacity(0.8);
+    > svg {
+      display: block;
+    }
+  }
+
+  &.btn-simple {
+    padding: 0;
+    min-width: unset;
+    background: none;
+  }
+
+  &.btn-normal {
+    background-color: c.$primary;
+    color: #fff;
+  }
+
+  &.btn-grey {
+    background-color: #eeeeee;
+    box-shadow: 0px -1px 0px #ddd inset;
+
+    .btn__content {
+      & > div:nth-child(2) {
+        color: #000;
+        opacity: 0.6;
       }
     }
 
-    &__content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: inherit;
-    }
-
-    &__icon-wrapper {
-      display: block;
-      margin-right: 10px;
-
+    .btn__icon-wrapper {
       > img {
-        display: block;
+        filter: grayscale(100%);
       }
 
       > svg {
         display: block;
+        fill: #000;
+        opacity: 0.6;
       }
     }
+  }
 
-    &.btn-simple {
-      padding: 0;
-      min-width: unset;
-      background: none;
+  &.btn-primary {
+    background-color: c.$primary;
+    color: #fff;
+
+    .btn__icon-wrapper {
+      > svg {
+        fill: #fff;
+      }
     }
+  }
 
-    &.btn-normal {
+  &.btn-ghost {
+    background: none;
+    color: c.$primary;
+    border: 1px solid c.$primary;
+    transition: all 0.2s ease;
+
+    &:hover {
+      filter: opacity(1);
       background-color: c.$primary;
       color: #fff;
     }
+  }
 
-    &.btn-grey {
-      background-color: #eeeeee;
-      box-shadow: 0px -1px 0px #ddd inset;
+  // DISABLED.
+  &.disabled,
+  &:disabled {
+    background: none;
+    background-color: #cdcfd0;
+    color: #979c9e;
+    box-shadow: none;
+    pointer-events: none;
+    cursor: pointer;
+  }
 
-      .btn__content {
-        & > div:nth-child(2) {
-          color: #000;
-          opacity: 0.6;
-        }
-      }
-
-      .btn__icon-wrapper {
-        > img {
-          filter: grayscale(100%);
-        }
-
-        > svg {
-          display: block;
-          fill: #000;
-          opacity: 0.6;
-        }
-      }
-    }
-
-    &.btn-primary {
-      background-color: c.$primary;
-      color: #fff;
-
-      .btn__icon-wrapper {
-        > svg {
-          fill: #fff;
-        }
-      }
-    }
-
-    &.btn-ghost {
-      background: none;
-      color: c.$primary;
-      border: 1px solid c.$primary;
-      transition: all 0.2s ease;
-
-      &:hover {
-        filter: opacity(1);
-        background-color: c.$primary;
-        color: #fff;
-      }
-    }
-
-    // DISABLED.
+  &.btn-simple {
     &.disabled,
     &:disabled {
       background: none;
-      background-color: #cdcfd0;
-      color: #979c9e;
-      box-shadow: none;
-      pointer-events: none;
-      cursor: pointer;
-    }
+      color: #cdcfd0;
 
-    &.btn-simple {
-      &.disabled,
-      &:disabled {
-        background: none;
-        color: #cdcfd0;
-
-        .btn__icon-wrapper {
-          > svg {
-            fill: #cdcfd0;
-          }
+      .btn__icon-wrapper {
+        > svg {
+          fill: #cdcfd0;
         }
       }
     }
+  }
 
-    &.btn-ghost {
-      &.disabled,
-      &:disabled {
-        background: none;
-        color: #cdcfd0;
-        border: 1px solid #cdcfd0;
+  &.btn-ghost {
+    &.disabled,
+    &:disabled {
+      background: none;
+      color: #cdcfd0;
+      border: 1px solid #cdcfd0;
 
-        .btn__icon-wrapper {
-          > svg {
-            fill: #cdcfd0;
-          }
+      .btn__icon-wrapper {
+        > svg {
+          fill: #cdcfd0;
         }
       }
     }

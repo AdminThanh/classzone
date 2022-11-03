@@ -173,7 +173,7 @@ export default {
     search: 'Search',
     reset: 'Reset',
     filter: 'Filter',
-    save_table: "Save",
+    save_table: 'Save',
 
     // Other
     above_average: 'Above average',
@@ -183,5 +183,10 @@ export default {
     message_close_modal: 'Unsaved data are you sure you want to turn it off',
     message_choose_test_for_auto_score_column:
       'Select the test for the automatic score column',
+  },
+
+  create_assignment: {
+    assignment_name: 'Assignment name',
+    tag: 'Tag',
   },
 };

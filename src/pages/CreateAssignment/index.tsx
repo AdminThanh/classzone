@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult,
-  ResponderProvided
+  ResponderProvided,
 } from 'react-beautiful-dnd';
 // import { ShowmoreIcon } from 'utils/drawer';
 import BreadCrumb from 'components/BreadCrumb';
 import QuestionItem from './components/QuestionItem';
 import './CreateAssignment.scss';
+import { Form, Input } from 'antd';
+import { useTranslation } from 'react-i18next';
+import FilterTags, { IOptionTag } from 'components/FilterTags';
+import { useForm } from 'antd/es/form/Form';
+import Button from 'components/Button';
 
 const fakeAPI: Promise<IQuestions[]> = new Promise((resolve) => {
   setTimeout(() => {
@@ -47,8 +52,10 @@ interface IListShowmoreBtn {
 }
 
 const CreateAssignment = () => {
+  const { t } = useTranslation();
   const [dataQuestionList, setDataQuestionList] = useState<IQuestions[]>([]);
   const [listShowmoretBn, setListShowmoreBtn] = useState<IListShowmoreBtn>({});
+  const [form] = useForm();
 
   console.log(listShowmoretBn);
 
@@ -104,20 +111,51 @@ const CreateAssignment = () => {
     });
   };
 
+  const tagOpts: IOptionTag[] = useMemo(
+    () => [
+      {
+        label: 'Tiếng Anh',
+        value: '1',
+      },
+      {
+        label: 'Tiếng Đức',
+        value: '2',
+      },
+    ],
+    []
+  );
+
   return (
     <div className="create-assignment">
       {/* Nav & Breadcrumb */}
+      <button onClick={() => console.log(form.getFieldsValue())}>
+        Hiện thị
+      </button>
       <div className="create-assignment__skin">
         <div className="create-assignment__add-button"></div>
         <div className="create-assignment__header">
           <BreadCrumb
-            routes={[ 
+            routes={[
               {
                 name: 'Tạo bài kiểm tra',
                 path: '/create_assignment',
               },
             ]}
           />
+          <Form form={form}>
+            <div className="create-assignment__control-panel">
+              <Form.Item
+                name="asssignment_name"
+                label={t('create_assignment.assignment_name')}
+              >
+                <Input placeholder="input placeholder" />
+              </Form.Item>
+              <Form.Item name="tags" label={t('create_assignment.tag')}>
+                <FilterTags opts={tagOpts} />
+              </Form.Item>
+            </div>
+          </Form>
+          <Button title={t('tag.add_tag')} type="primary" />
         </div>
         <div className="create-assignment__questions-skin">
           <div className="create-assignment__question-list">
@@ -138,33 +176,8 @@ const CreateAssignment = () => {
                         key={`question-${index}`}
                         draggableId={`question-${index}`}
                         index={index}
-                        // isDragDisabled={isReadonly}
                       >
                         {(provided, snapshot) => (
-                          // <QuestionItem
-                          //   ref={provided.innerRef}
-                          //   key={item._id}
-                          //   question={item.question}
-                          //   order={item.order}
-                          // />
-                          // <div
-                          //   ref={provided.innerRef}
-                          //   {...provided.draggableProps}
-                          //   {...provided.dragHandleProps}
-                          //   className={`${
-                          //     snapshot?.isDragging
-                          //       ? 'dragDrop_item dragging'
-                          //       : 'dragDrop_item'
-                          //   }`}
-                          // >
-                          //   <img
-                          //     // {...provided.dragHandleProps}
-                          //     src={dragDropIcon}
-                          //     alt="dragDropIcon"
-                          //   />
-                          //   sDASDSAd
-                          // </div>
-
                           <QuestionItem
                             ref={provided.innerRef}
                             _id={item?._id}

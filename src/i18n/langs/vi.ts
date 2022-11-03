@@ -187,4 +187,9 @@ export default {
     message_choose_test_for_auto_score_column:
       'Chọn bài kiểm tra cho cột điểm tự động',
   },
+
+  create_assignment: {
+    assignment_name: 'Tên bài kiểm tra',
+    tag: 'Thẻ',
+  },
 };

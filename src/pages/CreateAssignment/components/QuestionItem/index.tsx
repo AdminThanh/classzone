@@ -5,7 +5,7 @@ import {
   DraggableProvidedDraggableProps,
   DraggableProvidedDragHandleProps,
 } from 'react-beautiful-dnd';
-import { BinIcon, EditIcon, ShowmoreIcon } from 'utils/drawer';
+import { BinIcon, EditIcon, ShowmoreIcon, UpdateIcon } from 'utils/drawer';
 import './QuestionItemDrag.scss';
 
 interface IQuestionItem {
@@ -64,7 +64,7 @@ const QuestionItem = forwardRef<HTMLDivElement, IQuestionItem>((props, ref) => {
           </div>
         </div>
         <div className="questionItem-drag__action">
-          <EditIcon data-id={_id}  />
+          <UpdateIcon data-id={_id}  />
 
           <BinIcon data-id={_id} onClick={handleDeleteQuestion} />
         </div>
