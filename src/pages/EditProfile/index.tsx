@@ -6,6 +6,19 @@ import { useTranslation } from 'react-i18next';
 import BreadCrumb from 'components/BreadCrumb';
 import clsx from 'clsx';
 
+
+
+const data =
+{
+  lastname: 'Đào',
+  firstname: 'Khôi',
+  email: 'daokhoi123@gmail.com',
+  phone: '0981287123123',
+  address: 'hóc môn city',
+  password: '12394712834983',
+  img: 'assets/images/avatar.png',
+}
+
 function EditProfile() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
@@ -26,7 +39,6 @@ function EditProfile() {
       file.preview = URL.createObjectURL(file);
       setAvatar(file);
     }
-    console.log(avatar);
   };
 
   const handleChangeEdit = (): void => {
@@ -123,6 +135,7 @@ function EditProfile() {
                           className="input-profile"
                           placeholder={t('edit_profile.ph_lastname')}
                           disabled={!isEdit}
+                          defaultValue={data.lastname}
                         />
                       </Row>
                     </Form.Item>
@@ -141,6 +154,7 @@ function EditProfile() {
                       className="input-profile"
                       placeholder={t('edit_profile.ph_firstname')}
                       disabled={!isEdit}
+                      defaultValue={data.firstname}
                     />
                   </Form.Item>
                 </Col>
@@ -157,6 +171,7 @@ function EditProfile() {
                       disabled
                       className="input-profile"
                       placeholder={t('edit_profile.ph_email')}
+                      value={data.email}
                     />
                   </Form.Item>
                 </Col>
@@ -173,6 +188,7 @@ function EditProfile() {
                       disabled={!isEdit}
                       className="input-profile"
                       placeholder={t('edit_profile.ph_phone')}
+                      value={data.phone}
                     />
                   </Form.Item>
                 </Col>
@@ -189,6 +205,7 @@ function EditProfile() {
                   disabled={!isEdit}
                   className="input-profile"
                   placeholder={t('edit_profile.ph_address')}
+                  value={data.address}
                 />
               </Form.Item>
 
@@ -204,7 +221,7 @@ function EditProfile() {
                   disabled={!isEdit}
                   className="input-password-first"
                   placeholder={t('edit_profile.ph_password')}
-                  value="*******************"
+                  value={data.password}
                   suffix={
                     <button
                       type="button"

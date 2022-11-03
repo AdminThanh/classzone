@@ -20,6 +20,7 @@ import Login from 'pages/Login';
 import Register from 'pages/Register';
 import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
+import ErrorPage from 'pages/404Page';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -34,7 +35,6 @@ interface IRoute {
   role?: TRole[];
   layout?: FunctionComponent<any>;
 }
-
 export const routes: IRoute[] = [
   /**
    * *********************************************
@@ -55,6 +55,11 @@ export const routes: IRoute[] = [
   {
     path: '/wheel',
     element: WheelOfNames,
+    role: ['teacher'],
+  },
+  {
+    path: '/error',
+    element: ErrorPage,
     role: ['teacher'],
   },
   {
