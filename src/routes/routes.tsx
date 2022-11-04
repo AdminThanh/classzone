@@ -19,6 +19,7 @@ import React, { ReactElement } from 'react';
 import AuthPage from 'pages/AuthPage';
 import Login from 'pages/Login';
 import Question from 'pages/Question';
+import CreateQuestion from 'pages/CreateQuestion';
 import Register from 'pages/Register';
 
 export declare namespace JSX {
@@ -55,6 +56,12 @@ export const routes: IRoute[] = [
   {
     path: '/question',
     element: Question,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/create_question',
+    element: CreateQuestion,
     role: ['teacher'],
     layout: TeacherLayout,
   },

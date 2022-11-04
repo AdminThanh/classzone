@@ -1,0 +1,99 @@
+@use '/src/assets/styles/colors' as c;
+
+.create_quession {
+  margin-top: 20px;
+  .action-navbar {
+    width: 40%;
+    .filter__tags .ant-select-selection-overflow {
+      height: 35px;
+    }
+    .ant-select-item,
+    .ant-select-item-empty {
+      max-height: 30px !important;
+    }
+    .filter__tags .ant-select-selection-item {
+      padding: 0px 4px;
+    }
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      border-radius: 7px;
+      border: 1px solid c.$gray4_color;
+    }
+  }
+  label {
+    margin-bottom: 5px;
+    display: block;
+  }
+  .editor {
+    margin-top: 20px;
+  }
+  .tox-tinymce {
+    border: 1px solid c.$gray4_color;
+  }
+  .ant-checkbox-wrapper,
+  .point label {
+    display: inline-flex;
+  }
+  .choose_answer {
+    margin-top: 20px;
+    .point .ant-input-number {
+      margin-left: 8px;
+    }
+    .answers {
+    }
+    .anticon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: c.$primary_hover;
+      background-color: c.$second;
+      padding: 5px;
+      border-radius: 25px;
+    }
+    .ant-input{
+      border: 1px solid c.$primary;
+    }
+  }
+  .title_answer {
+    font-weight: 600;
+  }
+  .mt-2 {
+    margin-top: 20px;
+  }
+  .quession_item {
+    position: relative;
+    &-sentence {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      left: 3px;
+      background: c.$primary;
+      color: c.$second;
+    }
+    &-content {
+      // color: c.$primary;
+      background: c.$second;
+      min-height: 40px;
+      padding-left: 40px;
+      border-radius: 15px;
+      line-height: 2;
+      &:hover {
+        border-color: c.$primary;
+        border-right-width: 1px;
+      }
+      &::placeholder {
+        // color: c.$second;
+      }
+    }
+  }
+  
+  .btn_add_quession-item{
+    background-color: c.$second;
+    color: c.$primary;
+    border: 1px dashed c.$primary;
+    &:hover{
+      background-color: c.$primary;
+      color: c.$second;
+    }
+  }
+}

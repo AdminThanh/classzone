@@ -4,9 +4,11 @@ export default {
     logout_success: 'Logout success',
   },
   navbar: {
+    home: 'Home',
     my_class: 'My class',
     test_management: 'Test management',
     question_management: 'Question management',
+    add_question: 'Add question',
   },
   user_control: {
     account_management: 'Account management',
@@ -82,6 +84,11 @@ export default {
     quession: 'Quession',
     day_create: 'Day create',
     type_quession: 'Type',
+    add_quession: 'Add quession',
+    edit_quession: 'Edit quession',
+
+    // Action
+    choose_tags: 'Select the relevant tag',
   },
 
   // Admin

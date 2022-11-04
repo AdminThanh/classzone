@@ -4,9 +4,11 @@ export default {
     logout_success: 'Đăng nhập thất bại',
   },
   navbar: {
+    home: 'Trang chủ',
     my_class: 'Lớp của tôi',
     test_management: 'Quản lý bài kiểm tra',
     question_management: 'Quản lý câu hỏi',
+    add_question: 'Tạo câu hỏi',
   },
   user_control: {
     account_management: 'Quản lý tài khoản',
@@ -82,6 +84,11 @@ export default {
     quession: 'Câu hỏi',
     day_create: 'Ngày tạo',
     type_quession: 'Loại',
+    add_quession: 'Thêm câu hỏi',
+    edit_quession: 'Sửa câu hỏi',
+
+    // Action
+    choose_tags: 'Chọn thẻ liên quan',
   },
   // Admin
 };

@@ -3,7 +3,9 @@ import BreadCrumb from 'components/BreadCrumb';
 import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import i18next from 'i18next';
+import { Link } from 'react-router-dom';
 
 interface IQuessionTags {
   name: string;
@@ -123,12 +125,26 @@ const Question = () => {
           <BreadCrumb
             routes={[
               {
-                name: t('navbar.day_createment'),
+                name: t('navbar.home'),
+                path: '/',
+              },
+              {
+                name: t('navbar.question_management'),
                 path: '/question',
               },
             ]}
           />
           <div className="question">
+            <div className="action">
+              <Button
+                type="primary"
+                className="primary"
+                icon={<PlusCircleOutlined />}
+                size={'large'}
+              >
+                {t('my_quession.add_quession')}
+              </Button>
+            </div>
             <Table columns={columns} dataSource={data} />
           </div>
         </div>
