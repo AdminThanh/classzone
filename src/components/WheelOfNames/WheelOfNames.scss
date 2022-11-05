@@ -5,7 +5,8 @@
   }
 
   .wheel {
-    transition: all 7s ease-in-out;
+    transition: all 7s;
+    transition-timing-function: cubic-bezier(0.86, 0.1, -0, 1);
   }
 
   .wheel-spin__result {

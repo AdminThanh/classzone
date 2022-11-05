@@ -111,15 +111,17 @@ export default {
 
   edit_profile: {
     // validate
-    val_img: 'Mời bạn chọn ảnh',
-    val_lastname: 'Mời bạn nhập họ của bạn',
-    val_firstname: 'Mời bạn nhập tên của bạn',
-    val_email: 'Mời bạn nhập email của bạn',
-    val_phone: 'Mời bạn nhập số điện thoại',
-    val_address: 'Mời bạn nhập địa chỉ của bạn',
-    val_password: 'Mời bạn nhập mật khẩu',
-    val_newpassword: 'Mời bạn nhập mật khẩu mới',
-    val_repassword: 'Mời bạn nhập lại mật khẩu',
+    val_img: 'Mời bạn chọn ảnh!',
+    val_lastname: 'Mời bạn nhập họ của bạn!',
+    val_firstname: 'Mời bạn nhập tên của bạn!',
+    val_email: 'Mời bạn nhập email của bạn!',
+    val_phone: 'Mời bạn nhập số điện thoại!',
+    val_address: 'Mời bạn nhập địa chỉ của bạn!',
+    val_password: 'Mời bạn nhập mật khẩu!',
+    val_newpassword: 'Mời bạn nhập mật khẩu mới!',
+    val_repassword: 'Mời bạn nhập lại mật khẩu!',
+    val_countpass : 'Mật khẩu tối thiểu 6 chữ số!',
+    val_samepass : 'Hai mật khẩu không trùng khớp!',
 
     // title
     lastname: 'Họ',
