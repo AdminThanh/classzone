@@ -184,4 +184,10 @@ export default {
     message_choose_test_for_auto_score_column:
       'Select the test for the automatic score column',
   },
+
+  //404 error
+  error_page : {
+    not_found : "Sorry, I couldn't find the page you're looking for",
+    back_home : "Back to home",
+  },
 };
