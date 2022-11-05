@@ -117,6 +117,9 @@ export default {
     val_password: 'please enter your password',
     val_newpassword: 'please enter new password',
     val_repassword: 'please enter password again',
+    val_countpass : 'Minimum 6 digit password!',
+    val_samepass : 'Two passwords do not match!',
+
 
     // title
     lastname: 'Last name',
