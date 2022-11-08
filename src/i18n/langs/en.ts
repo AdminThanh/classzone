@@ -14,6 +14,7 @@ export default {
     class_list: 'Class list',
     change_language: 'Change language',
     edit_profile: 'Edit profile',
+    attendance: "Attendance",
   },
   my_class: {
     // Label
@@ -193,4 +194,14 @@ export default {
     not_found : "Sorry, I couldn't find the page you're looking for",
     back_home : "Back to home",
   },
+
+  //attendance
+  attendance : {
+    img : "Image",
+    name: "Fullname",
+    activity: "Activity",
+    note: "Note",
+    total: "Total",
+    save: "Save",
+  }
 };

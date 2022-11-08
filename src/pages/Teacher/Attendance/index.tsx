@@ -1,5 +1,6 @@
 import BreadCrumb from "components/BreadCrumb";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./Attendance.scss";
 
 export interface IListStudent {
@@ -40,19 +41,20 @@ let dataStudent: IListStudent[] = [
 
 function Attendance() {
     const [listStudent, setListStudent] = useState<any[]>(dataStudent);
-    const [note, setNote] = useState<string>('');
-
-    const handleChangeNote = (e: string): void => {
-        setNote(e);
-    }
+    const { t } = useTranslation();
 
     const handleCheckedAttendance = (id: number): void => {
         const newlistStudent = listStudent.map((item) => item.id === id ? { ...item, isSelect: !item.isSelect } : item);
         setListStudent(newlistStudent);
     }
 
+    const handleChangeNote = (id: number, value: string): void => {
+        const newlistStudent = listStudent.map((item) => item.id === id ? { ...item, note: value } : item);
+        setListStudent(newlistStudent);
+    }
+
     const handleSaveAttendance = (): void => {
-        const payload = [listStudent];
+        const payload = listStudent;
         console.log("payload", payload);
     }
 
@@ -60,11 +62,11 @@ function Attendance() {
         <div className="attendance-page">
             <BreadCrumb routes={[
                 {
-                    name: 'Trang chủ',
+                    name: t('bread_crumb.home'),
                     path: '/',
                 },
                 {
-                    name: 'Trang điểm danh',
+                    name: t('bread_crumb.attendance'),
                     path: '/attendance',
                 },
             ]} />
@@ -72,11 +74,11 @@ function Attendance() {
                 <table className="attendance-table">
                     <thead>
                         <tr>
-                            <th>Hình</th>
-                            <th>Tên</th>
-                            <th>Hoạt động</th>
-                            <th>Ghi chú</th>
-                            <th>Tổng</th>
+                            <th>{t('attendance.img')}</th>
+                            <th>{t('attendance.name')}</th>
+                            <th>{t('attendance.activity')}</th>
+                            <th>{t('attendance.note')}</th>
+                            <th>{t('attendance.total')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,15 +90,10 @@ function Attendance() {
                                 </td>
                                 {/* <td className="td-attendance"><img alt="" src={require(item.img)} className="avatar-img" /></td> */}
                                 <td className="td-attendance"><p>{item.name}</p></td>
-                                <td className="td-attendance"><button type="button" onClick={() => handleCheckedAttendance(item.id)}>{
-                                    item.isSelect ? (
-                                        <img alt="" src={require("assets/images/icons/bee-green.png")} className="icon-bee" />
-                                    ) : (
-                                        <img alt="" src={require("assets/images/icons/bee-red.png")} className="icon-bee" />
-                                    )
-                                }
+                                <td className="td-attendance"><button type="button" onClick={() => handleCheckedAttendance(item.id)}>
+                                    <img alt="" src={require(item.isSelect ? "assets/images/icons/bee-green.png" : "assets/images/icons/bee-red.png")} className="icon-bee" />
                                 </button></td>
-                                <td className="td-attendance"><input type="text" name="note" className="input-note" onChange={(e) => handleChangeNote(e.target.value)} /></td>
+                                <td className="td-attendance"><input type="text" name="note" className="input-note" onChange={(e) => handleChangeNote(item.id, e.target.value)} /></td>
                                 <td className="td-attendance">{item.total}/31</td>
                             </tr>
                         ))}
@@ -104,7 +101,7 @@ function Attendance() {
                 </table>
             </div>
             <div className="submit-button">
-                <button className="btn-submit" type="button" onClick={handleSaveAttendance}>Lưu</button>
+                <button className="btn-submit" type="button" onClick={handleSaveAttendance}>{t('attendance.save')}</button>
             </div>
         </div>
     );
