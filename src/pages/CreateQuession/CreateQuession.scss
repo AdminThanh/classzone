@@ -1,0 +1,81 @@
+@use '/src/assets/styles/colors' as c;
+
+.createQuession {
+    margin-top: 80px;
+    margin-bottom: 80px;
+    padding: 0 48px;
+
+    .ant-form label {
+        font-size: 16px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, .85);
+    }
+
+    .ant-space-item {
+        width: 80%;
+
+        span.anticon.anticon-delete {
+            background: c.$primary;
+            padding: 10px;
+            border-radius: 4px;
+            color: c.$second;
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+    }
+
+    span.ant-avatar.ant-avatar-circle {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 5px;
+    }
+
+    .ant-btn.ant-btn-block {
+        width: auto;
+        background: c.$second;
+        border-radius: 4px;
+        color: c.$primary;
+        border-color: c.$primary;
+        height: 40px;
+        padding: 0 20px;
+    }
+
+    .hidden {
+        opacity: 0;
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 5px;
+
+        .ant-checkbox-inner {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    input.ant-input {
+        background: c.$second;
+        border-radius: 16px;
+        padding: 10px 0 10px 40px;
+        border: 1px solid c.$primary;
+    }
+
+    .btn_action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+            height: 40px;
+            padding: 0 35px;
+            background-color: c.$primary;
+            color: c.$second;
+            border: none;
+        }
+    }
+}

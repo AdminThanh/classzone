@@ -23,6 +23,7 @@ import ClassDetail from 'pages/ClassDetail';
 import EditProfile from 'pages/EditProfile';
 import Classes from 'pages/Classes';
 import ErrorPage from 'pages/404Page';
+import CreateQuession from 'pages/CreateQuession';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -103,6 +104,12 @@ export const routes: IRoute[] = [
   {
     path: '/profile',
     element: EditProfile,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/create_question',
+    element: CreateQuession,
     role: ['teacher'],
     layout: TeacherLayout,
   },
