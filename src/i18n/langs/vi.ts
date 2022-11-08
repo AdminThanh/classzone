@@ -111,15 +111,17 @@ export default {
 
   edit_profile: {
     // validate
-    val_img: 'Mời bạn chọn ảnh',
-    val_lastname: 'Mời bạn nhập họ của bạn',
-    val_firstname: 'Mời bạn nhập tên của bạn',
-    val_email: 'Mời bạn nhập email của bạn',
-    val_phone: 'Mời bạn nhập số điện thoại',
-    val_address: 'Mời bạn nhập địa chỉ của bạn',
-    val_password: 'Mời bạn nhập mật khẩu',
-    val_newpassword: 'Mời bạn nhập mật khẩu mới',
-    val_repassword: 'Mời bạn nhập lại mật khẩu',
+    val_img: 'Mời bạn chọn ảnh!',
+    val_lastname: 'Mời bạn nhập họ của bạn!',
+    val_firstname: 'Mời bạn nhập tên của bạn!',
+    val_email: 'Mời bạn nhập email của bạn!',
+    val_phone: 'Mời bạn nhập số điện thoại!',
+    val_address: 'Mời bạn nhập địa chỉ của bạn!',
+    val_password: 'Mời bạn nhập mật khẩu!',
+    val_newpassword: 'Mời bạn nhập mật khẩu mới!',
+    val_repassword: 'Mời bạn nhập lại mật khẩu!',
+    val_countpass: 'Mật khẩu tối thiểu 6 chữ số!',
+    val_samepass: 'Hai mật khẩu không trùng khớp!',
 
     // title
     lastname: 'Họ',
@@ -160,9 +162,9 @@ export default {
     score_column_type: 'Loại cột điểm',
     automatic_score_entry: 'Tự động nhập điểm',
     test: 'Bài kiểm tra',
-    test_score: "Điểm kiểm tra",
-    plus_score: "Điểm cộng",
-    minus_score: "Điểm trừ",
+    test_score: 'Điểm kiểm tra',
+    plus_score: 'Điểm cộng',
+    minus_score: 'Điểm trừ',
 
     // Action
     add_action: 'Thêm',
@@ -176,7 +178,7 @@ export default {
     search: 'Tìm ',
     reset: 'Đặt lại',
     filter: 'Lọc',
-    save_table: "Lưu",
+    save_table: 'Lưu',
 
     // Other
     above_average: 'Trên trung bình',
@@ -191,5 +193,10 @@ export default {
   create_assignment: {
     assignment_name: 'Tên bài kiểm tra',
     tag: 'Thẻ',
+  },
+  //404 error
+  error_page: {
+    not_found: 'Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm',
+    back_home: 'Quay lại trang chủ',
   },
 };

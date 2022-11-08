@@ -155,7 +155,7 @@ const CreateAssignment = () => {
               </Form.Item>
             </div>
           </Form>
-          <Button title={t('tag.add_tag')} type="primary" />
+          <Button title={t('create_assignment.add_question')} type="primary" />
         </div>
         <div className="create-assignment__questions-skin">
           <div className="create-assignment__question-list">
