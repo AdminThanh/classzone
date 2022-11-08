@@ -36,7 +36,6 @@ interface IRoute {
   role?: TRole[];
   layout?: FunctionComponent<any>;
 }
-
 export const routes: IRoute[] = [
   /**
    * *********************************************
