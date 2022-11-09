@@ -22,8 +22,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
 import { useForm } from 'antd/es/form/Form';
 import MyEditor from './components/MyEditor';
+import { useTranslation } from 'react-i18next';
 
 const CreateQuession = () => {
+  const { t } = useTranslation();
   const [form] = useForm();
 
   const onFinish = (formData: any) => {
@@ -52,7 +54,56 @@ const CreateQuession = () => {
     console.log('Change', value);
   };
 
-  console.log("Re-render")
+  const handleChooseCorrectAnswer = (e: any, index: any) => {
+    const newValue = e.target.checked;
+    const isMultiple = form.getFieldValue('isMultiple');
+    const listAnswer = form.getFieldValue('answer');
+
+    if (!isMultiple) {
+      const hasResult = listAnswer.findIndex(
+        (item: any, i: number) => item.result && i !== index
+      );
+      if (hasResult !== -1) {
+        listAnswer[hasResult].result = false;
+      }
+
+      listAnswer[index].result = newValue;
+
+      form.setFieldValue('answer', listAnswer);
+      return;
+    }
+
+    let item = listAnswer[index];
+
+    if (item) {
+      item.result = newValue;
+    }
+  };
+
+  const handleAllowMultipleChoice = () => {
+    const answer = form.getFieldValue('answer');
+
+    let indexChosen = undefined;
+    let count = 0;
+
+    for (let i = 0; i < answer.length; i++) {
+      if (answer[i].result) {
+        indexChosen = i;
+        count++;
+      }
+
+      answer[i].result = false;
+    }
+
+    // indexChosen can is zero
+    if (indexChosen !== undefined && count === 1) {
+      answer[indexChosen].result = true;
+    }
+
+    form.setFieldValue('answer', answer);
+  };
+
+  console.log('Re-render');
   return (
     <div className="createQuession">
       <button
@@ -97,15 +148,17 @@ const CreateQuession = () => {
           <MyEditor />
         </Form.Item>
 
-        <Form.Item name="isCheck" valuePropName="checked">
-          <Checkbox>Cho phép chọn nhiều đáp án</Checkbox>
+        <Form.Item name="isMultiple" valuePropName="checked">
+          <Checkbox onChange={handleAllowMultipleChoice}>
+            Cho phép chọn nhiều đáp án
+          </Checkbox>
         </Form.Item>
 
         <Form.List name="answer">
           {(fields, { add, remove }) => (
             <>
               <label>Đáp án</label>
-              {fields.map(({ key, name, ...restField }) => (
+              {fields.map(({ key, name, ...restField }, index) => (
                 <Space
                   key={key}
                   style={{ display: 'flex', marginBottom: 8 }}
@@ -113,16 +166,22 @@ const CreateQuession = () => {
                 >
                   <Form.Item
                     className="check_result"
-                    name={[name, 'check_result']}
+                    name={[name, 'result']}
                     {...restField}
                     valuePropName="checked"
+                    initialValue={false}
                   >
-                    <Checkbox className="hidden">{key + 1}</Checkbox>
+                    <Checkbox
+                      onChange={(e) => handleChooseCorrectAnswer(e, index)}
+                      className="hidden"
+                    >
+                      {key + 1}
+                    </Checkbox>
                   </Form.Item>
 
                   <Form.Item
-                    name={[name, 'quession']}
                     {...restField}
+                    name={[name, 'quession']}
                     rules={[{ required: true, message: 'Không được để trống' }]}
                   >
                     <Input placeholder="Câu trả lời" />

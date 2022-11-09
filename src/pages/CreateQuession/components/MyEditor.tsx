@@ -20,9 +20,9 @@ const MyEditor: React.FC<IMyEditor> = (props: any) => {
       onInit={(evt: any, editor: any) => (editorRef.current = editor)}
       init={{
         height: 200,
-        plugins: [
-          'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
-        ],
+        // plugins: [
+        //   'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
+        // ],
         content_style:
           'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
         menubar: false,
