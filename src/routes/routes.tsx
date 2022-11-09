@@ -14,6 +14,8 @@ import Attendance from 'pages/Teacher/Attendance';
 import { ReactElement } from 'react';
 import WheelOfNames from 'components/WheelOfNames';
 import Login from 'pages/Login';
+import Question from 'pages/Question';
+import CreateQuestion from 'pages/CreateQuestion';
 import Register from 'pages/Register';
 import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
@@ -66,7 +68,7 @@ export const routes: IRoute[] = [
     role: ['teacher'],
   },
   {
-    path: '/classDetail',
+    path: '/class_detail',
     element: ClassDetail,
     role: ['teacher'],
     layout: TeacherLayout,
@@ -76,11 +78,6 @@ export const routes: IRoute[] = [
     element: Attendance,
     role: ['teacher'],
     layout: TeacherLayout,
-  },
-  {
-    path: '/login',
-    element: AuthPage,
-    role: ['teacher'],
   },
   {
     path: '/login',
@@ -118,12 +115,12 @@ export const routes: IRoute[] = [
    * **********************************************
    * Student routes:
    */
-  {
-    path: '/',
-    element: StudentHome,
-    role: ['student'],
-    layout: StudentLayout,
-  },
+  // {
+  //   path: '/',
+  //   element: StudentHome,
+  //   role: ['student'],
+  //   layout: StudentLayout,
+  // },
   /**
    * **********************************************
    * Admin routes:
