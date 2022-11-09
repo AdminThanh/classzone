@@ -11,6 +11,7 @@ import {
 import { Button, Col, Dropdown, Menu, Space } from 'antd';
 import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 interface IClassInfo {
   name: string;
@@ -78,9 +79,9 @@ const ClassItem = (props: IClassInfo) => {
         </Dropdown>
       </div>
       <div className="content">
-        <a href="">
+        <Link to={"/class_detail"}>
           <h2 className="title">{name}</h2>
-        </a>
+        </Link>
         <ul className="list-desc">
           <li className="item">
             <QrcodeOutlined />

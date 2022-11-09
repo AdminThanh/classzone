@@ -1,8 +1,10 @@
 export default {
   navbar: {
+    home: 'Trang chủ',
     my_class: 'Lớp của tôi',
     test_management: 'Quản lý bài kiểm tra',
     question_management: 'Quản lý câu hỏi',
+    add_question: 'Tạo câu hỏi',
   },
 
   user_control: {
@@ -46,7 +48,7 @@ export default {
     add_member: 'Thêm thành viên',
 
     // Babel
-    class_link: 'Liên kết lớp',
+    class_link: "Liên kết lớp",
   },
 
   auth: {
@@ -195,4 +197,16 @@ export default {
     not_found : "Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm",
     back_home : "Quay lại trang chủ",
   },
+  my_quession: {
+    tags: 'Thẻ',
+    quession: 'Câu hỏi',
+    day_create: 'Ngày tạo',
+    type_quession: 'Loại',
+    add_quession: 'Thêm câu hỏi',
+    edit_quession: 'Sửa câu hỏi',
+
+    // Action
+    choose_tags: 'Chọn thẻ liên quan',
+  },
+  // Admin
 };

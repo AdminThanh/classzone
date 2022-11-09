@@ -52,4 +52,22 @@
   form.action {
     margin-top: 20px;
   }
+  .ant-btn:focus,
+  .ant-btn:hover {
+    color: c.$primary_hover;
+    border-color: c.$primary_hover;
+  }
+  .ant-btn-primary {
+    color: c.$second;
+    border-color: c.$primary;
+    background: c.$primary;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  }
+  .ant-btn-primary:focus,
+  .ant-btn-primary:hover {
+    border-color: c.$primary_active;
+    background: c.$primary_active;
+    color: c.$second;
+  }
 }

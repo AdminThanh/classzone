@@ -38,7 +38,7 @@
     display: none;
   }
   .classdetail__list {
-    gap: 15px;
+    gap: 20px;
     .ant-avatar {
       width: 70px;
       height: 70px;
@@ -77,12 +77,10 @@
       }
     }
   }
-  
 
-.ant-tabs-content-holder {
-  max-height: 600px;
-  overflow-y: auto;
-  margin-bottom: 100px;
-}
-
+  .ant-tabs-content-holder {
+    // max-height: 600px;
+    // overflow-y: auto;
+    margin-bottom: 100px;
+  }
 }

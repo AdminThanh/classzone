@@ -11,7 +11,7 @@ export const TeacherRoutes: INavItem[] = [
   {
     label: 'my_class',
     icon: ClassIcon,
-    path: '/classes',
+    path: '/',
   },
   {
     label: 'test_management',
@@ -21,6 +21,6 @@ export const TeacherRoutes: INavItem[] = [
   {
     label: 'question_management',
     icon: QuestionIcon,                                                                                                                                                                  
-    path: '/',
+    path: '/question',
   },
 ];
