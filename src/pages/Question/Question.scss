@@ -1,20 +1,5 @@
-@use '/src/assets/styles/colors' as c;
-
-.question {
-  margin-top: 20px;
-  .action {
-    margin-bottom: 20px;
-  }
-  .ant-table-thead > tr > th {
-    background: c.$pimary_header;
-  }
-  .ant-table-tbody > tr:nth-child(even) td {
-    background: c.$pimary_body;
-  }
-  tr.ant-table-row.ant-table-row-level-0:hover td {
-    background: c.$pimary_body;
-  }
-  button.primary:hover {
-    opacity: 0.9;
-  }
-}
+@use '../../assets/styles/colors' as c;
+.tableScore {
+    margin-top: 80px;
+    padding: 0 48px;
+}  
