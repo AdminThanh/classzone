@@ -1,37 +1,69 @@
 import { CheckCircleOutlined, DeleteOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Avatar, Button, Checkbox, Form, Input, InputNumber, Space } from 'antd';
+import { Avatar, Button, Checkbox, Form, Input, InputNumber, Radio, Space } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { Editor } from '@tinymce/tinymce-react';
 import BreadCrumb from 'components/BreadCrumb';
 import './CreateQuession.scss';
-import React, { useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import FilterTags, { IOptionTag } from 'components/FilterTags';
 
 const CreateQuession = () => {
+    const editorRef = useRef(null);
+    const [isCheck, setIsCheck] = useState(true);
 
     const onFinish = (values: any) => {
         console.log('Payload:', values);
         console.log('question:', values.question.level.content);
         console.log(editorRef);
     };
-    const editorRef = useRef(null);
+    const tagOpts: IOptionTag[] = useMemo(
+        () => [
+            {
+                label: 'HTML',
+                value: '1',
+            },
+            {
+                label: 'CSS',
+                value: '2',
+            },
+            {
+                label: 'ReactJS',
+                value: '3',
+            },
+        ],
+        []
+    );
+
+    const handleChangeFilterTags = (value: string[]) => {
+        console.log('Change', value);
+    };
+    const handleChangeIsCheck = () => {
+        setIsCheck(!isCheck);
+        console.log(isCheck);
+    }
+
 
     return (
         <div className="createQuession">
             <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
-
-                <Form.Item name="isCheck" valuePropName="checked">
-                    <Checkbox>Cho phép chọn nhiều đáp án</Checkbox>
-                </Form.Item>
+                <div className='action-navbar'>
+                    <label>Tag</label>
+                    <FilterTags
+                        placeholder={'Tag'}
+                        isShowTagControl
+                        opts={tagOpts}
+                        onChange={handleChangeFilterTags}
+                    />
+                </div>
 
                 <Form.Item name={'point'} rules={[{ required: true, message: 'Không được để trống' }]} label="Điểm" >
                     <InputNumber min={0} />
                 </Form.Item>
 
-                <Form.Item name={'question'} rules={[{ required: true, message: 'Không được để trống' }]} label="Câu hỏi">
+                <Form.Item name={'question'} rules={[{ required: true, message: 'Không được để trống' }]} label="Câu hỏi" className="quession">
                     <Editor
                         apiKey='7ad8eq7icu3n630t4u3ioq10q46dh4k70mpveov40xv5ofo9'
                         onInit={(evt: any, editor: any) => editorRef.current = editor}
-                        initialValue="<p>This is the initial content of the editor.</p>"
                         init={{
                             height: 200,
                             plugins: [
@@ -46,6 +78,10 @@ const CreateQuession = () => {
                     />
                 </Form.Item>
 
+                <Form.Item name="isCheck" valuePropName="checked">
+                    <Checkbox onClick={handleChangeIsCheck} >Cho phép chọn nhiều đáp án</Checkbox>
+                </Form.Item>
+
                 <Form.List name="answer">
                     {(fields, { add, remove }) => (
                         <>
@@ -53,8 +89,21 @@ const CreateQuession = () => {
                             {fields.map(({ key, name, ...restField }) => (
                                 <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
                                     <Form.Item
+                                        className='check_result'
                                         {...restField}
-                                        name={name}
+                                        name={[name, 'check_result']}
+                                        {...restField}
+                                        valuePropName="checked"
+                                    >
+                                        <Checkbox className='hidden'>
+                                            {key + 1}
+                                        </Checkbox>
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        {...restField}
+                                        name={[name, 'quession']}
+                                        {...restField}
                                         rules={[{ required: true, message: 'Không được để trống' }]}
                                     >
                                         {/* <Checkbox className='hidden'>
