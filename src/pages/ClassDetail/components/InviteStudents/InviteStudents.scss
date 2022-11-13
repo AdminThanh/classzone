@@ -8,13 +8,13 @@
     > label.ant-form-item-required:not(.ant-form-item-required-mark-optional):before {
     content: unset;
   }
-  .ant-col.ant-col-24.ant-form-item-label{
+  .ant-col.ant-col-24.ant-form-item-label {
     padding-bottom: 0;
   }
   .ant-form-item-with-help .ant-form-item-explain {
     margin: 5px 0 20px 0;
   }
- 
+
   &-box:last-child {
     margin-top: 30px;
     padding-top: 10px;
@@ -37,14 +37,14 @@
       border: 1px solid c.$gray4_color;
       border-radius: 8px;
       outline: 0;
-      background-color: #f6f8fa;
+      background-color: c.$gray_input;
       height: 40px;
     }
     .ant-select:not(.ant-select-customize-input) .ant-select-selector {
       border: 1px solid c.$gray4_color;
       border-radius: 8px;
       outline: 0;
-      background-color: #f6f8fa;
+      background-color: c.$gray_input;
     }
 
     .coppy {
@@ -60,8 +60,31 @@
       border-top-right-radius: 8px;
       &:hover {
         cursor: pointer;
+        background-color: c.$primary_active;
+      }
+      &:active {
+        cursor: pointer;
         background-color: c.$primary_hover;
       }
     }
   }
+  .ant-btn:focus,
+  .ant-btn:hover {
+    color: c.$primary_hover;
+    border-color: c.$primary_hover;
+  }
+  .ant-btn-primary {
+    color: c.$second;
+    border-color: c.$primary;
+    background: c.$primary;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  }
+  .ant-btn-primary:focus,
+  .ant-btn-primary:hover {
+    border-color: c.$primary_active;
+    background: c.$primary_active;
+    color: c.$second;
+  }
+  
 }

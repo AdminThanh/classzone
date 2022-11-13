@@ -11,6 +11,7 @@ import {
 import { Button, Col, Dropdown, Menu, Space } from 'antd';
 import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface IClassInfo {
   name: string;
@@ -21,36 +22,6 @@ interface IClassInfo {
   teacher: string;
   scoreFactor: number;
 }
-
-const menu = (
-  <Menu
-    items={[
-      {
-        label: <a rel="noopener noreferrer">Sửa</a>,
-        key: '0',
-      },
-      {
-        label: (
-          <a rel="noopener noreferrer" href="">
-            Xóa
-          </a>
-        ),
-        key: '1',
-      },
-      {
-        type: 'divider',
-      },
-      {
-        label: (
-          <a rel="noopener noreferrer" href="">
-            Cài đặt
-          </a>
-        ),
-        key: '1',
-      },
-    ]}
-  />
-);
 
 const ClassItem = (props: IClassInfo) => {
   const {
@@ -63,7 +34,33 @@ const ClassItem = (props: IClassInfo) => {
     scoreFactor,
   } = props;
   const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: 'Sửa',
+          key: '0',
+          onClick: () => {
+            setOpenModal(true);
+          },
+        },
+        {
+          label: 'Xóa',
+          key: '1',
+        },
+        {
+          type: 'divider',
+        },
+        {
+          label: 'Cài đặt',
+          key: '1',
+        },
+      ]}
+    />
+  );
 
   return (
     <div className="class-item">
@@ -78,9 +75,9 @@ const ClassItem = (props: IClassInfo) => {
         </Dropdown>
       </div>
       <div className="content">
-        <a href="">
+        <Link to={'/class_detail'}>
           <h2 className="title">{name}</h2>
-        </a>
+        </Link>
         <ul className="list-desc">
           <li className="item">
             <QrcodeOutlined />
@@ -105,13 +102,13 @@ const ClassItem = (props: IClassInfo) => {
           className="primary"
           size={'large'}
           onClick={() => {
-            setOpenModal(true);
+            navigate('class_detail');
           }}
         >
           {t('action.detail')}
         </Button>
 
-        {openModal ? (
+        {openModal && (
           <EditClass
             title={t('my_class.edit_class')}
             name={name}
@@ -123,8 +120,6 @@ const ClassItem = (props: IClassInfo) => {
             scoreFactor={scoreFactor}
             setOpenModal={setOpenModal}
           />
-        ) : (
-          ''
         )}
       </div>
     </div>

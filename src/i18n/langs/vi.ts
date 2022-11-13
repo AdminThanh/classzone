@@ -1,8 +1,10 @@
 export default {
   navbar: {
+    home: 'Trang chủ',
     my_class: 'Lớp của tôi',
     test_management: 'Quản lý bài kiểm tra',
     question_management: 'Quản lý câu hỏi',
+    add_question: 'Tạo câu hỏi',
   },
 
   user_control: {
@@ -20,6 +22,7 @@ export default {
 
   my_class: {
     // Label
+    filter: 'Bộ lộc',
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
@@ -104,6 +107,7 @@ export default {
   },
 
   tag: {
+    tags: 'Thẻ',
     add_tag: 'Thêm thẻ',
     enter_tag_name: 'Điền vào tên thẻ',
     enter_color_code: 'Điền vào mã màu',
@@ -192,6 +196,8 @@ export default {
 
   create_assignment: {
     assignment_name: 'Tên bài kiểm tra',
+    add_question: 'Thêm câu hỏi',
+    add_assignment: 'Thêm bài kiểm tra',
     tag: 'Thẻ',
   },
   //404 error
@@ -199,4 +205,16 @@ export default {
     not_found: 'Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm',
     back_home: 'Quay lại trang chủ',
   },
+  my_quession: {
+    tags: 'Thẻ',
+    quession: 'Câu hỏi',
+    day_create: 'Ngày tạo',
+    type_quession: 'Loại',
+    add_quession: 'Thêm câu hỏi',
+    edit_quession: 'Sửa câu hỏi',
+
+    // Action
+    choose_tags: 'Chọn thẻ liên quan',
+  },
+  // Admin
 };

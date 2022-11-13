@@ -1,14 +1,27 @@
 .create-assignment {
   .create-assignment__skin {
+    .ant-input {
+      border-radius: 6px;
+    }
+  }
+
+  .create-assignment__action {
+    text-align: right;
   }
 
   .create-assignment__header {
-    padding: 26px 48px;
+    padding: 0px 48px 2px 48px;
+    text-align: right;
   }
 
   .create-assignment__control-panel {
     display: flex;
     column-gap: 50px;
+    margin-bottom: 10px;
+
+    .ant-form-item {
+      margin: 0px;
+    }
   }
 
   .create-assignment__add-button {

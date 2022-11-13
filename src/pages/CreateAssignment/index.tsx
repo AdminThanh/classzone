@@ -21,19 +21,17 @@ const fakeAPI: Promise<IQuestions[]> = new Promise((resolve) => {
     resolve([
       {
         _id: '_asdksaodksao',
-        order: 1,
         question:
           ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
       },
       {
         _id: '_asdksaodksaos',
-        order: 2,
+      
         question:
           ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
       },
       {
         _id: '_asdksaodksaoss',
-        order: 3,
         question:
           ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
       },
@@ -43,7 +41,7 @@ const fakeAPI: Promise<IQuestions[]> = new Promise((resolve) => {
 
 interface IQuestions {
   _id: string;
-  order: number;
+  // order: number;
   question: string;
 }
 
@@ -88,6 +86,7 @@ const CreateAssignment = () => {
       result.destination.index
     );
 
+    console.log('items', items);
     setDataQuestionList([...items]);
   };
 
@@ -131,18 +130,24 @@ const CreateAssignment = () => {
       <button onClick={() => console.log(form.getFieldsValue())}>
         Hiện thị
       </button>
-      <div className="create-assignment__skin">
-        <div className="create-assignment__add-button"></div>
-        <div className="create-assignment__header">
-          <BreadCrumb
-            routes={[
-              {
-                name: 'Tạo bài kiểm tra',
-                path: '/create_assignment',
-              },
-            ]}
-          />
-          <Form form={form}>
+      <Form
+        form={form}
+        onFinish={(value) => {
+          console.log(value, dataQuestionList);
+        }}
+      >
+        <div className="create-assignment__skin">
+          <div className="create-assignment__add-button"></div>
+          <div className="create-assignment__header">
+            <BreadCrumb
+              routes={[
+                {
+                  name: 'Tạo bài kiểm tra',
+                  path: '/create_assignment',
+                },
+              ]}
+            />
+
             <div className="create-assignment__control-panel">
               <Form.Item
                 name="asssignment_name"
@@ -154,50 +159,62 @@ const CreateAssignment = () => {
                 <FilterTags opts={tagOpts} />
               </Form.Item>
             </div>
-          </Form>
-          <Button title={t('create_assignment.add_question')} type="primary" />
-        </div>
-        <div className="create-assignment__questions-skin">
-          <div className="create-assignment__question-list">
-            <DragDropContext
-              onDragEnd={handleDragEnd}
-              // onDragStart={handleDragStart}
-              // onDragUpdate={handleDragUpdate}
-            >
-              <Droppable droppableId="orders">
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className="dragDrop_list"
-                  >
-                    {dataQuestionList?.map((item: any, index: any) => (
-                      <Draggable
-                        key={`question-${index}`}
-                        draggableId={`question-${index}`}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <QuestionItem
-                            ref={provided.innerRef}
-                            _id={item?._id}
-                            question={item?.question}
-                            order={index + 1}
-                            keyRender={index}
-                            draggableProps={provided.draggableProps}
-                            dragHandleProps={provided.dragHandleProps}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+
+            <Button
+              title={t('create_assignment.add_question')}
+              type="primary"
+              // htmlType="button"
+            />
+          </div>
+          <div className="create-assignment__questions-skin">
+            <div className="create-assignment__question-list">
+              <DragDropContext
+                onDragEnd={handleDragEnd}
+                // onDragStart={handleDragStart}
+                // onDragUpdate={handleDragUpdate}
+              >
+                <Droppable droppableId="orders">
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className="dragDrop_list"
+                    >
+                      {dataQuestionList?.map((item: any, index: any) => (
+                        <Draggable
+                          key={`question-${index}`}
+                          draggableId={`question-${index}`}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <QuestionItem
+                              ref={provided.innerRef}
+                              _id={item?._id}
+                              question={item?.question}
+                              order={index + 1}
+                              keyRender={index}
+                              draggableProps={provided.draggableProps}
+                              dragHandleProps={provided.dragHandleProps}
+                            />
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </div>
+            <div className="create-assignment__action">
+              <Button
+                title={t('create_assignment.add_assignment')}
+                type="primary"
+                htmlType="submit"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </Form>
     </div>
   );
 };

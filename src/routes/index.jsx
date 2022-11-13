@@ -25,6 +25,7 @@ const Router = () => {
     authenticate();
   }, []);
 
+  console.log("loading", loading)
   if (loading) return <h1>LOADING....</h1>;
 
   return (

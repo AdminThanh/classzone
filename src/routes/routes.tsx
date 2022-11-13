@@ -1,5 +1,4 @@
 // Layout
-import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
 
 // Pages
@@ -7,23 +6,22 @@ import TeacherLayout from 'layouts/Teacher';
 import Home from 'pages/Home';
 
 /* Student */
-import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
-import Attendance from 'pages/Teacher/Attendance';
-import { ReactElement } from 'react';
 import WheelOfNames from 'components/WheelOfNames';
+import AuthLayout from 'layouts/Auth';
+import ErrorPage from 'pages/404Page';
+import ClassDetail from 'pages/ClassDetail';
+import Classes from 'pages/Classes';
+import CreateAssignment from 'pages/CreateAssignment';
+import CreateQuession from 'pages/CreateQuession';
+import EditProfile from 'pages/EditProfile';
 import Login from 'pages/Login';
+import Question from 'pages/Question';
 import Register from 'pages/Register';
+import Attendance from 'pages/Teacher/Attendance';
 import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
-import CreateAssignment from 'pages/CreateAssignment';
-import ErrorPage from 'pages/404Page';
-import AuthPage from 'pages/AuthPage';
-import AuthLayout from 'layouts/Auth';
-import ClassDetail from 'pages/ClassDetail';
-import EditProfile from 'pages/EditProfile';
-import Classes from 'pages/Classes';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -86,11 +84,6 @@ export const routes: IRoute[] = [
   },
   {
     path: '/login',
-    element: AuthPage,
-    role: ['teacher'],
-  },
-  {
-    path: '/login',
     element: Login,
     role: ['teacher'],
     layout: AuthLayout,
@@ -114,17 +107,29 @@ export const routes: IRoute[] = [
     role: ['teacher'],
     layout: TeacherLayout,
   },
+  {
+    path: '/create_question',
+    element: CreateQuession,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/question',
+    element: Question,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
 
   /**
    * **********************************************
    * Student routes:
    */
-  {
-    path: '/',
-    element: StudentHome,
-    role: ['student'],
-    layout: StudentLayout,
-  },
+  // {
+  //   path: '/',
+  //   element: StudentHome,
+  //   role: ['student'],
+  //   layout: StudentLayout,
+  // },
   /**
    * **********************************************
    * Admin routes:
