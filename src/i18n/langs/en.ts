@@ -19,6 +19,7 @@ export default {
   },
   my_class: {
     // Label
+    filter: "Filter",
     start_date: 'Start date',
     end_date: 'End date',
     status: 'Status',
@@ -103,6 +104,7 @@ export default {
   },
 
   tag: {
+    tags: "Tags",
     add_tag: 'Add tag',
     enter_tag_name: 'Enter tag name',
     enter_color_code: 'Enter color code',
