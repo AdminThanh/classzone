@@ -48,7 +48,7 @@ export default {
     add_member: 'Thêm thành viên',
 
     // Babel
-    class_link: "Liên kết lớp",
+    class_link: 'Liên kết lớp',
   },
 
   auth: {
@@ -106,6 +106,7 @@ export default {
   },
 
   tag: {
+    tags: "Thẻ",
     add_tag: 'Thêm thẻ',
     enter_tag_name: 'Điền vào tên thẻ',
     enter_color_code: 'Điền vào mã màu',
@@ -122,8 +123,8 @@ export default {
     val_password: 'Mời bạn nhập mật khẩu!',
     val_newpassword: 'Mời bạn nhập mật khẩu mới!',
     val_repassword: 'Mời bạn nhập lại mật khẩu!',
-    val_countpass : 'Mật khẩu tối thiểu 6 chữ số!',
-    val_samepass : 'Hai mật khẩu không trùng khớp!',
+    val_countpass: 'Mật khẩu tối thiểu 6 chữ số!',
+    val_samepass: 'Hai mật khẩu không trùng khớp!',
 
     // title
     lastname: 'Họ',
@@ -164,9 +165,9 @@ export default {
     score_column_type: 'Loại cột điểm',
     automatic_score_entry: 'Tự động nhập điểm',
     test: 'Bài kiểm tra',
-    test_score: "Điểm kiểm tra",
-    plus_score: "Điểm cộng",
-    minus_score: "Điểm trừ",
+    test_score: 'Điểm kiểm tra',
+    plus_score: 'Điểm cộng',
+    minus_score: 'Điểm trừ',
 
     // Action
     add_action: 'Thêm',
@@ -180,7 +181,7 @@ export default {
     search: 'Tìm ',
     reset: 'Đặt lại',
     filter: 'Lọc',
-    save_table: "Lưu",
+    save_table: 'Lưu',
 
     // Other
     above_average: 'Trên trung bình',
@@ -193,9 +194,9 @@ export default {
   },
 
   //404 error
-  error_page : {
-    not_found : "Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm",
-    back_home : "Quay lại trang chủ",
+  error_page: {
+    not_found: 'Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm',
+    back_home: 'Quay lại trang chủ',
   },
   my_quession: {
     tags: 'Thẻ',

@@ -5,7 +5,7 @@ import api from 'utils/api';
 
 const TeacherLayout = () => {
   useEffect(() => {
-    const hello = api.get('http://localhost:4000/api/asd');
+    // const hello = api.get('http://localhost:4000/api/asd');
   }, []);
   return (
     <div>

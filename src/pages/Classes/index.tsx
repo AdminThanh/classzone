@@ -1,7 +1,8 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Select } from 'antd';
+import { Button, Col, Form, Row, Select } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
-import { useState } from 'react';
+import FilterTags, { IOptionTag } from 'components/FilterTags';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
 import ClassItem from './components/ClassItem';
@@ -66,6 +67,28 @@ const Classes = () => {
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
 
+  const tagOpts: IOptionTag[] = useMemo(
+    () => [
+      {
+        label: 'HTML',
+        value: '1',
+      },
+      {
+        label: 'CSS',
+        value: '2',
+      },
+      {
+        label: 'ReactJS',
+        value: '3',
+      },
+    ],
+    []
+  );
+
+  const handleChangeFilterTags = (value: string[]) => {
+    console.log('Change', value);
+  };
+
   return (
     <div className="site_wrapper">
       <div className="site_container">
@@ -84,11 +107,14 @@ const Classes = () => {
 
         <div className="taskbars">
           <div className="fillter">
-            <Select defaultValue="lucy" style={{ width: 120 }} bordered={false}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
-            </Select>
+            <Form.Item label={t('tag.tags')} className="tag_item" name="tag_ids">
+              <FilterTags
+                placeholder={'Tag'}
+                isShowTagControl
+                opts={tagOpts}
+                onChange={handleChangeFilterTags}
+              />
+            </Form.Item>
           </div>
           <div className="addclass">
             <Button
@@ -114,7 +140,7 @@ const Classes = () => {
         </div>
 
         <div className="classes">
-          <Row>
+          <Row gutter={20}>
             {data?.length !== 0 &&
               data?.map((item, index) => (
                 <Col key={index} xs={24} sm={12} md={12} lg={8} xl={8} xxl={8}>

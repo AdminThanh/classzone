@@ -110,6 +110,12 @@ export const routes: IRoute[] = [
     role: ['teacher'],
     layout: TeacherLayout,
   },
+  {
+    path: '/question',
+    element: Question,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
 
   /**
    * **********************************************

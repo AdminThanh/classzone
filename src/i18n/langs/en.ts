@@ -103,6 +103,7 @@ export default {
   },
 
   tag: {
+    tags: "Tags",
     add_tag: 'Add tag',
     enter_tag_name: 'Enter tag name',
     enter_color_code: 'Enter color code',
