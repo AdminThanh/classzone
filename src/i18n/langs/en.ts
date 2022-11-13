@@ -19,6 +19,7 @@ export default {
   },
   my_class: {
     // Label
+    filter: "Filter",
     start_date: 'Start date',
     end_date: 'End date',
     status: 'Status',

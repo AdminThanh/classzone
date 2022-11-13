@@ -111,12 +111,8 @@ const Classes = () => {
         <BreadCrumb
           routes={[
             {
-              name: 'Trang chủ',
-              path: '/',
-            },
-            {
               name: 'Quản lý lớp học',
-              path: '/classes',
+              path: '/',
             },
           ]}
         />
@@ -124,7 +120,7 @@ const Classes = () => {
         <div className="taskbars">
           <div className="fillter">
             <Form.Item
-              label={t('tag.tags')}
+              label={t('my_class.filter')}
               className="tag_item"
               name="tag_ids"
             >

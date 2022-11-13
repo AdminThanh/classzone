@@ -22,6 +22,7 @@ export default {
 
   my_class: {
     // Label
+    filter: "Bộ lộc",
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
