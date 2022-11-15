@@ -1,0 +1,143 @@
+@use '/src/assets/styles/colors' as c;
+
+.createQuession {
+    margin-top: 80px;
+    padding: 0 48px;
+    padding-bottom: 80px;
+
+    .quession {
+        .ant-row {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .ant-form-item-control {
+                width: 100%;
+            }
+        }
+    }
+
+    .action-navbar {
+        margin-bottom: 30px;
+        width: 40%;
+
+        .filter__tags .ant-select-selection-overflow {
+            height: 35px;
+        }
+
+        .ant-select-item,
+        .ant-select-item-empty {
+            max-height: 30px !important;
+        }
+
+        .filter__tags .ant-select-selection-item {
+            padding: 0px 4px;
+        }
+
+        .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+            border-radius: 7px;
+            border: 1px solid c.$gray4_color;
+        }
+    }
+
+
+    .ant-form label {
+        font-size: 16px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, .85);
+    }
+
+    .ant-space-item {
+        width: 80%;
+
+        span.anticon.anticon-delete {
+            background: c.$primary;
+            padding: 10px;
+            border-radius: 4px;
+            color: c.$second;
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+    }
+
+    span.ant-avatar.ant-avatar-circle {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 5px;
+    }
+
+    .ant-btn.ant-btn-block {
+        width: auto;
+        background: c.$second;
+        border-radius: 4px;
+        color: c.$primary;
+        border-color: c.$primary;
+        height: 40px;
+        padding: 0 20px;
+    }
+
+    .hidden {
+        // opacity: 0;
+
+        .ant-checkbox-inner {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    .ant-space-item:first-child {
+        width: 50px;
+        z-index: 2;
+        position: absolute;
+    }
+
+    .check_result {
+        width: 30px;
+
+        .ant-checkbox {
+            opacity: 0 !important;
+        }
+
+        .ant-checkbox+span {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: c.$second;
+            border: 1px solid c.$primary;
+            border-radius: 25px;
+        }
+
+        .ant-checkbox-wrapper-checked .ant-checkbox+span {
+            background: c.$primary;
+            color: c.$second;
+            border-radius: 25px;
+
+        }
+
+    }
+
+    input.ant-input {
+        background: c.$second;
+        border-radius: 16px;
+        padding: 10px 0 10px 40px;
+        border: 1px solid c.$primary;
+    }
+
+    .btn_action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+            height: 40px;
+            padding: 0 35px;
+            background-color: c.$primary;
+            color: c.$second;
+            border: none;
+        }
+    }
+}

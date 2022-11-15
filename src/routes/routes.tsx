@@ -14,6 +14,8 @@ import Attendance from 'pages/Teacher/Attendance';
 import { ReactElement } from 'react';
 import WheelOfNames from 'components/WheelOfNames';
 import Login from 'pages/Login';
+import Question from 'pages/Question';
+import CreateQuestion from 'pages/CreateQuestion';
 import Register from 'pages/Register';
 import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
@@ -23,7 +25,11 @@ import ClassDetail from 'pages/ClassDetail';
 import EditProfile from 'pages/EditProfile';
 import Classes from 'pages/Classes';
 import ErrorPage from 'pages/404Page';
+<<<<<<< HEAD
 import ExamPage from 'pages/ExamPage';
+=======
+import CreateQuession from 'pages/CreateQuession';
+>>>>>>> 1950be19b485f9e23d99507e04753a2b390b5fea
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -66,7 +72,7 @@ export const routes: IRoute[] = [
     role: ['teacher'],
   },
   {
-    path: '/classDetail',
+    path: '/class_detail',
     element: ClassDetail,
     role: ['teacher'],
     layout: TeacherLayout,
@@ -82,11 +88,6 @@ export const routes: IRoute[] = [
     element: ExamPage,
     role: ['teacher'],
     layout: TeacherLayout,
-  },
-  {
-    path: '/login',
-    element: AuthPage,
-    role: ['teacher'],
   },
   {
     path: '/login',
@@ -113,17 +114,29 @@ export const routes: IRoute[] = [
     role: ['teacher'],
     layout: TeacherLayout,
   },
+  {
+    path: '/create_question',
+    element: CreateQuession,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/question',
+    element: Question,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
 
   /**
    * **********************************************
    * Student routes:
    */
-  {
-    path: '/',
-    element: StudentHome,
-    role: ['student'],
-    layout: StudentLayout,
-  },
+  // {
+  //   path: '/',
+  //   element: StudentHome,
+  //   role: ['student'],
+  //   layout: StudentLayout,
+  // },
   /**
    * **********************************************
    * Admin routes:

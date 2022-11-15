@@ -4,15 +4,32 @@
   width: 100%;
   padding: 0 48px;
   .classes {
-    margin-top: 70px;
+    margin-top: 40px;
+    .ant-row {
+      row-gap: 10px;
+    }
   }
   .taskbars {
-    padding: 0 20px;
-    .fillter {
-      float: left;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .fillter {
+    // display: flex;
+    // align-items: center;
+    width: 40%;
+    .ant-form-item {
+      margin-bottom: 0px;
     }
-    .addclass {
-      float: right;
+
+    .ant-form-item-label label {
+      height: 100%;
     }
+  }
+  .addclass {
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0 12px;
   }
 }

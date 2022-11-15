@@ -77,7 +77,7 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
         formatter: (_: any, context: any) =>
           context.chart.data.labels[context.dataIndex],
         font: {
-          size: 100 / Math.floor(names.length / 3.2),
+          size: 100 / Math.floor(names.length / 2),
         },
         anchor: 'center',
         rotation: function (ctx: any) {

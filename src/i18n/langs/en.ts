@@ -1,8 +1,10 @@
 export default {
   navbar: {
+    home: 'Home',
     my_class: 'My class',
     test_management: 'Test management',
     question_management: 'Question management',
+    add_question: 'Add question',
   },
   user_control: {
     account_management: 'Account management',
@@ -19,6 +21,7 @@ export default {
   },
   my_class: {
     // Label
+    filter: "Filter",
     start_date: 'Start date',
     end_date: 'End date',
     status: 'Status',
@@ -104,6 +107,7 @@ export default {
   },
 
   tag: {
+    tags: "Tags",
     add_tag: 'Add tag',
     enter_tag_name: 'Enter tag name',
     enter_color_code: 'Enter color code',
@@ -196,6 +200,7 @@ export default {
     not_found : "Sorry, I couldn't find the page you're looking for",
     back_home : "Back to home",
   },
+<<<<<<< HEAD
 
   //attendance
   attendance : {
@@ -228,4 +233,19 @@ export default {
      doing : "Doing",
      review : "review"
   },
+=======
+  my_quession: {
+    tags: 'Tags',
+    quession: 'Quession',
+    day_create: 'Day create',
+    type_quession: 'Type',
+    add_quession: 'Add quession',
+    edit_quession: 'Edit quession',
+
+    // Action
+    choose_tags: 'Select the relevant tag',
+  },
+
+  // Admin
+>>>>>>> 1950be19b485f9e23d99507e04753a2b390b5fea
 };

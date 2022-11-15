@@ -1,8 +1,10 @@
 export default {
   navbar: {
+    home: 'Trang chủ',
     my_class: 'Lớp của tôi',
     test_management: 'Quản lý bài kiểm tra',
     question_management: 'Quản lý câu hỏi',
+    add_question: 'Tạo câu hỏi',
   },
 
   user_control: {
@@ -22,6 +24,7 @@ export default {
 
   my_class: {
     // Label
+    filter: "Bộ lộc",
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
@@ -107,6 +110,7 @@ export default {
   },
 
   tag: {
+    tags: "Thẻ",
     add_tag: 'Thêm thẻ',
     enter_tag_name: 'Điền vào tên thẻ',
     enter_color_code: 'Điền vào mã màu',
@@ -123,8 +127,8 @@ export default {
     val_password: 'Mời bạn nhập mật khẩu!',
     val_newpassword: 'Mời bạn nhập mật khẩu mới!',
     val_repassword: 'Mời bạn nhập lại mật khẩu!',
-    val_countpass : 'Mật khẩu tối thiểu 6 chữ số!',
-    val_samepass : 'Hai mật khẩu không trùng khớp!',
+    val_countpass: 'Mật khẩu tối thiểu 6 chữ số!',
+    val_samepass: 'Hai mật khẩu không trùng khớp!',
 
     // title
     lastname: 'Họ',
@@ -165,9 +169,9 @@ export default {
     score_column_type: 'Loại cột điểm',
     automatic_score_entry: 'Tự động nhập điểm',
     test: 'Bài kiểm tra',
-    test_score: "Điểm kiểm tra",
-    plus_score: "Điểm cộng",
-    minus_score: "Điểm trừ",
+    test_score: 'Điểm kiểm tra',
+    plus_score: 'Điểm cộng',
+    minus_score: 'Điểm trừ',
 
     // Action
     add_action: 'Thêm',
@@ -181,7 +185,7 @@ export default {
     search: 'Tìm ',
     reset: 'Đặt lại',
     filter: 'Lọc',
-    save_table: "Lưu",
+    save_table: 'Lưu',
 
     // Other
     above_average: 'Trên trung bình',
@@ -194,10 +198,11 @@ export default {
   },
 
   //404 error
-  error_page : {
-    not_found : "Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm",
-    back_home : "Quay lại trang chủ",
+  error_page: {
+    not_found: 'Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm',
+    back_home: 'Quay lại trang chủ',
   },
+<<<<<<< HEAD
 
   //attendance
   attendance : {
@@ -230,4 +235,18 @@ export default {
     doing : "Làm bài",
     review : "Xem lại"
   }, 
+=======
+  my_quession: {
+    tags: 'Thẻ',
+    quession: 'Câu hỏi',
+    day_create: 'Ngày tạo',
+    type_quession: 'Loại',
+    add_quession: 'Thêm câu hỏi',
+    edit_quession: 'Sửa câu hỏi',
+
+    // Action
+    choose_tags: 'Chọn thẻ liên quan',
+  },
+  // Admin
+>>>>>>> 1950be19b485f9e23d99507e04753a2b390b5fea
 };

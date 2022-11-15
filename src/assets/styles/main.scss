@@ -10,6 +10,7 @@
 
 body {
   height: 100%;
+  background-color: #f0f6fb !important;
 }
 
 button.primary {
@@ -73,7 +74,6 @@ button.ouline:hover {
 // }
 
 @keyframes rotate {
-  
   to {
     transform: rotate(360deg);
   }
