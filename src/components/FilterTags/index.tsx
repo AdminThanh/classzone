@@ -33,7 +33,7 @@ const FilterTags = (props: IFilterTags) => {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div className='filterTags'>
       <Select
         mode="multiple"
         style={{ width: '100%' }}
@@ -43,15 +43,15 @@ const FilterTags = (props: IFilterTags) => {
         popupClassName="filter_popup"
         {...(isShowTagControl
           ? {
-              dropdownRender: (menu) => {
-                return (
-                  <>
-                    {menu}
-                    <TagControl />
-                  </>
-                );
-              },
-            }
+            dropdownRender: (menu) => {
+              return (
+                <>
+                  {menu}
+                  <TagControl />
+                </>
+              );
+            },
+          }
           : {})}
       >
         {opts?.map((opt) => (

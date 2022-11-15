@@ -22,6 +22,8 @@ import AuthLayout from 'layouts/Auth';
 import ClassDetail from 'pages/ClassDetail';
 import EditProfile from 'pages/EditProfile';
 import Classes from 'pages/Classes';
+import ErrorPage from 'pages/404Page';
+import ExamPage from 'pages/ExamPage';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -59,6 +61,11 @@ export const routes: IRoute[] = [
     role: ['teacher'],
   },
   {
+    path: '/error',
+    element: ErrorPage,
+    role: ['teacher'],
+  },
+  {
     path: '/classDetail',
     element: ClassDetail,
     role: ['teacher'],
@@ -67,6 +74,12 @@ export const routes: IRoute[] = [
   {
     path: '/attendance',
     element: Attendance,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/exam',
+    element: ExamPage,
     role: ['teacher'],
     layout: TeacherLayout,
   },

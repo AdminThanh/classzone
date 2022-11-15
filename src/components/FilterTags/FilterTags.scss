@@ -1,3 +1,11 @@
+.filterTags {
+  width: 350px;
+  .ant-select-show-search.ant-select:not(.ant-select-customize-input)
+    .ant-select-selector {
+    height: 45px;
+    border-radius: 12px;
+  }
+}
 .filter__tags {
   .ant-select-selection-overflow {
     height: 45px;

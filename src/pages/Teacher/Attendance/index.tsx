@@ -8,7 +8,7 @@ export interface IListStudent {
     img: string,
     name: string,
     note: string,
-    isSelect: boolean,
+    isCheck: boolean,
     total: number,
 }
 
@@ -18,7 +18,7 @@ let dataStudent: IListStudent[] = [
         img: "https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/120946730_352619426059311_851730369256431030_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rIy_dqzWHK0AX_BJsWh&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT82ZmCfcx_VdoVorAskrICvWUB2areOl-cQ-I4HNL8JuQ&oe=637BF31F",
         name: "Đào Đức Minh Khôi",
         note: "",
-        isSelect: false,
+        isCheck: false,
         total: 5
     },
     {
@@ -26,7 +26,7 @@ let dataStudent: IListStudent[] = [
         img: "https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/77183410_978855692486793_3641584607138152448_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=174925&_nc_ohc=fJIvoGOUX0QAX_NC4MW&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT__Iab7160RKdUacOrjiZH2Rym3UJ7JeLc0J5FMYY2Kgw&oe=637D33F2",
         name: "Lê Tuyền",
         note: "",
-        isSelect: false,
+        isCheck: false,
         total: 5
     },
     {
@@ -34,7 +34,7 @@ let dataStudent: IListStudent[] = [
         img: "https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/169157577_908675839887226_224514685520977440_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=QsfcB7Ptl1EAX_mzZfB&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT_SUdGUr41GJaAiAwXq3Oq1_ZjubMVlLpbrUJGq7VpCCQ&oe=637B9FFA",
         name: "Hoàng Yến",
         note: "",
-        isSelect: false,
+        isCheck: false,
         total: 5
     },
 ]
@@ -44,13 +44,16 @@ function Attendance() {
     const { t } = useTranslation();
 
     const handleCheckedAttendance = (id: number): void => {
-        const newlistStudent = listStudent.map((item) => item.id === id ? { ...item, isSelect: !item.isSelect } : item);
-        setListStudent(newlistStudent);
+        const newListStudent = structuredClone(listStudent);
+        newListStudent[id - 1].isCheck = !newListStudent[id - 1].isCheck;
+        setListStudent(newListStudent);
+        console.log(newListStudent);
     }
 
     const handleChangeNote = (id: number, value: string): void => {
-        const newlistStudent = listStudent.map((item) => item.id === id ? { ...item, note: value } : item);
-        setListStudent(newlistStudent);
+        const newListStudent = structuredClone(listStudent);
+        newListStudent[id - 1].note = value;
+        setListStudent(newListStudent);
     }
 
     const handleSaveAttendance = (): void => {
@@ -86,12 +89,11 @@ function Attendance() {
                             <tr key={item.id}>
                                 <td className="td-attendance">
                                     <img src={item.img} alt="" className="avatar-img" />
-
                                 </td>
                                 {/* <td className="td-attendance"><img alt="" src={require(item.img)} className="avatar-img" /></td> */}
                                 <td className="td-attendance"><p>{item.name}</p></td>
                                 <td className="td-attendance"><button type="button" onClick={() => handleCheckedAttendance(item.id)}>
-                                    <img alt="" src={require(item.isSelect ? "assets/images/icons/bee-green.png" : "assets/images/icons/bee-red.png")} className="icon-bee" />
+                                    <img alt="" src={require(item.isCheck ? "assets/images/icons/bee-green.png" : "assets/images/icons/bee-red.png")} className="icon-bee" />
                                 </button></td>
                                 <td className="td-attendance"><input type="text" name="note" className="input-note" onChange={(e) => handleChangeNote(item.id, e.target.value)} /></td>
                                 <td className="td-attendance">{item.total}/31</td>
