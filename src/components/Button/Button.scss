@@ -88,6 +88,17 @@
     }
   }
 
+  &.btn-second {
+    background-color: #FF531D;
+    color: #fff;
+
+    .btn__icon-wrapper {
+      > svg {
+        fill: #fff;
+      }
+    }
+  }
+
   &.btn-ghost {
     background: none;
     color: c.$primary;

@@ -32,8 +32,72 @@
   }
 
   .create-assignment__question-list {
+    min-height: 600px;
     display: flex;
     flex-direction: column;
     row-gap: 10px;
   }
+
+  th.ant-table-cell {
+    white-space: nowrap;
+  }
+}
+
+.questionItem-drag__action {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+
+  svg {
+
+    &:hover {
+      color: red;
+    }
+
+    width: 14px;
+    cursor: pointer;
+    height: 14px;
+  }
+}
+
+.row-dragging {
+  background: #fafafa;
+  border: 1px solid #ccc;
+}
+
+.row-dragging td {
+  padding: 16px;
+}
+
+.row-dragging .drag-visible {
+  visibility: visible;
+}
+
+.table__draghandle {
+  height: 0;
+
+  // > span {
+  //   width: 100%;
+  //   height: 100%;
+  //   display: flex;
+  //   align-items: center;
+  // }
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+}
+
+.table__question {
+  height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table__tag {
+  width: 10%;
 }

@@ -83,7 +83,6 @@ const Button = (props: IPropButton) => {
     }
   }
 
-  console.log("htmlType", htmlType)
   return (
     <button
       className={convertClass}
