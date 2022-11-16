@@ -47,7 +47,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen-debug": "graphql-code-generator --config --debug --verbose codegen.ts"
   },
   "eslintConfig": {
     "extends": [

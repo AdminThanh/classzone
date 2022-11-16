@@ -26,7 +26,7 @@ const fakeAPI: Promise<IQuestions[]> = new Promise((resolve) => {
       },
       {
         _id: '_asdksaodksaos',
-      
+
         question:
           ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
       },
@@ -153,7 +153,7 @@ const CreateAssignment = () => {
                 name="asssignment_name"
                 label={t('create_assignment.assignment_name')}
               >
-                <Input placeholder="input placeholder" />
+                <Input />
               </Form.Item>
               <Form.Item name="tags" label={t('create_assignment.tag')}>
                 <FilterTags opts={tagOpts} />
