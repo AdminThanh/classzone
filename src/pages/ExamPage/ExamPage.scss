@@ -10,14 +10,13 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin: 32px 0;
   .filter-item {
     display: flex;
     align-items: center;
     .title-filter {
-      margin-right: 16px;
       margin-bottom: 0;
+      width: 70px;
     }
   }
 }

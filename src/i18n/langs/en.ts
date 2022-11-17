@@ -200,7 +200,6 @@ export default {
     not_found : "Sorry, I couldn't find the page you're looking for",
     back_home : "Back to home",
   },
-<<<<<<< HEAD
 
   //attendance
   attendance : {
@@ -233,7 +232,6 @@ export default {
      doing : "Doing",
      review : "review"
   },
-=======
   my_quession: {
     tags: 'Tags',
     quession: 'Quession',
@@ -247,5 +245,4 @@ export default {
   },
 
   // Admin
->>>>>>> 1950be19b485f9e23d99507e04753a2b390b5fea
 };

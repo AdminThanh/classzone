@@ -122,7 +122,7 @@ function ExamPage() {
             ]}
         />
 
-        <Row>
+        <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={8} xxl={8} className="filter-action">
                 <div className="filter-item">
                     <h3 className="title-filter">{t('exam.filter')}</h3>
@@ -139,7 +139,7 @@ function ExamPage() {
                 </div>
             </Col>
         </Row>
-        <Row>
+        <Row gutter={[20, 20]}>
             {
                 listExam.length > 0 ? (
                     listExam.map((item) => (

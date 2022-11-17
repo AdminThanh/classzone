@@ -202,7 +202,6 @@ export default {
     not_found: 'Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm',
     back_home: 'Quay lại trang chủ',
   },
-<<<<<<< HEAD
 
   //attendance
   attendance : {
@@ -235,7 +234,6 @@ export default {
     doing : "Làm bài",
     review : "Xem lại"
   }, 
-=======
   my_quession: {
     tags: 'Thẻ',
     quession: 'Câu hỏi',
@@ -248,5 +246,4 @@ export default {
     choose_tags: 'Chọn thẻ liên quan',
   },
   // Admin
->>>>>>> 1950be19b485f9e23d99507e04753a2b390b5fea
 };

@@ -25,11 +25,8 @@ import ClassDetail from 'pages/ClassDetail';
 import EditProfile from 'pages/EditProfile';
 import Classes from 'pages/Classes';
 import ErrorPage from 'pages/404Page';
-<<<<<<< HEAD
 import ExamPage from 'pages/ExamPage';
-=======
 import CreateQuession from 'pages/CreateQuession';
->>>>>>> 1950be19b485f9e23d99507e04753a2b390b5fea
 
 export declare namespace JSX {
   interface IntrinsicElements {

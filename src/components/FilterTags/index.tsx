@@ -33,7 +33,7 @@ const FilterTags = (props: IFilterTags) => {
   const { t } = useTranslation();
 
   return (
-    <div className='filterTags'>
+    <div>
       <Select
         mode="multiple"
         style={{ width: '100%' }}
