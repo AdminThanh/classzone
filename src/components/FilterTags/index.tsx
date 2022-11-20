@@ -43,15 +43,15 @@ const FilterTags = (props: IFilterTags) => {
         popupClassName="filter_popup"
         {...(isShowTagControl
           ? {
-              dropdownRender: (menu) => {
-                return (
-                  <>
-                    {menu}
-                    <TagControl />
-                  </>
-                );
-              },
-            }
+            dropdownRender: (menu) => {
+              return (
+                <>
+                  {menu}
+                  <TagControl />
+                </>
+              );
+            },
+          }
           : {})}
       >
         {opts?.map((opt) => (

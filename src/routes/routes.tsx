@@ -25,6 +25,7 @@ import ClassDetail from 'pages/ClassDetail';
 import EditProfile from 'pages/EditProfile';
 import Classes from 'pages/Classes';
 import ErrorPage from 'pages/404Page';
+import ExamPage from 'pages/ExamPage';
 import CreateQuession from 'pages/CreateQuession';
 
 export declare namespace JSX {
@@ -76,6 +77,12 @@ export const routes: IRoute[] = [
   {
     path: '/attendance',
     element: Attendance,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/exam',
+    element: ExamPage,
     role: ['teacher'],
     layout: TeacherLayout,
   },
