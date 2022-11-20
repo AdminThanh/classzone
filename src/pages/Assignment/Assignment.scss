@@ -50,11 +50,11 @@
                     }
 
                     padding: 5px 20px;
-                    background-color: #8E6CF7;
-                    color: white;
+                    background-color: c.$bg_bluedark;
+                    color: c.$second;
                     border: none;
                     border-radius: 8px;
-                    box-shadow: inset -2px -2px 0px 0px #7f40b1;
+                    box-shadow: inset -2px -2px 0px 0px c.$shadow_1;
                     font-size: 16px;
                 }
             }
@@ -100,6 +100,63 @@
 
 
         }
+
+        .heading__content-footer {
+            display: flex;
+            color: c.$second;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+            .block_sm {
+                display: none;
+            }
+
+            .heading__content-submit {
+                margin-left: 20px;
+
+                button {
+                    &:hover {
+                        cursor: pointer;
+                    }
+
+                    span {
+                        margin-right: 5px;
+                    }
+
+                    padding: 5px 20px;
+                    background-color: c.$bg_bluedark;
+                    color: c.$second;
+                    border: none;
+                    border-radius: 8px;
+                    box-shadow: inset -2px -2px 0px 0px c.$shadow_1;
+                    font-size: 16px;
+                }
+            }
+
+            .heading__content-out {
+                margin-left: 20px;
+
+                button {
+                    &:hover {
+                        cursor: pointer;
+                    }
+
+                    span {
+                        margin-right: 5px;
+                    }
+
+                    padding: 5px 20px;
+                    background-color: c.$gray4_color;
+                    color: c.$gray9_color;
+                    border: none;
+                    border-radius: 8px;
+                    box-shadow: inset -2px -2px 0px 0px c.$gray5_color;
+                    font-size: 16px;
+                }
+            }
+
+        }
+
 
         .swiper-slide {
             flex-shrink: unset;
@@ -163,6 +220,26 @@
 
         .swiper {
             padding: 0 50px;
+        }
+
+    }
+
+
+
+    @media (max-width: 994px) {
+        .heading .none_sm {
+            display: none !important;
+        }
+
+        .block_sm {
+            display: block !important;
+        }
+
+        .content {
+            margin: 15px;
+        }
+        .heading .heading__content-mid{
+            transform: unset;
         }
     }
 

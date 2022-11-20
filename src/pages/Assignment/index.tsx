@@ -3,29 +3,32 @@ import { CheckCircleOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y, Keyboard } from 'swiper';
 import AssignmentItem from './components/AssignmentItem';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Modal, } from 'antd';
 import { clsx } from 'clsx';
 import './Assignment.scss';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import Timer from './components/Timer';
+
+const { confirm } = Modal;
 
 interface IAnswer {
     label: string;
+    value: string;
 }
-
 interface IDataAssignment {
     question_id: string;
     name: string;
     content: string;
     answer: IAnswer[];
 }
-
 interface IAssignment {
     nameAssignment: string;
     assignment: IDataAssignment[];
 }
-
 
 const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -40,15 +43,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'Lưu trữ dữ liệu'
+                                , value: 'Lưu trữ dữ liệu'
+
                             },
                             {
                                 label: 'Chỉ đường cho người dùng (GPS)'
+                                , value: 'Chỉ đường cho người dùng (GPS)'
+
                             },
                             {
                                 label: 'Hiển thị các địa điểm được yêu thích gần người dùng'
+                                , value: 'Hiển thị các địa điểm được yêu thích gần người dùng'
+
                             },
                             {
                                 label: 'Cập nhật, lưu trữ thông tin về vị trí người dùng'
+                                , value: 'Cập nhật, lưu trữ thông tin về vị trí người dùng'
+
                             },
                         ],
                     },
@@ -59,15 +70,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'drag'
+                                , value: 'drag'
+
                             },
                             {
                                 label: 'preventDefault '
+                                , value: 'preventDefault '
+
                             },
                             {
                                 label: 'dataTransfer'
+                                , value: 'dataTransfer'
+
                             },
                             {
                                 label: 'drop'
+                                , value: 'drop'
+
                             },
                         ],
                     },
@@ -78,15 +97,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'restore'
+                                , value: 'restore'
+
                             },
                             {
                                 label: 'getImageData'
+                                , value: 'getImageData'
+
                             },
                             {
                                 label: 'toDataURL'
+                                , value: 'toDataURL'
+
                             },
                             {
                                 label: 'getContext '
+                                , value: 'getContext '
+
                             },
                         ],
                     },
@@ -97,15 +124,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'shadow'
+                                , value: 'shadow'
+
                             },
                             {
                                 label: 'text-shadow '
+                                , value: 'text-shadow '
+
                             },
                             {
                                 label: 'shadowed'
+                                , value: 'shadowed'
+
                             },
                             {
                                 label: 'word-shadow'
+                                , value: 'word-shadow'
+
                             },
                         ],
                     },
@@ -116,15 +151,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'animation-delay:3s '
+                                , value: 'animation-delay:3s '
+
                             },
                             {
                                 label: 'animation:3s;'
+                                , value: 'animation:3s;'
+
                             },
                             {
                                 label: 'delay:3s;'
+                                , value: 'delay:3s;'
+
                             },
                             {
                                 label: 'Tất cả đáp án trên đều sai'
+                                , value: 'Tất cả đáp án trên đều sai'
+
                             },
                         ],
                     },
@@ -135,15 +178,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'Lưu trữ dữ liệu'
+                                , value: 'Lưu trữ dữ liệu'
+
                             },
                             {
                                 label: 'Chỉ đường cho người dùng (GPS)'
+                                , value: 'Chỉ đường cho người dùng (GPS)'
+
                             },
                             {
                                 label: 'Hiển thị các địa điểm được yêu thích gần người dùng'
+                                , value: 'Hiển thị các địa điểm được yêu thích gần người dùng'
+
                             },
                             {
                                 label: 'Cập nhật, lưu trữ thông tin về vị trí người dùng'
+                                , value: 'Cập nhật, lưu trữ thông tin về vị trí người dùng'
+
                             },
                         ],
                     },
@@ -154,15 +205,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'drag'
+                                , value: 'drag'
+
                             },
                             {
                                 label: 'preventDefault '
+                                , value: 'preventDefault '
+
                             },
                             {
                                 label: 'dataTransfer'
+                                , value: 'dataTransfer'
+
                             },
                             {
                                 label: 'drop'
+                                , value: 'drop'
+
                             },
                         ],
                     },
@@ -173,15 +232,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'restore'
+                                , value: 'restore'
+
                             },
                             {
                                 label: 'getImageData'
+                                , value: 'getImageData'
+
                             },
                             {
                                 label: 'toDataURL'
+                                , value: 'toDataURL'
+
                             },
                             {
                                 label: 'getContext '
+                                , value: 'getContext '
+
                             },
                         ],
                     },
@@ -192,15 +259,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'shadow'
+                                , value: 'shadow'
+
                             },
                             {
                                 label: 'text-shadow '
+                                , value: 'text-shadow '
+
                             },
                             {
                                 label: 'shadowed'
+                                , value: 'shadowed'
+
                             },
                             {
                                 label: 'word-shadow'
+                                , value: 'word-shadow'
+
                             },
                         ],
                     },
@@ -211,15 +286,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: 'animation-delay:3s '
+                                , value: 'animation-delay:3s '
+
                             },
                             {
                                 label: 'animation:3s;'
+                                , value: 'animation:3s;'
+
                             },
                             {
                                 label: 'delay:3s;'
+                                , value: 'delay:3s;'
+
                             },
                             {
                                 label: 'Tất cả đáp án trên đều sai'
+                                , value: 'Tất cả đáp án trên đều sai'
+
                             },
                         ],
                     },
@@ -230,15 +313,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 Lưu trữ dữ liệu'
+                                , value: '01 Lưu trữ dữ liệu'
+
                             },
                             {
                                 label: '01 Chỉ đường cho người dùng (GPS)'
+                                , value: '01 Chỉ đường cho người dùng (GPS)'
+
                             },
                             {
                                 label: '01 Hiển thị các địa điểm được yêu thích gần người dùng'
+                                , value: '01 Hiển thị các địa điểm được yêu thích gần người dùng'
+
                             },
                             {
                                 label: '01 Cập nhật, lưu trữ thông tin về vị trí người dùng'
+                                , value: '01 Cập nhật, lưu trữ thông tin về vị trí người dùng'
+
                             },
                         ],
                     },
@@ -249,15 +340,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 drag'
+                                , value: '01 drag'
+
                             },
                             {
                                 label: '01 preventDefault '
+                                , value: '01 preventDefault '
+
                             },
                             {
                                 label: '01 dataTransfer'
+                                , value: '01 dataTransfer'
+
                             },
                             {
                                 label: '01 drop'
+                                , value: '01 drop'
+
                             },
                         ],
                     },
@@ -268,15 +367,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 restore'
+                                , value: '01 restore'
+
                             },
                             {
                                 label: '01 getImageData'
+                                , value: '01 getImageData'
+
                             },
                             {
                                 label: '01 toDataURL'
+                                , value: '01 toDataURL'
+
                             },
                             {
                                 label: '01 getContext '
+                                , value: '01 getContext '
+
                             },
                         ],
                     },
@@ -287,15 +394,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 shadow'
+                                , value: '01 shadow'
+
                             },
                             {
                                 label: '01 text-shadow '
+                                , value: '01 text-shadow '
+
                             },
                             {
                                 label: '01 shadowed'
+                                , value: '01 shadowed'
+
                             },
                             {
                                 label: '01 word-shadow'
+                                , value: '01 word-shadow'
+
                             },
                         ],
                     },
@@ -306,15 +421,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 animation-delay:3s '
+                                , value: '01 animation-delay:3s '
+
                             },
                             {
                                 label: '01 animation:3s;'
+                                , value: '01 animation:3s;'
+
                             },
                             {
                                 label: '01 delay:3s;'
+                                , value: '01 delay:3s;'
+
                             },
                             {
                                 label: '01 Tất cả đáp án trên đều sai'
+                                , value: '01 Tất cả đáp án trên đều sai'
+
                             },
                         ],
                     },
@@ -325,15 +448,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 Lưu trữ dữ liệu'
+                                , value: '01 Lưu trữ dữ liệu'
+
                             },
                             {
                                 label: '01 Chỉ đường cho người dùng (GPS)'
+                                , value: '01 Chỉ đường cho người dùng (GPS)'
+
                             },
                             {
                                 label: '01 Hiển thị các địa điểm được yêu thích gần người dùng'
+                                , value: '01 Hiển thị các địa điểm được yêu thích gần người dùng'
+
                             },
                             {
                                 label: '01 Cập nhật, lưu trữ thông tin về vị trí người dùng'
+                                , value: '01 Cập nhật, lưu trữ thông tin về vị trí người dùng'
+
                             },
                         ],
                     },
@@ -344,15 +475,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 drag'
+                                , value: '01 drag'
+
                             },
                             {
                                 label: '01 preventDefault '
+                                , value: '01 preventDefault '
+
                             },
                             {
                                 label: '01 dataTransfer'
+                                , value: '01 dataTransfer'
+
                             },
                             {
                                 label: '01 drop'
+                                , value: '01 drop'
+
                             },
                         ],
                     },
@@ -363,15 +502,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 restore'
+                                , value: '01 restore'
+
                             },
                             {
                                 label: '01 getImageData'
+                                , value: '01 getImageData'
+
                             },
                             {
                                 label: '01 toDataURL'
+                                , value: '01 toDataURL'
+
                             },
                             {
                                 label: '01 getContext '
+                                , value: '01 getContext '
+
                             },
                         ],
                     },
@@ -382,15 +529,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 shadow'
+                                , value: '01 shadow'
+
                             },
                             {
                                 label: '01 text-shadow '
+                                , value: '01 text-shadow '
+
                             },
                             {
                                 label: '01 shadowed'
+                                , value: '01 shadowed'
+
                             },
                             {
                                 label: '01 word-shadow'
+                                , value: '01 word-shadow'
+
                             },
                         ],
                     },
@@ -401,15 +556,23 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
                         answer: [
                             {
                                 label: '01 animation-delay:3s '
+                                , value: '01 animation-delay:3s '
+
                             },
                             {
                                 label: '01 animation:3s;'
+                                , value: '01 animation:3s;'
+
                             },
                             {
                                 label: '01 delay:3s;'
+                                , value: '01 delay:3s;'
+
                             },
                             {
                                 label: '01 Tất cả đáp án trên đều sai'
+                                , value: '01 Tất cả đáp án trên đều sai'
+
                             },
                         ],
                     },
@@ -421,8 +584,9 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise((resolve, reject) 
     }, 1000)
 });
 
-const Assignment = () => {
+const dataSession = sessionStorage.getItem("dataAnswer") || 'undefined';
 
+const Assignment = () => {
     const [listQuestion, setListQuestion] = useState<IDataAssignment[]>([]);
     const [nameAssignment, setNameAssignment] = useState('');
     const [dataAnswer, setDataAnswer] = useState<IAssignment[]>([]);
@@ -433,12 +597,11 @@ const Assignment = () => {
             setListQuestion(res[0].assignment);
             setNameAssignment(res[0].nameAssignment);
         });
-       
-        // setInterval(() => {
-        //         console.log('121');
-                
-        // }, 1000)
+        console.log(dataSession);
 
+        if (dataSession !== 'undefined') {
+            setDataAnswer(JSON.parse(dataSession));
+        }
     }, []);
 
     const currentQuestion: any = useMemo(() => {
@@ -447,13 +610,50 @@ const Assignment = () => {
         }
     }, [order, listQuestion])
 
-    console.log('answers_submit: ', dataAnswer);
-
     const handleAnswered = (id: string, answered: any) => {
         setDataAnswer({
             ...dataAnswer,
             [id]: answered
         })
+        sessionStorage.setItem("dataAnswer", JSON.stringify({
+            ...dataAnswer,
+            [id]: answered
+        }));
+    }
+
+    console.log('answers_submit: ', dataAnswer);
+
+    const handleSubmit = () => {
+        confirm({
+            title: 'Bạn có chắc chắn muốn nộp bài!',
+            icon: <ExclamationCircleFilled />,
+            content: 'Lưu ý: Khi nộp bài, đáp án của bạn sẽ được gửi đi và bạn sẽ không thể làm lại bài này nữa!',
+            okText: 'Nộp bài',
+            cancelText: 'Hủy',
+            onOk() {
+                return new Promise((resolve, reject) => {
+                    setTimeout(resolve, 1000);
+                    console.log('answers_submit: ', dataAnswer);
+                }).catch(() => console.log('Oops errors!'));
+            },
+            onCancel() { },
+        });
+    }
+
+    const handleCancel = () => {
+        confirm({
+            title: 'Bạn có chắc chắn hủy bài làm!',
+            icon: <ExclamationCircleFilled />,
+            content: 'Lưu ý: Khi hủy bài làm, bạn sẽ không thể làm lại bài này nữa!',
+            okText: 'Nộp bài',
+            cancelText: 'Hủy',
+            onOk() {
+                return new Promise((resolve, reject) => {
+                    setTimeout(resolve, 1000);
+                }).catch(() => console.log('Oops errors!'));
+            },
+            onCancel() { },
+        });
     }
 
     return (
@@ -465,20 +665,20 @@ const Assignment = () => {
                     </div>
                     <div className="heading__content-mid">
                         <div className="heading__content-timer">
-                            <span>32</span> <b>:</b> <span>51</span>
+                            <Timer />
                         </div>
-                        <div className="heading__content-submit">
-                            <button><CheckCircleOutlined />Nộp bài</button>
+                        <div className="heading__content-submit none_sm">
+                            <button onClick={handleSubmit}><CheckCircleOutlined />Nộp bài</button>
                         </div>
                     </div>
-                    <div className="heading__content-out">
+                    <div className="heading__content-out none_sm">
                         <LogoutOutlined />
                     </div >
                 </div>
             </div >
             <main className='content'>
                 <div className="content__question">
-                    <AssignmentItem handleAnswered={handleAnswered} order={order + 1} question_id={currentQuestion?.question_id} name={currentQuestion?.name} content={currentQuestion?.content} answer={currentQuestion?.answer} />
+                    <AssignmentItem dataAnswer={dataAnswer} handleAnswered={handleAnswered} order={order + 1} question_id={currentQuestion?.question_id} name={currentQuestion?.name} content={currentQuestion?.content} answer={currentQuestion?.answer} />
                 </div>
                 <div className="content__answer">
                     <div className="content__answer-list">
@@ -510,6 +710,14 @@ const Assignment = () => {
                             }
                         </Swiper>
 
+                    </div>
+                    <div className="heading__content-footer">
+                        <div className="heading__content-out block_sm">
+                            <button onClick={handleCancel}><LogoutOutlined />Thoát</button>
+                        </div >
+                        <div className="heading__content-submit block_sm">
+                            <button onClick={handleSubmit}><CheckCircleOutlined />Nộp bài</button>
+                        </div>
                     </div>
                 </div>
             </main >
