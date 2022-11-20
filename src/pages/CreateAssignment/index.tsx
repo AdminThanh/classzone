@@ -56,7 +56,7 @@ const SortableBody = SortableContainer(
 
 const CreateAssignment = () => {
   const [dataQuestionList, setDataQuestionList] = useState<DataType[]>([]);
-  const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(true);
+  const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(false);
   const { t } = useTranslation();
   const [form] = useForm();
 
@@ -154,9 +154,6 @@ const CreateAssignment = () => {
   return (
     <div className="create-assignment">
       {/* Nav & Breadcrumb */}
-      <button onClick={() => console.log(form.getFieldsValue())}>
-        Hiện thị
-      </button>
       <Form
         form={form}
         onFinish={(value) => {

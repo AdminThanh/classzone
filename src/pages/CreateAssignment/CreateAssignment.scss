@@ -17,6 +17,7 @@
   .create-assignment__control-panel {
     display: flex;
     column-gap: 50px;
+    margin-top: 20px;
     margin-bottom: 10px;
 
     .ant-form-item {
@@ -49,7 +50,6 @@
   column-gap: 8px;
 
   svg {
-
     &:hover {
       color: red;
     }
