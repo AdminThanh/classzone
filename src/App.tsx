@@ -13,6 +13,7 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import JWTManager from 'utils/jwt';
 import AuthContextProvider from 'contexts/AuthContext';
+import 'antd/dist/antd.min.css';
 
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_BACKEND_API,

@@ -16,7 +16,6 @@ import FilterTags, { IOptionTag } from 'components/FilterTags';
 import { useForm } from 'antd/es/form/Form';
 import Button from 'components/Button';
 import { BinIcon, EditIcon, SaveIcon, UpdateIcon } from 'utils/drawer';
-import 'antd/dist/antd.css';
 // import './index.css';
 import { MenuOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
