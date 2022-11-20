@@ -3,10 +3,9 @@ import { graphql } from 'gql';
 
 export const register = graphql(`
   mutation Register($registerInput: RegisterInput!) {
-    register(regsiterInput: $registerInput) {
-      code
-      message
-      success
+    register(registerInput: $registerInput) {
+      accessToken
+      refreshToken
     }
   }
 `);
@@ -14,17 +13,8 @@ export const register = graphql(`
 export const login = graphql(`
   mutation Login($loginInput: LoginInput!) {
     login(loginInput: $loginInput) {
-      code
-      success
       accessToken
-      message
-      user {
-        _id
-        username
-        email
-        updatedAt
-        createdAt
-      }
+      refreshToken
     }
   }
 `);
@@ -39,18 +29,18 @@ export const logout = graphql(`
   }
 `);
 
-export const me = graphql(`
-  query me {
-    me {
-      _id
-      username
-      email
-      createdAt
-      updatedAt
-      token_version
-    }
-  }
-`);
+// export const me = graphql(`
+//   query me {
+//     me {
+//       _id
+//       username
+//       email
+//       createdAt
+//       updatedAt
+//       token_version
+//     }
+//   }
+// `);
 
 // export const logout = graphql(`
 //   mutation Logout($arg: string!) {

@@ -1,5 +1,4 @@
 // Layout
-import StudentLayout from 'layouts/Student';
 import TeacherLayout from 'layouts/Teacher';
 
 // Pages
@@ -7,26 +6,24 @@ import TeacherLayout from 'layouts/Teacher';
 import Home from 'pages/Home';
 
 /* Student */
-import StudentHome from 'pages/Student/Home';
 
 /* Teacher */
-import Attendance from 'pages/Teacher/Attendance';
-import { ReactElement } from 'react';
 import WheelOfNames from 'components/WheelOfNames';
+import AuthLayout from 'layouts/Auth';
+import ErrorPage from 'pages/404Page';
+import ClassDetail from 'pages/ClassDetail';
+import Classes from 'pages/Classes';
+import CreateAssignment from 'pages/CreateAssignment';
+import CreateQuession from 'pages/CreateQuession';
+import EditProfile from 'pages/EditProfile';
 import Login from 'pages/Login';
 import Question from 'pages/Question';
-import CreateQuestion from 'pages/CreateQuestion';
 import Register from 'pages/Register';
+import Attendance from 'pages/Teacher/Attendance';
 import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
 import AuthPage from 'pages/AuthPage';
-import AuthLayout from 'layouts/Auth';
-import ClassDetail from 'pages/ClassDetail';
-import EditProfile from 'pages/EditProfile';
-import Classes from 'pages/Classes';
-import ErrorPage from 'pages/404Page';
 import ExamPage from 'pages/ExamPage';
-import CreateQuession from 'pages/CreateQuession';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -64,9 +61,16 @@ export const routes: IRoute[] = [
     role: ['teacher'],
   },
   {
+    path: '/create_assignment',
+    element: CreateAssignment,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
     path: '/error',
     element: ErrorPage,
     role: ['teacher'],
+    layout: TeacherLayout,
   },
   {
     path: '/class_detail',

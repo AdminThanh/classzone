@@ -21,7 +21,7 @@ export default {
   },
   my_class: {
     // Label
-    filter: "Filter",
+    filter: 'Filter',
     start_date: 'Start date',
     end_date: 'End date',
     status: 'Status',
@@ -107,7 +107,7 @@ export default {
   },
 
   tag: {
-    tags: "Tags",
+    tags: 'Tags',
     add_tag: 'Add tag',
     enter_tag_name: 'Enter tag name',
     enter_color_code: 'Enter color code',
@@ -124,9 +124,8 @@ export default {
     val_password: 'please enter your password',
     val_newpassword: 'please enter new password',
     val_repassword: 'please enter password again',
-    val_countpass : 'Minimum 6 digit password!',
-    val_samepass : 'Two passwords do not match!',
-
+    val_countpass: 'Minimum 6 digit password!',
+    val_samepass: 'Two passwords do not match!',
 
     // title
     lastname: 'Last name',
@@ -183,7 +182,7 @@ export default {
     search: 'Search',
     reset: 'Reset',
     filter: 'Filter',
-    save_table: "Save",
+    save_table: 'Save',
 
     // Other
     above_average: 'Above average',
@@ -195,10 +194,16 @@ export default {
       'Select the test for the automatic score column',
   },
 
+  create_assignment: {
+    assignment_name: 'Assignment name',
+    add_question: 'Add question',
+    add_assignment: 'Add assignment',
+    tag: 'Tag',
+  },
   //404 error
-  error_page : {
-    not_found : "Sorry, I couldn't find the page you're looking for",
-    back_home : "Back to home",
+  error_page: {
+    not_found: "Sorry, I couldn't find the page you're looking for",
+    back_home: 'Back to home',
   },
 
   //attendance

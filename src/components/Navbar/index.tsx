@@ -13,7 +13,7 @@ import {
   ExitIcon,
   ProfileIcon,
   SettingIcon,
-  ShowmoreIocn,
+  ShowmoreIcon,
 } from 'utils/drawer';
 import JWTManager from 'utils/jwt';
 import './Navbar.scss';
@@ -94,7 +94,7 @@ const Navbar = (props: INavbarProps) => {
               ))}
             </ul>
             <div className="navbar__showmore" onClick={handleOpenSidebar}>
-              <ShowmoreIocn />
+              <ShowmoreIcon />
             </div>
 
             {/* User control */}

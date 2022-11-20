@@ -24,7 +24,7 @@ export default {
 
   my_class: {
     // Label
-    filter: "Bộ lộc",
+    filter: 'Bộ lộc',
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
@@ -110,7 +110,7 @@ export default {
   },
 
   tag: {
-    tags: "Thẻ",
+    tags: 'Thẻ',
     add_tag: 'Thêm thẻ',
     enter_tag_name: 'Điền vào tên thẻ',
     enter_color_code: 'Điền vào mã màu',
@@ -197,6 +197,12 @@ export default {
       'Chọn bài kiểm tra cho cột điểm tự động',
   },
 
+  create_assignment: {
+    assignment_name: 'Tên bài kiểm tra',
+    add_question: 'Thêm câu hỏi',
+    add_assignment: 'Thêm bài kiểm tra',
+    tag: 'Thẻ',
+  },
   //404 error
   error_page: {
     not_found: 'Xin lỗi chúng tôi không thể tìm thấy trang bạn đang tìm kiếm',

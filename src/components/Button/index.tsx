@@ -28,6 +28,7 @@ const Button = (props: IPropButton) => {
     className = '',
     ...rest
   } = props;
+
   const convertClass = useMemo(
     () =>
       clsx({

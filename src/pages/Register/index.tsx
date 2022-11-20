@@ -80,20 +80,25 @@ function Register() {
           <div className="role-option">
             <h4 className="role-title">Đăng ký dành cho: </h4>
             <Radio.Group className="role-select">
-              <Radio value="student"><div
-                className={clsx('role-item', { active: roleSelect === 1 })}
-                onClick={() => handleRoleSelect(1)}
-              >
-                <StudenIcon />
-                <h4>Học sinh</h4>
-              </div> </Radio>
-              <Radio value="teacher">  <div
-                className={clsx('role-item', { active: roleSelect === 2 })}
-                onClick={() => handleRoleSelect(2)}
-              >
-                <TeacherIcon />
-                <h4>Giáo viên</h4>
-              </div> </Radio>
+              <Radio value="student">
+                <div
+                  className={clsx('role-item', { active: roleSelect === 1 })}
+                  onClick={() => handleRoleSelect(1)}
+                >
+                  <StudenIcon />
+                  <h4>Học sinh</h4>
+                </div>{' '}
+              </Radio>
+              <Radio value="teacher">
+                {' '}
+                <div
+                  className={clsx('role-item', { active: roleSelect === 2 })}
+                  onClick={() => handleRoleSelect(2)}
+                >
+                  <TeacherIcon />
+                  <h4>Giáo viên</h4>
+                </div>{' '}
+              </Radio>
             </Radio.Group>
           </div>
         </Form.Item>
