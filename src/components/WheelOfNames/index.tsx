@@ -158,7 +158,7 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
     <div className="wheel-of-name">
       <div onClick={handleSpinning} className="wheel-spin">
         <div className="wheel" style={{ transform: `rotate(${rotate}deg)` }}>
-          <Pie data={data} options={options} plugins={[ChartDataLabels]} />
+          <Pie data={data} options={options} plugins={[ChartDataLabels as any]} />
         </div>
         <div className="wheel-spin__result"></div>
       </div>
