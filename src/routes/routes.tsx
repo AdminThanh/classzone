@@ -24,6 +24,8 @@ import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
 import AuthPage from 'pages/AuthPage';
 import ExamPage from 'pages/ExamPage';
+import StudentLayout from 'layouts/Student';
+import Assignment from 'pages/Assignment';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -132,12 +134,12 @@ export const routes: IRoute[] = [
    * **********************************************
    * Student routes:
    */
-  // {
-  //   path: '/',
-  //   element: StudentHome,
-  //   role: ['student'],
-  //   layout: StudentLayout,
-  // },
+  {
+    path: '/assignment',
+    element: Assignment,
+    role: ['student'],
+    layout: StudentLayout,
+  },
   /**
    * **********************************************
    * Admin routes:
