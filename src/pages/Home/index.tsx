@@ -6,12 +6,12 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'redux/store';
 import { useMemo } from 'react';
 import { useQuery } from '@apollo/client';
-import { GetAllUserDocument } from 'gql/graphql';
+// import { GetAllUserDocument } from 'gql/graphql';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
-  const { data, loading } = useQuery(GetAllUserDocument);
+  // const { data, loading } = useQuery(GetAllUserDocument);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();

@@ -11,23 +11,38 @@ export const register = graphql(`
 `);
 
 export const login = graphql(`
-  mutation Login($loginInput: LoginInput!) {
+  mutation login($loginInput: LoginInput!) {
     login(loginInput: $loginInput) {
+      accessToken
+      refreshToken
+      user {
+        email
+        firstName
+        lastName
+        _id
+      }
+    }
+  }
+`);
+
+export const refreshToken = graphql(`
+  query refreshToken {
+    refreshToken {
       accessToken
       refreshToken
     }
   }
 `);
 
-export const logout = graphql(`
-  mutation Logout {
-    logout {
-      code
-      message
-      success
-    }
-  }
-`);
+// export const logout = graphql(`
+//   mutation Logout {
+//     logout {
+//       code
+//       message
+//       success
+//     }
+//   }
+// `);
 
 // export const me = graphql(`
 //   query me {

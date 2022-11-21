@@ -1,12 +1,12 @@
 import { FetchResult, useLazyQuery, useMutation } from '@apollo/client';
 import { notification } from 'antd';
-import {
-  LoginDocument,
-  LoginMutation,
-  LogoutDocument,
-  MeDocument,
-  User,
-} from 'gql/graphql';
+// import {
+//   LoginDocument,
+//   LoginMutation,
+//   LogoutDocument,
+//   MeDocument,
+//   User,
+// } from 'gql/graphql';
 import {
   useState,
   Dispatch,
@@ -22,6 +22,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ILoginForm } from 'pages/Login';
 import React from 'react';
+import { LoginDocument, LoginMutation, User } from 'gql/graphql';
 
 interface IAuthContext {
   isAuthenticated: boolean | null;
@@ -29,7 +30,8 @@ interface IAuthContext {
   setIsAuthenticated: Dispatch<SetStateAction<boolean | null>>;
   checkAuth: () => Promise<void>;
   logout: () => Promise<void>;
-  login: (param: ILoginForm) => Promise<FetchResult<LoginMutation>>;
+  //   login: (param: ILoginForm) => Promise<FetchResult<LoginMutation>>;
+  login: (param: ILoginForm) => Promise<any>;
 }
 
 const defaultIsAuthenticated = null;
@@ -37,7 +39,7 @@ const defaultIsAuthenticated = null;
 export const AuthContext = createContext<IAuthContext>({
   isAuthenticated: null,
   auth: {},
-  setIsAuthenticated: () => { },
+  setIsAuthenticated: () => {},
   checkAuth: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   login: () =>
@@ -55,16 +57,16 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
     defaultIsAuthenticated
   );
-  const [fireLogoutServer] = useMutation(LogoutDocument);
+  //   const [fireLogoutServer] = useMutation(LogoutDocument);
   const [fireLogin] = useMutation(LoginDocument);
-  const [fireGetMe] = useLazyQuery(MeDocument);
+  //   const [fireGetMe] = useLazyQuery(MeDocument);
   const { t } = useTranslation();
 
   useEffect(() => {
     if (isAuthenticated) {
     } else {
     }
-    return () => { };
+    return () => {};
   }, [auth, isAuthenticated]);
 
   const checkAuth = useCallback(async () => {
@@ -103,32 +105,32 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     return res;
   };
 
-  const logout = async () => {
-    const res = await fireLogoutServer();
+  //   const logout = async () => {
+  //     const res = await fireLogoutServer();
 
-    if (res?.data?.logout.success) {
-      JWTManager.setIsHaveRefreshToken(false);
-      logoutClient();
+  //     if (res?.data?.logout.success) {
+  //       JWTManager.setIsHaveRefreshToken(false);
+  //       logoutClient();
 
-      notification.success({
-        message: t('auth.logout_success'),
-      });
+  //       notification.success({
+  //         message: t('auth.logout_success'),
+  //       });
 
-      setAuth({});
-      window.location.href = '/login';
-    } else {
-      notification.error({
-        message: t('auth.logout_error'),
-      });
-    }
-  };
+  //       setAuth({});
+  //       window.location.href = '/login';
+  //     } else {
+  //       notification.error({
+  //         message: t('auth.logout_error'),
+  //       });
+  //     }
+  //   };
 
-  const authContextData = {
+  const authContextData: any = {
     isAuthenticated,
     setIsAuthenticated,
     checkAuth,
     login,
-    logout,
+    // logout,
     auth,
   };
 

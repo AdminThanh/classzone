@@ -31,22 +31,19 @@ function Register() {
     const { data }: FetchResult<RegisterMutation> = await fireRegister({
       variables: {
         registerInput: {
-          username,
           email,
           password,
         },
       },
     });
 
-    if (data?.register.code === 200) {
+    if (data) {
       notification.success({
         message: t('register.register_success') as string,
       });
-
-      form.resetFields();
     } else {
       notification.error({
-        message: data?.register?.message,
+        message: t('error.have_error'),
       });
     }
   };
