@@ -1,17 +1,22 @@
+import { useLazyQuery } from '@apollo/client';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import i18next from 'i18next';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'redux/store';
-import { useMemo } from 'react';
-import { useQuery } from '@apollo/client';
-import { GetAllUserDocument } from 'gql/graphql';
+// import { GetAllUserDocument } from 'gql/graphql';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
+// import { refreshToken } from 'graphql/auth';
+import { RefreshTokenDocument } from 'gql/graphql';
+import { useAuth } from 'contexts/AuthContext';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
-  const { data, loading } = useQuery(GetAllUserDocument);
+  // const { data, loading } = useQuery(refreshToken);
+  const [fireRefreshToken] = useLazyQuery(RefreshTokenDocument);
+  const { auth } = useAuth();
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -76,6 +81,18 @@ const Home = () => {
     <div>
       Home Teacher: {state} - {i18next.language}
       <div>
+        <button
+          onClick={() => {
+            fireRefreshToken({
+              fetchPolicy: 'network-only',
+            });
+          }}
+        >
+          Fetch
+        </button>
+        <button onClick={() => {
+          console.log("auth", auth)
+        }}>Get me</button>
         <button
           onClick={() => {
             i18next.changeLanguage(i18next.language === 'vi' ? 'en' : 'vi');

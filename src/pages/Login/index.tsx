@@ -7,100 +7,106 @@ import JWTManager from 'utils/jwt';
 import './Login.scss';
 
 export interface ILoginForm {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 function Login() {
-    const { setIsAuthenticated, login } = useAuth();
-    const [form] = Form.useForm();
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+  const { setIsAuthenticated, login } = useAuth();
+  const [form] = Form.useForm();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
-    const onFinish = async ({ email, password }: ILoginForm) => {
-        const { data } = await login({
-            email,
-            password,
+  const onFinish = async ({ email, password }: ILoginForm) => {
+    try {
+      const { data } = await login({
+        email,
+        password,
+      });
+
+      if (data?.login) {
+        JWTManager.setToken(data.login.accessToken as string);
+        JWTManager.setIsHaveRefreshToken(true);
+        setIsAuthenticated(true);
+
+        notification.success({
+          message: t('auth.login_success') as string,
         });
 
-        if (data?.login.success) {
-            JWTManager.setToken(data.login.accessToken as string);
-            JWTManager.setIsHaveRefreshToken(true);
-            setIsAuthenticated(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 500);
+      } else {
+        JWTManager.setIsHaveRefreshToken(false);
+        notification.error({
+          message: t('error.have_error'),
+        });
+      }
+    } catch (err) {
+      notification.error({
+        message: t('error.have_error'),
+      });
+    }
+  };
 
-            notification.success({
-                message: t('auth.login_success') as string,
-            });
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
 
-            setTimeout(() => {
-                navigate('/');
-            }, 500);
-        } else {
-            JWTManager.setIsHaveRefreshToken(false);
-            notification.error({
-                message: data?.login?.message,
-            });
-        }
-    };
+  return (
+    <div className="login-tab">
+      <div className="top-tab">
+        <h2>CHÀO MỪNG BẠN QUAY TRỞ LẠI</h2>
+        <p>Đăng nhập để trải nghiệm ngay</p>
+      </div>
+      <Form
+        name="basic"
+        labelCol={{ span: 24 }}
+        wrapperCol={{ span: 24 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="on"
+        form={form}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: 'Mời bạn nhập email!' }]}
+        >
+          <Input placeholder="Nhập email của bạn" prefix={<MailOutlined />} />
+        </Form.Item>
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Mời bạn nhập password!' }]}
+        >
+          <Input.Password
+            placeholder="Nhập mật khẩu"
+            prefix={<LockOutlined />}
+          />
+        </Form.Item>
 
-    return (
-        <div className="login-tab">
-            <div className="top-tab">
-                <h2>CHÀO MỪNG BẠN QUAY TRỞ LẠI</h2>
-                <p>Đăng nhập để trải nghiệm ngay</p>
-            </div>
-            <Form
-                name="basic"
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="on"
-                form={form}
-            >
-                <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[{ required: true, message: 'Mời bạn nhập email!' }]}
-                >
-                    <Input placeholder="Nhập email của bạn" prefix={<MailOutlined />} />
-                </Form.Item>
-
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[{ required: true, message: 'Mời bạn nhập password!' }]}
-                >
-                    <Input.Password
-                        placeholder="Nhập mật khẩu"
-                        prefix={<LockOutlined />}
-                    />
-                </Form.Item>
-
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" className="primary-btn">
-                        <p>Đăng Nhập</p>
-                    </Button>
-                    <div className="or">
-                        <p>Hoặc đăng ký bằng tài khoản</p>
-                    </div>
-                    <Button type="primary" htmlType="submit" className="submit-btn">
-                        <img
-                            className="google-icon"
-                            src={require('assets/images/google-icon.png')}
-                            alt=""
-                        />
-                        <p>Đăng nhập với Google</p>
-                    </Button>
-                </Form.Item>
-            </Form>
-        </div>
-    );
+        <Form.Item>
+          <Button type="primary" htmlType="submit" className="primary-btn">
+            <p>Đăng Nhập</p>
+          </Button>
+          <div className="or">
+            <p>Hoặc đăng ký bằng tài khoản</p>
+          </div>
+          <Button type="primary" htmlType="submit" className="submit-btn">
+            <img
+              className="google-icon"
+              src={require('assets/images/google-icon.png')}
+              alt=""
+            />
+            <p>Đăng nhập với Google</p>
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
 }
 
 export default Login;

@@ -93,13 +93,11 @@ export const routes: IRoute[] = [
   {
     path: '/login',
     element: Login,
-    role: ['teacher'],
     layout: AuthLayout,
   },
   {
     path: '/register',
     element: Register,
-    role: ['teacher'],
     layout: AuthLayout,
   },
   {

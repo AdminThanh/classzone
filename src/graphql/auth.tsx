@@ -4,28 +4,46 @@ import { graphql } from 'gql';
 export const register = graphql(`
   mutation Register($registerInput: RegisterInput!) {
     register(registerInput: $registerInput) {
-      accessToken
-      refreshToken
+      email
+      token_version
     }
   }
 `);
 
 export const login = graphql(`
-  mutation Login($loginInput: LoginInput!) {
+  mutation login($loginInput: LoginInput!) {
     login(loginInput: $loginInput) {
       accessToken
       refreshToken
+      user {
+        email
+        firstName
+        lastName
+        _id
+      }
+    }
+  }
+`);
+
+export const refreshToken = graphql(`
+  query refreshToken {
+    refreshToken {
+      accessToken
+      refreshToken
+      user {
+        firstName
+        lastName
+        email
+        id
+        role
+      }
     }
   }
 `);
 
 export const logout = graphql(`
-  mutation Logout {
-    logout {
-      code
-      message
-      success
-    }
+  mutation logout {
+    logout
   }
 `);
 
