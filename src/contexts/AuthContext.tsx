@@ -22,7 +22,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ILoginForm } from 'pages/Login';
 import React from 'react';
-import { LoginDocument, LoginMutation, User } from 'gql/graphql';
+import {
+  LoginDocument,
+  LoginMutation,
+  LogoutDocument,
+  User,
+} from 'gql/graphql';
 
 interface IAuthContext {
   isAuthenticated: boolean | null;
@@ -57,7 +62,8 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
     defaultIsAuthenticated
   );
-  //   const [fireLogoutServer] = useMutation(LogoutDocument);
+
+  const [fireLogoutServer] = useMutation(LogoutDocument);
   const [fireLogin] = useMutation(LoginDocument);
   //   const [fireGetMe] = useLazyQuery(MeDocument);
   const { t } = useTranslation();
@@ -105,32 +111,32 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     return res;
   };
 
-  //   const logout = async () => {
-  //     const res = await fireLogoutServer();
+  const logout = async () => {
+    try {
+      const res = await fireLogoutServer();
 
-  //     if (res?.data?.logout.success) {
-  //       JWTManager.setIsHaveRefreshToken(false);
-  //       logoutClient();
+      JWTManager.setIsHaveRefreshToken(false);
+      logoutClient();
 
-  //       notification.success({
-  //         message: t('auth.logout_success'),
-  //       });
+      notification.success({
+        message: t('auth.logout_success'),
+      });
 
-  //       setAuth({});
-  //       window.location.href = '/login';
-  //     } else {
-  //       notification.error({
-  //         message: t('auth.logout_error'),
-  //       });
-  //     }
-  //   };
+      setAuth({});
+      window.location.href = '/login';
+    } catch (err) {
+      notification.error({
+        message: t('auth.logout_error'),
+      });
+    }
+  };
 
   const authContextData: any = {
     isAuthenticated,
     setIsAuthenticated,
     checkAuth,
     login,
-    // logout,
+    logout,
     auth,
   };
 

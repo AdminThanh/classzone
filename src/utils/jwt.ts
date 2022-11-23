@@ -1,5 +1,7 @@
-import { User } from 'gql/graphql';
+import { useApolloClient } from '@apollo/client';
+import { RefreshTokenDocument, TokenAndUser, User } from 'gql/graphql';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import client from './apollo';
 
 const JWTManager = () => {
   const LOGOUT_EVENT_NAME = 'jwt-logout';
@@ -72,15 +74,11 @@ const JWTManager = () => {
 
   const refreshToken = async () => {
     try {
-      const response = await fetch('http://localhost:4000/refresh_token', {
-        credentials: 'include',
+      const response = await client.query({
+        query: RefreshTokenDocument,
       });
 
-      const data = (await response.json()) as {
-        success: boolean;
-        user: User;
-        accessToken: string;
-      };
+      const data: any = response.data.refreshToken;
 
       setAuthInfo(data.user);
       setToken(data.accessToken);

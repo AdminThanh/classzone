@@ -8,18 +8,15 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'redux/store';
 // import { GetAllUserDocument } from 'gql/graphql';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
-import { refreshToken } from 'graphql/auth';
+// import { refreshToken } from 'graphql/auth';
+import { RefreshTokenDocument } from 'gql/graphql';
+import { useAuth } from 'contexts/AuthContext';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
   // const { data, loading } = useQuery(refreshToken);
-  const [fireRefreshToken] = useLazyQuery(refreshToken, {
-    context: {
-      headers: {
-        cookie: 'token=asdsad',
-      },
-    },
-  });
+  const [fireRefreshToken] = useLazyQuery(RefreshTokenDocument);
+  const { auth } = useAuth();
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -86,22 +83,16 @@ const Home = () => {
       <div>
         <button
           onClick={() => {
-            // fireRefreshToken({
-            //   fetchPolicy: 'network-only',
-            //   context: {
-            //     headers: {
-            //       authen: "Csadsadas"
-            //     }
-            //   }
-            // });
-            fetch('http://localhost:4000/graphql', {
-              method: 'GET',
-              credentials: 'include',
-            }).then((res) => console.log(res));
+            fireRefreshToken({
+              fetchPolicy: 'network-only',
+            });
           }}
         >
           Fetch
         </button>
+        <button onClick={() => {
+          console.log("auth", auth)
+        }}>Get me</button>
         <button
           onClick={() => {
             i18next.changeLanguage(i18next.language === 'vi' ? 'en' : 'vi');

@@ -28,11 +28,17 @@ function Register() {
     password,
     ...rest
   }: IFormRegister) => {
+    const roleEnum = {
+      1: 'STUDENT',
+      2: 'TEACHER',
+    };
     const { data }: FetchResult<RegisterMutation> = await fireRegister({
       variables: {
         registerInput: {
+          username,
           email,
           password,
+          role: roleEnum[roleSelect || 1],
         },
       },
     });

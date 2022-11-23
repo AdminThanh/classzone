@@ -1,3 +1,4 @@
+import { RequireAuth, RequireGuest } from 'components/Auth';
 import { useAuth } from 'contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
@@ -35,6 +36,7 @@ const Router = () => {
           let Layout = route?.layout || React.Fragment;
           let Element = route.element;
 
+
           // Đợi API login ms xử lý case này
           // if (route.role.includes('teacher')) {
           // if (route.role.includes('student')) {
@@ -45,17 +47,17 @@ const Router = () => {
               element={
                 <>
                   {route?.role?.length && (
-                    // <RequireAuth>
-                    <Layout>
-                      <Element />
-                    </Layout>
-                    // </RequireAuth>
+                    <RequireAuth>
+                      <Layout>
+                        <Element />
+                      </Layout>
+                    </RequireAuth>
                   )}
                   {!route?.role?.length && (
                     // <RequireGuest>
-                    <Layout>
-                      <Element />
-                    </Layout>
+                      <Layout>
+                        <Element />
+                      </Layout>
                     // </RequireGuest>
                   )}
                 </>

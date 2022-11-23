@@ -59,7 +59,7 @@ const Navbar = (props: INavbarProps) => {
         icon: ExitIcon,
         path: '',
         onClick: () => {
-          // logout();
+          logout();
         },
       },
     ];
@@ -98,9 +98,11 @@ const Navbar = (props: INavbarProps) => {
             </div>
 
             {/* User control */}
-            {/* {isAuthenticated && (
+            {isAuthenticated && (
               <div className="navbar__user">
-                <div className="navbar__label">Chào, {auth?.username}</div>
+                <div className="navbar__label">
+                  Chào, {auth?.firstName} {auth?.lastName}
+                </div>
                 <DefaultAvatar className="navbar__avatar" />
 
                 <div className="navbar__dropdown">
@@ -121,7 +123,7 @@ const Navbar = (props: INavbarProps) => {
                   </div>
                 </div>
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>
