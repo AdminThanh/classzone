@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import logo from 'assets/images/logo.png';
 import clsx from 'clsx';
 import { useAuth } from 'contexts/AuthContext';
-import { getAllUser } from 'graphql/user';
+// import { getAllUser } from 'graphql/user';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -29,7 +29,7 @@ const Navbar = (props: INavbarProps) => {
   const { navList = [] } = props;
   const { isAuthenticated, logout, auth } = useAuth();
   const [isSidebar, setIsSidebar] = useState(false);
-  const { refetch } = useQuery(getAllUser);
+  // const { refetch } = useQuery(getAllUser);
   const { t } = useTranslation();
 
   const listUserControl: IUserControl[] = useMemo(() => {
@@ -39,7 +39,7 @@ const Navbar = (props: INavbarProps) => {
         icon: ProfileIcon,
         path: '',
         onClick: () => {
-          refetch();
+          // refetch();
         },
       },
       {
@@ -100,10 +100,11 @@ const Navbar = (props: INavbarProps) => {
             {/* User control */}
             {isAuthenticated && (
               <div className="navbar__user">
-                <div className="navbar__label">Chào, {auth?.username}</div>
+                <div className="navbar__label">
+                  Chào, {auth?.firstName} {auth?.lastName}
+                </div>
                 <DefaultAvatar className="navbar__avatar" />
 
-                {/* dropdown */}
                 <div className="navbar__dropdown">
                   <div className="navbar__listControl">
                     {listUserControl.map((item, idx) => (
@@ -148,7 +149,7 @@ const Navbar = (props: INavbarProps) => {
               <div className="navbar__modal__avatar">
                 <DefaultAvatar className="navbar__avatar" />
               </div>
-              <div className="nav__modal_username">Chào, {auth?.username}</div>
+              {/* <div className="nav__modal_username">Chào, {auth?.username}</div> */}
             </div>
             <div className="navbar__modal__listItem">
               {navList?.map((item, idx) => (

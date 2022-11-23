@@ -28,25 +28,28 @@ function Register() {
     password,
     ...rest
   }: IFormRegister) => {
+    const roleEnum = {
+      1: 'STUDENT',
+      2: 'TEACHER',
+    };
     const { data }: FetchResult<RegisterMutation> = await fireRegister({
       variables: {
         registerInput: {
           username,
           email,
           password,
+          role: roleEnum[roleSelect || 1],
         },
       },
     });
 
-    if (data?.register.code === 200) {
+    if (data) {
       notification.success({
         message: t('register.register_success') as string,
       });
-
-      form.resetFields();
     } else {
       notification.error({
-        message: data?.register?.message,
+        message: t('error.have_error'),
       });
     }
   };

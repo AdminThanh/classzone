@@ -3,18 +3,16 @@ import * as types from './graphql';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 const documents = {
-    "\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n": types.RegisterDocument,
-    "\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n      user {\n        _id\n        username\n        email\n        updatedAt\n        createdAt\n      }\n    }\n  }\n": types.LoginDocument,
-    "\n  mutation Logout {\n    logout {\n      code\n      message\n      success\n    }\n  }\n": types.LogoutDocument,
-    "\n  query me {\n    me {\n      _id\n      username\n      email\n      createdAt\n      updatedAt\n      token_version\n    }\n  }\n": types.MeDocument,
-    "\n  # Query\n  query getAllUser {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n": types.GetAllUserDocument,
+    "\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n": types.RegisterDocument,
+    "\n  mutation login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      accessToken\n      refreshToken\n      user {\n        email\n        firstName\n        lastName\n        _id\n      }\n    }\n  }\n": types.LoginDocument,
+    "\n  query refreshToken {\n    refreshToken {\n      accessToken\n      refreshToken\n      user {\n        firstName\n        lastName\n        email\n        id\n        role\n      }\n    }\n  }\n": types.RefreshTokenDocument,
+    "\n  mutation logout {\n    logout\n  }\n": types.LogoutDocument,
 };
 
-export function graphql(source: "\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation Register($registerInput: RegisterInput!) {\n    register(regsiterInput: $registerInput) {\n      code\n      message\n      success\n    }\n  }\n"];
-export function graphql(source: "\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n      user {\n        _id\n        username\n        email\n        updatedAt\n        createdAt\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      code\n      success\n      accessToken\n      message\n      user {\n        _id\n        username\n        email\n        updatedAt\n        createdAt\n      }\n    }\n  }\n"];
-export function graphql(source: "\n  mutation Logout {\n    logout {\n      code\n      message\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation Logout {\n    logout {\n      code\n      message\n      success\n    }\n  }\n"];
-export function graphql(source: "\n  query me {\n    me {\n      _id\n      username\n      email\n      createdAt\n      updatedAt\n      token_version\n    }\n  }\n"): (typeof documents)["\n  query me {\n    me {\n      _id\n      username\n      email\n      createdAt\n      updatedAt\n      token_version\n    }\n  }\n"];
-export function graphql(source: "\n  # Query\n  query getAllUser {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n"): (typeof documents)["\n  # Query\n  query getAllUser {\n    getAllUsers {\n      username\n      email\n      _id\n    }\n  }\n"];
+export function graphql(source: "\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n"): (typeof documents)["\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n"];
+export function graphql(source: "\n  mutation login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      accessToken\n      refreshToken\n      user {\n        email\n        firstName\n        lastName\n        _id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      accessToken\n      refreshToken\n      user {\n        email\n        firstName\n        lastName\n        _id\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query refreshToken {\n    refreshToken {\n      accessToken\n      refreshToken\n      user {\n        firstName\n        lastName\n        email\n        id\n        role\n      }\n    }\n  }\n"): (typeof documents)["\n  query refreshToken {\n    refreshToken {\n      accessToken\n      refreshToken\n      user {\n        firstName\n        lastName\n        email\n        id\n        role\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation logout {\n    logout\n  }\n"): (typeof documents)["\n  mutation logout {\n    logout\n  }\n"];
 
 export function graphql(source: string): unknown;
 export function graphql(source: string) {
