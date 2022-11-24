@@ -148,10 +148,10 @@ function Register() {
           <Button type="primary" htmlType="submit" className="primary-btn">
             <p>Đăng ký</p>
           </Button>
-          <div className="or">
+          {/* <div className="or">
             <p>Hoặc đăng ký bằng tài khoản</p>
-          </div>
-          <Button type="primary" htmlType="submit" className="submit-btn">
+          </div> */}
+          {/* <Button type="primary" htmlType="submit" className="submit-btn">
             <img
               className="google-icon"
               src={require('assets/images/google-icon.png')}
@@ -159,7 +159,7 @@ function Register() {
             />
 
             <p>Đăng nhập với Google</p>
-          </Button>
+          </Button> */}
         </Form.Item>
       </Form>
     </div>

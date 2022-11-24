@@ -2,7 +2,7 @@ import dingAudio from 'assets/audio/ding.mp3';
 import votayAudio from 'assets/audio/votay.mp3';
 import { ArcElement, Chart as ChartJS } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import Swal from 'sweetalert2';
 import './WheelOfNames.scss';
@@ -41,11 +41,16 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
   const MIN_ROUNDS = 7;
   const MAX_ROUNDS = 8;
 
-  const dingSound = new Audio(dingAudio);
-  const votaySound = new Audio(votayAudio);
+  const dingSound = useRef(new Audio(dingAudio));
+  const votaySound = useRef(new Audio(votayAudio));
+  const timer1 = useRef<number>(0);
+  const timer2 = useRef<number>(0);
+  const timer3 = useRef<number>(0);
+  const timerResult = useRef<number>(0);
 
   const [rotate, setRotate] = useState<number>(0);
   const [count, setCount] = useState<number>(1);
+  const isWheeling = useRef(false);
 
   const data = {
     labels: names,
@@ -99,66 +104,85 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
   // Start spinning
   const handleSpinning = () => {
     // Empty final value
+    if (isWheeling.current === false) {
+      isWheeling.current = true;
+      const random = Math.random();
+      // Generate random degree to stop at
+      let randomDegree =
+        (MIN_ROUNDS * 360 +
+          Math.floor(random * 360) * (MAX_ROUNDS - MIN_ROUNDS)) *
+        count *
+        2;
 
-    const random = Math.random();
-    // Generate random degree to stop at
-    let randomDegree =
-      (MIN_ROUNDS * 360 +
-        Math.floor(random * 360) * (MAX_ROUNDS - MIN_ROUNDS)) *
-      count *
-      2;
+      // console.log(
+      //   `(${MIN_ROUNDS * 360} + ${Math.floor(random * 360)} * ${
+      //     MAX_ROUNDS - MIN_ROUNDS
+      //   }) * ${count * 2} = ${randomDegree}`
+      // );
 
-    // console.log(
-    //   `(${MIN_ROUNDS * 360} + ${Math.floor(random * 360)} * ${
-    //     MAX_ROUNDS - MIN_ROUNDS
-    //   }) * ${count * 2} = ${randomDegree}`
-    // );
+      setCount(count + 1);
+      setRotate(randomDegree);
 
-    setCount(count + 1);
-    setRotate(randomDegree);
+      const winner = Math.floor(
+        ((randomDegree - 90) % 360) / (360 / names.length)
+      );
 
-    const winner = Math.floor(
-      ((randomDegree - 90) % 360) / (360 / names.length)
-    );
+      const newData = names.reverse();
 
-    const newData = names.reverse();
+      timer1.current = window.setInterval(() => {
+        dingSound.current.play();
+      }, 100);
 
-    const timer1 = setInterval(() => {
-      dingSound.play();
-    }, 100);
+      timer2.current = window.setInterval(() => {
+        dingSound.current.play();
+      }, 250);
 
-    const timer2 = setInterval(() => {
-      dingSound.play();
-    }, 250);
+      timer3.current = window.setInterval(() => {
+        dingSound.current.play();
+      }, 400);
 
-    const timer3 = setInterval(() => {
-      dingSound.play();
-    }, 400);
+      setTimeout(() => {
+        clearInterval(timer1.current);
+      }, 6000);
 
-    setTimeout(() => {
-      clearInterval(timer1);
-    }, 6000);
+      setTimeout(() => {
+        clearInterval(timer2.current);
+      }, 6500);
 
-    setTimeout(() => {
-      clearInterval(timer2);
-    }, 6500);
+      setTimeout(() => {
+        clearInterval(timer3.current);
+      }, 7000);
 
-    setTimeout(() => {
-      clearInterval(timer3);
-    }, 7000);
-
-    setTimeout(() => {
-      Swal.fire('Xin chúc mừng !', newData[winner]);
-      if (onClick) onClick(newData[winner]);
-      votaySound.play();
-    }, 7500);
+      timerResult.current = window.setTimeout(() => {
+        Swal.fire('Xin chúc mừng !', newData[winner]);
+        if (onClick) onClick(newData[winner]);
+        votaySound.current.play();
+        isWheeling.current = false;
+      }, 7500);
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      dingSound.current.pause();
+      votaySound.current.pause();
+      clearInterval(timer1.current);
+      clearInterval(timer2.current);
+      clearInterval(timer3.current);
+
+      clearTimeout(timerResult.current);
+    };
+  }, []);
 
   return (
     <div className="wheel-of-name">
       <div onClick={handleSpinning} className="wheel-spin">
         <div className="wheel" style={{ transform: `rotate(${rotate}deg)` }}>
-          <Pie data={data} options={options} plugins={[ChartDataLabels as any]} />
+          <Pie
+            data={data}
+            options={options}
+            plugins={[ChartDataLabels as any]}
+          />
         </div>
         <div className="wheel-spin__result"></div>
       </div>
