@@ -27,6 +27,8 @@ interface IDataAssignment {
 }
 interface IAssignment {
   nameAssignment: string;
+  start_time: string;
+  end_time: string;
   assignment: IDataAssignment[];
 }
 
@@ -40,6 +42,8 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise(
       const dataAssignment: IAssignment[] = [
         {
           nameAssignment: 'Unit 1: Test Online',
+          start_time: '2022-11-23T12:10:48.758+00:00',
+          end_time: '2022-11-23T12:25:01.758+00:00',
           assignment: [
             {
               question_id: '101',
@@ -539,25 +543,33 @@ const Assignment = () => {
   const [listQuestion, setListQuestion] = useState<IDataAssignment[]>([]);
   const [nameAssignment, setNameAssignment] = useState('');
   const [dataAnswer, setDataAnswer] = useState<IAnswers>({});
-  const [order, setOrder] = useState(0);
+  const [order, setOrder] = useState(1);
+
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   useEffect(() => {
     fakeAPIAssignment.then((res) => {
       setListQuestion(res[0].assignment);
       setNameAssignment(res[0].nameAssignment);
+
+      setStartTime(res[0].start_time);
+      setEndTime(res[0].end_time);
     });
-    console.log(dataSession);
 
     if (dataSession !== 'undefined') {
       setDataAnswer(JSON.parse(dataSession));
     }
   }, []);
 
+
   const currentQuestion: any = useMemo(() => {
     if (typeof order === 'number') {
-      return listQuestion[order] || 'undefined';
+      return listQuestion[order - 1] || 'undefined';
     }
   }, [order, listQuestion]);
+
+  console.log(currentQuestion);
 
   const handleAnswered = (id: string, answered: any) => {
     setDataAnswer({
@@ -618,7 +630,7 @@ const Assignment = () => {
           </div>
           <div className="heading__content-mid">
             <div className="heading__content-timer">
-              <Timer />
+              <Timer startTime={startTime} endTime={endTime} />
             </div>
             <div className="heading__content-submit none_sm">
               <button onClick={handleSubmit}>
@@ -637,7 +649,7 @@ const Assignment = () => {
           <AssignmentItem
             dataAnswer={dataAnswer}
             handleAnswered={handleAnswered}
-            order={order + 1}
+            order={order}
             question_id={currentQuestion?.question_id}
             name={currentQuestion?.name}
             content={currentQuestion?.content}
@@ -649,7 +661,7 @@ const Assignment = () => {
             <Swiper
               modules={[Navigation, Pagination, Scrollbar, A11y, Keyboard]}
               spaceBetween={5}
-              slidesPerGroup={1}
+              slidesPerGroup={4}
               navigation
               breakpoints={{
                 576: {
