@@ -27,8 +27,8 @@ interface IDataAssignment {
 }
 interface IAssignment {
   nameAssignment: string;
-  start_time: string;
-  end_time: string;
+  start_time: any;
+  end_time: any;
   assignment: IDataAssignment[];
 }
 
@@ -552,7 +552,6 @@ const Assignment = () => {
     fakeAPIAssignment.then((res) => {
       setListQuestion(res[0].assignment);
       setNameAssignment(res[0].nameAssignment);
-
       setStartTime(res[0].start_time);
       setEndTime(res[0].end_time);
     });
@@ -561,7 +560,6 @@ const Assignment = () => {
       setDataAnswer(JSON.parse(dataSession));
     }
   }, []);
-
 
   const currentQuestion: any = useMemo(() => {
     if (typeof order === 'number') {
@@ -610,7 +608,7 @@ const Assignment = () => {
       title: 'Bạn có chắc chắn hủy bài làm!',
       icon: <ExclamationCircleFilled />,
       content: 'Lưu ý: Khi hủy bài làm, bạn sẽ không thể làm lại bài này nữa!',
-      okText: 'Nộp bài',
+      okText: 'Không làm nữa',
       cancelText: 'Hủy',
       onOk() {
         return new Promise((resolve, reject) => {
@@ -640,7 +638,7 @@ const Assignment = () => {
             </div>
           </div>
           <div className="heading__content-out none_sm">
-            <LogoutOutlined />
+            <LogoutOutlined onClick={handleCancel} />
           </div>
         </div>
       </div>

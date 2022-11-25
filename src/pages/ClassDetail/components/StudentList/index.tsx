@@ -11,10 +11,10 @@ const StudentList = (props: any) => {
   const { dataStudent } = props;
   const { t } = useTranslation();
   return (
-    <Row className="classdetail__list">
+    <Row className="classdetail__list" gutter={[20,20]}>
       {dataStudent?.length !== 0 &&
         dataStudent?.map((item: any, index: any) => (
-          <Col key={index} span={3} className="classdetail__item">
+          <Col key={index} xs={12} sm={6} md={5} lg={4} xl={3} xxl={3} className="classdetail__item">
             <StudentItem _id={item._id} name={item.name} avatar={item.avatar} />
           </Col>
         ))}
@@ -22,8 +22,8 @@ const StudentList = (props: any) => {
         onClick={() => {
           setShowInviteStudents(true);
         }}
-        span={3}
-        className="classdetail__item"
+        xs={12} sm={6} md={5} lg={4} xl={3} xxl={3}
+        className="classdetail__item invite"
       >
         <PlusCircleOutlined />
       </Col>
