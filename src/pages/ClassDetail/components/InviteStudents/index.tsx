@@ -58,7 +58,7 @@ const InviteStudents = (props: any) => {
           </label>
           <div className="student-form">
             <Input defaultValue={link} />
-            <div className="coppy btn ouline" onClick={copyToClipboard}>
+            <div className="coppy ouline" onClick={copyToClipboard}>
               {t('action.coppy')}
             </div>
           </div>

@@ -1,0 +1,12 @@
+@use '/src/assets/styles/colors' as c;
+
+.create_group {
+  .ant-modal-content .ant-btn-primary {
+    background-color: c.$primary !important;
+    border-color: c.$primary !important;
+  }
+  .ant-modal-content button.ant-btn.ant-btn-default:hover {
+    color: c.$primary !important;
+    border-color: c.$primary !important;
+  }
+}

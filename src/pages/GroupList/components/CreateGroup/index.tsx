@@ -1,3 +1,4 @@
+import './CreateGroup.scss';
 import { message, Modal, Button, Form, Input, InputNumber, Select } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +37,7 @@ const CreateGroup = (props: any) => {
       onCancel={handleCancel}
       title={t('my_group.create')}
       footer={null}
+      className="create_group"
     >
       <Form
         {...layout}
