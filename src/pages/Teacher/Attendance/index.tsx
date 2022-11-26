@@ -47,7 +47,6 @@ function Attendance() {
         const newListStudent = structuredClone(listStudent);
         newListStudent[id - 1].isCheck = !newListStudent[id - 1].isCheck;
         setListStudent(newListStudent);
-        console.log(newListStudent);
     }
 
     const handleChangeNote = (id: number, value: string): void => {

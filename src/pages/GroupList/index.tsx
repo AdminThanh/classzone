@@ -9,49 +9,77 @@ import { Avatar, Button, Col, Row, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 import CreateGroup from './components/CreateGroup';
 
-export interface IGroupInfo {
+interface IStudentInfo {
   _id: string;
   name: string;
-  members: [];
+  avatar: string;
+}
+interface IGroupInfo {
+  _id: string;
+  name: string;
+  members: IStudentInfo[];
 }
 
-const GroupList = () => {
+const GroupList = (props: any) => {
+  const { dataGroup } = props;
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const { t } = useTranslation();
-
   return (
-    <Row className="groups_list">
-      <Col span={5} className="groups_list-item">
-        <h1 className="name">Siêu nhân gao</h1>
-        <Avatar.Group
-          maxCount={2}
-          maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-        >
-          <Avatar src="https://joeschmoe.io/api/v1/random" />
-          <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
-          <Tooltip title="Ant User" placement="top">
-            <Avatar
-              style={{ backgroundColor: '#87d068' }}
-              icon={<UserOutlined />}
-            />
-          </Tooltip>
-          <Avatar
-            style={{ backgroundColor: '#1890ff' }}
-            icon={<AntDesignOutlined />}
-          />
-        </Avatar.Group>
-        <Button type="primary" className="ouline" size={'large'}>
-          {t('action.view_detail')}
-        </Button>
-      </Col>
+    <Row className="groups_list" gutter={[20, 20]}>
+      {dataGroup?.length !== 0 &&
+        dataGroup?.map((item: IGroupInfo) => (
+          <Col key={item._id} xs={24} sm={12} md={8} lg={6} xl={4} xxl={4}>
+            <div className="groups_list-item">
+              <h1 className="name">{item.name}</h1>
+              <Avatar.Group
+                maxCount={2}
+                maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+              >
+                {item.members?.length !== 0 &&
+                  item.members?.map((student: IStudentInfo) =>
+                    student.avatar ? (
+                      <Avatar key={student._id} src={student.avatar} />
+                    ) : (
+                      <Avatar style={{ backgroundColor: '#f56a00' }}>
+                        {student.name.charAt(0).toUpperCase()}
+                      </Avatar>
+                    )
+                  )}
+                {item.members?.length > 2 && (
+                  <Tooltip placement="top">
+                    {item.members?.map((student: IStudentInfo) =>
+                      student.avatar ? (
+                        <Avatar key={student._id} src={student.avatar} />
+                      ) : (
+                        <Avatar style={{ backgroundColor: '#f56a00' }}>
+                          {student.name.charAt(0).toUpperCase()}
+                        </Avatar>
+                      )
+                    )}
+                  </Tooltip>
+                )}
+              </Avatar.Group>
+              <Button type="primary" className="ouline" size={'large'}>
+                {t('action.view_detail')}
+              </Button>
+            </div>
+          </Col>
+        ))}
+
       <Col
         onClick={() => {
           setShowCreateGroup(true);
         }}
-        className="groups_list-item add"
-        span={5}
+        xs={24}
+        sm={12}
+        md={8}
+        lg={6}
+        xl={4}
+        xxl={4}
       >
-        <PlusCircleOutlined />
+        <div className="groups_list-item add">
+          <PlusCircleOutlined />
+        </div>
       </Col>
       {showCreateGroup ? (
         <CreateGroup setShowCreateGroup={setShowCreateGroup} />

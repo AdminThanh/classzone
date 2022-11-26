@@ -1,4 +1,4 @@
-// import { gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 // export const getAllUser = gql`
 //   # Query
@@ -10,6 +10,16 @@
 //     }
 //   }
 // `;
+
+export const updateProfile = gql(`mutation updateprofile($updateProfileInput: UpdateProfileInput!) {
+    updateProfile(updateProfileInput: $updateProfileInput) {
+      firstName
+      lastName
+      phoneNumber
+      address
+      
+    }
+  }`)
 
 
 export const a = 5;

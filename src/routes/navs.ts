@@ -16,7 +16,7 @@ export const TeacherRoutes: INavItem[] = [
   {
     label: 'test_management',
     icon: TestIcon,
-    path: '/',
+    path: '/exam_management',
   },
   {
     label: 'question_management',
