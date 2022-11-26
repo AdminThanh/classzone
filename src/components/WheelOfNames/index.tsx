@@ -4,6 +4,7 @@ import { ArcElement, Chart as ChartJS } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FunctionComponent, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import './WheelOfNames.scss';
 
@@ -46,7 +47,7 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
 
   const [rotate, setRotate] = useState<number>(0);
   const [count, setCount] = useState<number>(1);
-
+  const { t } = useTranslation();
   const data = {
     labels: names,
     datasets: [
@@ -148,7 +149,7 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
     }, 7000);
 
     setTimeout(() => {
-      Swal.fire('Xin chúc mừng !', newData[winner]);
+      Swal.fire(t('wheel.congratulations'), newData[winner]);
       if (onClick) onClick(newData[winner]);
       votaySound.play();
     }, 7500);
@@ -158,7 +159,11 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
     <div className="wheel-of-name">
       <div onClick={handleSpinning} className="wheel-spin">
         <div className="wheel" style={{ transform: `rotate(${rotate}deg)` }}>
-          <Pie data={data} options={options} plugins={[ChartDataLabels as any]} />
+          <Pie
+            data={data}
+            options={options}
+            plugins={[ChartDataLabels as any]}
+          />
         </div>
         <div className="wheel-spin__result"></div>
       </div>

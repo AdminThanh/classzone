@@ -111,7 +111,11 @@ const Classes = () => {
         <BreadCrumb
           routes={[
             {
-              name: 'Quản lý lớp học',
+              name: t('navbar.home'),
+              path: '/',
+            },
+            {
+              name: t('navbar.class_management'),
               path: '/',
             },
           ]}
