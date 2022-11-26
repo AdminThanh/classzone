@@ -13,26 +13,18 @@ import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
-interface IClassInfo {
+export interface IClassInfo {
+  _id: string;
   name: string;
-  image: string;
+  avatar: string;
   learn_date: string;
   learn_date_end: string;
-  qr_code: string;
-  teacher: string;
+  code: string;
   scoreFactor: number;
 }
 
 const ClassItem = (props: IClassInfo) => {
-  const {
-    name,
-    image,
-    learn_date,
-    learn_date_end,
-    qr_code,
-    teacher,
-    scoreFactor,
-  } = props;
+  const { name, avatar, learn_date, learn_date_end, code, scoreFactor } = props;
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -65,7 +57,15 @@ const ClassItem = (props: IClassInfo) => {
   return (
     <div className="class-item">
       <div className="action">
-        <img src={image} alt={name} className="image" />
+        <img
+          src={
+            avatar
+              ? avatar
+              : 'https://cdn.dnaindia.com/sites/default/files/styles/full/public/2021/02/20/959189-bihar-board.jpg'
+          }
+          alt={name}
+          className="image"
+        />
         <Dropdown className="dropdown" overlay={menu}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
@@ -81,7 +81,7 @@ const ClassItem = (props: IClassInfo) => {
         <ul className="list-desc">
           <li className="item">
             <QrcodeOutlined />
-            {t('my_class.qr_code')}: <span>{qr_code}</span>
+            {t('my_class.qr_code')}: <span>{code}</span>
           </li>
           <li className="item">
             <ClockCircleOutlined />
@@ -90,10 +90,6 @@ const ClassItem = (props: IClassInfo) => {
           <li className="item">
             <ClockCircleOutlined />
             {t('my_class.end_date')}: <span>{learn_date_end}</span>
-          </li>
-          <li className="item">
-            <UserOutlined />
-            {t('my_class.teacher')}: <span>{teacher}</span>
           </li>
         </ul>
 
@@ -112,11 +108,10 @@ const ClassItem = (props: IClassInfo) => {
           <EditClass
             title={t('my_class.edit_class')}
             name={name}
-            image={image}
+            image={avatar}
             learn_date={learn_date}
             label={learn_date_end}
-            qr_code={qr_code}
-            teacher={teacher}
+            qr_code={code}
             scoreFactor={scoreFactor}
             setOpenModal={setOpenModal}
           />

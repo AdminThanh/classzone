@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { CameraOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Upload } from 'antd';
 import { current } from '@reduxjs/toolkit';
+import { FetchResult, useLazyQuery, useMutation } from '@apollo/client';
+import { CreateMyClassDocument, CreateMyClassMutation } from 'gql/graphql';
+import { IClassInfo } from 'pages/Classes';
 
 const layout = {
   labelCol: { span: 24 },
@@ -39,6 +42,8 @@ const EditClass = (props: any) => {
   const [inputLearn_date_end, setInputLearn_date_end] = useState(props.label);
   const [inputScoreFactor, setInputScoreFactor] = useState(scoreFactor);
 
+  const [fireCreateMyClass] = useMutation(CreateMyClassDocument);
+
   //  UPload image
   const [fileImage, setFileImage] = useState();
 
@@ -49,15 +54,28 @@ const EditClass = (props: any) => {
     }
   };
 
-  const handleOk = (values: any) => {
+  const handleOk = async (value: any) => {
     setConfirmLoading(true);
-    setTimeout(() => {
-      console.log(values);
-      console.log(inputImage);
 
-      setOpen(false);
-      setOpenModal(false);
-      setConfirmLoading(false);
+    const res = await fireCreateMyClass({
+      variables: {
+        createMyClass: {
+          name: value.class_invite.inputName,
+          scoreFactor: value.class_invite.inputScoreFactor,
+          from_date: new Date(),
+          end_date: new Date(),
+          banner: 'banner 123',
+        },
+      },
+    });
+
+    setTimeout(() => {
+    console.log(value);
+    console.log('inputImage', inputImage);
+
+    setOpen(false);
+    setOpenModal(false);
+    setConfirmLoading(false);
     }, 2000);
   };
 
