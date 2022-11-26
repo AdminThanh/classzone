@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import i18next from 'i18next';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface IQuessionTags {
   name: string;
@@ -151,16 +152,18 @@ const Question = () => {
           />
           <div className="question">
             <div className="action">
-              <Button
-                type="primary"
-                className="primary"
-                icon={<PlusCircleOutlined />}
-                size={'large'}
-              >
-                {t('my_quession.add_quession')}
-              </Button>
+              <Link to={'/create_question'}>
+                <Button
+                  type="primary"
+                  className="primary"
+                  icon={<PlusCircleOutlined />}
+                  size={'large'}
+                >
+                  {t('my_quession.add_quession')}
+                </Button>
+              </Link>
             </div>
-            <Table columns={columns} dataSource={dataTableQuession} />
+            <Table className='table_question' columns={columns} dataSource={dataTableQuession} />
           </div>
         </div>
       </div>

@@ -4,7 +4,9 @@ export default {
     my_class: 'Lớp của tôi',
     test_management: 'Quản lý bài kiểm tra',
     question_management: 'Quản lý câu hỏi',
+    class_management: 'Quản lý lớp học',
     add_question: 'Tạo câu hỏi',
+    create_question: 'Tạo bài kiểm tra',
   },
 
   user_control: {
@@ -30,6 +32,12 @@ export default {
     status: 'Trạng thái',
     name_class: 'Tên lớp',
     score_factor: 'Hệ số điểm',
+    class: 'Lớp học',
+    student: 'Học sinh',
+    attendance: 'Điểm danh',
+    rotating: 'Ô quay',
+    table_score: 'Bảng điểm',
+    give_assignment: 'Giao bài tập',
 
     // Fied
     qr_code: 'Mã code',
@@ -198,6 +206,7 @@ export default {
   },
 
   create_assignment: {
+    create_assignment: 'Tạo bài kiểm tra',
     assignment_name: 'Tên bài kiểm tra',
     add_question: 'Thêm câu hỏi',
     add_assignment: 'Thêm bài kiểm tra',
@@ -242,14 +251,25 @@ export default {
   }, 
   my_quession: {
     tags: 'Thẻ',
+    point: 'Điểm',
     quession: 'Câu hỏi',
     day_create: 'Ngày tạo',
     type_quession: 'Loại',
     add_quession: 'Thêm câu hỏi',
     edit_quession: 'Sửa câu hỏi',
+    choose_many: 'Cho phép chọn nhiều đáp án',
+    answer: 'Đáp án',
+    enter_answer: 'Nhập đáp án',
+    publish: 'Xuất bản',
+
+    //error
+    not_blank: 'Không được để trống',
 
     // Action
     choose_tags: 'Chọn thẻ liên quan',
+  },
+  wheel:{
+    congratulations: 'Xin chúc mừng',
   },
   // Admin
 };

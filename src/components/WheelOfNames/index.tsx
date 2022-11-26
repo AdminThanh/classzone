@@ -4,6 +4,7 @@ import { ArcElement, Chart as ChartJS } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import './WheelOfNames.scss';
 
@@ -51,7 +52,8 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
   const [rotate, setRotate] = useState<number>(0);
   const [count, setCount] = useState<number>(1);
   const isWheeling = useRef(false);
-
+  const { t } = useTranslation();
+  
   const data = {
     labels: names,
     datasets: [

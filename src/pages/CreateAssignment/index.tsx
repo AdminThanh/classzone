@@ -68,13 +68,13 @@ const CreateAssignment = () => {
       render: () => <DragHandle />,
     },
     {
-      title: 'Thẻ',
+      title: t('create_assignment.tag'),
       dataIndex: 'tags',
       width: 30,
       className: 'drag-visible table__tag',
     },
     {
-      title: 'Câu hỏi',
+      title: t('my_quession.quession'),
       dataIndex: 'question',
       render: (record, value) => (
         <div className="table__question">{value.question}</div>
@@ -166,7 +166,11 @@ const CreateAssignment = () => {
             <BreadCrumb
               routes={[
                 {
-                  name: 'Tạo bài kiểm tra',
+                  name: t('navbar.home'),
+                  path: '/',
+                },
+                {
+                  name: t('create_assignment.create_assignment'),
                   path: '/create_assignment',
                 },
               ]}
@@ -221,7 +225,7 @@ const CreateAssignment = () => {
       </Form>
 
       <Modal
-        title="Thêm câu hỏi"
+        title={t('create_assignment.add_assignment')}
         centered
         open={isOpenTableAddQuestion}
         onCancel={() => {

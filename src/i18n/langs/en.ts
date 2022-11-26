@@ -4,7 +4,9 @@ export default {
     my_class: 'My class',
     test_management: 'Test management',
     question_management: 'Question management',
+    class_management: 'Class management',
     add_question: 'Add question',
+    create_question: 'Create question',
   },
   user_control: {
     account_management: 'Account management',
@@ -27,10 +29,16 @@ export default {
     status: 'Status',
     name_class: 'Class Name',
     score_factor: 'Score factor',
+    class: 'Class',
+    student: 'Student',
+    attendance: 'Attendance',
+    rotating: 'Rotating umbrella',
+    table_score: 'Table score',
+    give_assignment: 'Give assignment',
 
     // Fied
-    qr_code: 'Mã code',
-    teacher: 'Giáo viên',
+    qr_code: 'Code',
+    teacher: 'Teacher',
 
     // Placeholder
     choose_start_date: 'Choose start date',
@@ -239,15 +247,25 @@ export default {
   },
   my_quession: {
     tags: 'Tags',
+    point: 'The point',
     quession: 'Quession',
     day_create: 'Day create',
     type_quession: 'Type',
     add_quession: 'Add quession',
     edit_quession: 'Edit quession',
+    choose_many: 'Allows you to choose multiple answers',
+    answer: 'Answer',
+    enter_answer: 'Enter Answer',
+    publish: 'Publish',
+
+    // error
+    not_blank: 'Can not be left blank',
 
     // Action
     choose_tags: 'Select the relevant tag',
   },
-
+  wheel:{
+    congratulations: 'Congratulations',
+  },
   // Admin
 };
