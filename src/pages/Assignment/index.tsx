@@ -1,16 +1,19 @@
-import { useMemo, useState, useEffect } from 'react';
-import { CheckCircleOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y, Keyboard } from 'swiper';
-import AssignmentItem from './components/AssignmentItem';
-import { ExclamationCircleFilled } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  ExclamationCircleFilled,
+  LogoutOutlined,
+} from '@ant-design/icons';
 import { Modal } from 'antd';
 import { clsx } from 'clsx';
+import { useEffect, useMemo, useState } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import { NextIcon, PrevIcon } from 'utils/drawer';
+// import NextIcon from '../../assets/images/nextIcon.svg';
+// import PrevIcon from '../../assets/images/prevIcon.svg';
 import './Assignment.scss';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import AssignmentItem from './components/AssignmentItem';
 import Timer from './components/Timer';
 
 const { confirm } = Modal;
@@ -539,6 +542,26 @@ const fakeAPIAssignment: Promise<IAssignment[]> = new Promise(
 
 const dataSession = sessionStorage.getItem('dataAnswer') || 'undefined';
 
+const NextArrow = (props: any) => {
+  const { onClick } = props;
+
+  return (
+    <div onClick={onClick} className="content__answer-arrow">
+      <NextIcon />
+    </div>
+  );
+};
+
+const PrevArrow = (props: any) => {
+  const { onClick } = props;
+
+  return (
+    <div onClick={onClick} className="content__answer-arrow">
+      <PrevIcon />
+    </div>
+  );
+};
+
 const Assignment = () => {
   const [listQuestion, setListQuestion] = useState<IDataAssignment[]>([]);
   const [nameAssignment, setNameAssignment] = useState('');
@@ -547,6 +570,18 @@ const Assignment = () => {
 
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+
+  var settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    autoplay: false,
+    draggable: false,
+    slidesToShow: 15,
+    slidesToScroll: 5,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
 
   useEffect(() => {
     fakeAPIAssignment.then((res) => {
@@ -567,8 +602,6 @@ const Assignment = () => {
     }
   }, [order, listQuestion]);
 
-  console.log(currentQuestion);
-
   const handleAnswered = (id: string, answered: any) => {
     setDataAnswer({
       ...dataAnswer,
@@ -582,8 +615,6 @@ const Assignment = () => {
       })
     );
   };
-
-  console.log('answers_submit: ', dataAnswer);
 
   const handleSubmit = () => {
     confirm({
@@ -656,7 +687,8 @@ const Assignment = () => {
         </div>
         <div className="content__answer">
           <div className="content__answer-list">
-            <Swiper
+            {/* <ListNumberQuestion amount={30} isSlider /> */}
+            {/* <Swiper
               modules={[Navigation, Pagination, Scrollbar, A11y, Keyboard]}
               spaceBetween={5}
               slidesPerGroup={4}
@@ -695,7 +727,29 @@ const Assignment = () => {
                   </div>
                 </SwiperSlide>
               ))}
-            </Swiper>
+            </Swiper> */}
+            <Slider {...settings}>
+              {Array(30)
+                .fill(0)
+                .map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <button
+                        onClick={() => {
+                          setOrder(index + 1);
+                        }}
+                        className={clsx(
+                          'answer-item',
+                          dataAnswer[+item.question_id]?.length && 'chose',
+                          index + 1 === order && 'active'
+                        )}
+                      >
+                        {index + 1}
+                      </button>
+                    </div>
+                  );
+                })}
+            </Slider>
           </div>
           <div className="heading__content-footer">
             <div className="heading__content-out block_sm">
