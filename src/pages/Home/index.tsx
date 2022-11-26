@@ -11,6 +11,7 @@ import FilterTags, { IOptionTag } from 'components/FilterTags';
 // import { refreshToken } from 'graphql/auth';
 import { useAuth } from 'contexts/AuthContext';
 import { RefreshTokenDocument } from 'gql/graphql';
+import Calendars from 'components/Calendar';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
@@ -130,6 +131,7 @@ const Home = () => {
         opts={tagOpts}
         onChange={handleChangeFilterTags}
       />
+      <Calendars />
     </div>
   );
 };

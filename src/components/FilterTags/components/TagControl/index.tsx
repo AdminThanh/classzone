@@ -97,6 +97,10 @@ const TagControl = () => {
     [tagValues]
   );
 
+  const handleAddTag = () => {
+    console.log('Add tag', tagValues);
+  };
+
   return (
     <div
       className="filter__tagControl"
@@ -138,7 +142,11 @@ const TagControl = () => {
         >
           {/* <PlusOutlined /> {t('tag.add_tag')} */}
           <div className="tag__button">
-            <Button title={t('tag.add_tag')} type="primary" />
+            <Button
+              title={t('tag.add_tag')}
+              type="primary"
+              onClick={handleAddTag}
+            />
           </div>
         </Typography.Link>
       </div>
