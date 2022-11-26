@@ -56,11 +56,11 @@ const TaskbarFooter = () => {
         </div>
       </div>
 
-
       <Modal
         title="Vòng quay may mắn"
         open={currentModal.modal === 'wheel'}
         // onOk={handleOk}
+        width={800}
         destroyOnClose={true}
         onCancel={handleCloseModal}
         footer={null}
