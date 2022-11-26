@@ -27,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 const CreateQuession = () => {
   const { t } = useTranslation();
   const [form] = useForm();
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   const onFinish = (formData: any) => {
     console.log('Payload:', formData);
@@ -58,7 +59,6 @@ const CreateQuession = () => {
     const newValue = e.target.checked;
     const isMultiple = form.getFieldValue('isMultiple');
     const listAnswer = form.getFieldValue('answer');
-
     if (!isMultiple) {
       const hasResult = listAnswer.findIndex(
         (item: any, i: number) => item.result && i !== index
@@ -66,7 +66,6 @@ const CreateQuession = () => {
       if (hasResult !== -1) {
         listAnswer[hasResult].result = false;
       }
-
       listAnswer[index].result = newValue;
 
       form.setFieldValue('answer', listAnswer);
@@ -105,110 +104,131 @@ const CreateQuession = () => {
 
   console.log('Re-render');
   return (
-    <div className="createQuession">
-      <button
-        onClick={() => {
-          console.log('asd', form.getFieldsValue());
-        }}
-      >
-        A
-      </button>
-      <Form
-        name="dynamic_form_nest_item"
-        onFinish={onFinish}
-        autoComplete="off"
-        form={form}
-      >
-        <div className="action-navbar">
-          <label>Tag</label>
-          <Form.Item name="tag_ids">
-            <FilterTags
-              placeholder={'Tag'}
-              isShowTagControl
-              opts={tagOpts}
-              onChange={handleChangeFilterTags}
-            />
-          </Form.Item>
-        </div>
-
-        <Form.Item
-          name={'point'}
-          rules={[{ required: true, message: 'Không được để trống' }]}
-          label="Điểm"
-        >
-          <InputNumber min={0} />
-        </Form.Item>
-
-        <Form.Item
-          name={'question'}
-          rules={[{ required: true, message: 'Không được để trống' }]}
-          label="Câu hỏi"
-          className="quession"
-        >
-          <MyEditor />
-        </Form.Item>
-
-        <Form.Item name="isMultiple" valuePropName="checked">
-          <Checkbox onChange={handleAllowMultipleChoice}>
-            Cho phép chọn nhiều đáp án
-          </Checkbox>
-        </Form.Item>
-
-        <Form.List name="answer">
-          {(fields, { add, remove }) => (
-            <>
-              <label>Đáp án</label>
-              {fields.map(({ key, name, ...restField }, index) => (
-                <Space
-                  key={key}
-                  style={{ display: 'flex', marginBottom: 8 }}
-                  align="baseline"
-                >
-                  <Form.Item
-                    className="check_result"
-                    name={[name, 'result']}
-                    {...restField}
-                    valuePropName="checked"
-                    initialValue={false}
-                  >
-                    <Checkbox
-                      onChange={(e) => handleChooseCorrectAnswer(e, index)}
-                      className="hidden"
-                    >
-                      {key + 1}
-                    </Checkbox>
-                  </Form.Item>
-
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'quession']}
-                    rules={[{ required: true, message: 'Không được để trống' }]}
-                  >
-                    <Input placeholder="Câu trả lời" />
-                  </Form.Item>
-                  <DeleteOutlined onClick={() => remove(name)} />
-                </Space>
-              ))}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
-                  Thêm câu hỏi
-                </Button>
+    <div className="site_wrapper">
+      <div className="site_container">
+        <BreadCrumb
+          routes={[
+            {
+              name: t('navbar.home'),
+              path: '/',
+            },
+            {
+              name: t('navbar.create_question'),
+              path: '/create_question',
+            },
+          ]}
+        />
+        <div className="createQuession">
+          <Form
+            name="dynamic_form_nest_item"
+            onFinish={onFinish}
+            autoComplete="off"
+            form={form}
+          >
+            <div className="action-navbar">
+              <label>{t('my_quession.tags')}</label>
+              <Form.Item name="tag_ids">
+                <FilterTags
+                  placeholder={t('my_quession.tags')}
+                  isShowTagControl
+                  opts={tagOpts}
+                  onChange={handleChangeFilterTags}
+                />
               </Form.Item>
-            </>
-          )}
-        </Form.List>
+            </div>
 
-        <Form.Item className="btn_action">
-          <Button type="primary" htmlType="submit">
-            Xuất bản
-          </Button>
-        </Form.Item>
-      </Form>
+            <Form.Item
+              name={'point'}
+              rules={[{ required: true, message: t('my_quession.not_blank') }]}
+              label={t('my_quession.point')}
+            >
+              <InputNumber min={0} />
+            </Form.Item>
+
+            <Form.Item
+              name={'question'}
+              rules={[{ required: true, message: t('my_quession.not_blank') }]}
+              label={t('my_quession.quession')}
+              className="quession"
+            >
+              <MyEditor />
+            </Form.Item>
+
+            <Form.Item name="isMultiple" valuePropName="checked">
+              <Checkbox onChange={handleAllowMultipleChoice}>
+                {t('my_quession.choose_many')}
+              </Checkbox>
+            </Form.Item>
+
+            <Form.List name="answer">
+              {(fields, { add, remove }) => (
+                <>
+                  <label>{t('my_quession.answer')}</label>
+                  {fields.map(({ key, name, ...restField }, index) => (
+                    <Space
+                      key={key}
+                      style={{ display: 'flex', marginBottom: 8 }}
+                      align="baseline"
+                    >
+                      <Form.Item
+                        className="check_result"
+                        name={[name, 'result']}
+                        {...restField}
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox
+                          onChange={(e) => handleChooseCorrectAnswer(e, index)}
+                          className="hidden"
+                          value={key + 1}
+                        >
+                          {alphabet.charAt(index).toLowerCase()}
+                        </Checkbox>
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'quession']}
+                        rules={[
+                          {
+                            required: true,
+                            message: t('my_quession.not_blank'),
+                          },
+                        ]}
+                      >
+                        <Input placeholder={t('my_quession.enter_answer')} />
+                      </Form.Item>
+                      <DeleteOutlined onClick={() => remove(name)} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
+                      {t('my_quession.add_quession')}
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+
+            <Form.Item className="btn_action">
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => {
+                  console.log('asd', form.getFieldsValue());
+                }}
+              >
+                {t('my_quession.publish')}
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

@@ -4,10 +4,16 @@ import {
   FormOutlined,
   PieChartOutlined,
   BookOutlined,
+  CheckSquareOutlined,
+  TableOutlined,
+  PullRequestOutlined,
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { useState } from 'react';
 import WheelOfNames from 'components/WheelOfNames';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 interface ICurrentModal {
   modal: null | 'wheel' | 'a';
@@ -19,6 +25,7 @@ const TaskbarFooter = () => {
     modal: null,
     data: null,
   });
+  const { t } = useTranslation();
 
   const handleCloseModal = () => {
     setCurrentModal({
@@ -39,25 +46,29 @@ const TaskbarFooter = () => {
       <div className="taskbar_footer">
         <div className="tabs">
           <div className="tab-item">
-            <UsergroupAddOutlined />
-            Lớp học
+            <PullRequestOutlined />
+            {t('my_class.give_assignment')}
           </div>
-          <div className="tab-item">
-            <BookOutlined />
-            Học sinh
-          </div>
-          <div className="tab-item">
-            <FormOutlined />
-            Điểm danh
-          </div>
+          <Link to={'/table_score'}>
+            <div className="tab-item">
+              <TableOutlined />
+              {t('my_class.table_score')}
+            </div>
+          </Link>
+          <Link to={'/attendance'}>
+            <div className="tab-item">
+              <FormOutlined />
+              {t('my_class.attendance')}
+            </div>
+          </Link>
           <div onClick={handleOpenWheel} className="tab-item">
-            <PieChartOutlined /> Ô quay
+            <PieChartOutlined /> {t('my_class.rotating')}
           </div>
         </div>
       </div>
 
       <Modal
-        title="Vòng quay may mắn"
+        title={t('my_class.rotating')}
         open={currentModal.modal === 'wheel'}
         // onOk={handleOk}
         destroyOnClose={true}
