@@ -18,6 +18,7 @@ import { getAverage } from 'utils/calculator';
 import DropdownAction from './components/DropdownAction';
 import ModalFormColumn from './components/ModalFormColumn';
 import './tableScore.scss';
+import BreadCrumb from 'components/BreadCrumb';
 interface DataType {
   key: React.Key;
   name: string;
@@ -396,6 +397,18 @@ const TableScore = () => {
 
   return (
     <div className="tableScore">
+       <BreadCrumb
+          routes={[
+            {
+              name: "Lớp học NODEJS",
+              path: '/class_detail',
+            },
+            {
+              name: t('navbar.table_score'),
+              path: '/',
+            },
+          ]}
+        />
       <Table
         className="tableScore__table"
         columns={columns}

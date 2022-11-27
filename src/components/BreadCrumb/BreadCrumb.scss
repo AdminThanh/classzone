@@ -1,11 +1,12 @@
 .breadcrumb {
+  margin-bottom: 20px;
   // margin-top: 30px;
-  .ant-breadcrumb {
-    .ant-breadcrumb-link {
+  .ant-breadcrumb-link {
+    span {
       color: rgba(255, 83, 29, 0.87);
     }
-    .ant-breadcrumb-separator {
-      color: black;
-    }
+  }
+  .ant-breadcrumb-separator {
+    color: black;
   }
 }

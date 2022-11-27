@@ -184,7 +184,7 @@ const CreateAssignment = () => {
                 <Input />
               </Form.Item>
               <Form.Item name="tags" label={t('create_assignment.tag')}>
-                <FilterTags opts={tagOpts} />
+                <FilterTags opts={tagOpts} isShowTagControl />
               </Form.Item>
             </div>
 
