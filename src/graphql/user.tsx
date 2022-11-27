@@ -18,5 +18,6 @@ mutation updateprofile($updateProfileInput: UpdateProfileInput!) {
       lastName
       phoneNumber
       address
+      avatar
     }
   }`;

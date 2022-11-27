@@ -154,18 +154,26 @@ function EditProfile() {
                           onChange={handleChangeFile}
                           disabled={!isEdit}
                         />
-                        {avatar ? (
+                        {auth.avatar ? (
                           <img
                             className="avatar-img"
                             src={auth.avatar}
                             alt=""
                           />
                         ) : (
-                          <img
-                            className="avatar-img"
-                            src={require('assets/images/avatar.png')}
-                            alt=""
-                          />
+                          avatar ? (
+                            <img
+                              className="avatar-img"
+                              src={avatar.preview}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              className="avatar-img"
+                              src={require('assets/images/avatar.png')}
+                              alt=""
+                            />
+                          )
                         )}
                         <img
                           className="icon-upload"
@@ -255,7 +263,7 @@ function EditProfile() {
                   // rules={[
                   //   { required: true, message: t('edit_profile.val_address') },
                   // ]}
-                  initialValue={auth.address ? auth.address : data.address}
+                  initialValue={auth.address}
                 >
                   <Input
                     disabled={!isEdit}
@@ -271,7 +279,6 @@ function EditProfile() {
                     // { required: true, message: t('edit_profile.val_password') },
                     { min: 6, message: t('edit_profile.val_countpass') },
                   ]}
-                  initialValue={auth?.oldPassword}
                 >
                   <Input
                     disabled={!isEdit}
