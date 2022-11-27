@@ -116,8 +116,8 @@ const Home = () => {
       />
       <FilterMenu
         initialValues={{
-          search: '',
-          start_date: '',
+          search: 'ascascsacs',
+          start_date: '2022-20-10',
           end_date: '',
           status: undefined,
         }}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 // import './index.css';
 import { Alert, Calendar, Checkbox, Input } from 'antd';
+import clsx from 'clsx';
 import type { Dayjs } from 'dayjs';
 import moment from 'moment';
 import './calendar.scss';
@@ -11,7 +12,7 @@ const end_date = moment('20112022', 'DDMMYYYY');
 const Calendars = () => {
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [data, setData] = useState<any>({
-    '26-11-2022': {
+    '19-11-2022': {
       content: 'Học lập trình NodeJS',
       isLearnDay: true,
     },
@@ -23,7 +24,14 @@ const Calendars = () => {
 
     return (
       data?.[key]?.content && (
-        <span className="calendar-content">{data?.[key]?.content}</span>
+        <span
+          className={clsx(
+            'calendar-content',
+            data?.[key]?.isLearnDay && 'calendar-content--active'
+          )}
+        >
+          {data?.[key]?.content}
+        </span>
       )
     );
   };
