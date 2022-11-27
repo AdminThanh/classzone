@@ -1,10 +1,8 @@
 import './InviteStudents.scss';
 import copy from 'copy-to-clipboard';
-import { Button, Input, message, Modal, Select, Form, SelectProps } from 'antd';
+import { Button, Input, message, Modal, Select, Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { GetAllUsersDocument } from 'gql/graphql';
-import { useQuery } from '@apollo/client';
 const { Option } = Select;
 
 const layout = {
@@ -21,8 +19,6 @@ const InviteStudents = (props: any) => {
   const [loadingOK, setLoadingOK] = useState(false);
   const { t } = useTranslation();
   const link = 'https://www.figma.com/file/ZD6Kk4DPwMSHkiuAau0HuG';
-
-
 
   const copyToClipboard = () => {
     if (copy(link)) {
@@ -44,22 +40,6 @@ const InviteStudents = (props: any) => {
       console.log(values);
       message.success(t('action.invite_success') as string);
     }, 2000);
-  };
-
-  const options: SelectProps['options'] = [];
-  
-  const { data } = useQuery(GetAllUsersDocument);
-  console.log(data);
-
-  for (let i = 10; i < 36; i++) {
-    options.push({
-      value: i.toString(36) + i,
-      label: i.toString(36) + i,
-    });
-  }
-
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
   };
 
   return (
@@ -99,9 +79,8 @@ const InviteStudents = (props: any) => {
                 <Select
                   mode="tags"
                   style={{ width: '100%' }}
+                  tokenSeparators={[',']}
                   placeholder={t('field.email_address')}
-                  onChange={handleChange}
-                  options={options}
                 ></Select>
               </div>
             </Form.Item>

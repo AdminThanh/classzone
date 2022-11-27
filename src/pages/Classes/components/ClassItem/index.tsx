@@ -1,18 +1,15 @@
 import './ClassItem.scss';
-import React, { useState, useTransition } from 'react';
+import React, { useState } from 'react';
 import {
   QrcodeOutlined,
   ClockCircleOutlined,
-  UserOutlined,
-  EllipsisOutlined,
-  DownOutlined,
   SettingOutlined,
   ExclamationCircleFilled,
 } from '@ant-design/icons';
 import { Button, Col, Dropdown, Menu, Modal, notification, Space } from 'antd';
 import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { useMutation } from '@apollo/client';
 import { DeleteMyClassDocument } from 'gql/graphql';
@@ -42,10 +39,6 @@ const ClassItem = (props: IClassInfo) => {
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
-  let { classId } = useParams();
-  console.log(classId);
-  
-
   const [fireDeleteMyClass] = useMutation(DeleteMyClassDocument);
 
   const DeleteMyClass = async (id: string) => {
