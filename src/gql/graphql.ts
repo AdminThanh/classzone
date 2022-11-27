@@ -14,8 +14,6 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
 };
 
 export type AnswerInput = {
@@ -34,12 +32,26 @@ export type AssignUserToClassInput = {
   usersIds: Array<Scalars['ID']>;
 };
 
+export type Attendance = {
+  __typename?: 'Attendance';
+  _id: Scalars['ID'];
+  class_id: Scalars['String'];
+  content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  is_learn_date: Scalars['Boolean'];
+  learn_date: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Class = {
   __typename?: 'Class';
   _id: Scalars['ID'];
   avatar?: Maybe<Scalars['String']>;
   code: Scalars['String'];
   createdAt: Scalars['DateTime'];
+  end_date: Scalars['DateTime'];
+  from_date: Scalars['DateTime'];
   id: Scalars['String'];
   name: Scalars['String'];
   owner: User;
@@ -50,8 +62,22 @@ export type Class = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type CreateAndUpdateAttendanceInput = {
+  content: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  is_learn_date: Scalars['Boolean'];
+  learn_date: Scalars['String'];
+};
+
+export type CreateAttendanceInput = {
+  class_id: Scalars['String'];
+  content: Scalars['String'];
+  is_learn_date: Scalars['Boolean'];
+  learn_date: Scalars['DateTime'];
+};
+
 export type CreateClassInput = {
-  avatar: Scalars['Upload'];
+  avatar: Scalars['String'];
   name: Scalars['String'];
   scoreFactor: Scalars['Float'];
   studentAmount: Scalars['Float'];
@@ -60,7 +86,7 @@ export type CreateClassInput = {
 };
 
 export type CreateMyClassInput = {
-  banner: Scalars['String'];
+  avatar: Scalars['String'];
   end_date: Scalars['DateTime'];
   from_date: Scalars['DateTime'];
   name: Scalars['String'];
@@ -72,6 +98,11 @@ export type CreateQuestionInput = {
   correctAnswer: Array<AnswerInput>;
   isMutiple: Scalars['Boolean'];
   question: Scalars['String'];
+};
+
+export type CreateTagInput = {
+  color: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type CreateUserInput = {
@@ -106,17 +137,22 @@ export type Mutation = {
   __typename?: 'Mutation';
   assignStudentToClass: Class;
   assignTeacherToClass: Class;
+  createAttendance: Attendance;
   createClass: Class;
   createMyClass: Class;
   createQuestion: QuestionType;
+  createTag: Tag;
   createUser: User;
   deleteClass: Scalars['Boolean'];
   deleteMyClass: Scalars['Boolean'];
   deleteQuestion: Scalars['Boolean'];
+  deleteTag: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
   login: TokenAndUser;
   logout: Scalars['Boolean'];
   register: User;
+  updateAttendance: Scalars['Boolean'];
+  updateAttendances: Scalars['Boolean'];
   updateClass: Class;
   updateMyClass: Class;
   updateProfile: User;
@@ -136,6 +172,11 @@ export type MutationAssignTeacherToClassArgs = {
 };
 
 
+export type MutationCreateAttendanceArgs = {
+  createAttendanceInput: CreateAttendanceInput;
+};
+
+
 export type MutationCreateClassArgs = {
   createClassInput: CreateClassInput;
 };
@@ -148,6 +189,11 @@ export type MutationCreateMyClassArgs = {
 
 export type MutationCreateQuestionArgs = {
   createQuestionInput: CreateQuestionInput;
+};
+
+
+export type MutationCreateTagArgs = {
+  createTagInput: CreateTagInput;
 };
 
 
@@ -171,6 +217,11 @@ export type MutationDeleteQuestionArgs = {
 };
 
 
+export type MutationDeleteTagArgs = {
+  deleteMyInput: Scalars['String'];
+};
+
+
 export type MutationDeleteUserArgs = {
   id: Scalars['String'];
 };
@@ -183,6 +234,17 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
+};
+
+
+export type MutationUpdateAttendanceArgs = {
+  updateAttendanceInput: UpdateAttendanceInput;
+};
+
+
+export type MutationUpdateAttendancesArgs = {
+  class_id: Scalars['String'];
+  updateAttendancesInput: UpdateAttendancesInput;
 };
 
 
@@ -219,12 +281,19 @@ export type Query = {
   getAllClasses: Array<Class>;
   getAllQuestion: Array<QuestionType>;
   getAllUsers: Array<User>;
+  getAttendanceByClass: Array<Attendance>;
   getClassById: Class;
   getMyClass: Array<Class>;
   getQuestionById: QuestionType;
+  getTag: Array<Tag>;
   getUserById: User;
   me: User;
   refreshToken: TokenAndUser;
+};
+
+
+export type QueryGetAttendanceByClassArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -267,11 +336,32 @@ export enum Role {
   Teacher = 'TEACHER'
 }
 
+export type Tag = {
+  __typename?: 'Tag';
+  _id: Scalars['ID'];
+  color: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  user_id: Scalars['String'];
+};
+
 export type TokenAndUser = {
   __typename?: 'TokenAndUser';
   accessToken: Scalars['String'];
   refreshToken: Scalars['String'];
   user: User;
+};
+
+export type UpdateAttendanceInput = {
+  content: Scalars['String'];
+  id: Scalars['String'];
+  is_learn_date: Scalars['Boolean'];
+};
+
+export type UpdateAttendancesInput = {
+  attendances?: InputMaybe<Array<CreateAndUpdateAttendanceInput>>;
 };
 
 export type UpdateClassInput = {
@@ -317,7 +407,7 @@ export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
   address?: Maybe<Scalars['String']>;
-  avatar: Scalars['Upload'];
+  avatar?: Maybe<Scalars['String']>;
   classes?: Maybe<Array<Class>>;
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
@@ -342,12 +432,12 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, _id: string } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null, _id: string } } };
 
 export type RefreshTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RefreshTokenQuery = { __typename?: 'Query', refreshToken: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email: string, address?: string | null, phoneNumber?: string | null, avatar: any, id: string, role?: Role | null } } };
+export type RefreshTokenQuery = { __typename?: 'Query', refreshToken: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email: string, address?: string | null, phoneNumber?: string | null, avatar?: string | null, id: string, role?: Role | null } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -359,11 +449,11 @@ export type UpdateprofileMutationVariables = Exact<{
 }>;
 
 
-export type UpdateprofileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null } };
+export type UpdateprofileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null } };
 
 
 export const RegisterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Register"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"registerInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"token_version"}}]}}]}}]} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>;
-export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const RefreshTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<RefreshTokenQuery, RefreshTokenQueryVariables>;
 export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;
-export const UpdateprofileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateprofile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateProfileInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateProfileInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateProfileInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateProfileInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}}]}}]}}]} as unknown as DocumentNode<UpdateprofileMutation, UpdateprofileMutationVariables>;
+export const UpdateprofileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateprofile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateProfileInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateProfileInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateProfileInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateProfileInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}}]}}]}}]} as unknown as DocumentNode<UpdateprofileMutation, UpdateprofileMutationVariables>;

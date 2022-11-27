@@ -10,19 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { CancelIcon, EditIcon, SaveIcon } from 'utils/drawer';
 import './EditProfile.scss';
 
-
-
-const data =
-{
-  lastname: 'Đào',
-  firstname: 'Khôi',
-  email: 'daokhoi123@gmail.com',
-  phone: '0981287123123',
-  address: 'hóc môn city',
-  password: '12394712834983',
-  img: 'assets/images/avatar.png',
-}
-
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 
@@ -84,6 +71,7 @@ function EditProfile() {
       key: "spin", message: <><Spin indicator={antIcon} /> &nbsp; Đang cập nhật</>
       ,
     });
+
     try {
       const res = await fireUpdateProfile({
         variables: {
@@ -94,7 +82,7 @@ function EditProfile() {
             phoneNumber: values.phone,
             oldPassword: values.firstpassword,
             newPassword: values.inputpassword,
-            avatar: avatarBase64
+            avatar: avatarBase64 || '',
           }
         }
       });
@@ -103,6 +91,8 @@ function EditProfile() {
         key: "success", message: "Cập nhật thành công!"
       })
     } catch (error) {
+      notification.destroy();
+
       notification.error({
         key: "error", message: <div><p>Cập nhật thất bại!</p></div>
       })
@@ -145,7 +135,7 @@ function EditProfile() {
               <div className="input-content">
                 <Row justify="center">
                   <Col span={48}>
-                    <Form.Item name="upload">
+                    <Form.Item>
                       <label className="upload-avatar" htmlFor="upload">
                         <input
                           type="file"

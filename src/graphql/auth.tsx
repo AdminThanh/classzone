@@ -21,6 +21,7 @@ export const login = graphql(`
         lastName
         phoneNumber
         address
+        avatar
         _id
       }
     }
