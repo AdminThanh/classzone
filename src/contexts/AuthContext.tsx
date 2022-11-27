@@ -1,5 +1,5 @@
 import { FetchResult, useLazyQuery, useMutation } from '@apollo/client';
-import { notification } from 'antd';
+import { notification, Spin } from 'antd';
 // import {
 //   LoginDocument,
 //   LoginMutation,
@@ -112,8 +112,17 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
+    notification.open({
+      message: (
+        <span>
+          <Spin /> Đang đăng xuất.....
+        </span>
+      ),
+    });
     try {
       const res = await fireLogoutServer();
+
+      notification.destroy();
 
       JWTManager.setIsHaveRefreshToken(false);
       logoutClient();

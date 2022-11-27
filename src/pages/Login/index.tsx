@@ -1,5 +1,5 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input, notification } from 'antd';
+import { Button, Form, Input, notification, Spin } from 'antd';
 import { useAuth } from 'contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -18,11 +18,21 @@ function Login() {
   const navigate = useNavigate();
 
   const onFinish = async ({ email, password }: ILoginForm) => {
+    notification.open({
+      message: (
+        <span>
+          <Spin /> Đang đăng nhập.....
+        </span>
+      ),
+    });
+
     try {
       const { data } = await login({
         email,
         password,
       });
+
+      notification.destroy();
 
       if (data?.login) {
         JWTManager.setToken(data.login.accessToken as string);
@@ -92,7 +102,7 @@ function Login() {
           <Button type="primary" htmlType="submit" className="primary-btn">
             <p>Đăng Nhập</p>
           </Button>
-          <div className="or">
+          {/* <div className="or">
             <p>Hoặc đăng ký bằng tài khoản</p>
           </div>
           <Button type="primary" htmlType="submit" className="submit-btn">
@@ -102,7 +112,7 @@ function Login() {
               alt=""
             />
             <p>Đăng nhập với Google</p>
-          </Button>
+          </Button> */}
         </Form.Item>
       </Form>
     </div>

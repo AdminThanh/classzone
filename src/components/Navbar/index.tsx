@@ -3,9 +3,9 @@ import logo from 'assets/images/logo.png';
 import clsx from 'clsx';
 import { useAuth } from 'contexts/AuthContext';
 // import { getAllUser } from 'graphql/user';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { INavItem } from 'routes/navs';
 import {
   CloseIcon,
@@ -29,6 +29,7 @@ const Navbar = (props: INavbarProps) => {
   const { navList = [] } = props;
   const { isAuthenticated, logout, auth } = useAuth();
   const [isSidebar, setIsSidebar] = useState(false);
+  const navigate = useNavigate();
   // const { refetch } = useQuery(getAllUser);
   const { t } = useTranslation();
 
@@ -37,7 +38,7 @@ const Navbar = (props: INavbarProps) => {
       {
         label: 'account_management',
         icon: ProfileIcon,
-        path: '',
+        path: '/profile',
         onClick: () => {
           // refetch();
         },
@@ -63,7 +64,7 @@ const Navbar = (props: INavbarProps) => {
         },
       },
     ];
-  }, []);
+  }, [navigate]);
 
   const handleOpenSidebar = () => {
     setIsSidebar(true);
@@ -111,7 +112,7 @@ const Navbar = (props: INavbarProps) => {
                       <Link
                         onClick={item.onClick}
                         key={idx}
-                        to=""
+                        to={item?.path || ''}
                         className="navbar__controlItem"
                       >
                         <item.icon className="navbar__control-icon"></item.icon>

@@ -9,8 +9,8 @@ import { RootState, useAppDispatch } from 'redux/store';
 // import { GetAllUserDocument } from 'gql/graphql';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
 // import { refreshToken } from 'graphql/auth';
-import { RefreshTokenDocument } from 'gql/graphql';
 import { useAuth } from 'contexts/AuthContext';
+import { RefreshTokenDocument } from 'gql/graphql';
 
 const Home = () => {
   const state = useSelector((state: RootState) => state.counter.second);
@@ -90,9 +90,13 @@ const Home = () => {
         >
           Fetch
         </button>
-        <button onClick={() => {
-          console.log("auth", auth)
-        }}>Get me</button>
+        <button
+          onClick={() => {
+            console.log('auth', auth);
+          }}
+        >
+          Get me
+        </button>
         <button
           onClick={() => {
             i18next.changeLanguage(i18next.language === 'vi' ? 'en' : 'vi');
