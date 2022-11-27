@@ -66,7 +66,7 @@ export const routes: IRoute[] = [
   {
     path: '/create_assignment',
     element: CreateAssignment,
-    // role: ['teacher'],
+    role: ['teacher'],
     layout: TeacherLayout,
   },
   {
@@ -90,7 +90,7 @@ export const routes: IRoute[] = [
   {
     path: '/create_attendance',
     element: CreateAttendance,
-    // role: ['teacher'],
+    role: ['teacher'],
     layout: TeacherLayout,
   },
   {

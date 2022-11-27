@@ -8,17 +8,13 @@ interface IGuard {
 
 export const RequireAuth = (props: IGuard) => {
   const { children } = props;
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated === null) {
-      // return;
-    } else {
-      if (!isAuthenticated) {
-        navigate('/login');
-      }
+    if (!loading && !isAuthenticated) {
+      navigate('/login');
     }
   }, [isAuthenticated]);
 
@@ -27,18 +23,13 @@ export const RequireAuth = (props: IGuard) => {
 
 export const RequireGuest = (props: IGuard) => {
   const { children } = props;
-  const { isAuthenticated } = useAuth();
-
-  console.log('isAuthenticated', isAuthenticated);
+  const { isAuthenticated, loading } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated === null) {
-    } else {
-      if (isAuthenticated) {
-        navigate('/');
-      }
+    if (!loading && isAuthenticated) {
+      navigate('/');
     }
   }, [isAuthenticated]);
 
