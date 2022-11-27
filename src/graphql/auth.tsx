@@ -19,6 +19,9 @@ export const login = graphql(`
         email
         firstName
         lastName
+        phoneNumber
+        address
+        avatar
         _id
       }
     }
@@ -34,6 +37,9 @@ export const refreshToken = graphql(`
         firstName
         lastName
         email
+        address
+        phoneNumber
+        avatar
         id
         role
       }

@@ -24,4 +24,4 @@ yarn-error.log*
 
 .env
 
-src/gql
+/src/gql

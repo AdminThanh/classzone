@@ -126,7 +126,9 @@ function Register() {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Mời bạn nhập password!' }]}
+          rules={[
+            { required: true, message: t('edit_profile.val_password') },
+            { min: 6, message: t('edit_profile.val_countpass') },]}
         >
           <Input.Password
             placeholder="Nhập mật khẩu"

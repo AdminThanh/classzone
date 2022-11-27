@@ -24,6 +24,7 @@ import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
 import AuthPage from 'pages/AuthPage';
 import ExamPage from 'pages/ExamPage';
+import ExamManagement from 'pages/ExamManagement';
 import StudentLayout from 'layouts/Student';
 import Assignment from 'pages/Assignment';
 import CreateAttendance from 'pages/CreateAttendance';
@@ -76,7 +77,7 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
-    path: '/class_detail',
+    path: '/class_detail/:classId',
     element: ClassDetail,
     role: ['teacher'],
     layout: TeacherLayout,
@@ -131,6 +132,12 @@ export const routes: IRoute[] = [
   {
     path: '/question',
     element: Question,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/exam_management',
+    element: ExamManagement,
     role: ['teacher'],
     layout: TeacherLayout,
   },
