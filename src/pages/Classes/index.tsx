@@ -34,6 +34,9 @@ const Classes = () => {
   const datas = data?.getMyClass as IClassInfo[];
   console.log('datas', datas);
 
+  const handleRefetch = () => {
+    refetch();
+  };
 
   const fields: TField[] = useMemo(
     () => [
@@ -72,6 +75,7 @@ const Classes = () => {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
+  
   return (
     <div className="site_wrapper">
       <div className="site_container">
@@ -123,6 +127,7 @@ const Classes = () => {
             </Button>
             {openModal && (
               <EditClass
+                handleRefetch={handleRefetch}
                 type={'add'}
                 title={t('my_class.add_class')}
                 setOpenModal={setOpenModal}
@@ -152,6 +157,7 @@ const Classes = () => {
                     from_date={item.from_date}
                     code={item.code}
                     scoreFactor={item.scoreFactor}
+                    handleRefetch={handleRefetch}
                   />
                 </Col>
               ))}

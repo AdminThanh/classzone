@@ -1,5 +1,7 @@
+import { useQuery } from '@apollo/client';
 import { Tabs } from 'antd';
 import TaskbarFooter from 'components/TaskbarFooter';
+import { GetAllUsersDocument } from 'gql/graphql';
 import StudentList from 'pages/ClassDetail/components/StudentList';
 import GroupList from '../GroupList';
 import './ClassDetail.scss';

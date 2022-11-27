@@ -7,11 +7,12 @@ import {
   EllipsisOutlined,
   DownOutlined,
   SettingOutlined,
+  ExclamationCircleFilled,
 } from '@ant-design/icons';
-import { Button, Col, Dropdown, Menu, notification, Space } from 'antd';
+import { Button, Col, Dropdown, Menu, Modal, notification, Space } from 'antd';
 import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useMutation } from '@apollo/client';
 import { DeleteMyClassDocument } from 'gql/graphql';
@@ -24,20 +25,61 @@ export interface IClassInfo {
   from_date: string;
   code: string;
   scoreFactor: number;
+  handleRefetch: any;
 }
 
 const ClassItem = (props: IClassInfo) => {
-  const { name, avatar, end_date, from_date, code, scoreFactor, id } = props;
+  const {
+    name,
+    avatar,
+    end_date,
+    from_date,
+    code,
+    scoreFactor,
+    id,
+    handleRefetch,
+  } = props;
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  let { classId } = useParams();
+  console.log(classId);
+  
 
   const [fireDeleteMyClass] = useMutation(DeleteMyClassDocument);
 
-  const DeleteMyClass = (id: string) => {
-    fireDeleteMyClass({
-      variables: {
-        id: id,
+  const DeleteMyClass = async (id: string) => {
+    try {
+      await fireDeleteMyClass({
+        variables: {
+          id: id,
+        },
+      });
+      notification.success({
+        key: 'success',
+        message: 'Xóa thành công!',
+      });
+      handleRefetch();
+    } catch (error) {
+      notification.error({
+        key: 'error',
+        message: 'Xóa thất bại!',
+      });
+    }
+  };
+
+  const showConfirm = () => {
+    Modal.confirm({
+      title: 'Bạn có chắc chắn muốn xóa lớp học này!',
+      icon: <ExclamationCircleFilled />,
+      content: 'Lưu ý: Khi xóa sẽ không thê khôi phục lại!',
+      okText: 'Xóa',
+      cancelText: 'Hủy',
+      onOk() {
+        DeleteMyClass(id);
+      },
+      onCancel() {
+        console.log('Cancel');
       },
     });
   };
@@ -56,8 +98,7 @@ const ClassItem = (props: IClassInfo) => {
           label: 'Xóa',
           key: '1',
           onClick: () => {
-            DeleteMyClass(id);
-            console.log(this);
+            showConfirm();
           },
         },
         {
@@ -83,7 +124,7 @@ const ClassItem = (props: IClassInfo) => {
           alt={name}
           className="image"
         />
-        {avatar ? '' : <span className='img_title'>{name}</span>}
+        {avatar ? '' : <span className="img_title">{name}</span>}
         <Dropdown className="dropdown" overlay={menu}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
@@ -93,7 +134,7 @@ const ClassItem = (props: IClassInfo) => {
         </Dropdown>
       </div>
       <div className="content">
-        <Link to={'/class_detail'}>
+        <Link to={'/class_detail/' + id}>
           <h2 className="title">{name}</h2>
         </Link>
         <ul className="list-desc">
@@ -118,7 +159,7 @@ const ClassItem = (props: IClassInfo) => {
           className="primary"
           size={'large'}
           onClick={() => {
-            navigate('class_detail');
+            navigate('class_detail/' + id);
           }}
         >
           {t('action.detail')}
@@ -136,6 +177,7 @@ const ClassItem = (props: IClassInfo) => {
             scoreFactor={scoreFactor}
             id={id}
             setOpenModal={setOpenModal}
+            handleRefetch={handleRefetch}
           />
         )}
       </div>

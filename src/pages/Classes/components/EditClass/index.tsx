@@ -49,9 +49,8 @@ const EditClass = (props: any) => {
     type,
     scoreFactor,
     id,
+    handleRefetch,
   } = props;
-  console.log(props);
-
   const [avatarBase64, setAvatarBase64] = useState<any>(null);
   const [open, setOpen] = useState(true);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -85,7 +84,6 @@ const EditClass = (props: any) => {
       setAvatarBase64(base64);
     }
   };
-
   const handleOk = async (value: any) => {
     setConfirmLoading(true);
     if (type === 'add') {
@@ -97,8 +95,7 @@ const EditClass = (props: any) => {
               scoreFactor: value.scoreFactor,
               from_date: value.from_date._d,
               end_date: value.end_date._d,
-              avatar:
-                'https://cdn.dnaindia.com/sites/default/files/styles/full/public/2021/02/20/959189-bihar-board.jpg',
+              avatar: avatarBase64 || '',
             },
           },
         });
@@ -114,9 +111,8 @@ const EditClass = (props: any) => {
         });
       }
     } else if (type === 'edit') {
-      console.log('edit', value);
       try {
-        const res = fireUpdateMyClass({
+        await fireUpdateMyClass({
           variables: {
             UpdateMyClassInput: {
               name: value.name,
@@ -127,25 +123,23 @@ const EditClass = (props: any) => {
             id: value.id,
           },
         });
+        notification.success({
+          key: 'success',
+          message: 'Sửa thành công!',
+        });
       } catch (error) {
         notification.error({
           key: 'error',
-          message: 'Sửa thất bại',
+          message: 'Sửa thất bại!',
         });
-        console.log(error);
       }
     }
-
     setTimeout(() => {
       setOpen(false);
       setOpenModal(false);
       setConfirmLoading(false);
-      notification.destroy();
-      notification.success({
-        key: 'success',
-        message: 'Sửa thành công!',
-      });
-    }, 2000);
+      handleRefetch();
+    }, 1000);
   };
 
   const handleCancel = () => {
@@ -194,7 +188,7 @@ const EditClass = (props: any) => {
             scoreFactor: scoreFactor,
           }}
         >
-          <Form.Item name={['id']} style={{display: 'none'}}>
+          <Form.Item name={['id']} style={{ display: 'none' }}>
             <Input placeholder={t('my_class.name_class')} />
           </Form.Item>
           <Form.Item

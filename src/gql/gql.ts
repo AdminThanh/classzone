@@ -11,6 +11,7 @@ const documents = {
     "\n  mutation createMyClass($createMyClass: CreateMyClassInput!) {\n    createMyClass(createMyClass: $createMyClass) {\n      name\n      avatar\n      code\n      scoreFactor\n      createdAt\n      updatedAt\n    }\n  }\n": types.CreateMyClassDocument,
     "\n  mutation updateMyClass(\n    $UpdateMyClassInput: UpdateMyClassInput!\n    $id: String!\n  ) {\n    updateMyClass(updateMyClass: $UpdateMyClassInput, id: $id) {\n      name\n      scoreFactor\n      from_date\n      end_date\n    }\n  }\n": types.UpdateMyClassDocument,
     "\n  mutation deleteMyClass($id: String!) {\n    deleteMyClass(id: $id)\n  }\n": types.DeleteMyClassDocument,
+    "\n  query getAllUsers {\n    getAllUsers {\n    id\n    email\n    firstName\n    lastName\n    }\n  }\n": types.GetAllUsersDocument,
 };
 
 export function graphql(source: "\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n"): (typeof documents)["\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n"];
@@ -21,6 +22,7 @@ export function graphql(source: "\n  query getMyClass {\n    getMyClass {\n     
 export function graphql(source: "\n  mutation createMyClass($createMyClass: CreateMyClassInput!) {\n    createMyClass(createMyClass: $createMyClass) {\n      name\n      avatar\n      code\n      scoreFactor\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  mutation createMyClass($createMyClass: CreateMyClassInput!) {\n    createMyClass(createMyClass: $createMyClass) {\n      name\n      avatar\n      code\n      scoreFactor\n      createdAt\n      updatedAt\n    }\n  }\n"];
 export function graphql(source: "\n  mutation updateMyClass(\n    $UpdateMyClassInput: UpdateMyClassInput!\n    $id: String!\n  ) {\n    updateMyClass(updateMyClass: $UpdateMyClassInput, id: $id) {\n      name\n      scoreFactor\n      from_date\n      end_date\n    }\n  }\n"): (typeof documents)["\n  mutation updateMyClass(\n    $UpdateMyClassInput: UpdateMyClassInput!\n    $id: String!\n  ) {\n    updateMyClass(updateMyClass: $UpdateMyClassInput, id: $id) {\n      name\n      scoreFactor\n      from_date\n      end_date\n    }\n  }\n"];
 export function graphql(source: "\n  mutation deleteMyClass($id: String!) {\n    deleteMyClass(id: $id)\n  }\n"): (typeof documents)["\n  mutation deleteMyClass($id: String!) {\n    deleteMyClass(id: $id)\n  }\n"];
+export function graphql(source: "\n  query getAllUsers {\n    getAllUsers {\n    id\n    email\n    firstName\n    lastName\n    }\n  }\n"): (typeof documents)["\n  query getAllUsers {\n    getAllUsers {\n    id\n    email\n    firstName\n    lastName\n    }\n  }\n"];
 
 export function graphql(source: string): unknown;
 export function graphql(source: string) {
