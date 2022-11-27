@@ -6,6 +6,7 @@ import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import { GetMyClassDocument } from 'gql/graphql';
 import i18next from 'i18next';
+import moment from 'moment';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
@@ -16,8 +17,8 @@ export interface IClassInfo {
   _id: string;
   name: string;
   avatar: string;
-  createdAt: string;
-  updatedAt: string;
+  end_date: string;
+  from_date: string;
   code: string;
   scoreFactor: number;
 }
@@ -29,9 +30,9 @@ const Classes = () => {
   const { t } = useTranslation();
 
   const { data, loading, refetch } = useQuery(GetMyClassDocument);
-  console.log(data?.getMyClass);
 
-  const datas: IClassInfo[] = data?.getMyClass as IClassInfo[];
+  const datas = data?.getMyClass as IClassInfo[];
+  console.log(datas);
 
   const fields: TField[] = useMemo(
     () => [
@@ -119,13 +120,12 @@ const Classes = () => {
             >
               {t('my_class.add_class')}
             </Button>
-            {openModal ? (
+            {openModal && (
               <EditClass
+                type={'add'}
                 title={t('my_class.add_class')}
                 setOpenModal={setOpenModal}
               />
-            ) : (
-              ''
             )}
           </div>
         </div>
@@ -147,8 +147,8 @@ const Classes = () => {
                     _id={item._id}
                     name={item.name}
                     avatar={item.avatar}
-                    learn_date={item.createdAt}
-                    learn_date_end={item.updatedAt}
+                    end_date={item.end_date}
+                    from_date={item.from_date}
                     code={item.code}
                     scoreFactor={item.scoreFactor}
                   />

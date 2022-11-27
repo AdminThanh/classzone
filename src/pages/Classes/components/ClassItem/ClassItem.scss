@@ -55,6 +55,7 @@
   }
   .content {
     padding: 5px 0 5px 42px;
+    
     .title {
       margin: 0;
       font-weight: 600;
@@ -75,5 +76,10 @@
         }
       }
     }
+  }
+  @media (max-width: 994px) {
+      .content{
+        padding: 0px 15px;
+      }
   }
 }

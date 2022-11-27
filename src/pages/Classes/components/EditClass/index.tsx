@@ -8,6 +8,9 @@ import { current } from '@reduxjs/toolkit';
 import { FetchResult, useLazyQuery, useMutation } from '@apollo/client';
 import { CreateMyClassDocument, CreateMyClassMutation } from 'gql/graphql';
 import { IClassInfo } from 'pages/Classes';
+import { useForm } from 'antd/lib/form/Form';
+import moment from 'moment';
+import { read } from 'fs';
 
 const layout = {
   labelCol: { span: 24 },
@@ -24,23 +27,21 @@ const EditClass = (props: any) => {
     title,
     name,
     image,
-    learn_date,
-    learn_date_end,
-    qr_code,
-    teacher,
+    end_date,
+    from_date,
+    type,
     scoreFactor,
+    _id,
   } = props;
   console.log(props);
+
+  const [form] = useForm();
 
   const [open, setOpen] = useState(true);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { t } = useTranslation();
 
   const [inputImage, setInputImage] = useState(image);
-  const [inputName, setInputName] = useState(name);
-  const [inputLearn_date, setInputLearn_date] = useState(learn_date);
-  const [inputLearn_date_end, setInputLearn_date_end] = useState(props.label);
-  const [inputScoreFactor, setInputScoreFactor] = useState(scoreFactor);
 
   const [fireCreateMyClass] = useMutation(CreateMyClassDocument);
 
@@ -52,30 +53,50 @@ const EditClass = (props: any) => {
     if (selectorFiles) {
       setFileImage(selectorFiles[0]);
     }
+   
   };
 
   const handleOk = async (value: any) => {
     setConfirmLoading(true);
+    
 
-    const res = await fireCreateMyClass({
-      variables: {
-        createMyClass: {
-          name: value.class_invite.inputName,
-          scoreFactor: value.class_invite.inputScoreFactor,
-          from_date: new Date(),
-          end_date: new Date(),
-          banner: 'banner 123',
+    if (type === 'add') {
+      await fireCreateMyClass({
+        variables: {
+          createMyClass: {
+            name: value.inputName,
+            scoreFactor: value.inputScoreFactor,
+            from_date: value.from_date._d,
+            end_date: value.end_date._d,
+            avatar:
+              'https://cdn.dribbble.com/userupload/3281431/file/original-48283bb3f53b1e0597cd612334785e66.png',
+          },
         },
-      },
-    });
+      });
+    } else if (type === 'edit') {
+      console.log(value);
+
+      // await fireCreateMyClass({
+      //   variables: {
+      //     createMyClass: {
+      //       name: value.inputName,
+      //       scoreFactor: value.inputScoreFactor,
+      //       from_date: new Date(),
+      //       end_date: new Date(),
+      //       banner: 'banner 123',
+      //     },
+      //   },
+      // });
+    }
 
     setTimeout(() => {
-    console.log(value);
-    console.log('inputImage', inputImage);
+      
+      console.log(value);
+      console.log('inputImage', inputImage);
 
-    setOpen(false);
-    setOpenModal(false);
-    setConfirmLoading(false);
+      setOpen(false);
+      setOpenModal(false);
+      setConfirmLoading(false);
     }, 2000);
   };
 
@@ -93,15 +114,15 @@ const EditClass = (props: any) => {
       footer={null}
     >
       <div className="content" id="content">
+        <button onClick={() => console.log(form.getFieldsValue())}>Log</button>
         <div className="image_class">
           {fileImage ? (
-            <img src={URL.createObjectURL(fileImage)} alt={inputName} />
+            <img src={URL.createObjectURL(fileImage)} alt={name} />
           ) : (
-            <img src={inputImage} alt={inputName} />
+            <img src={inputImage} alt={name} />
           )}
           <div className="background">
             <div className="icon_upload">
-              {/* <CameraOutlined /> */}
               <input
                 type="file"
                 className="input_file"
@@ -115,59 +136,51 @@ const EditClass = (props: any) => {
           onFinish={handleOk}
           validateMessages={validateMessages}
           className="action"
+          form={form}
+          initialValues={{
+            id: _id,
+            name: name,
+            from_date: from_date ? moment(new Date(from_date)) : from_date,
+            end_date: end_date ? moment(new Date(end_date)) : end_date,
+            scoreFactor: scoreFactor,
+          }}
         >
+          <Form.Item name={['id']}>
+            <Input placeholder={t('my_class.name_class')} />
+          </Form.Item>
           <Form.Item
-            name={['class_invite', 'inputName']}
+            name={['name']}
             label={t('my_class.name_class')}
             rules={[{ required: true }]}
           >
-            <Input
-              placeholder={t('my_class.name_class')}
-              defaultValue={name}
-              onChange={(e) => {
-                setInputName(e.target.value);
-              }}
-            />
+            <Input placeholder={t('my_class.name_class')} />
           </Form.Item>
           <Form.Item
-            name={['class_invite', 'inputLearn_date']}
+            name={['from_date']}
             label={t('my_class.start_date')}
             rules={[{ required: true }]}
           >
-            <Input
+            <DatePicker
               placeholder={t('my_class.start_date')}
-              defaultValue={learn_date}
-              onChange={(e) => {
-                setInputLearn_date(e.target.value);
-              }}
+              format={'DD/MM/YYYY'}
             />
           </Form.Item>
           <Form.Item
-            name={['class_invite', 'inputLearn_date_end']}
+            name={['end_date']}
             rules={[{ required: true }]}
             label={t('my_class.end_date')}
           >
-            {/* <DatePicker placeholder={t('my_class.end_date')} defaultValue={learn_date_end} /> */}
-            <Input
+            <DatePicker
               placeholder={t('my_class.end_date')}
-              defaultValue={props.label}
-              onChange={(e) => {
-                setInputLearn_date_end(e.target.value);
-              }}
+              format={'DD/MM/YYYY'}
             />
           </Form.Item>
           <Form.Item
-            name={['class_invite', 'inputScoreFactor']}
+            name={['scoreFactor']}
             rules={[{ required: true }]}
             label={t('my_class.score_factor')}
           >
-            <InputNumber
-              placeholder={t('my_class.score_factor')}
-              defaultValue={scoreFactor}
-              onChange={(e) => {
-                setInputScoreFactor(e.target.value);
-              }}
-            />
+            <InputNumber placeholder={t('my_class.score_factor')} />
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 0 }}>
             <Button loading={confirmLoading} type="primary" htmlType="submit">

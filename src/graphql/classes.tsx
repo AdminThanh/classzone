@@ -18,8 +18,8 @@ export const getMyClass = gql`
       name
       avatar
       code
-      createdAt
-      updatedAt
+      from_date
+      end_date
       scoreFactor
     }
   }
@@ -34,6 +34,20 @@ export const createMyClass = gql`
       scoreFactor
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const updateMyClass = gql`
+  mutation updateMyClass(
+    $UpdateMyClassInput: UpdateMyClassInput!
+    $id: String!
+  ) {
+    updateMyClass(updateMyClass: $UpdateMyClassInput, id: $id) {
+      name
+      scoreFactor
+      from_date
+      end_date
     }
   }
 `;

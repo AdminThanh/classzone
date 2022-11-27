@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'https://edu-backend-nest.herokuapp.com/graphql',
+  schema: 'http://localhost:4000/graphql',
   documents: 'src/graphql/**/*.tsx',
   generates: {
     'src/gql': {

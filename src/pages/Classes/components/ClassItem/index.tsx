@@ -12,19 +12,20 @@ import { Button, Col, Dropdown, Menu, Space } from 'antd';
 import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 export interface IClassInfo {
   _id: string;
   name: string;
   avatar: string;
-  learn_date: string;
-  learn_date_end: string;
+  end_date: string;
+  from_date: string;
   code: string;
   scoreFactor: number;
 }
 
 const ClassItem = (props: IClassInfo) => {
-  const { name, avatar, learn_date, learn_date_end, code, scoreFactor } = props;
+  const { name, avatar, end_date, from_date, code, scoreFactor, _id } = props;
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -85,11 +86,11 @@ const ClassItem = (props: IClassInfo) => {
           </li>
           <li className="item">
             <ClockCircleOutlined />
-            {t('my_class.start_date')}: <span>{learn_date}</span>
+            {t('my_class.start_date')}: <span>{moment(from_date).format('DD/MM/YYYY')}</span>
           </li>
           <li className="item">
             <ClockCircleOutlined />
-            {t('my_class.end_date')}: <span>{learn_date_end}</span>
+            {t('my_class.end_date')}: <span>{moment(end_date).format('DD/MM/YYYY')}</span>
           </li>
         </ul>
 
@@ -107,12 +108,14 @@ const ClassItem = (props: IClassInfo) => {
         {openModal && (
           <EditClass
             title={t('my_class.edit_class')}
+            type={'edit'}
             name={name}
             image={avatar}
-            learn_date={learn_date}
-            label={learn_date_end}
+            from_date={from_date}
+            end_date={end_date}
             qr_code={code}
             scoreFactor={scoreFactor}
+            _id={_id}
             setOpenModal={setOpenModal}
           />
         )}
