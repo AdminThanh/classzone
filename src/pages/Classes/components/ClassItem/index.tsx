@@ -8,14 +8,16 @@ import {
   DownOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import { Button, Col, Dropdown, Menu, Space } from 'antd';
+import { Button, Col, Dropdown, Menu, notification, Space } from 'antd';
 import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { useMutation } from '@apollo/client';
+import { DeleteMyClassDocument } from 'gql/graphql';
 
 export interface IClassInfo {
-  _id: string;
+  id: string;
   name: string;
   avatar: string;
   end_date: string;
@@ -25,10 +27,20 @@ export interface IClassInfo {
 }
 
 const ClassItem = (props: IClassInfo) => {
-  const { name, avatar, end_date, from_date, code, scoreFactor, _id } = props;
+  const { name, avatar, end_date, from_date, code, scoreFactor, id } = props;
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const [fireDeleteMyClass] = useMutation(DeleteMyClassDocument);
+
+  const DeleteMyClass = (id: string) => {
+    fireDeleteMyClass({
+      variables: {
+        id: id,
+      },
+    });
+  };
 
   const menu = (
     <Menu
@@ -43,13 +55,17 @@ const ClassItem = (props: IClassInfo) => {
         {
           label: 'Xóa',
           key: '1',
+          onClick: () => {
+            DeleteMyClass(id);
+            console.log(this);
+          },
         },
         {
           type: 'divider',
         },
         {
           label: 'Cài đặt',
-          key: '1',
+          key: '2',
         },
       ]}
     />
@@ -62,11 +78,12 @@ const ClassItem = (props: IClassInfo) => {
           src={
             avatar
               ? avatar
-              : 'https://cdn.dnaindia.com/sites/default/files/styles/full/public/2021/02/20/959189-bihar-board.jpg'
+              : 'https://png.pngtree.com/background/20210710/original/pngtree-math-improve-class-enrollment-cartoon-blue-background-picture-image_1003463.jpg'
           }
           alt={name}
           className="image"
         />
+        {avatar ? '' : <span className='img_title'>{name}</span>}
         <Dropdown className="dropdown" overlay={menu}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
@@ -86,11 +103,13 @@ const ClassItem = (props: IClassInfo) => {
           </li>
           <li className="item">
             <ClockCircleOutlined />
-            {t('my_class.start_date')}: <span>{moment(from_date).format('DD/MM/YYYY')}</span>
+            {t('my_class.start_date')}:{' '}
+            <span>{moment(from_date).format('DD/MM/YYYY')}</span>
           </li>
           <li className="item">
             <ClockCircleOutlined />
-            {t('my_class.end_date')}: <span>{moment(end_date).format('DD/MM/YYYY')}</span>
+            {t('my_class.end_date')}:{' '}
+            <span>{moment(end_date).format('DD/MM/YYYY')}</span>
           </li>
         </ul>
 
@@ -110,12 +129,12 @@ const ClassItem = (props: IClassInfo) => {
             title={t('my_class.edit_class')}
             type={'edit'}
             name={name}
-            image={avatar}
+            avatar={avatar}
             from_date={from_date}
             end_date={end_date}
             qr_code={code}
             scoreFactor={scoreFactor}
-            _id={_id}
+            id={id}
             setOpenModal={setOpenModal}
           />
         )}

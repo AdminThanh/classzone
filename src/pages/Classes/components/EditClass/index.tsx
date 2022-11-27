@@ -1,16 +1,33 @@
 import './EditClass.scss';
 import React, { useState } from 'react';
-import { DatePicker, Form, Input, InputNumber, Modal } from 'antd';
+import {
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  notification,
+} from 'antd';
 import { useTranslation } from 'react-i18next';
 import { CameraOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Upload } from 'antd';
 import { current } from '@reduxjs/toolkit';
-import { FetchResult, useLazyQuery, useMutation } from '@apollo/client';
-import { CreateMyClassDocument, CreateMyClassMutation } from 'gql/graphql';
+import {
+  FetchResult,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from '@apollo/client';
+import {
+  CreateMyClassDocument,
+  CreateMyClassMutation,
+  GetMyClassDocument,
+  UpdateMyClassDocument,
+} from 'gql/graphql';
 import { IClassInfo } from 'pages/Classes';
 import { useForm } from 'antd/lib/form/Form';
 import moment from 'moment';
-import { read } from 'fs';
+import api from 'utils/api';
 
 const layout = {
   labelCol: { span: 24 },
@@ -26,77 +43,108 @@ const EditClass = (props: any) => {
     setOpenModal,
     title,
     name,
-    image,
+    avatar,
     end_date,
     from_date,
     type,
     scoreFactor,
-    _id,
+    id,
   } = props;
   console.log(props);
 
-  const [form] = useForm();
-
+  const [avatarBase64, setAvatarBase64] = useState<any>(null);
   const [open, setOpen] = useState(true);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const { t } = useTranslation();
-
-  const [inputImage, setInputImage] = useState(image);
-
-  const [fireCreateMyClass] = useMutation(CreateMyClassDocument);
-
-  //  UPload image
   const [fileImage, setFileImage] = useState();
 
-  const uploadVideo = (selectorFiles: any) => {
-    console.log(selectorFiles[0].name);
-    if (selectorFiles) {
-      setFileImage(selectorFiles[0]);
+  const [form] = useForm();
+  const { t } = useTranslation();
+
+  const [fireCreateMyClass] = useMutation(CreateMyClassDocument);
+  const [fireUpdateMyClass] = useMutation(UpdateMyClassDocument);
+
+  const getBase64 = (file: File) => {
+    return new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        res(reader.result);
+      };
+      reader.onerror = (error) => {
+        rej(error);
+      };
+    });
+  };
+
+  const handleChangeFile = async (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      file.preview = URL.createObjectURL(file);
+      const base64 = await getBase64(file);
+      setFileImage(file);
+      setAvatarBase64(base64);
     }
-   
   };
 
   const handleOk = async (value: any) => {
     setConfirmLoading(true);
-    
-
     if (type === 'add') {
-      await fireCreateMyClass({
-        variables: {
-          createMyClass: {
-            name: value.inputName,
-            scoreFactor: value.inputScoreFactor,
-            from_date: value.from_date._d,
-            end_date: value.end_date._d,
-            avatar:
-              'https://cdn.dribbble.com/userupload/3281431/file/original-48283bb3f53b1e0597cd612334785e66.png',
+      try {
+        await fireCreateMyClass({
+          variables: {
+            createMyClass: {
+              name: value.name,
+              scoreFactor: value.scoreFactor,
+              from_date: value.from_date._d,
+              end_date: value.end_date._d,
+              avatar:
+                'https://cdn.dnaindia.com/sites/default/files/styles/full/public/2021/02/20/959189-bihar-board.jpg',
+            },
           },
-        },
-      });
+        });
+        notification.destroy();
+        notification.success({
+          key: 'success',
+          message: 'Thêm thành công!',
+        });
+      } catch (error) {
+        notification.error({
+          key: 'error',
+          message: 'Thêm thất bại!',
+        });
+      }
     } else if (type === 'edit') {
-      console.log(value);
-
-      // await fireCreateMyClass({
-      //   variables: {
-      //     createMyClass: {
-      //       name: value.inputName,
-      //       scoreFactor: value.inputScoreFactor,
-      //       from_date: new Date(),
-      //       end_date: new Date(),
-      //       banner: 'banner 123',
-      //     },
-      //   },
-      // });
+      console.log('edit', value);
+      try {
+        const res = fireUpdateMyClass({
+          variables: {
+            UpdateMyClassInput: {
+              name: value.name,
+              scoreFactor: value.scoreFactor,
+              from_date: value.from_date._d,
+              end_date: value.end_date._d,
+            },
+            id: value.id,
+          },
+        });
+      } catch (error) {
+        notification.error({
+          key: 'error',
+          message: 'Sửa thất bại',
+        });
+        console.log(error);
+      }
     }
 
     setTimeout(() => {
-      
-      console.log(value);
-      console.log('inputImage', inputImage);
-
       setOpen(false);
       setOpenModal(false);
       setConfirmLoading(false);
+      notification.destroy();
+      notification.success({
+        key: 'success',
+        message: 'Sửa thành công!',
+      });
     }, 2000);
   };
 
@@ -114,19 +162,20 @@ const EditClass = (props: any) => {
       footer={null}
     >
       <div className="content" id="content">
-        <button onClick={() => console.log(form.getFieldsValue())}>Log</button>
         <div className="image_class">
           {fileImage ? (
             <img src={URL.createObjectURL(fileImage)} alt={name} />
           ) : (
-            <img src={inputImage} alt={name} />
+            <img src={avatar} alt={name} />
           )}
           <div className="background">
             <div className="icon_upload">
               <input
                 type="file"
+                accept="image/jpg, image/jpeg, image/png"
+                id="upload"
+                onChange={handleChangeFile}
                 className="input_file"
-                onChange={(e) => uploadVideo(e.target.files)}
               />
             </div>
           </div>
@@ -138,14 +187,14 @@ const EditClass = (props: any) => {
           className="action"
           form={form}
           initialValues={{
-            id: _id,
+            id: id,
             name: name,
             from_date: from_date ? moment(new Date(from_date)) : from_date,
             end_date: end_date ? moment(new Date(end_date)) : end_date,
             scoreFactor: scoreFactor,
           }}
         >
-          <Form.Item name={['id']}>
+          <Form.Item name={['id']} style={{display: 'none'}}>
             <Input placeholder={t('my_class.name_class')} />
           </Form.Item>
           <Form.Item

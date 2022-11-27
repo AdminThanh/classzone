@@ -14,7 +14,7 @@ import { gql } from '@apollo/client';
 export const getMyClass = gql`
   query getMyClass {
     getMyClass {
-      _id
+      id
       name
       avatar
       code
@@ -49,6 +49,12 @@ export const updateMyClass = gql`
       from_date
       end_date
     }
+  }
+`;
+
+export const deleteMyClass = gql`
+  mutation deleteMyClass($id: String!) {
+    deleteMyClass(id: $id)
   }
 `;
 

@@ -1,6 +1,5 @@
 @use '/src/assets/styles/colors' as c;
 
-
 .class-item {
   min-height: 400px;
   // margin: 0 20px 40px 20px;
@@ -10,12 +9,28 @@
   overflow: hidden;
   .action {
     position: relative;
+    span.img_title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      color: c.$primary_hover;
+      text-align: center;
+    }
     img.image {
       border-top-right-radius: 20px;
       border-top-left-radius: 20px;
       width: 100%;
-      max-height: 150px;
+      height: 150px;
+      min-height: 150px;
       object-fit: cover;
+    }
+    @media (max-width: 994px) {
+      img.image {
+        max-height: 150px;
+        height: auto;
+      }
     }
     .dot {
       position: absolute;
@@ -55,7 +70,7 @@
   }
   .content {
     padding: 5px 0 5px 42px;
-    
+
     .title {
       margin: 0;
       font-weight: 600;
@@ -78,8 +93,8 @@
     }
   }
   @media (max-width: 994px) {
-      .content{
-        padding: 0px 15px;
-      }
+    .content {
+      padding: 0px 15px;
+    }
   }
 }

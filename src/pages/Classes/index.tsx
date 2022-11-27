@@ -7,14 +7,14 @@ import FilterMenu, { TField } from 'components/FilterMenu';
 import { GetMyClassDocument } from 'gql/graphql';
 import i18next from 'i18next';
 import moment from 'moment';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
 import ClassItem from './components/ClassItem';
 import EditClass from './components/EditClass';
 
 export interface IClassInfo {
-  _id: string;
+  id: string;
   name: string;
   avatar: string;
   end_date: string;
@@ -29,10 +29,11 @@ const Classes = () => {
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
 
-  const { data, loading, refetch } = useQuery(GetMyClassDocument);
+  const { data, refetch } = useQuery(GetMyClassDocument);
 
   const datas = data?.getMyClass as IClassInfo[];
-  console.log(datas);
+  console.log('datas', datas);
+
 
   const fields: TField[] = useMemo(
     () => [
@@ -135,7 +136,7 @@ const Classes = () => {
             {datas?.length !== 0 &&
               datas?.map((item) => (
                 <Col
-                  key={item._id}
+                  key={item.id}
                   xs={24}
                   sm={12}
                   md={12}
@@ -144,7 +145,7 @@ const Classes = () => {
                   xxl={8}
                 >
                   <ClassItem
-                    _id={item._id}
+                    id={item.id}
                     name={item.name}
                     avatar={item.avatar}
                     end_date={item.end_date}
