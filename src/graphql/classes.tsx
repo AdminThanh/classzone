@@ -24,6 +24,20 @@ export const getMyClass = gql`
     }
   }
 `;
+export const getClassById = gql`
+  query getClassById($id: String!) {
+    getClassById(id: $id) {
+      name
+      students {
+        avatar
+        id
+        lastName
+        firstName
+        email
+      }
+    }
+  }
+`;
 
 export const createMyClass = gql`
   mutation createMyClass($createMyClass: CreateMyClassInput!) {
@@ -48,6 +62,21 @@ export const updateMyClass = gql`
       scoreFactor
       from_date
       end_date
+    }
+  }
+`;
+export const assignStudentToClass = gql`
+  mutation assignStudentToClass(
+    $assignStudentToClass: AssignUserToClassInput!
+  ) {
+    assignStudentToClass(assignStudentToClassInput: $assignStudentToClass) {
+      id
+      students {
+        email
+        lastName
+        firstName
+        id
+      }
     }
   }
 `;

@@ -26,6 +26,7 @@ import AuthPage from 'pages/AuthPage';
 import ExamPage from 'pages/ExamPage';
 import StudentLayout from 'layouts/Student';
 import Assignment from 'pages/Assignment';
+import JoinClass from 'pages/ClassDetail/components/JoinClass';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -79,6 +80,13 @@ export const routes: IRoute[] = [
     element: ClassDetail,
     role: ['teacher'],
     layout: TeacherLayout,
+  },
+  {
+    // path: '/join_cLass/:classId/:studentId',
+    path: '/join_class/:classId',
+    element: JoinClass,
+    role: ['teacher'],
+    // layout: TeacherLayout,
   },
   {
     path: '/attendance',
