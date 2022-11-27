@@ -36,7 +36,6 @@ const Router = () => {
           let Layout = route?.layout || React.Fragment;
           let Element = route.element;
 
-
           // Đợi API login ms xử lý case này
           // if (route.role.includes('teacher')) {
           // if (route.role.includes('student')) {
@@ -55,9 +54,9 @@ const Router = () => {
                   )}
                   {!route?.role?.length && (
                     // <RequireGuest>
-                      <Layout>
-                        <Element />
-                      </Layout>
+                    <Layout>
+                      <Element />
+                    </Layout>
                     // </RequireGuest>
                   )}
                 </>

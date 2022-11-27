@@ -22,6 +22,7 @@ export default {
     edit_profile: 'Chỉnh sửa thông tin',
     attendance: "Điểm danh",
     exam: "Kiểm tra",
+    management_Exam : "Quản lý bài kiểm tra",
   },
 
   my_class: {
@@ -267,6 +268,19 @@ export default {
 
     // Action
     choose_tags: 'Chọn thẻ liên quan',
+  },
+
+  //management exam
+  management: {
+    //title table
+    name_exam : "Tên bài kiểm tra",
+    class : "Lớp",
+    status: "Tình trạng",
+    had_done: "Đã nộp bài",
+
+    //action 
+    create_exam: "Tạo bài kiểm tra",
+    give_assignment : "Giao bài tập",
   },
   wheel:{
     congratulations: 'Xin chúc mừng',

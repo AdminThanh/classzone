@@ -18,5 +18,7 @@ export { ReactComponent as SaveIcon } from 'assets/images/save-icon.svg';
 export { ReactComponent as BinIcon } from 'assets/images/bin-icon.svg';
 export { ReactComponent as ShowmoreIcon } from 'assets/images/icons/showmore.svg';
 export { ReactComponent as CloseIcon } from 'assets/images/icons/close.svg';
+export { ReactComponent as AddIcon } from 'assets/images/add-icon.svg';
+
 export { ReactComponent as NextIcon } from 'assets/images/nextIcon.svg';
 export { ReactComponent as PrevIcon } from 'assets/images/prevIcon.svg';
