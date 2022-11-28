@@ -2,7 +2,13 @@ import { Spin } from 'antd';
 import { RequireAuth, RequireGuest } from 'components/Auth';
 import { useAuth } from 'contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from 'react-router-dom';
 import { routes } from './routes';
 
 // Import pages
@@ -15,17 +21,21 @@ import { routes } from './routes';
 /* Admin routes */
 
 const Router = () => {
-  const [loading, setLoading] = useState(true);
-  const { checkAuth } = useAuth();
+  const { checkAuth, loading, isAuthenticated } = useAuth();
   useEffect(() => {
     const authenticate = async () => {
-      setLoading(true);
       await checkAuth();
-      setLoading(false);
     };
 
     authenticate();
   }, []);
+
+  useEffect(() => {
+    console.log(loading, isAuthenticated);
+    if (loading === false && isAuthenticated === null) {
+      window.location.href = '/login';
+    }
+  }, [loading, isAuthenticated]);
 
   return (
     <Spin spinning={loading}>
