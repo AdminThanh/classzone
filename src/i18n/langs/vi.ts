@@ -41,6 +41,7 @@ export default {
 
     // Fied
     qr_code: 'Mã code',
+    view_qr_code: 'Xem QR Code',
     teacher: 'Giáo viên',
 
     // Placeholder

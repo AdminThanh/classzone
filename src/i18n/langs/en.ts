@@ -38,6 +38,7 @@ export default {
 
     // Fied
     qr_code: 'Code',
+    view_qr_code: 'View QR Code',
     teacher: 'Teacher',
 
     // Placeholder
