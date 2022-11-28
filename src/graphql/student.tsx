@@ -20,4 +20,5 @@ export const getInfoMe = gql`
   }
 `;
 
+
 export const a = 5;

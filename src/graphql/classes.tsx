@@ -28,8 +28,8 @@ export const getClassById = gql`
   query getClassById($id: String!) {
     getClassById(id: $id) {
       name
+      avatar
       students {
-        avatar
         id
         lastName
         firstName

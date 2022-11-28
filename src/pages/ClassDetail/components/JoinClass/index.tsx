@@ -8,13 +8,15 @@ import {
   GetClassByIdDocument,
   GetInfoMeDocument,
 } from 'gql/graphql';
+import { useTranslation } from 'react-i18next';
 
 const InviteStudentsLink = () => {
   let { classId } = useParams();
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const { data } = useQuery(GetInfoMeDocument);
-  console.log('GetInfoMeDocument', data);
+  const nameMe = (data?.me?.firstName + ' ' + data?.me?.lastName) as string;
 
   const [fireAssignStudentToClass] = useMutation(AssignStudentToClassDocument);
 
@@ -25,6 +27,7 @@ const InviteStudentsLink = () => {
       },
     });
     var className = data?.getClassById?.name;
+    var classBanner = data?.getClassById?.avatar as string;
     var students = data?.getClassById?.students;
     console.log('GetClassByIdDocument', data);
   }
@@ -67,13 +70,12 @@ const InviteStudentsLink = () => {
                 aria-label="exclamation-circle"
                 className="anticon anticon-exclamation-circle"
               >
-                <Avatar>k</Avatar>
+                <img src={classBanner ? classBanner : 'https://static.taogiaoduc.vn/2018/01/thao-luan-nhom.png'} className='class_banner' />
+                {/* <Avatar className='className'>{className?.charAt(0).toUpperCase()}</Avatar> */}
               </span>
             </div>
             <div className="ant-result-title">{className}</div>
-            <div className="ant-result-subtitle">
-              Sorry, the page you visited does not exist.
-            </div>
+            <div className="ant-result-subtitle">{t('my_class.hello')}{nameMe}. {t('my_class.join_class_act')}</div>
             <Avatar.Group
               maxCount={2}
               maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
@@ -82,7 +84,7 @@ const InviteStudentsLink = () => {
                 students?.map(
                   (item, index) =>
                     index < 2 && (
-                      <Avatar key={item.id} src={item?.avatar}>
+                      <Avatar key={item.id}>
                         {item?.firstName?.charAt(0).toUpperCase()}
                       </Avatar>
                     )
@@ -92,7 +94,7 @@ const InviteStudentsLink = () => {
                   students?.map(
                     (item, index) =>
                       index > 1 && (
-                        <Avatar key={item.id} src={item?.avatar}>
+                        <Avatar key={item.id}>
                           {item?.firstName?.charAt(0).toUpperCase()}
                         </Avatar>
                       )
@@ -100,7 +102,7 @@ const InviteStudentsLink = () => {
               </Tooltip>
             </Avatar.Group>
             <div className="ant-result-extra">
-              <button type="button" className="ant-btn ant-btn-primary">
+              <button type="button" className="ant-btn ant-btn-primary primary">
                 <span>Tham gia</span>
               </button>
             </div>
