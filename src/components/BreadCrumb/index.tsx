@@ -1,6 +1,7 @@
 import './BreadCrumb.scss';
 import { HomeOutlined } from '@ant-design/icons';
 import { Breadcrumb } from 'antd';
+import { Link } from 'react-router-dom';
 
 interface RouteItem {
   name: string;
@@ -17,12 +18,16 @@ function BreadCrumb(props: Props) {
   return (
     <div className="breadcrumb">
       <Breadcrumb>
-        <Breadcrumb.Item href="">
-          <HomeOutlined />
+        <Breadcrumb.Item>
+          <Link to="/">
+            <HomeOutlined />
+          </Link>
         </Breadcrumb.Item>
         {routes.map((route) => (
-          <Breadcrumb.Item key={route.path} href={route.path}>
-            <span>{route.name}</span>
+          <Breadcrumb.Item key={route.path}>
+            <Link to={route.path}>
+              <span>{route.name}</span>
+            </Link>
           </Breadcrumb.Item>
         ))}
       </Breadcrumb>

@@ -27,6 +27,7 @@ import ExamPage from 'pages/ExamPage';
 import ExamManagement from 'pages/ExamManagement';
 import StudentLayout from 'layouts/Student';
 import Assignment from 'pages/Assignment';
+import CreateAttendance from 'pages/CreateAttendance';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -66,7 +67,7 @@ export const routes: IRoute[] = [
   {
     path: '/create_assignment',
     element: CreateAssignment,
-    // role: ['teacher'],
+    role: ['teacher'],
     layout: TeacherLayout,
   },
   {
@@ -84,6 +85,12 @@ export const routes: IRoute[] = [
   {
     path: '/attendance',
     element: Attendance,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/create_attendance',
+    element: CreateAttendance,
     role: ['teacher'],
     layout: TeacherLayout,
   },

@@ -53,6 +53,7 @@ function Login() {
         });
       }
     } catch (err) {
+      notification.destroy();
       notification.error({
         message: t('error.have_error'),
       });
