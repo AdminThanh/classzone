@@ -1,6 +1,8 @@
-import { Divider, Input, Typography } from 'antd';
+import { useMutation } from '@apollo/client';
+import { Divider, Input, notification, Typography } from 'antd';
 import Button from 'components/Button';
 import ColorPicker from 'components/ColorPicker';
+import { CreateTagDocument } from 'gql/graphql';
 import { useCallback, useState } from 'react';
 import { ColorResult, RGBColor } from 'react-color';
 import { useTranslation } from 'react-i18next';
@@ -14,8 +16,10 @@ interface ITagValues {
   };
 }
 
-const TagControl = () => {
+const TagControl = (props: any) => {
+  const { handleRefetch } = props;
   const { t } = useTranslation();
+  const [fireCreateTag] = useMutation(CreateTagDocument);
 
   const [tagValues, setTagValues] = useState<ITagValues>({
     name: '',
@@ -43,7 +47,7 @@ const TagControl = () => {
       if (
         newColor.length === 4 ||
         newColor.length === 5 ||
-        newColor.length == 7 ||
+        newColor.length === 7 ||
         newColor.length === 9
       ) {
         // Preparation:
@@ -97,6 +101,31 @@ const TagControl = () => {
     [tagValues]
   );
 
+  const handleAddNewTag = async () => {
+    try {
+      await fireCreateTag({
+        variables: {
+          createTagInput: {
+            name: tagValues.name,
+            color: tagValues.color.hex,
+          }
+        }
+      })
+
+      handleRefetch();
+      notification.success({
+        key: 'success',
+        message: 'Thêm thành công!',
+      });
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        key: 'error',
+        message: 'Thêm thất bại!',
+      });
+    }
+  }
+
   return (
     <div
       className="filter__tagControl"
@@ -134,11 +163,12 @@ const TagControl = () => {
       <div className="dropdown-bottom-action-list">
         <Typography.Link
           className="btn-add-tag"
-          // onClick={handleAddNewTag}
         >
           {/* <PlusOutlined /> {t('tag.add_tag')} */}
           <div className="tag__button">
-            <Button title={t('tag.add_tag')} type="primary" />
+            <Button title={t('tag.add_tag')} type="primary"
+              onClick={handleAddNewTag}
+            />
           </div>
         </Typography.Link>
       </div>
