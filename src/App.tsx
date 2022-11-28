@@ -11,7 +11,6 @@ import './assets/styles/main.scss';
 import i18n from './i18n';
 import Router from './routes';
 
-console.log('processs');
 function App() {
   return (
     <ApolloProvider client={client}>
