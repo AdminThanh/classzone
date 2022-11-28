@@ -219,9 +219,11 @@ const dataStudent: IStudentInfo[] = [
 ];
 
 const ClassDetail = () => {
-  let { classId } = useParams();
-  console.log(classId);
 
+  const { data, refetch } = useQuery(GetAllUsersDocument);
+  console.log(data);
+
+  let { classId } = useParams();
   return (
     <div className="site_wrapper">
       <div className="site_container">
@@ -229,7 +231,7 @@ const ClassDetail = () => {
           <div className="classdetail__tab">
             <Tabs defaultActiveKey="1">
               <Tabs.TabPane tab="Học sinh" key="1">
-                <StudentList dataStudent={dataStudent} />
+                <StudentList classId={classId} dataStudent={dataStudent} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Nhóm" key="2">
                 <GroupList dataGroup={dataGroup} />

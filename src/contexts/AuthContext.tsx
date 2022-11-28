@@ -92,6 +92,8 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         setAuth({});
         setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   }, []);
 

@@ -6,9 +6,9 @@ const StudentItem = (props: any) => {
 
   return (
     <div className="student-item">
-      <Avatar src={avatar}>{name.charAt(0).toUpperCase()}</Avatar>
+      <Avatar src={avatar && avatar}>{name.charAt(0).toUpperCase()}</Avatar>
       <div className="name">
-        <a href={_id}>{name}</a>
+        <a>{name}</a>
       </div>
     </div>
   );

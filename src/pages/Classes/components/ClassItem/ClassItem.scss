@@ -82,6 +82,10 @@
     }
     .list-desc {
       padding: 0;
+      .view_qr_code {
+        cursor: pointer;
+        color: c.$link_qr;
+      }
       li.item {
         list-style: none;
         padding: 3px 0;
@@ -92,9 +96,19 @@
       }
     }
   }
+
   @media (max-width: 994px) {
     .content {
       padding: 0px 15px;
+    }
+  }
+}
+.qr_code .ant-modal-body {
+  text-align: center !important;
+  .coppy_link {
+    cursor: pointer;
+    &:hover {
+      color: c.$link_qr;
     }
   }
 }
