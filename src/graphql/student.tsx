@@ -10,20 +10,15 @@ export const getAllUsers = gql`
     }
   }
 `;
-
-export const assignStudentToClass = gql`
-  mutation assignStudentToClass(
-    $assignStudentToClass: AssignUserToClassInput!
-  ) {
-    assignStudentToClass(assignStudentToClassInput: $assignStudentToClass) {
+export const getInfoMe = gql`
+  query getInfoMe {
+    me {
       id
-      students {
-        lastName
-        firstName
-        id
-      }
+      firstName
+      lastName
     }
   }
 `;
+
 
 export const a = 5;

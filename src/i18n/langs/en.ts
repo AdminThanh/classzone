@@ -39,6 +39,7 @@ export default {
 
     // Fied
     qr_code: 'Code',
+    view_qr_code: 'View QR Code',
     teacher: 'Teacher',
 
     // Placeholder
@@ -60,6 +61,8 @@ export default {
 
     // Babel
     class_link: 'Class link',
+    hello: 'Hello ',
+    join_class_act: 'Please click the button below to join the class',
   },
 
   auth: {

@@ -1,19 +1,32 @@
 import './StudentList.scss';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Avatar, Col, Modal, Row } from 'antd';
+import { Avatar, Col, Modal, notification, Row } from 'antd';
 import StudentItem from '../StudentItem';
 import { useState } from 'react';
 import InviteStudents from '../InviteStudents';
 import { useTranslation } from 'react-i18next';
+import { useMutation, useQuery } from '@apollo/client';
+import { GetClassByIdDocument } from 'gql/graphql';
 
 const StudentList = (props: any) => {
   const [showInviteStudents, setShowInviteStudents] = useState(false);
-  const { dataStudent } = props;
+  const { dataStudent, classId } = props;
+
+  const { data, refetch } = useQuery(GetClassByIdDocument, {
+    variables: {
+      id: classId,
+    },
+  });
+
+  const dataListStudent = data?.getClassById?.students;
+  console.log(classId);
+  console.log(dataListStudent);
+
   const { t } = useTranslation();
   return (
     <Row className="classdetail__list" gutter={[20, 20]}>
-      {dataStudent?.length !== 0 &&
-        dataStudent?.map((item: any, index: any) => (
+      {dataListStudent?.length !== 0 &&
+        dataListStudent?.map((item: any, index: any) => (
           <Col
             key={index}
             xs={24}
@@ -24,7 +37,10 @@ const StudentList = (props: any) => {
             xxl={3}
             className="classdetail__item"
           >
-            <StudentItem _id={item._id} name={item.name} avatar={item.avatar} />
+            <StudentItem
+              id={item.id}
+              name={item.firstName + ' ' + item.lastName}
+            />
           </Col>
         ))}
       <Col
@@ -39,8 +55,8 @@ const StudentList = (props: any) => {
         xxl={3}
         className="classdetail__item"
       >
-        <div className='student-item'>
-        <PlusCircleOutlined />
+        <div className="student-item">
+          <PlusCircleOutlined />
         </div>
       </Col>
       {showInviteStudents ? (

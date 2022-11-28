@@ -1,18 +1,30 @@
 import './ClassItem.scss';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   QrcodeOutlined,
   ClockCircleOutlined,
   SettingOutlined,
   ExclamationCircleFilled,
 } from '@ant-design/icons';
-import { Button, Col, Dropdown, Menu, Modal, notification, Space } from 'antd';
+import {
+  Button,
+  Col,
+  Dropdown,
+  Menu,
+  message,
+  Modal,
+  notification,
+  Space,
+  Tooltip,
+} from 'antd';
 import EditClass from '../EditClass';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { useMutation } from '@apollo/client';
 import { DeleteMyClassDocument } from 'gql/graphql';
+import QRCode from 'qrcode.react';
+import copy from 'copy-to-clipboard';
 
 export interface IClassInfo {
   id: string;
@@ -37,9 +49,12 @@ const ClassItem = (props: IClassInfo) => {
     handleRefetch,
   } = props;
   const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [fireDeleteMyClass] = useMutation(DeleteMyClassDocument);
+  const link_qr = window.location.origin + '/join_class/' + id;
 
   const DeleteMyClass = async (id: string) => {
     try {
@@ -75,6 +90,32 @@ const ClassItem = (props: IClassInfo) => {
         console.log('Cancel');
       },
     });
+  };
+
+  const handleDowloadQRCode = () => {
+    const canvas = document.getElementById(
+      'qrcode'
+    ) as HTMLCanvasElement | null;
+    const pngUrl = canvas
+      ?.toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream');
+    let linkDowload = document.createElement('a');
+    linkDowload.href = pngUrl as string;
+    linkDowload.download = `qr-code.png`;
+    document.body.appendChild(linkDowload);
+    linkDowload.click();
+    document.body.removeChild(linkDowload);
+    setTimeout(() => {
+      setOpen(false);
+    }, 500);
+  };
+
+  const copyLinkToClipboard = () => {
+    if (copy(link_qr)) {
+      message.success(t('action.coppy_success') as string);
+    } else {
+      message.error(t('action.coppy_error') as string);
+    }
   };
 
   const menu = (
@@ -131,9 +172,9 @@ const ClassItem = (props: IClassInfo) => {
           <h2 className="title">{name}</h2>
         </Link>
         <ul className="list-desc">
-          <li className="item">
+          <li className="item" onClick={() => setOpen(true)}>
             <QrcodeOutlined />
-            {t('my_class.qr_code')}: <span>{code}</span>
+            <span className="view_qr_code">{t('my_class.view_qr_code')}</span>
           </li>
           <li className="item">
             <ClockCircleOutlined />
@@ -173,6 +214,33 @@ const ClassItem = (props: IClassInfo) => {
             handleRefetch={handleRefetch}
           />
         )}
+
+        <Modal
+          title={name}
+          open={open}
+          onOk={handleDowloadQRCode}
+          onCancel={() => setOpen(false)}
+          okText={'Tải xuống'}
+          cancelText={'Đóng'}
+          className="qr_code"
+        >
+          <QRCode
+            id="qrcode"
+            value={link_qr}
+            size={180}
+            level={'H'}
+            includeMargin={true}
+          />
+          <Tooltip
+            placement="bottom"
+            title={t('action.coppy')}
+            arrowPointAtCenter
+          >
+            <p onClick={copyLinkToClipboard} className="coppy_link">
+              {link_qr}
+            </p>
+          </Tooltip>
+        </Modal>
       </div>
     </div>
   );

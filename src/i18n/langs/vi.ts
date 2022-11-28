@@ -42,6 +42,7 @@ export default {
 
     // Fied
     qr_code: 'Mã code',
+    view_qr_code: 'Xem QR Code',
     teacher: 'Giáo viên',
 
     // Placeholder
@@ -49,7 +50,7 @@ export default {
     choose_end_date: 'Chọn ngày kết thúc',
     choose_status: 'Chọn trạng thái',
     fill_in_class_name: 'Điền vào tên lớp',
-    choose_tags : "Chọn thẻ",
+    choose_tags: 'Chọn thẻ',
 
     // Options
     is_activating: 'Đang hoạt động',
@@ -62,6 +63,8 @@ export default {
 
     // Babel
     class_link: 'Liên kết lớp',
+    hello: 'Xin chào ',
+    join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học'
   },
 
   auth: {
@@ -220,36 +223,36 @@ export default {
   },
 
   //attendance
-  attendance : {
-    img : "Hình",
-    name: "Họ và tên",
-    activity: "Hoạt động",
-    note: "Ghi chú",
-    total: "Tổng",
-    save: "Lưu",
+  attendance: {
+    img: 'Hình',
+    name: 'Họ và tên',
+    activity: 'Hoạt động',
+    note: 'Ghi chú',
+    total: 'Tổng',
+    save: 'Lưu',
   },
 
-   //exam
-   exam: {
+  //exam
+  exam: {
     //filter
-    filter: "Bộ lọc",
-    tags: "Thẻ",
+    filter: 'Bộ lọc',
+    tags: 'Thẻ',
 
     //content
-    start_time: "Bắt đầu từ:",
-    deadline : "Hạn nộp:",
-    work_time : "Thời gian làm:",
-    num_question : "Số lượng câu hỏi: ",
-    status : "Trạng thái:",
-    status_done : "Đã làm",
-    status_not : "Chưa làm",
-    status_notStart : "Chưa bắt đầu",
-    status_score : "Đã có điểm",
+    start_time: 'Bắt đầu từ:',
+    deadline: 'Hạn nộp:',
+    work_time: 'Thời gian làm:',
+    num_question: 'Số lượng câu hỏi: ',
+    status: 'Trạng thái:',
+    status_done: 'Đã làm',
+    status_not: 'Chưa làm',
+    status_notStart: 'Chưa bắt đầu',
+    status_score: 'Đã có điểm',
 
     //button
-    doing : "Làm bài",
-    review : "Xem lại"
-  }, 
+    doing: 'Làm bài',
+    review: 'Xem lại',
+  },
   my_quession: {
     tags: 'Thẻ',
     point: 'Điểm',
