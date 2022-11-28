@@ -1,7 +1,16 @@
-import { Button, Form, Input, InputNumber, Radio, Select } from 'antd';
+import { useMutation } from '@apollo/client';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  notification,
+  Radio,
+  Select,
+  Spin,
+} from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { AnyMxRecord } from 'dns';
-import { t } from 'i18next';
+import { CreateColumnScoreDocument, ScoreType } from 'gql/graphql';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './ModalFormColumn.scss';
@@ -11,6 +20,7 @@ const { Option } = Select;
 interface ModalFromColumn {
   type: string;
   data: any;
+  handleRefetchTableScore: () => void;
 }
 
 interface ISelectTest {
@@ -20,17 +30,50 @@ interface ISelectTest {
 }
 
 const ModalFormColumn = (props: ModalFromColumn) => {
-  const { type, data } = props;
+  const { type, data, handleRefetchTableScore } = props;
   const [selectTest, setSelecteTest] = useState<ISelectTest>({
     value: '',
     isOpen: false,
     type: undefined,
   });
+
+  const [fireCreateColumnScore] = useMutation(CreateColumnScoreDocument);
   const [form] = useForm();
   const { t } = useTranslation();
 
-  const handleFinish = (value: any) => {
-    console.log(value, form.isFieldsTouched());
+  const handleFinish = async (value: any) => {
+    try {
+      notification.open({
+        message: (
+          <>
+            <Spin /> &nbsp; Đang xoá
+          </>
+        ),
+      });
+
+      const res = await fireCreateColumnScore({
+        variables: {
+          inputCreateColumnScore: {
+            class_id: '32566911-72cf-4e8c-b52a-33c87806110c',
+            multiplier: value.multiplier,
+            name: value.name,
+            type: ScoreType.Normal,
+            note: value.note,
+          },
+        },
+      });
+
+      notification.destroy();
+      notification.success({
+        message: 'Xoá cột điểm thành công',
+      });
+      handleRefetchTableScore();
+    } catch (err) {
+      notification.destroy();
+      notification.error({
+        message: 'Có lỗi xảy ra',
+      });
+    }
   };
 
   useEffect(() => {

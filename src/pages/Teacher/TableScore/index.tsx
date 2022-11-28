@@ -8,7 +8,9 @@ import {
   InputNumber,
   InputRef,
   Modal,
+  notification,
   Space,
+  Spin,
 } from 'antd';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
 import React, { useEffect, useRef, useState } from 'react';
@@ -19,6 +21,12 @@ import DropdownAction from './components/DropdownAction';
 import ModalFormColumn from './components/ModalFormColumn';
 import './tableScore.scss';
 import BreadCrumb from 'components/BreadCrumb';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  ColumnScoreType,
+  DeleteColumnScoreDocument,
+  GetColumnScoresByClassDocument,
+} from 'gql/graphql';
 interface DataType {
   key: React.Key;
   name: string;
@@ -30,7 +38,7 @@ type DataIndex = keyof DataType;
 
 interface IColumnTable {
   // Cần xử lý khi có api vì typescript không chạy trên runtime
-  _id: string;
+  id: string;
   name: string;
   type: string;
   test: string;
@@ -41,14 +49,14 @@ const fakeAPITable: Promise<IColumnTable[]> = new Promise((resolve, reject) => {
   setTimeout(() => {
     const fetchColumnTable: IColumnTable[] = [
       {
-        _id: 'dasdjosakfoaskdas',
+        id: 'dasdjosakfoaskdas',
         name: 'Bài kiểm tra 15 phút',
         type: 'normal',
         test: '15',
         multiplier: 1,
       },
       {
-        _id: 'sadasdaccans',
+        id: 'sadasdaccans',
         name: 'Bài kiểm tra 45 phút',
         type: 'normal',
         test: '45',
@@ -65,7 +73,7 @@ const fakeAPIScoreStudent: Promise<DataType[]> = new Promise(
       {
         key: '1',
         name: 'Đào Đức Minh Khôi',
-        sadasdaccans: 9,
+        '6843f699-9feb-4e35-bbc9-a73bf782aa2f': 9,
         dasdjosakfoaskdas: 10,
         student_id: '101',
       },
@@ -98,9 +106,15 @@ const TableScore = () => {
   const searchInput = useRef<InputRef>(null);
   const { t } = useTranslation();
 
+  const { data, loading, refetch } = useQuery(GetColumnScoresByClassDocument, {
+    variables: {
+      id: '32566911-72cf-4e8c-b52a-33c87806110c',
+    },
+  });
+  const [fireDeleteTableScore] = useMutation(DeleteColumnScoreDocument);
   const [searchText, setSearchText] = useState<string>('');
   const [searchedColumn, setSearchedColumn] = useState<DataIndex>('');
-  const [dataTable, setDataTable] = useState<IColumnTable[] | undefined>();
+  const [dataTable, setDataTable] = useState<any[]>();
   const [dataScoreStudent, setDataScoreStudent] = useState<DataType[]>([]);
   const [modalCol, setModalCol] = useState<{
     data?: any;
@@ -113,9 +127,14 @@ const TableScore = () => {
   });
 
   useEffect(() => {
-    fakeAPITable.then((res) => {
-      setDataTable(res);
-    });
+    setDataTable(data?.getColumnScoresByClass);
+  }, [data?.getColumnScoresByClass]);
+
+  useEffect(() => {
+    console.log('data', data?.getColumnScoresByClass);
+    // fakeAPITable.then((res) => {
+    //   setDataTable(res);
+    // });
 
     // Fake data
     fakeAPIScoreStudent.then((res) => {
@@ -139,15 +158,16 @@ const TableScore = () => {
   };
 
   const renderScoreColumn = (columns?: IColumnTable[]) => {
+    console.log('columns', columns);
     return (
       columns?.map((col: IColumnTable) => ({
-        key: col._id,
+        key: col.id,
         title: (
           <Dropdown
             overlay={() => (
               <DropdownAction
                 data={col}
-                handleDeleteCol={handleDeleteCol}
+                handleDeleteCol={() => handleDeleteCol(col.id)}
                 handleUpdateCol={handleUpdateCol}
               />
             )}
@@ -156,7 +176,7 @@ const TableScore = () => {
             <div>{col.name}</div>
           </Dropdown>
         ),
-        dataIndex: col._id,
+        dataIndex: col.id,
         render: (value: number, record: DataType) => (
           <InputNumber
             value={value}
@@ -170,7 +190,7 @@ const TableScore = () => {
                     value,
                     record,
                   },
-                  col._id
+                  col.id
                 );
               }
             }}
@@ -178,7 +198,7 @@ const TableScore = () => {
         ),
         width: '15%',
         sorter: (a: DataType, b: DataType): number => {
-          return +a[col._id].valueOf() - +b[col._id].valueOf();
+          return +a[col.id].valueOf() - +b[col.id].valueOf();
         },
         filters: [
           {
@@ -193,9 +213,9 @@ const TableScore = () => {
         onFilter: (type: string, record: DataType) => {
           switch (type) {
             case 'above average':
-              return record[col._id] >= 5;
+              return record[col.id] >= 5;
             case 'below average':
-              return record[col._id] < 5;
+              return record[col.id] < 5;
             default:
               throw new Error('Type filter not found');
           }
@@ -226,8 +246,37 @@ const TableScore = () => {
     });
   };
 
-  const handleDeleteCol = (_id: string) => {
-    console.log('Delete', _id);
+  const handleRefetchTableScore = () => {
+    refetch();
+  };
+
+  const handleDeleteCol = async (id: string) => {
+    notification.open({
+      message: (
+        <>
+          <Spin /> &nbsp; Đang xoá
+        </>
+      ),
+    });
+    try {
+      await fireDeleteTableScore({
+        variables: {
+          id,
+        },
+      });
+
+      notification.destroy();
+      notification.success({
+        message: 'Xoá cột điểm thành công',
+      });
+
+      refetch();
+    } catch (err) {
+      notification.destroy();
+      notification.error({
+        message: 'Có lỗi xảy ra khi xoá cột điểm',
+      });
+    }
   };
 
   const handleSaveTable = () => {};
@@ -397,18 +446,18 @@ const TableScore = () => {
 
   return (
     <div className="tableScore">
-       <BreadCrumb
-          routes={[
-            {
-              name: "Lớp học NODEJS",
-              path: '/class_detail',
-            },
-            {
-              name: t('navbar.table_score'),
-              path: '/',
-            },
-          ]}
-        />
+      <BreadCrumb
+        routes={[
+          {
+            name: 'Lớp học NODEJS',
+            path: '/class_detail',
+          },
+          {
+            name: t('navbar.table_score'),
+            path: '/',
+          },
+        ]}
+      />
       <Table
         className="tableScore__table"
         columns={columns}
@@ -440,6 +489,7 @@ const TableScore = () => {
         footer={null}
       >
         <ModalFormColumn
+          handleRefetchTableScore={handleRefetchTableScore}
           data={modalCol.data}
           type={modalCol.data?._id ? 'update' : 'add'}
         />

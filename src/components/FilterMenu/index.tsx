@@ -48,7 +48,6 @@ const FilterMenu = (props: IPropsFilterMenu) => {
   const [isShowDropdown, setIsShowDropdown] = useState<Boolean>(false);
   const [values, setValues] = useState(initialValues);
 
-  console.log('values', values);
   const timer: any = useRef(null);
 
   const timeoutEvent = (handleChange: () => void, delay = 0) => {

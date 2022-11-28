@@ -88,7 +88,6 @@ const Question = () => {
       setDataTableQuession(res);
     });
   }, []);
-  console.log(dataTableQuession);
 
   const columns: ColumnsType<IQuession> = [
     {
