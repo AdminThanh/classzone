@@ -12,6 +12,7 @@ const MyEditor: React.FC<IMyEditor> = (props: any) => {
   const handleChange = (value: string) => {
     onChange(value);
   };
+  
 
   return (
     <Editor

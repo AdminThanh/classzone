@@ -11,6 +11,7 @@ import {
   Form,
   Input,
   InputNumber,
+  notification,
   Radio,
   Space,
 } from 'antd';
@@ -23,14 +24,58 @@ import FilterTags, { IOptionTag } from 'components/FilterTags';
 import { useForm } from 'antd/es/form/Form';
 import MyEditor from './components/MyEditor';
 import { useTranslation } from 'react-i18next';
+import { useMutation } from '@apollo/client';
+import { CreateQuestionDocument } from 'gql/graphql';
 
 const CreateQuession = () => {
   const { t } = useTranslation();
   const [form] = useForm();
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-  const onFinish = (formData: any) => {
+  const [fireCreateQuestion] = useMutation(CreateQuestionDocument);
+
+  const onFinish = async (formData: any) => {
     console.log('Payload:', formData);
+
+    try {
+      // await fireCreateQuestion({
+      //   variables: {
+      //     createQuestion: {
+      //       question: formData.question,
+      //       answers: formData.answer,
+      //       correctAnswer: [
+      //         {
+      //           text: 'Ăn cơm',
+      //           result: true,
+      //         },
+      //         {
+      //           text: 'Ăn cháo',
+      //           result: false,
+      //         },
+      //         {
+      //           text: 'Không ăn',
+      //           result: false,
+      //         },
+      //         {
+      //           text: 'Ăn gì cũng được',
+      //           result: false,
+      //         },
+      //       ],
+      //       isMutiple: formData.isMultiple,
+      //     },
+      //   },
+      // });
+      notification.destroy();
+      notification.success({
+        key: 'success',
+        message: 'Thêm thành công!',
+      });
+    } catch (error) {
+      notification.error({
+        key: 'error',
+        message: 'Thêm thất bại!',
+      });
+    }
   };
 
   const tagOpts: IOptionTag[] = useMemo(
@@ -136,14 +181,6 @@ const CreateQuession = () => {
                 />
               </Form.Item>
             </div>
-
-            <Form.Item
-              name={'point'}
-              rules={[{ required: true, message: t('my_quession.not_blank') }]}
-              label={t('my_quession.point')}
-            >
-              <InputNumber min={0} />
-            </Form.Item>
 
             <Form.Item
               name={'question'}
