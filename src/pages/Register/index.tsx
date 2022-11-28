@@ -106,7 +106,7 @@ function Register() {
           </div>
         </Form.Item>
         <Form.Item
-          label="Username"
+          label="Họ và tên"
           name="username"
           rules={[{ required: true, message: 'Mời bạn nhập username!' }]}
         >
@@ -124,9 +124,11 @@ function Register() {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Mật khẩu"
           name="password"
-          rules={[{ required: true, message: 'Mời bạn nhập password!' }]}
+          rules={[
+            { required: true, message: t('edit_profile.val_password') },
+            { min: 6, message: t('edit_profile.val_countpass') },]}
         >
           <Input.Password
             placeholder="Nhập mật khẩu"
@@ -134,7 +136,7 @@ function Register() {
           />
         </Form.Item>
         <Form.Item
-          label="RePassword"
+          label="Nhập lại mật khẩu"
           name="repassword"
           rules={[{ required: true, message: 'Mời bạn nhập lại password!' }]}
         >

@@ -20,6 +20,7 @@ export default {
     edit_profile: 'Edit profile',
     attendance: "Attendance",
     exam: "Exam",
+    management_Exam : "Exam Management",
   },
   my_class: {
     // Label
@@ -266,6 +267,19 @@ export default {
 
     // Action
     choose_tags: 'Select the relevant tag',
+  },
+
+  //management exam
+  management: {
+    //title table
+    name_exam : "Exam name",
+    class : "Class",
+    status: "Status",
+    had_done: "Had done",
+
+    //action 
+    create_exam: "Create Exam",
+    give_assignment : "Give assignment",
   },
   wheel:{
     congratulations: 'Congratulations',

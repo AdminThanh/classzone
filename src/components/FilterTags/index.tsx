@@ -1,5 +1,7 @@
-import { Select } from 'antd';
-import { useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { notification, Select } from 'antd';
+import { DeleteTagDocument, GetTagDocument } from 'gql/graphql';
+import { deleteTag } from 'graphql/tags';
 import { useTranslation } from 'react-i18next';
 import { BinIcon } from 'utils/drawer';
 import TagControl from './components/TagControl';
@@ -25,9 +27,32 @@ const FilterTags = (props: IFilterTags) => {
     onChange: handleChange,
   } = props;
 
-  const handleDeleteTag = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const { data, refetch } = useQuery(GetTagDocument);
+  const [fireDeleteTag] = useMutation(DeleteTagDocument);
+
+  const handleRefetch = () => {
+    refetch();
+  };
+
+  const handleDeleteTag = async (id: string) => {
+    try {
+      await fireDeleteTag({
+        variables: {
+          id: id
+        }
+      })
+      handleRefetch();
+      notification.success({
+        key: 'success',
+        message: 'Xóa thành công!',
+      });
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        key: 'error',
+        message: 'Xóa thất bại!',
+      });
+    }
   };
 
   const { t } = useTranslation();
@@ -47,22 +72,23 @@ const FilterTags = (props: IFilterTags) => {
               return (
                 <>
                   {menu}
-                  <TagControl />
+                  <TagControl handleRefetch={handleRefetch}
+                  />
                 </>
               );
             },
           }
           : {})}
       >
-        {opts?.map((opt) => (
+        {data?.getTag.map((opt) => (
           <Select.Option
-            key={opt.value}
+            key={opt._id}
             className="filter__tagItem"
-            value={opt.value}
+            value={opt.name}
           >
-            <div className="filter__label">{opt.label}</div>
-            <div className="filter__action" onClick={handleDeleteTag}>
-              <BinIcon />
+            <div className="filter__label">{opt.name}</div>
+            <div className="filter__action">
+              <BinIcon onClick={() => handleDeleteTag(opt.id)} />
             </div>
           </Select.Option>
         ))}

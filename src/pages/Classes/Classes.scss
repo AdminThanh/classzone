@@ -1,7 +1,7 @@
 @use '/src/assets/styles/colors' as c;
 
 .site_wrapper {
-  padding: 26px 48px;
+  // padding: 26px 48px;
 
   .site_container {
     width: 100%;
@@ -22,7 +22,7 @@
     }
   }
   .taskbars {
-    margin-top: 20px;
+    // margin-top: 20px;
     display: flex;
     justify-content: space-between;
   }

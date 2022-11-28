@@ -1,5 +1,6 @@
 import Navbar from 'components/Navbar';
 import { TeacherRoutes } from 'routes/navs';
+import "./TeacherLayout.scss";
 
 const TeacherLayout = (props: any) => {
   const { children } = props;

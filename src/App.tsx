@@ -1,21 +1,17 @@
-import './assets/styles/main.scss';
-import Router from './routes';
+import {
+  ApolloProvider
+} from '@apollo/client';
+import 'antd/dist/antd.min.css';
+import AuthContextProvider from 'contexts/AuthContext';
+import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { store } from 'redux/store';
-import i18n from './i18n';
-import { I18nextProvider } from 'react-i18next';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import JWTManager from 'utils/jwt';
-import AuthContextProvider from 'contexts/AuthContext';
-import 'antd/dist/antd.min.css';
 import client from 'utils/apollo';
+import './assets/styles/main.scss';
+import i18n from './i18n';
+import Router from './routes';
 
+console.log('processs');
 function App() {
   return (
     <ApolloProvider client={client}>

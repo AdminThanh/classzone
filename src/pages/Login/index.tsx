@@ -53,6 +53,7 @@ function Login() {
         });
       }
     } catch (err) {
+      notification.destroy();
       notification.error({
         message: t('error.have_error'),
       });
@@ -88,9 +89,9 @@ function Login() {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Mật khẩu"
           name="password"
-          rules={[{ required: true, message: 'Mời bạn nhập password!' }]}
+          rules={[{ required: true, message: 'Mời bạn nhập mật khẩu!' }]}
         >
           <Input.Password
             placeholder="Nhập mật khẩu"

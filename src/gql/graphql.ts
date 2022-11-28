@@ -21,6 +21,17 @@ export type AnswerInput = {
   text: Scalars['String'];
 };
 
+export type AnswerSubmitInput = {
+  answer: Array<Scalars['String']>;
+  questionId: Scalars['String'];
+};
+
+export type AnswerSubmitType = {
+  __typename?: 'AnswerSubmitType';
+  answer: Scalars['String'];
+  questionId: Scalars['String'];
+};
+
 export type AnswerType = {
   __typename?: 'AnswerType';
   result: Scalars['Boolean'];
@@ -30,6 +41,20 @@ export type AnswerType = {
 export type AssignUserToClassInput = {
   classId: Scalars['ID'];
   usersIds: Array<Scalars['ID']>;
+};
+
+export type AssignmentType = {
+  __typename?: 'AssignmentType';
+  _id: Scalars['ID'];
+  answerSubmit: Array<AnswerSubmitType>;
+  createdAt: Scalars['DateTime'];
+  exam: ExamType;
+  id: Scalars['String'];
+  minuteDoing: Scalars['Float'];
+  score: Scalars['Float'];
+  startTime: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
 };
 
 export type Attendance = {
@@ -69,6 +94,13 @@ export type CreateAndUpdateAttendanceInput = {
   learn_date: Scalars['String'];
 };
 
+export type CreateAssignmentInput = {
+  answerSubmit: Array<AnswerSubmitInput>;
+  exam: Scalars['String'];
+  minuteDoing: Scalars['Float'];
+  startTime: Scalars['DateTime'];
+};
+
 export type CreateAttendanceInput = {
   class_id: Scalars['String'];
   content: Scalars['String'];
@@ -85,6 +117,19 @@ export type CreateClassInput = {
   teachers?: InputMaybe<Array<Scalars['ID']>>;
 };
 
+export type CreateExamInput = {
+  classRoom: Scalars['ID'];
+  dateEnd: Scalars['DateTime'];
+  dateFrom: Scalars['DateTime'];
+  isAllowReview: Scalars['Boolean'];
+  minutes: Scalars['Float'];
+  name: Scalars['String'];
+  questionAmount: Scalars['Float'];
+  questions: Array<Scalars['ID']>;
+  scoreFactor: Scalars['Float'];
+  tags?: InputMaybe<Array<Scalars['ID']>>;
+};
+
 export type CreateMyClassInput = {
   avatar: Scalars['String'];
   end_date: Scalars['DateTime'];
@@ -94,7 +139,6 @@ export type CreateMyClassInput = {
 };
 
 export type CreateQuestionInput = {
-  answers: Array<Scalars['String']>;
   correctAnswer: Array<AnswerInput>;
   isMutiple: Scalars['Boolean'];
   question: Scalars['String'];
@@ -114,6 +158,24 @@ export type CreateUserInput = {
   password: Scalars['String'];
   phoneNumber?: InputMaybe<Scalars['String']>;
   role: Role;
+};
+
+export type ExamType = {
+  __typename?: 'ExamType';
+  _id: Scalars['ID'];
+  classRoom: Class;
+  createdAt: Scalars['DateTime'];
+  dateEnd: Scalars['DateTime'];
+  dateFrom: Scalars['DateTime'];
+  id: Scalars['String'];
+  isAllowReview: Scalars['Boolean'];
+  minutes: Scalars['Float'];
+  name: Scalars['String'];
+  questionAmount: Scalars['Float'];
+  questions: Array<QuestionType>;
+  scoreFactor: Scalars['Float'];
+  tags?: Maybe<Array<Tag>>;
+  updatedAt: Scalars['DateTime'];
 };
 
 export type LoginInput = {
@@ -137,13 +199,17 @@ export type Mutation = {
   __typename?: 'Mutation';
   assignStudentToClass: Class;
   assignTeacherToClass: Class;
+  createAssignment: AssignmentType;
   createAttendance: Attendance;
   createClass: Class;
+  createExam: ExamType;
   createMyClass: Class;
   createQuestion: QuestionType;
   createTag: Tag;
   createUser: User;
+  deleteAssignment: Scalars['Boolean'];
   deleteClass: Scalars['Boolean'];
+  deleteExam: Scalars['Boolean'];
   deleteMyClass: Scalars['Boolean'];
   deleteQuestion: Scalars['Boolean'];
   deleteTag: Scalars['Boolean'];
@@ -151,9 +217,11 @@ export type Mutation = {
   login: TokenAndUser;
   logout: Scalars['Boolean'];
   register: User;
-  updateAttendance: Attendance;
-  updateAttendances: Array<Attendance>;
+  updateAssignment: AssignmentType;
+  updateAttendance: Scalars['Boolean'];
+  updateAttendances: Scalars['Boolean'];
   updateClass: Class;
+  updateExam: ExamType;
   updateMyClass: Class;
   updateProfile: User;
   updateQuestion: QuestionType;
@@ -172,6 +240,11 @@ export type MutationAssignTeacherToClassArgs = {
 };
 
 
+export type MutationCreateAssignmentArgs = {
+  createAssignmentInput: CreateAssignmentInput;
+};
+
+
 export type MutationCreateAttendanceArgs = {
   createAttendanceInput: CreateAttendanceInput;
 };
@@ -179,6 +252,11 @@ export type MutationCreateAttendanceArgs = {
 
 export type MutationCreateClassArgs = {
   createClassInput: CreateClassInput;
+};
+
+
+export type MutationCreateExamArgs = {
+  createExamInput: CreateExamInput;
 };
 
 
@@ -202,7 +280,17 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeleteAssignmentArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationDeleteClassArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteExamArgs = {
   id: Scalars['String'];
 };
 
@@ -237,6 +325,12 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationUpdateAssignmentArgs = {
+  id: Scalars['String'];
+  updateAssignmentInput: UpdateAssignmentInput;
+};
+
+
 export type MutationUpdateAttendanceArgs = {
   updateAttendanceInput: UpdateAttendanceInput;
 };
@@ -251,6 +345,12 @@ export type MutationUpdateAttendancesArgs = {
 export type MutationUpdateClassArgs = {
   id: Scalars['String'];
   updateClassInput: UpdateClassInput;
+};
+
+
+export type MutationUpdateExamArgs = {
+  id: Scalars['String'];
+  updateExamInput: UpdateExamInput;
 };
 
 
@@ -278,11 +378,15 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getAllAssignment: Array<AssignmentType>;
   getAllClasses: Array<Class>;
+  getAllExam: Array<ExamType>;
   getAllQuestion: Array<QuestionType>;
   getAllUsers: Array<User>;
+  getAssignmentById: AssignmentType;
   getAttendanceByClass: Array<Attendance>;
   getClassById: Class;
+  getExamById: ExamType;
   getMyClass: Array<Class>;
   getQuestionById: QuestionType;
   getTag: Array<Tag>;
@@ -292,12 +396,22 @@ export type Query = {
 };
 
 
+export type QueryGetAssignmentByIdArgs = {
+  id: Scalars['String'];
+};
+
+
 export type QueryGetAttendanceByClassArgs = {
   id: Scalars['String'];
 };
 
 
 export type QueryGetClassByIdArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryGetExamByIdArgs = {
   id: Scalars['String'];
 };
 
@@ -354,6 +468,13 @@ export type TokenAndUser = {
   user: User;
 };
 
+export type UpdateAssignmentInput = {
+  answerSubmit?: InputMaybe<Array<AnswerSubmitInput>>;
+  exam?: InputMaybe<Scalars['String']>;
+  minuteDoing?: InputMaybe<Scalars['Float']>;
+  startTime?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type UpdateAttendanceInput = {
   content: Scalars['String'];
   id: Scalars['String'];
@@ -368,6 +489,19 @@ export type UpdateClassInput = {
   name?: InputMaybe<Scalars['String']>;
   scoreFactor?: InputMaybe<Scalars['Float']>;
   studentAmount?: InputMaybe<Scalars['Float']>;
+};
+
+export type UpdateExamInput = {
+  classRoom?: InputMaybe<Scalars['ID']>;
+  dateEnd?: InputMaybe<Scalars['DateTime']>;
+  dateFrom?: InputMaybe<Scalars['DateTime']>;
+  isAllowReview?: InputMaybe<Scalars['Boolean']>;
+  minutes?: InputMaybe<Scalars['Float']>;
+  name?: InputMaybe<Scalars['String']>;
+  questionAmount?: InputMaybe<Scalars['Float']>;
+  questions?: InputMaybe<Array<Scalars['ID']>>;
+  scoreFactor?: InputMaybe<Scalars['Float']>;
+  tags: Array<Scalars['ID']>;
 };
 
 export type UpdateMyClassInput = {
@@ -388,7 +522,6 @@ export type UpdateProfileInput = {
 };
 
 export type UpdateQuestionInput = {
-  answers?: InputMaybe<Array<Scalars['String']>>;
   correctAnswer?: InputMaybe<Array<AnswerInput>>;
   isMutiple?: InputMaybe<Scalars['Boolean']>;
   question?: InputMaybe<Scalars['String']>;
@@ -407,7 +540,7 @@ export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
   address?: Maybe<Scalars['String']>;
-  avatar: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
   classes?: Maybe<Array<Class>>;
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
@@ -419,6 +552,21 @@ export type User = {
   token_version: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
 };
+
+export type GetAttandanceByClassQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetAttandanceByClassQuery = { __typename?: 'Query', getAttendanceByClass: Array<{ __typename?: 'Attendance', id: string, content: string, learn_date: string, is_learn_date: boolean }> };
+
+export type UpdateAttendencesMutationVariables = Exact<{
+  updateAttandancesInput: UpdateAttendancesInput;
+  class_id: Scalars['String'];
+}>;
+
+
+export type UpdateAttendencesMutation = { __typename?: 'Mutation', updateAttendances: boolean };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
@@ -432,12 +580,12 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, firstName?: string | null, lastName?: string | null, _id: string } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null, _id: string } } };
 
 export type RefreshTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RefreshTokenQuery = { __typename?: 'Query', refreshToken: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email: string, id: string, role?: Role | null } } };
+export type RefreshTokenQuery = { __typename?: 'Query', refreshToken: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email: string, address?: string | null, phoneNumber?: string | null, avatar?: string | null, id: string, role?: Role | null } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -495,10 +643,38 @@ export type GetInfoMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetInfoMeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } };
 
+export type GetTagQueryVariables = Exact<{ [key: string]: never; }>;
 
+
+export type GetTagQuery = { __typename?: 'Query', getTag: Array<{ __typename?: 'Tag', id: string, _id: string, name: string, color: string }> };
+
+export type CreateTagMutationVariables = Exact<{
+  createTagInput: CreateTagInput;
+}>;
+
+
+export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'Tag', name: string, color: string } };
+
+export type DeleteTagMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteTagMutation = { __typename?: 'Mutation', deleteTag: boolean };
+
+export type UpdateprofileMutationVariables = Exact<{
+  updateProfileInput: UpdateProfileInput;
+}>;
+
+
+export type UpdateprofileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null } };
+
+
+export const GetAttandanceByClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAttandanceByClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAttendanceByClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"learn_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_learn_date"}}]}}]}}]} as unknown as DocumentNode<GetAttandanceByClassQuery, GetAttandanceByClassQueryVariables>;
+export const UpdateAttendencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateAttendences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateAttandancesInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAttendancesInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAttendances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateAttendancesInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateAttandancesInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"class_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}}}]}]}}]} as unknown as DocumentNode<UpdateAttendencesMutation, UpdateAttendencesMutationVariables>;
 export const RegisterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Register"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"registerInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"token_version"}}]}}]}}]} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>;
-export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
-export const RefreshTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<RefreshTokenQuery, RefreshTokenQueryVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const RefreshTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<RefreshTokenQuery, RefreshTokenQueryVariables>;
 export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;
 export const GetMyClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMyClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMyClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"from_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"scoreFactor"}}]}}]}}]} as unknown as DocumentNode<GetMyClassQuery, GetMyClassQueryVariables>;
 export const GetClassByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getClassById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getClassById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetClassByIdQuery, GetClassByIdQueryVariables>;
@@ -508,3 +684,7 @@ export const AssignStudentToClassDocument = {"kind":"Document","definitions":[{"
 export const DeleteMyClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteMyClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMyClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeleteMyClassMutation, DeleteMyClassMutationVariables>;
 export const GetAllUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const GetInfoMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getInfoMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]} as unknown as DocumentNode<GetInfoMeQuery, GetInfoMeQueryVariables>;
+export const GetTagDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTag"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTag"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]} as unknown as DocumentNode<GetTagQuery, GetTagQueryVariables>;
+export const CreateTagDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTag"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createTagInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTagInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTag"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createTagInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createTagInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]} as unknown as DocumentNode<CreateTagMutation, CreateTagMutationVariables>;
+export const DeleteTagDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteTag"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTag"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"deleteMyInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeleteTagMutation, DeleteTagMutationVariables>;
+export const UpdateprofileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateprofile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateProfileInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateProfileInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateProfileInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateProfileInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}}]}}]}}]} as unknown as DocumentNode<UpdateprofileMutation, UpdateprofileMutationVariables>;

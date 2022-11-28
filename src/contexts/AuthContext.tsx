@@ -32,6 +32,7 @@ import {
 interface IAuthContext {
   isAuthenticated: boolean | null;
   auth: any;
+  loading: boolean;
   setIsAuthenticated: Dispatch<SetStateAction<boolean | null>>;
   checkAuth: () => Promise<void>;
   logout: () => Promise<void>;
@@ -44,6 +45,7 @@ const defaultIsAuthenticated = null;
 export const AuthContext = createContext<IAuthContext>({
   isAuthenticated: null,
   auth: {},
+  loading: true,
   setIsAuthenticated: () => {},
   checkAuth: () => Promise.resolve(),
   logout: () => Promise.resolve(),
@@ -62,6 +64,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
     defaultIsAuthenticated
   );
+  const [loading, setLoading] = useState<boolean>(true);
 
   const [fireLogoutServer] = useMutation(LogoutDocument);
   const [fireLogin] = useMutation(LoginDocument);
@@ -84,9 +87,13 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       if (success) {
         setIsAuthenticated(true);
         setAuth(JWTManager.getAuthInfo());
+        setLoading(false);
       } else {
         setAuth({});
+        setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -142,6 +149,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   const authContextData: any = {
     isAuthenticated,
+    loading,
     setIsAuthenticated,
     checkAuth,
     login,
