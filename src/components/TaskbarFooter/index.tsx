@@ -13,7 +13,9 @@ import { useState } from 'react';
 import WheelOfNames from 'components/WheelOfNames';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { GetClassByIdDocument } from 'gql/graphql';
+import { useQuery } from '@apollo/client';
 
 interface ICurrentModal {
   modal: null | 'wheel' | 'a';
@@ -26,6 +28,19 @@ const TaskbarFooter = () => {
     data: null,
   });
   const { t } = useTranslation();
+
+  let { classId } = useParams();
+  console.log(classId);
+
+  const { data, refetch } = useQuery(GetClassByIdDocument, {
+    variables: {
+      id: classId as string
+    }
+  });
+
+  const datas = data?.getClassById;
+
+  console.log(data);
 
   const handleCloseModal = () => {
     setCurrentModal({

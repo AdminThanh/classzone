@@ -1,7 +1,8 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { Tabs } from 'antd';
 import TaskbarFooter from 'components/TaskbarFooter';
-import { GetAllUsersDocument } from 'gql/graphql';
+import { GetAllUsersDocument, GetClassByIdDocument } from 'gql/graphql';
+import { getClassById } from 'graphql/attendance';
 import StudentList from 'pages/ClassDetail/components/StudentList';
 import { useParams } from 'react-router-dom';
 import GroupList from '../GroupList';
