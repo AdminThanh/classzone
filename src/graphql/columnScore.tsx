@@ -23,6 +23,22 @@ export const createColumnScoreByClass = graphql(`
   }
 `);
 
+export const updateColumnScoreByClass = graphql(`
+  mutation updateColumnScore(
+    $updateColumnScore: UpdateColumnScoreInput!
+    $id: String!
+  ) {
+    updateColumnScore(updateColumnScoreInput: $updateColumnScore, id: $id) {
+      name
+      class_id
+      note
+      type
+      multiplier
+      scores
+    }
+  }
+`);
+
 export const deleteColumnScore = graphql(`
   mutation deleteColumnScore($id: String!) {
     deleteColumnScore(deleteColumnScore: $id)

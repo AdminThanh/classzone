@@ -131,7 +131,6 @@ const TableScore = () => {
   }, [data?.getColumnScoresByClass]);
 
   useEffect(() => {
-    console.log('data', data?.getColumnScoresByClass);
     // fakeAPITable.then((res) => {
     //   setDataTable(res);
     // });
@@ -158,7 +157,6 @@ const TableScore = () => {
   };
 
   const renderScoreColumn = (columns?: IColumnTable[]) => {
-    console.log('columns', columns);
     return (
       columns?.map((col: IColumnTable) => ({
         key: col.id,
@@ -489,9 +487,10 @@ const TableScore = () => {
         footer={null}
       >
         <ModalFormColumn
+          onCancel={handleCancelModal}
           handleRefetchTableScore={handleRefetchTableScore}
           data={modalCol.data}
-          type={modalCol.data?._id ? 'update' : 'add'}
+          type={modalCol.data?.id ? 'update' : 'add'}
         />
       </Modal>
 

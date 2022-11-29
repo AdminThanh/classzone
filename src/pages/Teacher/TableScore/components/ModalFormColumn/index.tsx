@@ -10,7 +10,11 @@ import {
   Spin,
 } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { CreateColumnScoreDocument, ScoreType } from 'gql/graphql';
+import {
+  CreateColumnScoreDocument,
+  ScoreType,
+  UpdateColumnScoreDocument,
+} from 'gql/graphql';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './ModalFormColumn.scss';
@@ -18,19 +22,21 @@ import './ModalFormColumn.scss';
 const { Option } = Select;
 
 interface ModalFromColumn {
-  type: string;
+  type: 'add' | 'update';
   data: any;
   handleRefetchTableScore: () => void;
+  onCancel: () => void;
 }
 
 interface ISelectTest {
   value: string;
   isOpen: boolean;
-  type?: 'minus' | 'plus';
+  type?: ScoreType.Minus | ScoreType.Plus;
 }
 
 const ModalFormColumn = (props: ModalFromColumn) => {
-  const { type, data, handleRefetchTableScore } = props;
+  const { type, data, handleRefetchTableScore, onCancel } = props;
+  console.log('ModalFormColumn', props);
   const [selectTest, setSelecteTest] = useState<ISelectTest>({
     value: '',
     isOpen: false,
@@ -38,10 +44,13 @@ const ModalFormColumn = (props: ModalFromColumn) => {
   });
 
   const [fireCreateColumnScore] = useMutation(CreateColumnScoreDocument);
+
+  const [fireUpdateColumnScore] = useMutation(UpdateColumnScoreDocument);
   const [form] = useForm();
   const { t } = useTranslation();
 
   const handleFinish = async (value: any) => {
+    console.log('value', value);
     try {
       notification.open({
         message: (
@@ -51,22 +60,52 @@ const ModalFormColumn = (props: ModalFromColumn) => {
         ),
       });
 
-      const res = await fireCreateColumnScore({
-        variables: {
-          inputCreateColumnScore: {
-            class_id: '32566911-72cf-4e8c-b52a-33c87806110c',
-            multiplier: value.multiplier,
-            name: value.name,
-            type: ScoreType.Normal,
-            note: value.note,
+      if (type === 'add') {
+        const res = await fireCreateColumnScore({
+          variables: {
+            inputCreateColumnScore: {
+              class_id: '32566911-72cf-4e8c-b52a-33c87806110c',
+              multiplier: value.multiplier,
+              name: value.name,
+              type: ScoreType.Normal,
+              note: value.note,
+            },
           },
-        },
-      });
+        });
 
-      notification.destroy();
-      notification.success({
-        message: 'Xoá cột điểm thành công',
-      });
+        notification.destroy();
+        notification.success({
+          message: 'Tạo cột điểm thành công',
+        });
+
+        if (onCancel && onCancel instanceof Function) {
+          onCancel();
+        }
+      }
+
+      if (type === 'update') {
+        const res = await fireUpdateColumnScore({
+          variables: {
+            updateColumnScore: {
+              multiplier: value.multiplier,
+              name: value.name,
+              note: value.note,
+              type: value.type,
+            },
+            id: data.id,
+          },
+        });
+
+        notification.destroy();
+        notification.success({
+          message: 'Cập nhật cột điểm thành công',
+        });
+
+        if (onCancel && onCancel instanceof Function) {
+          onCancel();
+        }
+      }
+
       handleRefetchTableScore();
     } catch (err) {
       notification.destroy();
@@ -87,6 +126,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
         layout="vertical"
         colon={true}
         initialValues={{
+          id: 'ascasaa',
           name: '',
           type: 'normal',
           multiplier: 1,
@@ -115,7 +155,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
           <Radio.Group
             onChange={(e) => {
               const type = e.target.value;
-              if (type === 'minus' || type === 'plus') {
+              if (type === ScoreType.Minus || type === ScoreType.Plus) {
                 setSelecteTest({
                   ...selectTest,
                   isOpen: true,
@@ -130,9 +170,13 @@ const ModalFormColumn = (props: ModalFromColumn) => {
               }
             }}
           >
-            <Radio value="normal">{t('table_score.test_score')}</Radio>
-            <Radio value="plus">{t('table_score.plus_score')}</Radio>
-            <Radio value="minus">{t('table_score.minus_score')}</Radio>
+            <Radio value={ScoreType.Normal}>
+              {t('table_score.test_score')}
+            </Radio>
+            <Radio value={ScoreType.Plus}>{t('table_score.plus_score')}</Radio>
+            <Radio value={ScoreType.Minus}>
+              {t('table_score.minus_score')}
+            </Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item name="test" label={t('table_score.automatic_score_entry')}>
