@@ -27,6 +27,7 @@ import ExamPage from 'pages/ExamPage';
 import ExamManagement from 'pages/ExamManagement';
 import StudentLayout from 'layouts/Student';
 import Assignment from 'pages/Assignment';
+import JoinClass from 'pages/ClassDetail/components/JoinClass';
 import CreateAttendance from 'pages/CreateAttendance';
 
 export declare namespace JSX {
@@ -81,6 +82,13 @@ export const routes: IRoute[] = [
     element: ClassDetail,
     role: ['teacher'],
     layout: TeacherLayout,
+  },
+  {
+    // path: '/join_cLass/:classId/:studentId',
+    path: '/join_class/:classId',
+    element: JoinClass,
+    role: ['teacher'],
+    // layout: TeacherLayout,
   },
   {
     path: '/attendance',

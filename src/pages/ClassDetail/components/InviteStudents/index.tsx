@@ -3,6 +3,7 @@ import copy from 'copy-to-clipboard';
 import { Button, Input, message, Modal, Select, Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 const { Option } = Select;
 
 const layout = {
@@ -17,8 +18,10 @@ const validateMessages = {
 const InviteStudents = (props: any) => {
   const { setShowInviteStudents } = props;
   const [loadingOK, setLoadingOK] = useState(false);
+
+  let { classId } = useParams();
   const { t } = useTranslation();
-  const link = 'https://www.figma.com/file/ZD6Kk4DPwMSHkiuAau0HuG';
+  const link = window.location.origin + '/join_class/' + classId;
 
   const copyToClipboard = () => {
     if (copy(link)) {
