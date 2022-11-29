@@ -95,6 +95,7 @@ export default {
   },
 
   action: {
+    action: 'Hành động',
     view_detail: 'Xem chi tiết',
     detail: 'Chi tiết',
     delete: 'Xóa',
@@ -108,6 +109,7 @@ export default {
     add_success: 'Thêm thành công',
     invite_success: 'Mời thành công',
     close: 'Đóng',
+    check_delete: 'Bạn có chắc chắn muốn xóa câu hỏi này?'
   },
 
   field: {
@@ -265,6 +267,7 @@ export default {
     answer: 'Đáp án',
     enter_answer: 'Nhập đáp án',
     publish: 'Xuất bản',
+    choice: 'Trắc nghiệm',
 
     //error
     not_blank: 'Không được để trống',

@@ -92,6 +92,7 @@ export default {
   },
 
   action: {
+    action: 'Action',
     view_detail: 'View detail',
     detail: 'View detail',
     delete: 'Delete',
@@ -105,6 +106,7 @@ export default {
     add_success: 'Add success',
     invite_success: 'Invite success',
     close: 'Close',
+    check_delete: 'Are you sure you want to delete this question?'
   },
 
   field: {
@@ -261,6 +263,7 @@ export default {
     answer: 'Answer',
     enter_answer: 'Enter Answer',
     publish: 'Publish',
+    choice: 'Multiple-choice',
 
     // error
     not_blank: 'Can not be left blank',

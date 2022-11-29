@@ -24,57 +24,88 @@ import FilterTags, { IOptionTag } from 'components/FilterTags';
 import { useForm } from 'antd/es/form/Form';
 import MyEditor from './components/MyEditor';
 import { useTranslation } from 'react-i18next';
-import { useMutation } from '@apollo/client';
-import { CreateQuestionDocument } from 'gql/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  CreateQuestionDocument,
+  GetQuestionByIdDocument,
+  UpdateQuestionDocument,
+} from 'gql/graphql';
+import { useParams } from 'react-router-dom';
 
 const CreateQuession = () => {
   const { t } = useTranslation();
   const [form] = useForm();
+  const questionId = useParams();
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
   const [fireCreateQuestion] = useMutation(CreateQuestionDocument);
+  const [fireUpdateQuestion] = useMutation(UpdateQuestionDocument);
 
-  const onFinish = async (formData: any) => {
+  const skip = questionId.questionId ? false : true;
+  const { data } = useQuery(GetQuestionByIdDocument, {
+    variables: {
+      id: questionId.questionId as string,
+    },
+    skip,
+  });
+
+  useEffect(() => {
+    form.setFieldsValue({
+      question: data?.getQuestionById?.question,
+      answer: data?.getQuestionById?.correctAnswer.map((aswr) => ({
+        text: aswr.text,
+        result: aswr.result,
+      })),
+      isMultiple: data?.getQuestionById?.isMultiple,
+    });
+  }, [data]);
+
+  const handleQuestion = async (formData: any) => {
     console.log('Payload:', formData);
-
-    try {
-      // await fireCreateQuestion({
-      //   variables: {
-      //     createQuestion: {
-      //       question: formData.question,
-      //       answers: formData.answer,
-      //       correctAnswer: [
-      //         {
-      //           text: 'Ăn cơm',
-      //           result: true,
-      //         },
-      //         {
-      //           text: 'Ăn cháo',
-      //           result: false,
-      //         },
-      //         {
-      //           text: 'Không ăn',
-      //           result: false,
-      //         },
-      //         {
-      //           text: 'Ăn gì cũng được',
-      //           result: false,
-      //         },
-      //       ],
-      //       isMutiple: formData.isMultiple,
-      //     },
-      //   },
-      // });
-      notification.destroy();
-      notification.success({
-        key: 'success',
-        message: 'Thêm thành công!',
-      });
-    } catch (error) {
-      notification.error({
-        key: 'error',
-        message: 'Thêm thất bại!',
-      });
+    if (questionId.questionId) {
+      try {
+        await fireUpdateQuestion({
+          variables: {
+            updateQuestionInput: {
+              question: formData.question,
+              correctAnswer: formData.answer,
+              isMultiple: formData.isMultiple,
+            },
+            id: questionId.questionId as string,
+          },
+        });
+        notification.success({
+          key: 'success',
+          message: 'Sửa thành công!',
+        });
+      } catch (error) {
+        notification.error({
+          key: 'error',
+          message: 'Sửa thất bại!',
+        });
+      }
+    } else {
+      try {
+        // await fireCreateQuestion({
+        //   variables: {
+        //     createQuestion: {
+        //       question: formData.question,
+        //       correctAnswer: formData.answer,
+        //       isMultiple: formData.isMultiple,
+        //     },
+        //   },
+        // });
+        notification.destroy();
+        notification.success({
+          key: 'success',
+          message: 'Tạo thành công!',
+        });
+        // form.resetFields();
+      } catch (error) {
+        notification.error({
+          key: 'error',
+          message: 'Tạo thất bại!',
+        });
+      }
     }
   };
 
@@ -104,6 +135,7 @@ const CreateQuession = () => {
     const newValue = e.target.checked;
     const isMultiple = form.getFieldValue('isMultiple');
     const listAnswer = form.getFieldValue('answer');
+
     if (!isMultiple) {
       const hasResult = listAnswer.findIndex(
         (item: any, i: number) => item.result && i !== index
@@ -129,14 +161,15 @@ const CreateQuession = () => {
 
     let indexChosen = undefined;
     let count = 0;
+    if (answer) {
+      for (let i = 0; i < answer.length; i++) {
+        if (answer[i].result) {
+          indexChosen = i;
+          count++;
+        }
 
-    for (let i = 0; i < answer.length; i++) {
-      if (answer[i].result) {
-        indexChosen = i;
-        count++;
+        answer[i].result = false;
       }
-
-      answer[i].result = false;
     }
 
     // indexChosen can is zero
@@ -166,9 +199,13 @@ const CreateQuession = () => {
         <div className="createQuession">
           <Form
             name="dynamic_form_nest_item"
-            onFinish={onFinish}
+            onFinish={handleQuestion}
             autoComplete="off"
             form={form}
+            // initialValues={{
+            //   answer: correctAnswer,
+            //   isMultiple: isMultiple,
+            // }}
           >
             <div className="action-navbar">
               <label>{t('my_quession.tags')}</label>
@@ -183,12 +220,12 @@ const CreateQuession = () => {
             </div>
 
             <Form.Item
-              name={'question'}
+              name={['question']}
               rules={[{ required: true, message: t('my_quession.not_blank') }]}
               label={t('my_quession.quession')}
               className="quession"
             >
-              <MyEditor />
+              <MyEditor question={data?.getQuestionById?.question as string} />
             </Form.Item>
 
             <Form.Item name="isMultiple" valuePropName="checked">
@@ -225,7 +262,7 @@ const CreateQuession = () => {
 
                       <Form.Item
                         {...restField}
-                        name={[name, 'quession']}
+                        name={[name, 'text']}
                         rules={[
                           {
                             required: true,

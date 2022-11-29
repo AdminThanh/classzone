@@ -1,7 +1,19 @@
 @use '../../assets/styles/colors' as c;
 .question {
+  margin-top: 20px;
+  .table_question {
     margin-top: 20px;
-    .table_question{
-        margin-top: 20px;
-    }
-}  
+  }
+  .ant-tag-error {
+    cursor: pointer;
+    color: #ff686a;
+    background: #ffffff;
+    border-color: #ffd3cf;
+  }
+  .ant-tag-warning {
+    cursor: pointer;
+    color: #d89921;
+    background: #ffffff;
+    border-color: #ffefbb;
+  }
+}

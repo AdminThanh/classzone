@@ -62,7 +62,11 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
               onChange={onChange}
             /> */}
 
-            <Checkbox.Group style={{ width: '100%' }} value={dataAnswer[question_id]} onChange={onChange}>
+            <Checkbox.Group
+              style={{ width: '100%' }}
+              value={dataAnswer[question_id]}
+              onChange={onChange}
+            >
               <Row gutter={16}>
                 {answer?.length !== 0 &&
                   answer?.map((item, index) => (
@@ -77,7 +81,6 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
                   ))}
               </Row>
             </Checkbox.Group>
-
           </div>
         </div>
       </div>

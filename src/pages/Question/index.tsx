@@ -1,12 +1,20 @@
 import './Question.scss';
 import BreadCrumb from 'components/BreadCrumb';
-import { Button, Space, Table, Tag } from 'antd';
+import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import {
+  CloseCircleOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+  PlusCircleOutlined,
+} from '@ant-design/icons';
 import i18next from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from '@apollo/client';
+import { DeleteQuestionDocument, GetAllQuestionDocument } from 'gql/graphql';
+import moment from 'moment';
 
 interface IQuessionTags {
   name: string;
@@ -14,114 +22,117 @@ interface IQuessionTags {
 }
 
 interface IQuession {
-  key: string;
-  name: string;
-  day_create: string;
-  type_quession: string;
-  tags: IQuessionTags[];
+  id: string;
+  question: string;
+  createdAt?: any;
 }
-
-const fakeAPITable: Promise<IQuession[]> = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    const fetchDataColumn: IQuession[] = [
-      {
-        key: '1',
-        name: 'Những đặc điểm của React?',
-        day_create: '25/10/2021',
-        type_quession: 'Trắc nghiệm',
-        tags: [
-          {
-            color: '#2db7f5',
-            name: 'ReactJS cơ bản',
-          },
-          {
-            color: '#87d068',
-            name: 'ReactJS cơ bản',
-          },
-        ],
-      },
-      {
-        key: '2',
-        name: 'Các trình duyệt web có đọc JSX một cách trực tiếp được không?',
-        day_create: '25/10/2021',
-        type_quession: 'Trắc nghiệm',
-        tags: [
-          {
-            color: 'blue',
-            name: 'ReactJS cơ bản',
-          },
-          {
-            color: 'rgb(21 94 127)',
-            name: 'ReactJS cơ bản',
-          },
-        ],
-      },
-      {
-        key: '3',
-        name: 'Tại sao nên sử dụng React thay vì các framework khác, ví dụ như Angular?',
-        day_create: '25/10/2021',
-        type_quession: 'Trắc nghiệm',
-        tags: [
-          {
-            color: '#f50',
-            name: 'ReactJS cơ bản',
-          },
-          {
-            color: 'yellow',
-            name: 'ReactJS cơ bản',
-          },
-        ],
-      },
-    ];
-    resolve(fetchDataColumn);
-  }, 1000);
-});
+var decode = require('decode-html');
 
 const Question = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const [dataTableQuession, setDataTableQuession] = useState<
-    IQuession[] | undefined
-  >();
+  const { data, refetch } = useQuery(GetAllQuestionDocument);
+  const dataTableQuession = data?.getAllQuestion;
+  const [fireDeleteQuestion] = useMutation(DeleteQuestionDocument);
+  refetch();
 
-  useEffect(() => {
-    fakeAPITable.then((res) => {
-      setDataTableQuession(res);
-    });
-  }, []);
   console.log(dataTableQuession);
 
+  const renderHTML = (rawHTML: string) =>
+    React.createElement('div', {
+      dangerouslySetInnerHTML: { __html: rawHTML },
+    });
+
+  const confirm = async (questionId: string) => {
+    try {
+      await fireDeleteQuestion({
+        variables: {
+          id: questionId,
+        },
+      });
+      message.loading({
+        type: 'loading',
+        content: 'Loading...',
+      });
+      // setTimeout(() => {
+      message.success({
+        type: 'success',
+        content: 'Xóa thành công',
+      });
+      // refetch();
+      // }, 3500);
+    } catch {
+      message.error({
+        type: 'error',
+        content: 'Loading...',
+      });
+    }
+  };
+
   const columns: ColumnsType<IQuession> = [
-    {
-      title: t('my_quession.tags'),
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag, index) => {
-            return (
-              <Tag color={tag.color} key={index}>
-                {tag.name}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
+    // {
+    //   title: t('my_quession.tags'),
+    //   key: 'tags',
+    //   dataIndex: 'tags',
+    //   render: (_, { tags }) => (
+    //     <>
+    //       {tags.map((tag, index) => {
+    //         return (
+    //           <Tag color={tag.color} key={index}>
+    //             {tag.name}
+    //           </Tag>
+    //         );
+    //       })}
+    //     </>
+    //   ),
+    // },
     {
       title: t('my_quession.quession'),
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <a>{text}</a>,
+      dataIndex: 'question',
+      key: 'question',
+      render: (text, id) => <a>{renderHTML(text)}</a>,
     },
     {
       title: t('my_quession.type_quession'),
       dataIndex: 'type_quession',
       key: 'type_quession',
+      render: (_) => t('my_quession.choice'),
     },
     {
       title: t('my_quession.day_create'),
-      dataIndex: 'day_create',
-      key: 'day_create',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (createdAt) => moment(createdAt).format("DD/MM/YYYY"),
+    },
+    {
+      title: t('action.action'),
+      key: 'id',
+      render: (_, id) => (
+        <Space size="middle">
+          <Popconfirm
+            placement="topRight"
+            title={t('action.check_delete')}
+            onConfirm={() => {
+              confirm(id.id);
+            }}
+            okText={t('action.delete')}
+            cancelText={t('action.close')}
+          >
+            <Tag icon={<CloseCircleOutlined />} color="error">
+              {t('action.delete')}
+            </Tag>
+          </Popconfirm>
+          <Tag
+            icon={<EditOutlined />}
+            color="warning"
+            onClick={() => {
+              navigate('/question/' + id.id);
+            }}
+          >
+            {t('action.edit')}
+          </Tag>
+        </Space>
+      ),
     },
   ];
 
@@ -163,7 +174,11 @@ const Question = () => {
                 </Button>
               </Link>
             </div>
-            <Table className='table_question' columns={columns} dataSource={dataTableQuession} />
+            <Table
+              className="table_question"
+              columns={columns}
+              dataSource={dataTableQuession}
+            />
           </div>
         </div>
       </div>

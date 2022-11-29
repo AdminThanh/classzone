@@ -6,20 +6,17 @@ export const createQuestion = gql`
       id
       question
       answers
-      isMutiple
-      correctAnswer {
-        text
-        result
-      }
+      isMultiple
     }
   }
 `;
+
 export const getQuestionById = gql`
   query getQuestionById($id: String!) {
     getQuestionById(id: $id) {
       question
       answers
-      isMutiple
+      isMultiple
       id
       correctAnswer {
         text
@@ -29,6 +26,15 @@ export const getQuestionById = gql`
   }
 `;
 
+export const getAllQuestion = gql`
+  query getAllQuestion {
+    getAllQuestion {
+      id
+      question
+      createdAt
+    }
+  }
+`;
 export const updateQuestion = gql`
   mutation updateQuestion(
     $updateQuestionInput: UpdateQuestionInput!
@@ -36,7 +42,7 @@ export const updateQuestion = gql`
   ) {
     updateQuestion(updateQuestionInput: $updateQuestionInput, id: $id) {
       question
-      isMutiple
+      isMultiple
       answers
       correctAnswer {
         text
