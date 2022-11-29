@@ -1,6 +1,7 @@
 import { PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
 import Table, { ColumnsType, ColumnType } from 'antd/lib/table';
 
+import { useMutation, useQuery } from '@apollo/client';
 import {
   Button,
   Dropdown,
@@ -10,9 +11,14 @@ import {
   Modal,
   notification,
   Space,
-  Spin,
+  Spin
 } from 'antd';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
+import BreadCrumb from 'components/BreadCrumb';
+import {
+  DeleteColumnScoreDocument,
+  GetColumnScoresByClassDocument
+} from 'gql/graphql';
 import React, { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useTranslation } from 'react-i18next';
@@ -20,13 +26,6 @@ import { getAverage } from 'utils/calculator';
 import DropdownAction from './components/DropdownAction';
 import ModalFormColumn from './components/ModalFormColumn';
 import './tableScore.scss';
-import BreadCrumb from 'components/BreadCrumb';
-import { useMutation, useQuery } from '@apollo/client';
-import {
-  ColumnScoreType,
-  DeleteColumnScoreDocument,
-  GetColumnScoresByClassDocument,
-} from 'gql/graphql';
 interface DataType {
   key: React.Key;
   name: string;
@@ -45,58 +44,36 @@ interface IColumnTable {
   multiplier: number;
 }
 
-const fakeAPITable: Promise<IColumnTable[]> = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    const fetchColumnTable: IColumnTable[] = [
-      {
-        id: 'dasdjosakfoaskdas',
-        name: 'Bài kiểm tra 15 phút',
-        type: 'normal',
-        test: '15',
-        multiplier: 1,
-      },
-      {
-        id: 'sadasdaccans',
-        name: 'Bài kiểm tra 45 phút',
-        type: 'normal',
-        test: '45',
-        multiplier: 2,
-      },
-    ];
-    resolve(fetchColumnTable);
-  }, 1000);
-});
-
 const fakeAPIScoreStudent: Promise<DataType[]> = new Promise(
   (resolve, reject) => {
     resolve([
       {
         key: '1',
         name: 'Đào Đức Minh Khôi',
-        '6843f699-9feb-4e35-bbc9-a73bf782aa2f': 9,
-        dasdjosakfoaskdas: 10,
+        // '6843f699-9feb-4e35-bbc9-a73bf782aa2f': 9,
+        // dasdjosakfoaskdas: 10,
         student_id: '101',
       },
       {
         key: '2',
         name: 'Phan Trọng Nghĩa',
-        sadasdaccans: 5,
-        dasdjosakfoaskdas: 7.5,
+        // sadasdaccans: 5,
+        // dasdjosakfoaskdas: 7.5,
         student_id: '102',
       },
       {
         key: '3',
         name: 'Hồ Đắc Di',
-        sadasdaccans: 6,
-        dasdjosakfoaskdas: 8.3,
+        // sadasdaccans: 6,
+        // dasdjosakfoaskdas: 8.3,
         student_id: '103',
       },
       {
         key: '4',
         name: 'Nguyễn Tất Thành',
-        sadasdaccans: 9,
-        dasdjosakfoaskdas: 9.5,
-        student_id: '103',
+        // sadasdaccans: 9,
+        // dasdjosakfoaskdas: 9.5,
+        student_id: '104',
       },
     ]);
   }
@@ -233,7 +210,19 @@ const TableScore = () => {
   };
 
   const handleSaveTableScore = (e: React.MouseEvent<HTMLElement>) => {
-    console.log('Data', dataScoreStudent);
+    // console.log('Data', { dataScoreStudent, dataTable });
+
+    const listColumnScore = dataTable?.map((colScore) => {
+      const scores: any = {};
+
+      dataScoreStudent.forEach((student) => {
+        scores[student.student_id] = student[colScore.id];
+      });
+
+      return scores;
+    });
+
+    console.log('listColumnScore', listColumnScore);
   };
 
   const handleUpdateCol = (data: any) => {
