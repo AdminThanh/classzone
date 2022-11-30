@@ -44,13 +44,13 @@ const FilterTags = (props: IFilterTags) => {
       handleRefetch();
       notification.success({
         key: 'success',
-        message: 'Xóa thành công!',
+        message: t('action.delete_success'),
       });
     } catch (error) {
       console.log(error);
       notification.error({
         key: 'error',
-        message: 'Xóa thất bại!',
+        message: t('action.delete_error'),
       });
     }
   };

@@ -102,12 +102,12 @@ const EditClass = (props: any) => {
         notification.destroy();
         notification.success({
           key: 'success',
-          message: 'Thêm thành công!',
+          message: t('action.add_success'),
         });
       } catch (error) {
         notification.error({
           key: 'error',
-          message: 'Thêm thất bại!',
+          message: t('action.add_error'),
         });
       }
     } else if (type === 'edit') {
@@ -125,12 +125,12 @@ const EditClass = (props: any) => {
         });
         notification.success({
           key: 'success',
-          message: 'Sửa thành công!',
+          message: t('action.edit_success'),
         });
       } catch (error) {
         notification.error({
           key: 'error',
-          message: 'Sửa thất bại!',
+          message: t('action.edit_error'),
         });
       }
     }

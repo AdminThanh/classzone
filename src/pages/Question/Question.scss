@@ -16,4 +16,12 @@
     background: #ffffff;
     border-color: #ffefbb;
   }
+  .name_question * {
+    color: c.$bg_bluedark !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    font-weight: 400 !important;
+    background-color: unset !important;
+    font-style: normal;
+  }
 }

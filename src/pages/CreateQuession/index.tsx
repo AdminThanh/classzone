@@ -41,7 +41,7 @@ const CreateQuession = () => {
   const [fireUpdateQuestion] = useMutation(UpdateQuestionDocument);
 
   const skip = questionId.questionId ? false : true;
-  const { data } = useQuery(GetQuestionByIdDocument, {
+  const { data, refetch } = useQuery(GetQuestionByIdDocument, {
     variables: {
       id: questionId.questionId as string,
     },
@@ -75,31 +75,32 @@ const CreateQuession = () => {
         });
         notification.success({
           key: 'success',
-          message: 'Sửa thành công!',
+          message: t('action.edit_success'),
         });
+        refetch();
       } catch (error) {
         notification.error({
           key: 'error',
-          message: 'Sửa thất bại!',
+          message: t('action.edit_error'),
         });
       }
     } else {
       try {
-        // await fireCreateQuestion({
-        //   variables: {
-        //     createQuestion: {
-        //       question: formData.question,
-        //       correctAnswer: formData.answer,
-        //       isMultiple: formData.isMultiple,
-        //     },
-        //   },
-        // });
+        await fireCreateQuestion({
+          variables: {
+            createQuestion: {
+              question: formData.question,
+              correctAnswer: formData.answer,
+              isMultiple: formData.isMultiple || false,
+            },
+          },
+        });
+        form.resetFields();
         notification.destroy();
         notification.success({
           key: 'success',
-          message: 'Tạo thành công!',
+          message: t('action.add_success'),
         });
-        // form.resetFields();
       } catch (error) {
         notification.error({
           key: 'error',

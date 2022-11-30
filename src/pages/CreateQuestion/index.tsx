@@ -20,10 +20,12 @@ import { Editor } from '@tinymce/tinymce-react';
 import BreadCrumb from 'components/BreadCrumb';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
+import { useTranslation } from 'react-i18next';
 
 const CreateQuession = () => {
   const editorRef = useRef(null);
   const [isCheck, setIsCheck] = useState(true);
+  const { t } = useTranslation();
 
   const onFinish = (values: any) => {
     console.log('Payload:', values);
@@ -153,7 +155,7 @@ const CreateQuession = () => {
                   block
                   icon={<PlusOutlined />}
                 >
-                  Thêm câu hỏi
+                  {t('create_assignment.add_question')}
                 </Button>
               </Form.Item>
             </>

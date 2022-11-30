@@ -107,6 +107,11 @@ export default {
     create_success: 'Tạo thành công',
     edit_success: 'Sửa thành công',
     add_success: 'Thêm thành công',
+    delete_success: 'Xóa thành công',
+    create_error: 'Tạo thất bại',
+    edit_error: 'Sửa thất bại',
+    add_error: 'Thêm thất bại',
+    delete_error: 'Xóa thất bại',
     invite_success: 'Mời thành công',
     close: 'Đóng',
     check_delete: 'Bạn có chắc chắn muốn xóa câu hỏi này?'

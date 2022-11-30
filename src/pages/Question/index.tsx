@@ -34,6 +34,7 @@ const Question = () => {
   const { data, refetch } = useQuery(GetAllQuestionDocument);
   const dataTableQuession = data?.getAllQuestion;
   const [fireDeleteQuestion] = useMutation(DeleteQuestionDocument);
+
   refetch();
 
   console.log(dataTableQuession);
@@ -50,21 +51,15 @@ const Question = () => {
           id: questionId,
         },
       });
-      message.loading({
-        type: 'loading',
-        content: 'Loading...',
-      });
-      // setTimeout(() => {
       message.success({
         type: 'success',
-        content: 'Xóa thành công',
+        content: t('action.delete_success'),
       });
       // refetch();
-      // }, 3500);
     } catch {
       message.error({
         type: 'error',
-        content: 'Loading...',
+        content: t('action.delete_error'),
       });
     }
   };
@@ -90,7 +85,16 @@ const Question = () => {
       title: t('my_quession.quession'),
       dataIndex: 'question',
       key: 'question',
-      render: (text, id) => <a>{renderHTML(text)}</a>,
+      render: (text, id) => (
+        <a
+        className='name_question'
+          onClick={() => {
+            navigate('/question/' + id.id);
+          }}
+        >
+          {renderHTML(text)}
+        </a>
+      ),
     },
     {
       title: t('my_quession.type_quession'),
@@ -102,7 +106,7 @@ const Question = () => {
       title: t('my_quession.day_create'),
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (createdAt) => moment(createdAt).format("DD/MM/YYYY"),
+      render: (createdAt) => moment(createdAt).format('DD/MM/YYYY'),
     },
     {
       title: t('action.action'),
