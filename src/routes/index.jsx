@@ -31,7 +31,6 @@ const Router = () => {
   }, []);
 
   useEffect(() => {
-    console.log(loading, isAuthenticated);
     if (loading === false && isAuthenticated === null) {
       window.location.href = '/login';
     }
