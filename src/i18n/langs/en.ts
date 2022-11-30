@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   navbar: {
     home: 'Home',
@@ -33,6 +34,7 @@ export default {
     class: 'Class',
     student: 'Student',
     attendance: 'Attendance',
+    schedule: 'Schedule',
     rotating: 'Rotating umbrella',
     table_score: 'Table score',
     give_assignment: 'Give assignment',
@@ -93,6 +95,7 @@ export default {
   },
 
   action: {
+    action: 'Action',
     view_detail: 'View detail',
     detail: 'View detail',
     delete: 'Delete',
@@ -104,8 +107,14 @@ export default {
     create_success: 'Create success',
     edit_success: 'Edit success',
     add_success: 'Add success',
+    delete_success: 'Delete success',
+    create_error: 'Create error',
+    edit_error: 'Edit error',
+    add_error: 'Add error',
+    delete_error: 'Delete error',
     invite_success: 'Invite success',
     close: 'Close',
+    check_delete: 'Are you sure you want to delete this question?',
   },
 
   field: {
@@ -171,9 +180,8 @@ export default {
     full_name: 'Full name',
     average: 'Average',
     score: 'Score',
-    score_lowercase: 'score',
-    plus_lowercase: 'plus',
-    minus_lowercase: 'minus',
+    PLUS_lowercase: 'plus',
+    MINUS_lowercase: 'minus',
     score_column_name: 'Score column name',
     multiplier: 'Multiplier',
     score_column_type: 'Score column type',
@@ -262,6 +270,7 @@ export default {
     answer: 'Answer',
     enter_answer: 'Enter Answer',
     publish: 'Publish',
+    choice: 'Multiple-choice',
 
     // error
     not_blank: 'Can not be left blank',

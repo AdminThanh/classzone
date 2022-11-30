@@ -1,25 +1,19 @@
 import { gql } from '@apollo/client';
 import { graphql } from 'gql';
 
-export const getAttendanceByClass = graphql(`
-  query getAttandanceByClass($id: String!) {
-    getAttendanceByClass(id: $id) {
-      id
-      content
-      learn_date
-      is_learn_date
-    }
+export const getAttendanceToday = graphql(`
+  query getAttendanceToday($class_id: String!) {
+  getAttendanceToday(class_id: $class_id) {
+    is_present
+    user_id
+    note
   }
+}
 `);
 
 export const updateAttendances = graphql(`
-  mutation updateAttendences(
-    $updateAttandancesInput: UpdateAttendancesInput!
-    $class_id: String!
-  ) {
-    updateAttendances(
-      updateAttendancesInput: $updateAttandancesInput
-      class_id: $class_id
-    )
-  }
+ mutation uppdateAttendances($attendanceClassInput: AttendanceClassInput!, $schedule_id: String!) {
+  updateAttendances(attendanceClassInput: $attendanceClassInput, schedule_id: $schedule_id) 
+}
 `);
+

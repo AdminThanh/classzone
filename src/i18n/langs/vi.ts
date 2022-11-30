@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   navbar: {
     home: 'Trang chủ',
@@ -36,6 +37,7 @@ export default {
     class: 'Lớp học',
     student: 'Học sinh',
     attendance: 'Điểm danh',
+    schedule: 'Lịch học',
     rotating: 'Ô quay',
     table_score: 'Bảng điểm',
     give_assignment: 'Giao bài kiểm tra',
@@ -96,6 +98,7 @@ export default {
   },
 
   action: {
+    action: 'Hành động',
     view_detail: 'Xem chi tiết',
     detail: 'Chi tiết',
     delete: 'Xóa',
@@ -107,8 +110,14 @@ export default {
     create_success: 'Tạo thành công',
     edit_success: 'Sửa thành công',
     add_success: 'Thêm thành công',
+    delete_success: 'Xóa thành công',
+    create_error: 'Tạo thất bại',
+    edit_error: 'Sửa thất bại',
+    add_error: 'Thêm thất bại',
+    delete_error: 'Xóa thất bại',
     invite_success: 'Mời thành công',
     close: 'Đóng',
+    check_delete: 'Bạn có chắc chắn muốn xóa câu hỏi này?'
   },
 
   field: {
@@ -174,9 +183,8 @@ export default {
     full_name: 'Họ và tên',
     average: 'Điểm trung bình',
     score: 'Điểm',
-    score_lowercase: 'điểm',
-    plus_lowercase: 'cộng',
-    minus_lowercase: 'trừ',
+    PLUS_lowercase: 'cộng',
+    MINUS_lowercase: 'trừ',
     score_column_name: 'Tên cột điểm',
     multiplier: 'Hệ số nhân',
     score_column_type: 'Loại cột điểm',
@@ -266,6 +274,7 @@ export default {
     answer: 'Đáp án',
     enter_answer: 'Nhập đáp án',
     publish: 'Xuất bản',
+    choice: 'Trắc nghiệm',
 
     //error
     not_blank: 'Không được để trống',

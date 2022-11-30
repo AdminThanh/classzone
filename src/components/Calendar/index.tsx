@@ -1,29 +1,27 @@
 import { useEffect, useState } from 'react';
 // import './index.css';
-import { Alert, Calendar, Checkbox, Input, notification, Spin } from 'antd';
+import { useMutation, useQuery } from '@apollo/client';
+import { Calendar, Checkbox, Input, notification, Spin } from 'antd';
 import clsx from 'clsx';
+import Button from 'components/Button';
 import type { Dayjs } from 'dayjs';
+import {
+  GetScheduleByClassDocument, UpdateSchedulesDocument
+} from 'gql/graphql';
 import moment from 'moment';
 import './calendar.scss';
-import Button from 'components/Button';
-import { useMutation, useQuery } from '@apollo/client';
-import {
-  CreateAndUpdateAttendanceInput,
-  GetAttandanceByClassDocument,
-  UpdateAttendencesDocument,
-} from 'gql/graphql';
 
 const from_date = moment('10112022', 'DDMMYYYY');
 const end_date = moment('20112022', 'DDMMYYYY');
 
 const Calendars = () => {
   const [selectedDate, setSelectedDate] = useState<any>(null);
-  const { data, loading, refetch } = useQuery(GetAttandanceByClassDocument, {
+  const { data, loading, refetch } = useQuery(GetScheduleByClassDocument, {
     variables: {
       id: '584fd188-fabf-454b-9158-66c027ef06c7',
     },
   });
-  const [fireUpdateAttendences] = useMutation(UpdateAttendencesDocument);
+  const [fireUpdateAttendences] = useMutation(UpdateSchedulesDocument);
 
   const [attendance, setAttendance] = useState<any>(null);
 
@@ -98,8 +96,8 @@ const Calendars = () => {
       });
       fireUpdateAttendences({
         variables: {
-          updateAttandancesInput: {
-            attendances: payload,
+          updateSchedulesInput: {
+            Schedules: payload,
           },
           class_id: '584fd188-fabf-454b-9158-66c027ef06c7',
         },
@@ -114,12 +112,12 @@ const Calendars = () => {
 
   useEffect(() => {
     const newAttendance: any = {};
-    data?.getAttendanceByClass.forEach((attendance) => {
-      if (attendance.learn_date) {
-        newAttendance[attendance.learn_date] = {
-          id: attendance.id,
-          content: attendance.content,
-          is_learn_date: attendance.is_learn_date,
+    data?.getScheduleByClass.forEach((schedule) => {
+      if (schedule.learn_date) {
+        newAttendance[schedule.learn_date] = {
+          id: schedule.id,
+          content: schedule.content,
+          is_learn_date: schedule.is_learn_date,
         };
       } else {
         throw new Error('Learn date not found');

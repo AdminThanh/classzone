@@ -65,13 +65,13 @@ const ClassItem = (props: IClassInfo) => {
       });
       notification.success({
         key: 'success',
-        message: 'Xóa thành công!',
+        message: t('action.delete_success'),
       });
       handleRefetch();
     } catch (error) {
       notification.error({
         key: 'error',
-        message: 'Xóa thất bại!',
+        message: t('action.delete_error'),
       });
     }
   };

@@ -1,5 +1,7 @@
 import {
   FormOutlined,
+  ScheduleOutlined,
+
   PieChartOutlined, PullRequestOutlined, TableOutlined
 } from '@ant-design/icons';
 import { Modal } from 'antd';
@@ -54,7 +56,7 @@ const TaskbarFooter = () => {
             <PullRequestOutlined />
             {t('my_class.give_assignment')}
           </div>
-          <Link to={'/table_score'}>
+          <Link to={'table_score'}>
             <div className="tab-item">
               <TableOutlined />
               {t('my_class.table_score')}
@@ -64,6 +66,12 @@ const TaskbarFooter = () => {
             <div className="tab-item">
               <FormOutlined />
               {t('my_class.attendance')}
+            </div>
+          </Link>
+          <Link to={'schedule'}>
+            <div className="tab-item">
+              <ScheduleOutlined />
+              {t('my_class.schedule')}
             </div>
           </Link>
           <div onClick={handleOpenWheel} className="tab-item">
