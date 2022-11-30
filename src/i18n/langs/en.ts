@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   navbar: {
     home: 'Home',
@@ -33,6 +34,7 @@ export default {
     class: 'Class',
     student: 'Student',
     attendance: 'Attendance',
+    schedule: 'Schedule',
     rotating: 'Rotating umbrella',
     table_score: 'Table score',
     give_assignment: 'Give assignment',
@@ -177,9 +179,8 @@ export default {
     full_name: 'Full name',
     average: 'Average',
     score: 'Score',
-    score_lowercase: 'score',
-    plus_lowercase: 'plus',
-    minus_lowercase: 'minus',
+    PLUS_lowercase: 'plus',
+    MINUS_lowercase: 'minus',
     score_column_name: 'Score column name',
     multiplier: 'Multiplier',
     score_column_type: 'Score column type',

@@ -4806,11 +4806,14 @@ decimal.js@^10.2.1:
   resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.4.2.tgz#0341651d1d997d86065a2ce3a441fbd0d8e8b98e"
   integrity sha512-ic1yEvwT6GuvaYwBLLY6/aFFgjZdySKTE8en/fkU3QICTmRtgtSlFn0u0BXN06InZwtfCelR7j8LRiDI/02iGA==
 
+<<<<<<< HEAD
+=======
 decode-html@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/decode-html/-/decode-html-2.0.0.tgz#7d0a887ce44280e60978a707ebb7f8081fd61eaa"
   integrity sha512-lVJ+EBozhAXA2nSQG+xAgcD0P5K3uejnIIvM09uoQfS8AALkQ+HhHcEUvKovXi0EIpIZWjm0y8X7ULjaJpgY9w==
 
+>>>>>>> 95bb3a9b5a090ca70194687bc3e2ca5223ea595e
 dedent@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
@@ -9690,9 +9693,15 @@ rc-upload@~4.3.0:
     rc-util "^5.2.0"
 
 rc-util@^5.0.1, rc-util@^5.0.6, rc-util@^5.12.0, rc-util@^5.15.0, rc-util@^5.16.0, rc-util@^5.16.1, rc-util@^5.17.0, rc-util@^5.18.1, rc-util@^5.19.2, rc-util@^5.2.0, rc-util@^5.2.1, rc-util@^5.20.1, rc-util@^5.21.0, rc-util@^5.21.2, rc-util@^5.22.5, rc-util@^5.23.0, rc-util@^5.24.4, rc-util@^5.3.0, rc-util@^5.4.0, rc-util@^5.6.1, rc-util@^5.8.0, rc-util@^5.9.4:
+<<<<<<< HEAD
+  version "5.24.8"
+  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.24.8.tgz#4d234a5263f42080fb39b9c1b36f9df73af3497b"
+  integrity sha512-AS222gRVeH5RDdaRUd9ur9/E9MMQn5sZA3d4Z1vGU7JXW9dxD9kPijax00RG+dU2EJTfwySstFLDoSqpAPMNKw==
+=======
   version "5.24.6"
   resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-5.24.6.tgz#ff4d64139c05d94727e8c3584b2cd0f74a7489cd"
   integrity sha512-aBkJBmAHYllC6FSxHDjFTRsDp2V2xQ8iFhjG4f6au7pOcBk7p0b0mtiqQfD0OZLcxcBuvl6O9GCtNgOfZpKeVA==
+>>>>>>> 95bb3a9b5a090ca70194687bc3e2ca5223ea595e
   dependencies:
     "@babel/runtime" "^7.18.3"
     react-is "^16.12.0"

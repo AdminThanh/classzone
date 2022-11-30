@@ -1,13 +1,11 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { canUseLayoutEffect } from '@apollo/client/utilities';
+import { useQuery } from '@apollo/client';
 import { Button, Col, Form, Row, Select } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import { GetMyClassDocument } from 'gql/graphql';
 import i18next from 'i18next';
-import moment from 'moment';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
 import ClassItem from './components/ClassItem';
@@ -32,7 +30,6 @@ const Classes = () => {
   const { data, refetch } = useQuery(GetMyClassDocument);
 
   const datas = data?.getMyClass as IClassInfo[];
-  console.log('datas', datas);
 
   const handleRefetch = () => {
     refetch();
