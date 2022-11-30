@@ -2,11 +2,12 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
 
 interface IMyEditor {
+  question: string;
   onChange?: (value: any) => void;
 }
 
 const MyEditor: React.FC<IMyEditor> = (props: any) => {
-  const { onChange } = props;
+  const { onChange, question } = props;
   const editorRef = useRef(null);
 
   const handleChange = (value: string) => {
@@ -18,6 +19,7 @@ const MyEditor: React.FC<IMyEditor> = (props: any) => {
       onEditorChange={handleChange}
       apiKey="7ad8eq7icu3n630t4u3ioq10q46dh4k70mpveov40xv5ofo9"
       onInit={(evt: any, editor: any) => (editorRef.current = editor)}
+      initialValue={question}
       init={{
         height: 200,
         // plugins: [
