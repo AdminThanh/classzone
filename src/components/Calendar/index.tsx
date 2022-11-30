@@ -6,15 +6,14 @@ import clsx from 'clsx';
 import Button from 'components/Button';
 import type { Dayjs } from 'dayjs';
 import {
-  GetScheduleByClassDocument, UpdateSchedulesDocument
+  GetScheduleByClassDocument,
+  UpdateSchedulesDocument,
 } from 'gql/graphql';
 import moment from 'moment';
 import './calendar.scss';
 
-const from_date = moment('10112022', 'DDMMYYYY');
-const end_date = moment('20112022', 'DDMMYYYY');
-
-const Calendars = () => {
+const Calendars = (props: any) => {
+  const { endDate, fromDate } = props;
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const { data, loading, refetch } = useQuery(GetScheduleByClassDocument, {
     variables: {
@@ -24,6 +23,9 @@ const Calendars = () => {
   const [fireUpdateAttendences] = useMutation(UpdateSchedulesDocument);
 
   const [attendance, setAttendance] = useState<any>(null);
+
+  const from_date = moment(moment(fromDate).format('DDMMYYYY'), 'DDMMYYYY');
+  const end_date = moment(moment(endDate).format('DDMMYYYY'), 'DDMMYYYY');
 
   console.log('attendance', attendance);
   const dateCellRender = (value: Dayjs) => {

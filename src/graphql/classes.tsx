@@ -39,6 +39,16 @@ export const getClassById = gql`
   }
 `;
 
+export const getClassByIdForSchedule = gql`
+  query getClassByIdForSchedule($id: String!) {
+    getClassById(id: $id) {
+      id
+      from_date
+      end_date
+    }
+  }
+`;
+
 export const createMyClass = gql`
   mutation createMyClass($createMyClass: CreateMyClassInput!) {
     createMyClass(createMyClass: $createMyClass) {
