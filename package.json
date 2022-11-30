@@ -22,6 +22,7 @@
     "chartjs-plugin-datalabels": "^2.1.0",
     "class-validator": "^0.13.2",
     "clsx": "^1.2.1",
+    "decode-html": "^2.0.0",
     "graphql": "^16.6.0",
     "i18next": "^21.9.2",
     "i18next-browser-languagedetector": "^6.1.5",

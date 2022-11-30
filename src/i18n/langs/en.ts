@@ -18,9 +18,9 @@ export default {
     class_list: 'Class list',
     change_language: 'Change language',
     edit_profile: 'Edit profile',
-    attendance: "Attendance",
-    exam: "Exam",
-    management_Exam : "Exam Management",
+    attendance: 'Attendance',
+    exam: 'Exam',
+    management_Exam: 'Exam Management',
   },
   my_class: {
     // Label
@@ -47,7 +47,7 @@ export default {
     choose_end_date: 'Choose end date',
     choose_status: 'Choose status',
     fill_in_class_name: 'Fill in class name',
-    choose_tags : "Choose tags",
+    choose_tags: 'Choose tags',
 
     // Options
     is_activating: 'Is activating',
@@ -92,6 +92,7 @@ export default {
   },
 
   action: {
+    action: 'Action',
     view_detail: 'View detail',
     detail: 'View detail',
     delete: 'Delete',
@@ -103,8 +104,14 @@ export default {
     create_success: 'Create success',
     edit_success: 'Edit success',
     add_success: 'Add success',
+    delete_success: 'Delete success',
+    create_error: 'Create error',
+    edit_error: 'Edit error',
+    add_error: 'Add error',
+    delete_error: 'Delete error',
     invite_success: 'Invite success',
     close: 'Close',
+    check_delete: 'Are you sure you want to delete this question?',
   },
 
   field: {
@@ -219,35 +226,35 @@ export default {
   },
 
   //attendance
-  attendance : {
-    img : "Image",
-    name: "Fullname",
-    activity: "Activity",
-    note: "Note",
-    total: "Total",
-    save: "Save",
+  attendance: {
+    img: 'Image',
+    name: 'Fullname',
+    activity: 'Activity',
+    note: 'Note',
+    total: 'Total',
+    save: 'Save',
   },
 
   //exam
   exam: {
     //filter
-    filter: "Filter",
-    tags: "Tags",
+    filter: 'Filter',
+    tags: 'Tags',
 
-     //content
-     start_time: "Start time:",
-     deadline : "Deadline:",
-     work_time : "Work time:",
-     num_question : "Number of question: ",
-     status : "Status:",
-     status_done : "Done",
-     status_not : "Do not",
-     status_notStart : "Not start",
-     status_score : "Got scores",
- 
-     //button
-     doing : "Doing",
-     review : "review"
+    //content
+    start_time: 'Start time:',
+    deadline: 'Deadline:',
+    work_time: 'Work time:',
+    num_question: 'Number of question: ',
+    status: 'Status:',
+    status_done: 'Done',
+    status_not: 'Do not',
+    status_notStart: 'Not start',
+    status_score: 'Got scores',
+
+    //button
+    doing: 'Doing',
+    review: 'review',
   },
   my_quession: {
     tags: 'Tags',
@@ -261,6 +268,7 @@ export default {
     answer: 'Answer',
     enter_answer: 'Enter Answer',
     publish: 'Publish',
+    choice: 'Multiple-choice',
 
     // error
     not_blank: 'Can not be left blank',
@@ -272,16 +280,16 @@ export default {
   //management exam
   management: {
     //title table
-    name_exam : "Exam name",
-    class : "Class",
-    status: "Status",
-    had_done: "Had done",
+    name_exam: 'Exam name',
+    class: 'Class',
+    status: 'Status',
+    had_done: 'Had done',
 
-    //action 
-    create_exam: "Create Exam",
-    give_assignment : "Give assignment",
+    //action
+    create_exam: 'Create Exam',
+    give_assignment: 'Give assignment',
   },
-  wheel:{
+  wheel: {
     congratulations: 'Congratulations',
   },
   // Admin
