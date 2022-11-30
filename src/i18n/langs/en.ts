@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   navbar: {
     home: 'Home',
@@ -18,9 +19,9 @@ export default {
     class_list: 'Class list',
     change_language: 'Change language',
     edit_profile: 'Edit profile',
-    attendance: "Attendance",
-    exam: "Exam",
-    management_Exam : "Exam Management",
+    attendance: 'Attendance',
+    exam: 'Exam',
+    management_Exam: 'Exam Management',
   },
   my_class: {
     // Label
@@ -33,6 +34,7 @@ export default {
     class: 'Class',
     student: 'Student',
     attendance: 'Attendance',
+    schedule: 'Schedule',
     rotating: 'Rotating umbrella',
     table_score: 'Table score',
     give_assignment: 'Give assignment',
@@ -47,7 +49,7 @@ export default {
     choose_end_date: 'Choose end date',
     choose_status: 'Choose status',
     fill_in_class_name: 'Fill in class name',
-    choose_tags : "Choose tags",
+    choose_tags: 'Choose tags',
 
     // Options
     is_activating: 'Is activating',
@@ -170,9 +172,8 @@ export default {
     full_name: 'Full name',
     average: 'Average',
     score: 'Score',
-    score_lowercase: 'score',
-    plus_lowercase: 'plus',
-    minus_lowercase: 'minus',
+    PLUS_lowercase: 'plus',
+    MINUS_lowercase: 'minus',
     score_column_name: 'Score column name',
     multiplier: 'Multiplier',
     score_column_type: 'Score column type',
@@ -219,35 +220,35 @@ export default {
   },
 
   //attendance
-  attendance : {
-    img : "Image",
-    name: "Fullname",
-    activity: "Activity",
-    note: "Note",
-    total: "Total",
-    save: "Save",
+  attendance: {
+    img: 'Image',
+    name: 'Fullname',
+    activity: 'Activity',
+    note: 'Note',
+    total: 'Total',
+    save: 'Save',
   },
 
   //exam
   exam: {
     //filter
-    filter: "Filter",
-    tags: "Tags",
+    filter: 'Filter',
+    tags: 'Tags',
 
-     //content
-     start_time: "Start time:",
-     deadline : "Deadline:",
-     work_time : "Work time:",
-     num_question : "Number of question: ",
-     status : "Status:",
-     status_done : "Done",
-     status_not : "Do not",
-     status_notStart : "Not start",
-     status_score : "Got scores",
- 
-     //button
-     doing : "Doing",
-     review : "review"
+    //content
+    start_time: 'Start time:',
+    deadline: 'Deadline:',
+    work_time: 'Work time:',
+    num_question: 'Number of question: ',
+    status: 'Status:',
+    status_done: 'Done',
+    status_not: 'Do not',
+    status_notStart: 'Not start',
+    status_score: 'Got scores',
+
+    //button
+    doing: 'Doing',
+    review: 'review',
   },
   my_quession: {
     tags: 'Tags',
@@ -272,16 +273,16 @@ export default {
   //management exam
   management: {
     //title table
-    name_exam : "Exam name",
-    class : "Class",
-    status: "Status",
-    had_done: "Had done",
+    name_exam: 'Exam name',
+    class: 'Class',
+    status: 'Status',
+    had_done: 'Had done',
 
-    //action 
-    create_exam: "Create Exam",
-    give_assignment : "Give assignment",
+    //action
+    create_exam: 'Create Exam',
+    give_assignment: 'Give assignment',
   },
-  wheel:{
+  wheel: {
     congratulations: 'Congratulations',
   },
   // Admin

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   navbar: {
     home: 'Trang chủ',
@@ -20,9 +21,9 @@ export default {
     class_list: 'Danh sách lớp học',
     change_language: 'Đổi ngôn ngữ',
     edit_profile: 'Chỉnh sửa thông tin',
-    attendance: "Điểm danh",
-    exam: "Kiểm tra",
-    management_Exam : "Quản lý bài kiểm tra",
+    attendance: 'Điểm danh',
+    exam: 'Kiểm tra',
+    management_Exam: 'Quản lý bài kiểm tra',
   },
 
   my_class: {
@@ -36,6 +37,7 @@ export default {
     class: 'Lớp học',
     student: 'Học sinh',
     attendance: 'Điểm danh',
+    schedule: 'Lịch học',
     rotating: 'Ô quay',
     table_score: 'Bảng điểm',
     give_assignment: 'Giao bài tập',
@@ -64,7 +66,7 @@ export default {
     // Babel
     class_link: 'Liên kết lớp',
     hello: 'Xin chào ',
-    join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học'
+    join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học',
   },
 
   auth: {
@@ -173,9 +175,8 @@ export default {
     full_name: 'Họ và tên',
     average: 'Điểm trung bình',
     score: 'Điểm',
-    score_lowercase: 'điểm',
-    plus_lowercase: 'cộng',
-    minus_lowercase: 'trừ',
+    PLUS_lowercase: 'cộng',
+    MINUS_lowercase: 'trừ',
     score_column_name: 'Tên cột điểm',
     multiplier: 'Hệ số nhân',
     score_column_type: 'Loại cột điểm',
@@ -276,16 +277,16 @@ export default {
   //management exam
   management: {
     //title table
-    name_exam : "Tên bài kiểm tra",
-    class : "Lớp",
-    status: "Tình trạng",
-    had_done: "Đã nộp bài",
+    name_exam: 'Tên bài kiểm tra',
+    class: 'Lớp',
+    status: 'Tình trạng',
+    had_done: 'Đã nộp bài',
 
-    //action 
-    create_exam: "Tạo bài kiểm tra",
-    give_assignment : "Giao bài tập",
+    //action
+    create_exam: 'Tạo bài kiểm tra',
+    give_assignment: 'Giao bài tập',
   },
-  wheel:{
+  wheel: {
     congratulations: 'Xin chúc mừng',
   },
   // Admin

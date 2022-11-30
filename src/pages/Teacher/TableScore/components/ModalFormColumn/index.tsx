@@ -11,6 +11,7 @@ import {
 } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import {
+  ColumnScoreType,
   CreateColumnScoreDocument,
   ScoreType,
   UpdateColumnScoreDocument,
@@ -24,6 +25,8 @@ const { Option } = Select;
 interface ModalFromColumn {
   type: 'add' | 'update';
   data: any;
+  class_id?: string;
+  listColumnScore: [ColumnScoreType];
   handleRefetchTableScore: () => void;
   onCancel: () => void;
 }
@@ -35,8 +38,15 @@ interface ISelectTest {
 }
 
 const ModalFormColumn = (props: ModalFromColumn) => {
-  const { type, data, handleRefetchTableScore, onCancel } = props;
-  console.log('ModalFormColumn', props);
+  const {
+    type,
+    data,
+    class_id = '',
+    listColumnScore,
+    handleRefetchTableScore,
+    onCancel,
+  } = props;
+  console.log('listColumnScore', listColumnScore);
   const [selectTest, setSelecteTest] = useState<ISelectTest>({
     value: '',
     isOpen: false,
@@ -50,7 +60,6 @@ const ModalFormColumn = (props: ModalFromColumn) => {
   const { t } = useTranslation();
 
   const handleFinish = async (value: any) => {
-    console.log('value', value);
     try {
       notification.open({
         message: (
@@ -64,11 +73,12 @@ const ModalFormColumn = (props: ModalFromColumn) => {
         const res = await fireCreateColumnScore({
           variables: {
             inputCreateColumnScore: {
-              class_id: '32566911-72cf-4e8c-b52a-33c87806110c',
+              class_id,
               multiplier: value.multiplier,
               name: value.name,
               type: ScoreType.Normal,
               note: value.note,
+              examOfClass_id: value.exam_id,
             },
           },
         });
@@ -128,7 +138,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
         initialValues={{
           id: 'ascasaa',
           name: '',
-          type: 'normal',
+          type: ScoreType.Normal,
           multiplier: 1,
         }}
         form={form}
@@ -179,7 +189,10 @@ const ModalFormColumn = (props: ModalFromColumn) => {
             </Radio>
           </Radio.Group>
         </Form.Item>
-        <Form.Item name="test" label={t('table_score.automatic_score_entry')}>
+        <Form.Item
+          name="exam_id"
+          label={t('table_score.automatic_score_entry')}
+        >
           <Select
             placeholder={t(
               'table_score.message_choose_test_for_auto_score_column'
@@ -192,16 +205,16 @@ const ModalFormColumn = (props: ModalFromColumn) => {
           </Select>
         </Form.Item>
         {selectTest.isOpen && (
-          <Form.Item name="test" label={t('table_score.test')}>
+          <Form.Item name="reference_col" label={'Tham chiếu đến cột điểm'}>
             <Select
               placeholder={`Chọn bài kiểm tra để ${t(
                 'table_score.' + selectTest.type + '_lowercase'
               )} điểm`}
               allowClear
             >
-              <Option value="15">Bài kiểm tra 15'</Option>
-              <Option value="45">Bài kiểm tra 45'</Option>
-              <Option value="ielts">Bài kiểm tra IELTS</Option>
+              {listColumnScore?.map((test) => (
+                <Option value={test.id}>{test.name}</Option>
+              ))}
             </Select>
           </Form.Item>
         )}

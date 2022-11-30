@@ -9,6 +9,7 @@ export const getColumnScoreByClass = graphql(`
       note
       type
       multiplier
+      scores
     }
   }
 `);
@@ -42,5 +43,17 @@ export const updateColumnScoreByClass = graphql(`
 export const deleteColumnScore = graphql(`
   mutation deleteColumnScore($id: String!) {
     deleteColumnScore(deleteColumnScore: $id)
+  }
+`);
+
+export const updateTableScore = graphql(`
+  mutation updateTableScore(
+    $updateTableScore: UpdateTableScoreInput!
+    $class_id: String!
+  ) {
+    updateTableScore(
+      updateTableScoreInput: $updateTableScore
+      class_id: $class_id
+    )
   }
 `);

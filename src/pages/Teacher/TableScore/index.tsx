@@ -11,17 +11,21 @@ import {
   Modal,
   notification,
   Space,
-  Spin
+  Spin,
 } from 'antd';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
 import BreadCrumb from 'components/BreadCrumb';
 import {
+  ColumnScoreType,
   DeleteColumnScoreDocument,
-  GetColumnScoresByClassDocument
+  GetClassByIdDocument,
+  GetColumnScoresByClassDocument,
+  UpdateTableScoreDocument,
 } from 'gql/graphql';
 import React, { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { getAverage } from 'utils/calculator';
 import DropdownAction from './components/DropdownAction';
 import ModalFormColumn from './components/ModalFormColumn';
@@ -82,13 +86,26 @@ const fakeAPIScoreStudent: Promise<DataType[]> = new Promise(
 const TableScore = () => {
   const searchInput = useRef<InputRef>(null);
   const { t } = useTranslation();
+  const { classId } = useParams();
 
   const { data, loading, refetch } = useQuery(GetColumnScoresByClassDocument, {
     variables: {
-      id: '32566911-72cf-4e8c-b52a-33c87806110c',
+      id: classId || '',
     },
   });
+
+  const {
+    data: studentData,
+    loading: studentLoading,
+    refetch: studentRefetch,
+  } = useQuery(GetClassByIdDocument, {
+    variables: {
+      id: classId || '',
+    },
+  });
+
   const [fireDeleteTableScore] = useMutation(DeleteColumnScoreDocument);
+  const [fireUpdateTableScore] = useMutation(UpdateTableScoreDocument);
   const [searchText, setSearchText] = useState<string>('');
   const [searchedColumn, setSearchedColumn] = useState<DataIndex>('');
   const [dataTable, setDataTable] = useState<any[]>();
@@ -112,11 +129,37 @@ const TableScore = () => {
     //   setDataTable(res);
     // });
 
+    if (studentData) {
+      const students = studentData.getClassById.students;
+      const colScore: any = data?.getColumnScoresByClass;
+
+      const newStudent = students?.map((student) => {
+        const scoreOfStudent: any = {};
+
+        colScore?.forEach((cs: any) => {
+          Object.keys(cs?.scores || {}).forEach((student_id) => {
+            if (student.id === student_id) {
+              scoreOfStudent[cs.id] = cs?.scores[student_id] || null;
+            }
+          });
+        });
+
+        return {
+          key: student.id,
+          name: student.firstName || '' + student.lastName || '',
+          student_id: student.id,
+          ...scoreOfStudent,
+        };
+      });
+
+      setDataScoreStudent(newStudent as DataType[]);
+    }
+
     // Fake data
-    fakeAPIScoreStudent.then((res) => {
-      setDataScoreStudent(res);
-    });
-  }, []);
+    // fakeAPIScoreStudent.then((res) => {
+    //   setDataScoreStudent(res);
+    // });
+  }, [studentData, data]);
 
   const handleChangeScoreStudent = (
     { value, student_id }: { value: number; student_id: string },
@@ -173,7 +216,7 @@ const TableScore = () => {
         ),
         width: '15%',
         sorter: (a: DataType, b: DataType): number => {
-          return +a[col.id].valueOf() - +b[col.id].valueOf();
+          return +a[col.id]?.valueOf() - +b[col.id]?.valueOf();
         },
         filters: [
           {
@@ -209,8 +252,14 @@ const TableScore = () => {
     setSearchedColumn(dataIndex as string);
   };
 
-  const handleSaveTableScore = (e: React.MouseEvent<HTMLElement>) => {
-    // console.log('Data', { dataScoreStudent, dataTable });
+  const handleSaveTableScore = async (e: React.MouseEvent<HTMLElement>) => {
+    notification.open({
+      message: (
+        <>
+          <Spin /> &nbsp; Đang lưu bảng điểm
+        </>
+      ),
+    });
 
     const listColumnScore = dataTable?.map((colScore) => {
       const scores: any = {};
@@ -219,10 +268,31 @@ const TableScore = () => {
         scores[student.student_id] = student[colScore.id];
       });
 
-      return scores;
+      return {
+        id: colScore.id,
+        scores,
+      };
     });
 
-    console.log('listColumnScore', listColumnScore);
+    try {
+      const result = await fireUpdateTableScore({
+        variables: {
+          updateTableScore: {
+            columnScores: listColumnScore,
+          },
+          class_id: classId || '',
+        },
+      });
+      notification.destroy();
+      notification.success({
+        message: 'Lưu bảng điểm thành công',
+      });
+    } catch (err) {
+      notification.destroy();
+      notification.error({
+        message: 'Có lỗi xảy ra',
+      });
+    }
   };
 
   const handleUpdateCol = (data: any) => {
@@ -265,8 +335,6 @@ const TableScore = () => {
       });
     }
   };
-
-  const handleSaveTable = () => {};
 
   const handleReset = (clearFilters: () => void) => {
     clearFilters();
@@ -410,7 +478,7 @@ const TableScore = () => {
             return;
           }
 
-          const indexOfColumn = dataTable?.findIndex((col) => col._id === key);
+          const indexOfColumn = dataTable?.findIndex((col) => col.id === key);
 
           let multiplier;
 
@@ -476,6 +544,8 @@ const TableScore = () => {
         footer={null}
       >
         <ModalFormColumn
+          listColumnScore={data?.getColumnScoresByClass as [ColumnScoreType]}
+          class_id={classId}
           onCancel={handleCancelModal}
           handleRefetchTableScore={handleRefetchTableScore}
           data={modalCol.data}
