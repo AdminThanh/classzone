@@ -62,13 +62,13 @@ export type AssignmentType = {
 export type Attendance = {
   __typename?: 'Attendance';
   _id: Scalars['ID'];
-  class_id: Scalars['String'];
-  content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
-  is_learn_date: Scalars['Boolean'];
-  learn_date: Scalars['String'];
+  is_present: Scalars['Boolean'];
+  note: Scalars['String'];
+  schedule_id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+  user_id: Scalars['String'];
 };
 
 export type AttendanceClassInput = {
@@ -408,7 +408,7 @@ export type MutationUpdateAssignmentArgs = {
 
 export type MutationUpdateAttendancesArgs = {
   attendanceClassInput: AttendanceClassInput;
-  class_id: Scalars['String'];
+  schedule_id: Scalars['String'];
 };
 
 
