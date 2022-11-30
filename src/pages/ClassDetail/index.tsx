@@ -1,8 +1,5 @@
-import { useLazyQuery, useQuery } from '@apollo/client';
 import { Tabs } from 'antd';
 import TaskbarFooter from 'components/TaskbarFooter';
-import { GetAllUsersDocument, GetClassByIdDocument } from 'gql/graphql';
-import { getClassById } from 'graphql/attendance';
 import StudentList from 'pages/ClassDetail/components/StudentList';
 import { useParams } from 'react-router-dom';
 import GroupList from '../GroupList';
@@ -221,8 +218,6 @@ const dataStudent: IStudentInfo[] = [
 
 const ClassDetail = () => {
 
-  const { data, refetch } = useQuery(GetAllUsersDocument);
-  console.log(data);
 
   let { classId } = useParams();
   return (

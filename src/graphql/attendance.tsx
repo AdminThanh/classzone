@@ -1,23 +1,6 @@
 import { gql } from '@apollo/client';
 import { graphql } from 'gql';
 
-export const getClassById = gql`
-  query getClassById($id: String!) {
-    getClassById(id: $id) {
-      id
-      name
-      avatar
-      students {
-        id
-        lastName
-        firstName
-        avatar
-      }
-    }
-  }
-`;
-
-
 export const getAttendanceByClass = graphql(`
   query getAttandanceByClass($id: String!) {
     getAttendanceByClass(id: $id) {

@@ -1,24 +1,17 @@
-import './TaskbarFooter.scss';
 import {
-  UsergroupAddOutlined,
   FormOutlined,
-  PieChartOutlined,
-  BookOutlined,
-  CheckSquareOutlined,
-  TableOutlined,
-  PullRequestOutlined,
+  PieChartOutlined, PullRequestOutlined, TableOutlined
 } from '@ant-design/icons';
 import { Modal } from 'antd';
-import { useState } from 'react';
+import GiveAssingment from 'components/GiveAssignment';
 import WheelOfNames from 'components/WheelOfNames';
-import { t } from 'i18next';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import { GetClassByIdDocument } from 'gql/graphql';
-import { useQuery } from '@apollo/client';
+import './TaskbarFooter.scss';
 
 interface ICurrentModal {
-  modal: null | 'wheel' | 'a';
+  modal: null | 'wheel' | 'a' | 'assignment';
   data?: any;
 }
 
@@ -31,16 +24,6 @@ const TaskbarFooter = () => {
 
   let { classId } = useParams();
   console.log(classId);
-
-  const { data, refetch } = useQuery(GetClassByIdDocument, {
-    variables: {
-      id: classId as string
-    }
-  });
-
-  const datas = data?.getClassById;
-
-  console.log(data);
 
   const handleCloseModal = () => {
     setCurrentModal({
@@ -56,11 +39,18 @@ const TaskbarFooter = () => {
     });
   };
 
+  const handleOpenAssignment = () => {
+    setCurrentModal({
+      modal: 'assignment',
+      data: null,
+    });
+  };
+
   return (
     <>
       <div className="taskbar_footer">
         <div className="tabs">
-          <div className="tab-item">
+          <div className="tab-item" onClick={handleOpenAssignment}>
             <PullRequestOutlined />
             {t('my_class.give_assignment')}
           </div>
@@ -70,7 +60,7 @@ const TaskbarFooter = () => {
               {t('my_class.table_score')}
             </div>
           </Link>
-          <Link to={'/attendance'}>
+          <Link to={`attendance`}>
             <div className="tab-item">
               <FormOutlined />
               {t('my_class.attendance')}
@@ -92,6 +82,16 @@ const TaskbarFooter = () => {
         footer={null}
       >
         <WheelOfNames />
+      </Modal>
+      <Modal
+        title={t('my_class.give_assignment')}
+        open={currentModal.modal === "assignment"}
+        onCancel={handleCloseModal}
+        width={800}
+        destroyOnClose={true}
+        footer={null}
+      >
+        <GiveAssingment />
       </Modal>
     </>
   );

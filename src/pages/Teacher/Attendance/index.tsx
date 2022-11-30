@@ -1,6 +1,9 @@
+import { useQuery } from '@apollo/client';
 import BreadCrumb from 'components/BreadCrumb';
+import { GetClassByIdDocument } from 'gql/graphql';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import './Attendance.scss';
 
 export interface IListStudent {
@@ -40,20 +43,31 @@ let dataStudent: IListStudent[] = [
 ];
 
 function Attendance() {
-    const [listStudent, setListStudent] = useState<any[]>(dataStudent);
     const { t } = useTranslation();
+    const { classId } = useParams();
 
-    const handleCheckedAttendance = (id: number): void => {
-        const newListStudent = structuredClone(listStudent);
-        newListStudent[id - 1].isCheck = !newListStudent[id - 1].isCheck;
-        setListStudent(newListStudent);
-    }
+    const { data, refetch } = useQuery(GetClassByIdDocument, {
+        variables: {
+            id: classId as string
+        }
+    });
 
-    const handleChangeNote = (id: number, value: string): void => {
-        const newListStudent = structuredClone(listStudent);
-        newListStudent[id - 1].note = value;
-        setListStudent(newListStudent);
-    };
+    const datas = data?.getClassById?.students;
+
+    const [listStudent, setListStudent] = useState(datas);
+
+    console.log(listStudent);
+    // const handleCheckedAttendance = (id: string): void => {
+    //     const newListStudent = structuredClone(listStudent);
+    //     newListStudent[id - 1].isCheck = !newListStudent[id - 1].isCheck;
+    //     setListStudent(newListStudent);
+    // }
+
+    // const handleChangeNote = (id: string, value: string): void => {
+    //     const newListStudent = structuredClone(listStudent);
+    //     newListStudent[id - 1].note = value;
+    //     setListStudent(newListStudent);
+    // };
 
     const handleSaveAttendance = (): void => {
         const payload = listStudent;
@@ -84,46 +98,48 @@ function Attendance() {
                                     <th>{t('attendance.name')}</th>
                                     <th>{t('attendance.activity')}</th>
                                     <th>{t('attendance.note')}</th>
-                                    <th>{t('attendance.total')}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {listStudent.map((item) => (
-                                    <tr key={item.id}>
-                                        <td className="td-attendance">
-                                            <img src={item.img} alt="" className="avatar-img" />
-                                        </td>
-                                        {/* <td className="td-attendance"><img alt="" src={require(item.img)} className="avatar-img" /></td> */}
-                                        <td className="td-attendance">
-                                            <p>{item.name}</p>
-                                        </td>
-                                        <td className="td-attendance">
-                                            <button
-                                                type="button"
-                                                onClick={() => handleCheckedAttendance(item.id)}
-                                            >
-                                                <img
-                                                    alt=""
-                                                    src={require(item.isCheck
-                                                        ? 'assets/images/icons/bee-green.png'
-                                                        : 'assets/images/icons/bee-red.png')}
-                                                    className="icon-bee"
+                                {listStudent ? (
+                                    listStudent.map((item) => (
+                                        <tr key={item.id}>
+                                            {/* <td className="td-attendance">
+                                                <img src={item.avatar ? item.avatar : require("assets/images/avatar/4.png")} alt="" className="avatar-img" />
+                                            </td> */}
+                                            {/* <td className="td-attendance"><img alt="" src={require(item.img)} className="avatar-img" /></td> */}
+                                            <td className="td-attendance">
+                                                <p>{item.firstName}{item.lastName}</p>
+                                            </td>
+                                            {/* <td className="td-attendance">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleCheckedAttendance(item.id)}
+                                                >
+                                                    <img
+                                                        alt=""
+                                                        src={require(item.isCheck
+                                                            ? 'assets/images/icons/bee-green.png'
+                                                            : 'assets/images/icons/bee-red.png')}
+                                                        className="icon-bee"
+                                                    />
+                                                </button>
+                                            </td> */}
+                                            {/* <td className="td-attendance">
+                                                <input
+                                                    type="text"
+                                                    name="note"
+                                                    className="input-note"
+                                                    onChange={(e) =>
+                                                        handleChangeNote(item.id, e.target.value)
+                                                    }
                                                 />
-                                            </button>
-                                        </td>
-                                        <td className="td-attendance">
-                                            <input
-                                                type="text"
-                                                name="note"
-                                                className="input-note"
-                                                onChange={(e) =>
-                                                    handleChangeNote(item.id, e.target.value)
-                                                }
-                                            />
-                                        </td>
-                                        <td className="td-attendance">{item.total}/31</td>
-                                    </tr>
-                                ))}
+                                            </td> */}
+                                        </tr>
+                                    ))) : (
+                                    <></>
+                                )
+                                }
                             </tbody>
                         </table>
                         <div className="submit-button">

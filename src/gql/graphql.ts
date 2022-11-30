@@ -46,12 +46,12 @@ export type AssignUserToClassInput = {
 export type AssignmentType = {
   __typename?: 'AssignmentType';
   _id: Scalars['ID'];
-  answerSubmit: Array<AnswerSubmitType>;
+  answerSubmit?: Maybe<Array<AnswerSubmitType>>;
   createdAt: Scalars['DateTime'];
-  exam: ExamType;
+  examClass: ExamClassType;
   id: Scalars['String'];
-  minuteDoing: Scalars['Float'];
-  score: Scalars['Float'];
+  minuteDoing?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
   startTime: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -95,9 +95,9 @@ export type CreateAndUpdateAttendanceInput = {
 };
 
 export type CreateAssignmentInput = {
-  answerSubmit: Array<AnswerSubmitInput>;
-  exam: Scalars['String'];
-  minuteDoing: Scalars['Float'];
+  answerSubmit?: InputMaybe<Array<AnswerSubmitInput>>;
+  examClass: Scalars['String'];
+  minuteDoing?: InputMaybe<Scalars['Float']>;
   startTime: Scalars['DateTime'];
 };
 
@@ -117,16 +117,18 @@ export type CreateClassInput = {
   teachers?: InputMaybe<Array<Scalars['ID']>>;
 };
 
-export type CreateExamInput = {
+export type CreateExamClassInput = {
   classRoom: Scalars['ID'];
   dateEnd: Scalars['DateTime'];
   dateFrom: Scalars['DateTime'];
+  exam: Scalars['ID'];
   isAllowReview: Scalars['Boolean'];
   minutes: Scalars['Float'];
+};
+
+export type CreateExamInput = {
   name: Scalars['String'];
-  questionAmount: Scalars['Float'];
   questions: Array<Scalars['ID']>;
-  scoreFactor: Scalars['Float'];
   tags?: InputMaybe<Array<Scalars['ID']>>;
 };
 
@@ -160,20 +162,28 @@ export type CreateUserInput = {
   role: Role;
 };
 
-export type ExamType = {
-  __typename?: 'ExamType';
+export type ExamClassType = {
+  __typename?: 'ExamClassType';
   _id: Scalars['ID'];
   classRoom: Class;
   createdAt: Scalars['DateTime'];
   dateEnd: Scalars['DateTime'];
   dateFrom: Scalars['DateTime'];
+  exam: ExamType;
   id: Scalars['String'];
   isAllowReview: Scalars['Boolean'];
   minutes: Scalars['Float'];
-  name: Scalars['String'];
-  questionAmount: Scalars['Float'];
-  questions: Array<QuestionType>;
   scoreFactor: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type ExamType = {
+  __typename?: 'ExamType';
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  questions: Array<QuestionType>;
   tags?: Maybe<Array<Tag>>;
   updatedAt: Scalars['DateTime'];
 };
@@ -203,6 +213,7 @@ export type Mutation = {
   createAttendance: Attendance;
   createClass: Class;
   createExam: ExamType;
+  createExamClass: ExamClassType;
   createMyClass: Class;
   createQuestion: QuestionType;
   createTag: Tag;
@@ -210,6 +221,7 @@ export type Mutation = {
   deleteAssignment: Scalars['Boolean'];
   deleteClass: Scalars['Boolean'];
   deleteExam: Scalars['Boolean'];
+  deleteExamClass: Scalars['Boolean'];
   deleteMyClass: Scalars['Boolean'];
   deleteQuestion: Scalars['Boolean'];
   deleteTag: Scalars['Boolean'];
@@ -222,6 +234,7 @@ export type Mutation = {
   updateAttendances: Scalars['Boolean'];
   updateClass: Class;
   updateExam: ExamType;
+  updateExamClass: ExamClassType;
   updateMyClass: Class;
   updateProfile: User;
   updateQuestion: QuestionType;
@@ -260,6 +273,11 @@ export type MutationCreateExamArgs = {
 };
 
 
+export type MutationCreateExamClassArgs = {
+  createExamClassInput: CreateExamClassInput;
+};
+
+
 export type MutationCreateMyClassArgs = {
   createMyClass: CreateMyClassInput;
 };
@@ -291,6 +309,11 @@ export type MutationDeleteClassArgs = {
 
 
 export type MutationDeleteExamArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteExamClassArgs = {
   id: Scalars['String'];
 };
 
@@ -354,6 +377,12 @@ export type MutationUpdateExamArgs = {
 };
 
 
+export type MutationUpdateExamClassArgs = {
+  id: Scalars['String'];
+  updateExamClassInput: UpdateExamClassInput;
+};
+
+
 export type MutationUpdateMyClassArgs = {
   id: Scalars['String'];
   updateMyClass: UpdateMyClassInput;
@@ -381,12 +410,14 @@ export type Query = {
   getAllAssignment: Array<AssignmentType>;
   getAllClasses: Array<Class>;
   getAllExam: Array<ExamType>;
+  getAllExamClass: Array<ExamClassType>;
   getAllQuestion: Array<QuestionType>;
   getAllUsers: Array<User>;
   getAssignmentById: AssignmentType;
   getAttendanceByClass: Array<Attendance>;
   getClassById: Class;
   getExamById: ExamType;
+  getExamClassById: ExamClassType;
   getMyClass: Array<Class>;
   getQuestionById: QuestionType;
   getTag: Array<Tag>;
@@ -412,6 +443,11 @@ export type QueryGetClassByIdArgs = {
 
 
 export type QueryGetExamByIdArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryGetExamClassByIdArgs = {
   id: Scalars['String'];
 };
 
@@ -470,7 +506,7 @@ export type TokenAndUser = {
 
 export type UpdateAssignmentInput = {
   answerSubmit?: InputMaybe<Array<AnswerSubmitInput>>;
-  exam?: InputMaybe<Scalars['String']>;
+  examClass?: InputMaybe<Scalars['String']>;
   minuteDoing?: InputMaybe<Scalars['Float']>;
   startTime?: InputMaybe<Scalars['DateTime']>;
 };
@@ -491,16 +527,19 @@ export type UpdateClassInput = {
   studentAmount?: InputMaybe<Scalars['Float']>;
 };
 
-export type UpdateExamInput = {
+export type UpdateExamClassInput = {
   classRoom?: InputMaybe<Scalars['ID']>;
   dateEnd?: InputMaybe<Scalars['DateTime']>;
   dateFrom?: InputMaybe<Scalars['DateTime']>;
+  exam?: InputMaybe<Scalars['ID']>;
   isAllowReview?: InputMaybe<Scalars['Boolean']>;
   minutes?: InputMaybe<Scalars['Float']>;
-  name?: InputMaybe<Scalars['String']>;
-  questionAmount?: InputMaybe<Scalars['Float']>;
-  questions?: InputMaybe<Array<Scalars['ID']>>;
   scoreFactor?: InputMaybe<Scalars['Float']>;
+};
+
+export type UpdateExamInput = {
+  name?: InputMaybe<Scalars['String']>;
+  questions?: InputMaybe<Array<Scalars['ID']>>;
   tags: Array<Scalars['ID']>;
 };
 
@@ -552,13 +591,6 @@ export type User = {
   token_version: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
 };
-
-export type GetClassByIdQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-
-export type GetClassByIdQuery = { __typename?: 'Query', getClassById: { __typename?: 'Class', id: string, name: string, avatar?: string | null, students?: Array<{ __typename?: 'User', id: string, lastName?: string | null, firstName?: string | null, avatar?: string | null }> | null } };
 
 export type GetAttandanceByClassQueryVariables = Exact<{
   id: Scalars['String'];
@@ -677,7 +709,6 @@ export type UpdateprofileMutationVariables = Exact<{
 export type UpdateprofileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null } };
 
 
-export const GetClassByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getClassById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getClassById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}}]}}]}}]}}]} as unknown as DocumentNode<GetClassByIdQuery, GetClassByIdQueryVariables>;
 export const GetAttandanceByClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAttandanceByClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAttendanceByClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"learn_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_learn_date"}}]}}]}}]} as unknown as DocumentNode<GetAttandanceByClassQuery, GetAttandanceByClassQueryVariables>;
 export const UpdateAttendencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateAttendences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateAttandancesInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAttendancesInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAttendances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateAttendancesInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateAttandancesInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"class_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}}}]}]}}]} as unknown as DocumentNode<UpdateAttendencesMutation, UpdateAttendencesMutationVariables>;
 export const RegisterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Register"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"registerInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"token_version"}}]}}]}}]} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>;

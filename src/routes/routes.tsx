@@ -91,7 +91,7 @@ export const routes: IRoute[] = [
     // layout: TeacherLayout,
   },
   {
-    path: '/attendance',
+    path: '/class_detail/:classId/attendance',
     element: Attendance,
     role: ['teacher'],
     layout: TeacherLayout,

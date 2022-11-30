@@ -20,14 +20,14 @@ export default {
     class_list: 'Danh sách lớp học',
     change_language: 'Đổi ngôn ngữ',
     edit_profile: 'Chỉnh sửa thông tin',
-    attendance: "Điểm danh",
-    exam: "Kiểm tra",
-    management_Exam : "Quản lý bài kiểm tra",
+    attendance: 'Điểm danh',
+    exam: 'Kiểm tra',
+    management_Exam: 'Quản lý bài kiểm tra',
   },
 
   my_class: {
     // Label
-    filter: 'Bộ lộc',
+    filter: 'Bộ lọc',
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
@@ -38,7 +38,8 @@ export default {
     attendance: 'Điểm danh',
     rotating: 'Ô quay',
     table_score: 'Bảng điểm',
-    give_assignment: 'Giao bài tập',
+    give_assignment: 'Giao bài kiểm tra',
+    list_assignment: 'Danh sách bài kiểm tra',
 
     // Fied
     qr_code: 'Mã code',
@@ -64,7 +65,7 @@ export default {
     // Babel
     class_link: 'Liên kết lớp',
     hello: 'Xin chào ',
-    join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học'
+    join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học',
   },
 
   auth: {
@@ -276,16 +277,16 @@ export default {
   //management exam
   management: {
     //title table
-    name_exam : "Tên bài kiểm tra",
-    class : "Lớp",
-    status: "Tình trạng",
-    had_done: "Đã nộp bài",
+    name_exam: 'Tên bài kiểm tra',
+    class: 'Lớp',
+    status: 'Tình trạng',
+    had_done: 'Đã nộp bài',
 
-    //action 
-    create_exam: "Tạo bài kiểm tra",
-    give_assignment : "Giao bài tập",
+    //action
+    create_exam: 'Tạo bài kiểm tra',
+    give_assignment: 'Giao bài tập',
   },
-  wheel:{
+  wheel: {
     congratulations: 'Xin chúc mừng',
   },
   // Admin

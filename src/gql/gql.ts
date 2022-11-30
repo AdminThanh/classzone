@@ -3,7 +3,6 @@ import * as types from './graphql';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 const documents = {
-    "\n  query getClassById($id: String!) {\n    getClassById(id: $id) {\n      id\n      name\n      avatar\n      students {\n        id\n        lastName\n        firstName\n        avatar\n      }\n    }\n  }\n": types.GetClassByIdDocument,
     "\n  query getAttandanceByClass($id: String!) {\n    getAttendanceByClass(id: $id) {\n      id\n      content\n      learn_date\n      is_learn_date\n    }\n  }\n": types.GetAttandanceByClassDocument,
     "\n  mutation updateAttendences(\n    $updateAttandancesInput: UpdateAttendancesInput!\n    $class_id: String!\n  ) {\n    updateAttendances(\n      updateAttendancesInput: $updateAttandancesInput\n      class_id: $class_id\n    )\n  }\n": types.UpdateAttendencesDocument,
     "\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n": types.RegisterDocument,
@@ -24,7 +23,6 @@ const documents = {
     "\nmutation updateprofile($updateProfileInput: UpdateProfileInput!) {\n    updateProfile(updateProfileInput: $updateProfileInput) {\n      firstName\n      lastName\n      phoneNumber\n      address\n      avatar\n    }\n  }": types.UpdateprofileDocument,
 };
 
-export function graphql(source: "\n  query getClassById($id: String!) {\n    getClassById(id: $id) {\n      id\n      name\n      avatar\n      students {\n        id\n        lastName\n        firstName\n        avatar\n      }\n    }\n  }\n"): (typeof documents)["\n  query getClassById($id: String!) {\n    getClassById(id: $id) {\n      id\n      name\n      avatar\n      students {\n        id\n        lastName\n        firstName\n        avatar\n      }\n    }\n  }\n"];
 export function graphql(source: "\n  query getAttandanceByClass($id: String!) {\n    getAttendanceByClass(id: $id) {\n      id\n      content\n      learn_date\n      is_learn_date\n    }\n  }\n"): (typeof documents)["\n  query getAttandanceByClass($id: String!) {\n    getAttendanceByClass(id: $id) {\n      id\n      content\n      learn_date\n      is_learn_date\n    }\n  }\n"];
 export function graphql(source: "\n  mutation updateAttendences(\n    $updateAttandancesInput: UpdateAttendancesInput!\n    $class_id: String!\n  ) {\n    updateAttendances(\n      updateAttendancesInput: $updateAttandancesInput\n      class_id: $class_id\n    )\n  }\n"): (typeof documents)["\n  mutation updateAttendences(\n    $updateAttandancesInput: UpdateAttendancesInput!\n    $class_id: String!\n  ) {\n    updateAttendances(\n      updateAttendancesInput: $updateAttandancesInput\n      class_id: $class_id\n    )\n  }\n"];
 export function graphql(source: "\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n"): (typeof documents)["\n  mutation Register($registerInput: RegisterInput!) {\n    register(registerInput: $registerInput) {\n      email\n      token_version\n    }\n  }\n"];
