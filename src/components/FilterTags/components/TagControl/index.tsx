@@ -115,13 +115,13 @@ const TagControl = (props: any) => {
       handleRefetch();
       notification.success({
         key: 'success',
-        message: 'Thêm thành công!',
+        message: t('action.add_success'),
       });
     } catch (error) {
       console.log(error);
       notification.error({
         key: 'error',
-        message: 'Thêm thất bại!',
+        message: t('action.add_error'),
       });
     }
   }

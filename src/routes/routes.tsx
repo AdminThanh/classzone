@@ -144,6 +144,12 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
+    path: '/question/:questionId',
+    element: CreateQuession,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
     path: '/exam_management',
     element: ExamManagement,
     role: ['teacher'],
