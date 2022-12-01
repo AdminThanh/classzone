@@ -5,13 +5,12 @@ import AuthLayout from 'layouts/Auth';
 import ErrorPage from 'pages/404Page';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter,
   Navigate,
   Route,
-  Routes,
-  useNavigate,
+  Routes
 } from 'react-router-dom';
 import { routes } from './routes';
 
@@ -37,7 +36,6 @@ const Router = () => {
 
   useEffect(() => {
     if (loading === false && isAuthenticated === null) {
-      console.log({ loading, isAuthenticated });
       window.location.href = '/login';
     }
   }, [loading, isAuthenticated]);
@@ -63,13 +61,13 @@ const Router = () => {
                           path={route.path}
                           element={
                             <>
-                              {route?.role?.length && (
-                                <RequireAuth>
+                              <RequireAuth>
+                                {route?.role?.length && (
                                   <Layout>
                                     <Element />
                                   </Layout>
-                                </RequireAuth>
-                              )}
+                                )}
+                              </RequireAuth>
                             </>
                           }
                         />
@@ -81,6 +79,18 @@ const Router = () => {
               )}
               <Route
                 path="login"
+                element={
+                  <>
+                    <RequireGuest>
+                      <AuthLayout>
+                        <Login />
+                      </AuthLayout>
+                    </RequireGuest>
+                  </>
+                }
+              />
+               <Route
+                path="/"
                 element={
                   <>
                     <RequireGuest>
