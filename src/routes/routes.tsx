@@ -51,19 +51,8 @@ export const routes: IRoute[] = [
   {
     path: '/',
     element: Classes,
-    role: ['teacher'],
+    role: ['teacher', "student"],
     layout: TeacherLayout,
-  },
-  {
-    path: '/table_score',
-    element: TableScore,
-    role: ['teacher'],
-    layout: TeacherLayout,
-  },
-  {
-    path: '/wheel',
-    element: WheelOfNames,
-    role: ['teacher'],
   },
   {
     path: '/create_assignment',
@@ -72,14 +61,14 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
-    path: '/error',
-    element: ErrorPage,
-    role: ['teacher'],
+    path: '/class_detail/:classId',
+    element: ClassDetail,
+    role: ['teacher', 'student'],
     layout: TeacherLayout,
   },
   {
-    path: '/class_detail/:classId',
-    element: ClassDetail,
+    path: '/class_detail/:classId/table_score',
+    element: TableScore,
     role: ['teacher'],
     layout: TeacherLayout,
   },
@@ -97,27 +86,21 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
-    path: '/create_attendance',
+    path: '/class_detail/:classId/schedule',
     element: CreateAttendance,
     role: ['teacher'],
     layout: TeacherLayout,
   },
-  {
-    path: '/exam',
-    element: ExamPage,
-    role: ['teacher'],
-    layout: TeacherLayout,
-  },
-  {
-    path: '/login',
-    element: Login,
-    layout: AuthLayout,
-  },
-  {
-    path: '/register',
-    element: Register,
-    layout: AuthLayout,
-  },
+  // {
+  //   path: '/login',
+  //   element: Login,
+  //   layout: AuthLayout,
+  // },
+  // {
+  //   path: '/register',
+  //   element: Register,
+  //   layout: AuthLayout,
+  // },
   {
     path: '/home',
     element: Home,
@@ -128,7 +111,7 @@ export const routes: IRoute[] = [
   {
     path: '/profile',
     element: EditProfile,
-    role: ['teacher'],
+    role: ['teacher', 'student'],
     layout: TeacherLayout,
   },
   {
@@ -162,8 +145,14 @@ export const routes: IRoute[] = [
    */
   {
     path: '/assignment',
+    element: ExamPage,
+    role: ['student'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/assignment',
     element: Assignment,
-    role: ['teacher'],
+    role: ['student'],
     layout: StudentLayout,
   },
   /**

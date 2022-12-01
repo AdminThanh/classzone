@@ -1,20 +1,19 @@
-import './Question.scss';
-import BreadCrumb from 'components/BreadCrumb';
-import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import { useTranslation } from 'react-i18next';
 import {
   CloseCircleOutlined,
   EditOutlined,
-  ExclamationCircleOutlined,
   PlusCircleOutlined,
 } from '@ant-design/icons';
-import i18next from 'i18next';
-import React, { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
+import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import BreadCrumb from 'components/BreadCrumb';
 import { DeleteQuestionDocument, GetAllQuestionDocument } from 'gql/graphql';
+import i18next from 'i18next';
 import moment from 'moment';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
+import './Question.scss';
 
 interface IQuessionTags {
   name: string;

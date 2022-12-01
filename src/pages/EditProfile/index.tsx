@@ -12,7 +12,6 @@ import './EditProfile.scss';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-
 function EditProfile() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
@@ -52,8 +51,8 @@ function EditProfile() {
       reader.onerror = (error) => {
         rej(error);
       };
-    })
-  }
+    });
+  };
 
   const handleChangeEdit = (): void => {
     setIsEdit(!isEdit);
@@ -68,14 +67,18 @@ function EditProfile() {
   const onFinish = async (values: any) => {
     console.log('Success:', values);
     notification.open({
-      key: "spin", message: <><Spin indicator={antIcon} /> &nbsp; Đang cập nhật</>
-      ,
+      key: 'spin',
+      message: (
+        <>
+          <Spin indicator={antIcon} /> &nbsp; Đang cập nhật
+        </>
+      ),
     });
 
     try {
       const res = await fireUpdateProfile({
         variables: {
-          "updateProfileInput": {
+          updateProfileInput: {
             firstName: values.firstname,
             lastName: values.lastname,
             address: values.address,
@@ -83,23 +86,28 @@ function EditProfile() {
             oldPassword: values.firstpassword,
             newPassword: values.inputpassword,
             avatar: avatarBase64 || '',
-          }
-        }
+          },
+        },
       });
       notification.destroy();
       notification.success({
-        key: "success", message: "Cập nhật thành công!"
-      })
+        key: 'success',
+        message: 'Cập nhật thành công!',
+      });
     } catch (error) {
       notification.destroy();
 
       notification.error({
-        key: "error", message: <div><p>Cập nhật thất bại!</p></div>
-      })
+        key: 'error',
+        message: (
+          <div>
+            <p>Cập nhật thất bại!</p>
+          </div>
+        ),
+      });
       console.log(error);
     }
   };
-
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -119,8 +127,8 @@ function EditProfile() {
           },
         ]}
       />
-      {
-        auth && <div className="form-profile">
+      {auth && (
+        <div className="form-profile">
           <Form
             name="basic"
             labelCol={{ span: 24 }}
@@ -150,20 +158,20 @@ function EditProfile() {
                             src={auth.avatar}
                             alt=""
                           />
+                        ) : avatar ? (
+                          <img
+                            className="avatar-img"
+                            src={avatar.preview}
+                            alt=""
+                          />
                         ) : (
-                          avatar ? (
-                            <img
-                              className="avatar-img"
-                              src={avatar.preview}
-                              alt=""
-                            />
-                          ) : (
-                            <img
-                              className="avatar-img"
-                              src={require('assets/images/avatar.png')}
-                              alt=""
-                            />
-                          )
+                          <img
+                            className="avatar-img"
+                            src={
+                              'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'
+                            }
+                            alt=""
+                          />
                         )}
                         <img
                           className="icon-upload"
@@ -181,7 +189,10 @@ function EditProfile() {
                         label={t('edit_profile.lastname')}
                         name="lastname"
                         rules={[
-                          { required: true, message: t('edit_profile.val_lastname') },
+                          {
+                            required: true,
+                            message: t('edit_profile.val_lastname'),
+                          },
                         ]}
                         className="input-profile"
                         initialValue={auth?.lastName}
@@ -200,7 +211,10 @@ function EditProfile() {
                       label={t('edit_profile.firstname')}
                       name="firstname"
                       rules={[
-                        { required: true, message: t('edit_profile.val_firstname') },
+                        {
+                          required: true,
+                          message: t('edit_profile.val_firstname'),
+                        },
                       ]}
                       initialValue={auth?.firstName}
                     >
@@ -234,7 +248,10 @@ function EditProfile() {
                       label={t('edit_profile.phone')}
                       name="phone"
                       rules={[
-                        { required: true, message: t('edit_profile.val_phone') },
+                        {
+                          required: true,
+                          message: t('edit_profile.val_phone'),
+                        },
                       ]}
                       initialValue={auth?.phoneNumber}
                     >
@@ -297,7 +314,10 @@ function EditProfile() {
                       label={t('edit_profile.newpassword')}
                       name="inputpassword"
                       rules={[
-                        { required: true, message: t('edit_profile.val_newpassword') },
+                        {
+                          required: true,
+                          message: t('edit_profile.val_newpassword'),
+                        },
                         { min: 6, message: t('edit_profile.val_countpass') },
                       ]}
                     >
@@ -310,7 +330,10 @@ function EditProfile() {
                       label={t('edit_profile.repassword')}
                       name="repassword"
                       rules={[
-                        { required: true, message: t('edit_profile.val_repassword') },
+                        {
+                          required: true,
+                          message: t('edit_profile.val_repassword'),
+                        },
                         { min: 6, message: t('edit_profile.val_countpass') },
                         ({ getFieldValue }) => ({
                           validator(_, value) {
@@ -371,9 +394,9 @@ function EditProfile() {
               )}
             </Form.Item>
           </Form>
-        </div >
-      }
-    </div >
+        </div>
+      )}
+    </div>
   );
 }
 

@@ -62,13 +62,17 @@ export type AssignmentType = {
 export type Attendance = {
   __typename?: 'Attendance';
   _id: Scalars['ID'];
-  class_id: Scalars['String'];
-  content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
-  is_learn_date: Scalars['Boolean'];
-  learn_date: Scalars['String'];
+  is_present: Scalars['Boolean'];
+  note: Scalars['String'];
+  schedule_id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+  user_id: Scalars['String'];
+};
+
+export type AttendanceClassInput = {
+  Attendance?: InputMaybe<Array<CreateAttendanceInput>>;
 };
 
 export type Class = {
@@ -94,17 +98,18 @@ export type ColumnScoreType = {
   _id: Scalars['ID'];
   class_id: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  examOfClass_id: Scalars['String'];
+  examOfClass_id?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   multiplier: Scalars['Float'];
   name: Scalars['String'];
   note?: Maybe<Scalars['String']>;
+  reference_col?: Maybe<Scalars['String']>;
   scores?: Maybe<Scalars['JSONObject']>;
   type?: Maybe<ScoreType>;
   updatedAt: Scalars['DateTime'];
 };
 
-export type CreateAndUpdateAttendanceInput = {
+export type CreateAndUpdateScheduleInput = {
   content: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
   is_learn_date: Scalars['Boolean'];
@@ -119,14 +124,15 @@ export type CreateAssignmentInput = {
 };
 
 export type CreateAttendanceInput = {
-  class_id: Scalars['String'];
-  content: Scalars['String'];
-  is_learn_date: Scalars['Boolean'];
-  learn_date: Scalars['DateTime'];
+  is_present: Scalars['Boolean'];
+  note?: InputMaybe<Scalars['String']>;
+  user_id: Scalars['String'];
 };
 
 export type CreateClassInput = {
   avatar: Scalars['String'];
+  end_date?: InputMaybe<Scalars['DateTime']>;
+  from_date?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
   scoreFactor: Scalars['Float'];
   studentAmount: Scalars['Float'];
@@ -140,6 +146,7 @@ export type CreateColumnScoreInput = {
   multiplier: Scalars['Float'];
   name: Scalars['String'];
   note?: InputMaybe<Scalars['String']>;
+  reference_col?: InputMaybe<Scalars['String']>;
   type: ScoreType;
 };
 
@@ -170,6 +177,13 @@ export type CreateQuestionInput = {
   correctAnswer: Array<AnswerInput>;
   isMultiple: Scalars['Boolean'];
   question: Scalars['String'];
+};
+
+export type CreateScheduleInput = {
+  class_id: Scalars['String'];
+  content: Scalars['String'];
+  is_learn_date: Scalars['Boolean'];
+  learn_date: Scalars['String'];
 };
 
 export type CreateTagInput = {
@@ -236,13 +250,13 @@ export type Mutation = {
   assignStudentToClass: Class;
   assignTeacherToClass: Class;
   createAssignment: AssignmentType;
-  createAttendance: Attendance;
   createClass: Class;
   createColumnScore: ColumnScoreType;
   createExam: ExamType;
   createExamClass: ExamClassType;
   createMyClass: Class;
   createQuestion: QuestionType;
+  createSchedule: ScheduleType;
   createTag: Tag;
   createUser: User;
   deleteAssignment: Scalars['Boolean'];
@@ -258,7 +272,6 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register: User;
   updateAssignment: AssignmentType;
-  updateAttendance: Scalars['Boolean'];
   updateAttendances: Scalars['Boolean'];
   updateClass: Class;
   updateColumnScore: ColumnScoreType;
@@ -267,6 +280,9 @@ export type Mutation = {
   updateMyClass: Class;
   updateProfile: User;
   updateQuestion: QuestionType;
+  updateSchedule: ScheduleType;
+  updateSchedules: Scalars['Boolean'];
+  updateTableScore: Scalars['Boolean'];
   updateUser: User;
   upload: Media;
 };
@@ -284,11 +300,6 @@ export type MutationAssignTeacherToClassArgs = {
 
 export type MutationCreateAssignmentArgs = {
   createAssignmentInput: CreateAssignmentInput;
-};
-
-
-export type MutationCreateAttendanceArgs = {
-  createAttendanceInput: CreateAttendanceInput;
 };
 
 
@@ -319,6 +330,11 @@ export type MutationCreateMyClassArgs = {
 
 export type MutationCreateQuestionArgs = {
   createQuestionInput: CreateQuestionInput;
+};
+
+
+export type MutationCreateScheduleArgs = {
+  createScheduleInput: CreateScheduleInput;
 };
 
 
@@ -393,14 +409,9 @@ export type MutationUpdateAssignmentArgs = {
 };
 
 
-export type MutationUpdateAttendanceArgs = {
-  updateAttendanceInput: UpdateAttendanceInput;
-};
-
-
 export type MutationUpdateAttendancesArgs = {
-  class_id: Scalars['String'];
-  updateAttendancesInput: UpdateAttendancesInput;
+  attendanceClassInput: AttendanceClassInput;
+  schedule_id: Scalars['String'];
 };
 
 
@@ -445,6 +456,23 @@ export type MutationUpdateQuestionArgs = {
 };
 
 
+export type MutationUpdateScheduleArgs = {
+  updateScheduleInput: UpdateScheduleInput;
+};
+
+
+export type MutationUpdateSchedulesArgs = {
+  class_id: Scalars['String'];
+  updateSchedulesInput: UpdateSchedulesInput;
+};
+
+
+export type MutationUpdateTableScoreArgs = {
+  class_id: Scalars['String'];
+  updateTableScoreInput: UpdateTableScoreInput;
+};
+
+
 export type MutationUpdateUserArgs = {
   id: Scalars['String'];
   updateUserInput: UpdateUserInput;
@@ -459,13 +487,16 @@ export type Query = {
   getAllQuestion: Array<QuestionType>;
   getAllUsers: Array<User>;
   getAssignmentById: AssignmentType;
-  getAttendanceByClass: Array<Attendance>;
+  getAttendanceToday: Array<Attendance>;
   getClassById: Class;
   getColumnScoresByClass: Array<ColumnScoreType>;
   getExamById: ExamType;
   getExamClassById: ExamClassType;
   getMyClass: Array<Class>;
+  getMyClassStudent: Array<Class>;
   getQuestionById: QuestionType;
+  getScheduleByClass: Array<ScheduleType>;
+  getScheduleByLearnDate: ScheduleType;
   getTag: Array<Tag>;
   getUserById: User;
   me: User;
@@ -478,8 +509,8 @@ export type QueryGetAssignmentByIdArgs = {
 };
 
 
-export type QueryGetAttendanceByClassArgs = {
-  id: Scalars['String'];
+export type QueryGetAttendanceTodayArgs = {
+  class_id: Scalars['String'];
 };
 
 
@@ -505,6 +536,17 @@ export type QueryGetExamClassByIdArgs = {
 
 export type QueryGetQuestionByIdArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryGetScheduleByClassArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryGetScheduleByLearnDateArgs = {
+  class_id: Scalars['String'];
+  learn_date: Scalars['String'];
 };
 
 
@@ -537,6 +579,18 @@ export enum Role {
   Teacher = 'TEACHER'
 }
 
+export type ScheduleType = {
+  __typename?: 'ScheduleType';
+  _id: Scalars['ID'];
+  class_id: Scalars['String'];
+  content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  is_learn_date: Scalars['Boolean'];
+  learn_date: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export enum ScoreType {
   Minus = 'MINUS',
   Normal = 'NORMAL',
@@ -561,6 +615,11 @@ export type TokenAndUser = {
   user: User;
 };
 
+export type UpdatScoresInColumnInput = {
+  id: Scalars['String'];
+  scores?: InputMaybe<Scalars['JSONObject']>;
+};
+
 export type UpdateAssignmentInput = {
   answerSubmit?: InputMaybe<Array<AnswerSubmitInput>>;
   examClass?: InputMaybe<Scalars['String']>;
@@ -568,26 +627,20 @@ export type UpdateAssignmentInput = {
   startTime?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type UpdateAttendanceInput = {
-  content: Scalars['String'];
-  id: Scalars['String'];
-  is_learn_date: Scalars['Boolean'];
-};
-
-export type UpdateAttendancesInput = {
-  attendances?: InputMaybe<Array<CreateAndUpdateAttendanceInput>>;
-};
-
 export type UpdateClassInput = {
+  end_date?: InputMaybe<Scalars['DateTime']>;
+  from_date?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   scoreFactor?: InputMaybe<Scalars['Float']>;
   studentAmount?: InputMaybe<Scalars['Float']>;
 };
 
 export type UpdateColumnScoreInput = {
+  examOfClass_id?: InputMaybe<Scalars['String']>;
   multiplier: Scalars['Float'];
   name: Scalars['String'];
   note?: InputMaybe<Scalars['String']>;
+  reference_col?: InputMaybe<Scalars['String']>;
   type: ScoreType;
 };
 
@@ -630,6 +683,20 @@ export type UpdateQuestionInput = {
   question?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateScheduleInput = {
+  content: Scalars['String'];
+  id: Scalars['String'];
+  is_learn_date: Scalars['Boolean'];
+};
+
+export type UpdateSchedulesInput = {
+  Schedules?: InputMaybe<Array<CreateAndUpdateScheduleInput>>;
+};
+
+export type UpdateTableScoreInput = {
+  columnScores?: InputMaybe<Array<UpdatScoresInColumnInput>>;
+};
+
 export type UpdateUserInput = {
   address?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
@@ -656,21 +723,6 @@ export type User = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type GetAttandanceByClassQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-
-export type GetAttandanceByClassQuery = { __typename?: 'Query', getAttendanceByClass: Array<{ __typename?: 'Attendance', id: string, content: string, learn_date: string, is_learn_date: boolean }> };
-
-export type UpdateAttendencesMutationVariables = Exact<{
-  updateAttandancesInput: UpdateAttendancesInput;
-  class_id: Scalars['String'];
-}>;
-
-
-export type UpdateAttendencesMutation = { __typename?: 'Mutation', updateAttendances: boolean };
-
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
 }>;
@@ -683,7 +735,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null, _id: string } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenAndUser', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null, _id: string, role?: Role | null } } };
 
 export type RefreshTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -700,12 +752,24 @@ export type GetMyClassQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetMyClassQuery = { __typename?: 'Query', getMyClass: Array<{ __typename?: 'Class', id: string, name: string, avatar?: string | null, code: string, from_date: any, end_date: any, scoreFactor: number }> };
 
+export type GetMyClassStudentQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMyClassStudentQuery = { __typename?: 'Query', getMyClassStudent: Array<{ __typename?: 'Class', id: string, name: string, avatar?: string | null, scoreFactor: number, code: string, owner: { __typename?: 'User', firstName?: string | null, lastName?: string | null } }> };
+
 export type GetClassByIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
 export type GetClassByIdQuery = { __typename?: 'Query', getClassById: { __typename?: 'Class', name: string, avatar?: string | null, students?: Array<{ __typename?: 'User', id: string, lastName?: string | null, firstName?: string | null, email: string }> | null } };
+
+export type GetClassByIdForScheduleQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetClassByIdForScheduleQuery = { __typename?: 'Query', getClassById: { __typename?: 'Class', id: string, from_date: any, end_date: any } };
 
 export type CreateMyClassMutationVariables = Exact<{
   createMyClass: CreateMyClassInput;
@@ -736,10 +800,47 @@ export type DeleteMyClassMutationVariables = Exact<{
 
 export type DeleteMyClassMutation = { __typename?: 'Mutation', deleteMyClass: boolean };
 
+export type GetColumnScoresByClassQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetColumnScoresByClassQuery = { __typename?: 'Query', getColumnScoresByClass: Array<{ __typename?: 'ColumnScoreType', id: string, name: string, note?: string | null, type?: ScoreType | null, multiplier: number, scores?: any | null, reference_col?: string | null, examOfClass_id?: string | null }> };
+
+export type CreateColumnScoreMutationVariables = Exact<{
+  inputCreateColumnScore: CreateColumnScoreInput;
+}>;
+
+
+export type CreateColumnScoreMutation = { __typename?: 'Mutation', createColumnScore: { __typename?: 'ColumnScoreType', name: string, multiplier: number, class_id: string } };
+
+export type UpdateColumnScoreMutationVariables = Exact<{
+  updateColumnScore: UpdateColumnScoreInput;
+  id: Scalars['String'];
+}>;
+
+
+export type UpdateColumnScoreMutation = { __typename?: 'Mutation', updateColumnScore: { __typename?: 'ColumnScoreType', name: string, class_id: string, note?: string | null, type?: ScoreType | null, multiplier: number, scores?: any | null, reference_col?: string | null, examOfClass_id?: string | null } };
+
+export type DeleteColumnScoreMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteColumnScoreMutation = { __typename?: 'Mutation', deleteColumnScore: boolean };
+
+export type UpdateTableScoreMutationVariables = Exact<{
+  updateTableScore: UpdateTableScoreInput;
+  class_id: Scalars['String'];
+}>;
+
+
+export type UpdateTableScoreMutation = { __typename?: 'Mutation', updateTableScore: boolean };
+
 export type GetAllExamQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllExamQuery = { __typename?: 'Query', getAllExam: Array<{ __typename?: 'ExamType', name: string, createdAt: any, tags?: Array<{ __typename?: 'Tag', name: string, color: string }> | null, questions: Array<{ __typename?: 'QuestionType', id: string, question: string, answers: Array<string> }> }> };
+export type GetAllExamQuery = { __typename?: 'Query', getAllExam: Array<{ __typename?: 'ExamType', id: string, name: string, createdAt: any, tags?: Array<{ __typename?: 'Tag', name: string, color: string }> | null, questions: Array<{ __typename?: 'QuestionType', id: string, question: string, answers: Array<string> }> }> };
 
 export type CreateExamMutationVariables = Exact<{
   createExamInput: CreateExamInput;
@@ -782,6 +883,21 @@ export type DeleteQuestionMutationVariables = Exact<{
 
 export type DeleteQuestionMutation = { __typename?: 'Mutation', deleteQuestion: boolean };
 
+export type GetScheduleByClassQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetScheduleByClassQuery = { __typename?: 'Query', getScheduleByClass: Array<{ __typename?: 'ScheduleType', id: string, content: string, learn_date: string, is_learn_date: boolean }> };
+
+export type UpdateSchedulesMutationVariables = Exact<{
+  updateSchedulesInput: UpdateSchedulesInput;
+  class_id: Scalars['String'];
+}>;
+
+
+export type UpdateSchedulesMutation = { __typename?: 'Mutation', updateSchedules: boolean };
+
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -819,25 +935,32 @@ export type UpdateprofileMutationVariables = Exact<{
 export type UpdateprofileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null } };
 
 
-export const GetAttandanceByClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAttandanceByClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAttendanceByClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"learn_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_learn_date"}}]}}]}}]} as unknown as DocumentNode<GetAttandanceByClassQuery, GetAttandanceByClassQueryVariables>;
-export const UpdateAttendencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateAttendences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateAttandancesInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAttendancesInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAttendances"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateAttendancesInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateAttandancesInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"class_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}}}]}]}}]} as unknown as DocumentNode<UpdateAttendencesMutation, UpdateAttendencesMutationVariables>;
 export const RegisterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Register"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"registerInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"registerInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"token_version"}}]}}]}}]} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>;
-export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const RefreshTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"refreshToken"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"phoneNumber"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<RefreshTokenQuery, RefreshTokenQueryVariables>;
 export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;
 export const GetMyClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMyClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMyClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"from_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"scoreFactor"}}]}}]}}]} as unknown as DocumentNode<GetMyClassQuery, GetMyClassQueryVariables>;
+export const GetMyClassStudentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMyClassStudent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMyClassStudent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"scoreFactor"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"owner"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]} as unknown as DocumentNode<GetMyClassStudentQuery, GetMyClassStudentQueryVariables>;
 export const GetClassByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getClassById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getClassById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetClassByIdQuery, GetClassByIdQueryVariables>;
+export const GetClassByIdForScheduleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getClassByIdForSchedule"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getClassById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"from_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}}]}}]}}]} as unknown as DocumentNode<GetClassByIdForScheduleQuery, GetClassByIdForScheduleQueryVariables>;
 export const CreateMyClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createMyClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createMyClass"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMyClassInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMyClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createMyClass"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createMyClass"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"scoreFactor"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreateMyClassMutation, CreateMyClassMutationVariables>;
 export const UpdateMyClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateMyClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"UpdateMyClassInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateMyClassInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateMyClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateMyClass"},"value":{"kind":"Variable","name":{"kind":"Name","value":"UpdateMyClassInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"scoreFactor"}},{"kind":"Field","name":{"kind":"Name","value":"from_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}}]}}]}}]} as unknown as DocumentNode<UpdateMyClassMutation, UpdateMyClassMutationVariables>;
 export const AssignStudentToClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"assignStudentToClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"assignStudentToClass"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AssignUserToClassInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignStudentToClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"assignStudentToClassInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"assignStudentToClass"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<AssignStudentToClassMutation, AssignStudentToClassMutationVariables>;
 export const DeleteMyClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteMyClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMyClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeleteMyClassMutation, DeleteMyClassMutationVariables>;
-export const GetAllExamDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllExamQuery, GetAllExamQueryVariables>;
+export const GetColumnScoresByClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getColumnScoresByClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getColumnScoresByClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"class_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"note"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"multiplier"}},{"kind":"Field","name":{"kind":"Name","value":"scores"}},{"kind":"Field","name":{"kind":"Name","value":"reference_col"}},{"kind":"Field","name":{"kind":"Name","value":"examOfClass_id"}}]}}]}}]} as unknown as DocumentNode<GetColumnScoresByClassQuery, GetColumnScoresByClassQueryVariables>;
+export const CreateColumnScoreDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createColumnScore"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"inputCreateColumnScore"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateColumnScoreInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createColumnScore"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createAttendanceInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"inputCreateColumnScore"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"multiplier"}},{"kind":"Field","name":{"kind":"Name","value":"class_id"}}]}}]}}]} as unknown as DocumentNode<CreateColumnScoreMutation, CreateColumnScoreMutationVariables>;
+export const UpdateColumnScoreDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateColumnScore"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateColumnScore"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateColumnScoreInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateColumnScore"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateColumnScoreInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateColumnScore"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"class_id"}},{"kind":"Field","name":{"kind":"Name","value":"note"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"multiplier"}},{"kind":"Field","name":{"kind":"Name","value":"scores"}},{"kind":"Field","name":{"kind":"Name","value":"reference_col"}},{"kind":"Field","name":{"kind":"Name","value":"examOfClass_id"}}]}}]}}]} as unknown as DocumentNode<UpdateColumnScoreMutation, UpdateColumnScoreMutationVariables>;
+export const DeleteColumnScoreDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteColumnScore"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteColumnScore"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"deleteColumnScore"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeleteColumnScoreMutation, DeleteColumnScoreMutationVariables>;
+export const UpdateTableScoreDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateTableScore"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateTableScore"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateTableScoreInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateTableScore"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateTableScoreInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateTableScore"}}},{"kind":"Argument","name":{"kind":"Name","value":"class_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}}}]}]}}]} as unknown as DocumentNode<UpdateTableScoreMutation, UpdateTableScoreMutationVariables>;
+export const GetAllExamDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllExamQuery, GetAllExamQueryVariables>;
 export const CreateExamDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createExam"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createExamInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateExamInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createExam"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createExamInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createExamInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}}]}}]}}]}}]} as unknown as DocumentNode<CreateExamMutation, CreateExamMutationVariables>;
 export const CreateQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createQuestion"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateQuestionInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createQuestion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createQuestionInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createQuestion"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}},{"kind":"Field","name":{"kind":"Name","value":"isMultiple"}}]}}]}}]} as unknown as DocumentNode<CreateQuestionMutation, CreateQuestionMutationVariables>;
 export const GetQuestionByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getQuestionById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getQuestionById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}},{"kind":"Field","name":{"kind":"Name","value":"isMultiple"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"correctAnswer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]}}]} as unknown as DocumentNode<GetQuestionByIdQuery, GetQuestionByIdQueryVariables>;
 export const GetAllQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllQuestion"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllQuestion"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<GetAllQuestionQuery, GetAllQuestionQueryVariables>;
 export const UpdateQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateQuestionInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateQuestionInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateQuestion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateQuestionInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateQuestionInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"isMultiple"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}},{"kind":"Field","name":{"kind":"Name","value":"correctAnswer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateQuestionMutation, UpdateQuestionMutationVariables>;
 export const DeleteQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteQuestion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeleteQuestionMutation, DeleteQuestionMutationVariables>;
+export const GetScheduleByClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getScheduleByClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getScheduleByClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"learn_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_learn_date"}}]}}]}}]} as unknown as DocumentNode<GetScheduleByClassQuery, GetScheduleByClassQueryVariables>;
+export const UpdateSchedulesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateSchedules"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateSchedulesInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateSchedulesInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateSchedules"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateSchedulesInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateSchedulesInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"class_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}}}]}]}}]} as unknown as DocumentNode<UpdateSchedulesMutation, UpdateSchedulesMutationVariables>;
 export const GetAllUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const GetInfoMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getInfoMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]} as unknown as DocumentNode<GetInfoMeQuery, GetInfoMeQueryVariables>;
 export const GetTagDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getTag"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTag"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]} as unknown as DocumentNode<GetTagQuery, GetTagQueryVariables>;

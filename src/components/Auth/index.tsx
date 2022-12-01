@@ -13,7 +13,7 @@ export const RequireAuth = (props: IGuard) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    if (loading === false && isAuthenticated === false) {
       navigate('/login');
     }
   }, [isAuthenticated]);

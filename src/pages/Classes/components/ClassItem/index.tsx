@@ -5,6 +5,7 @@ import {
   ClockCircleOutlined,
   SettingOutlined,
   ExclamationCircleFilled,
+  UserOutlined,
 } from '@ant-design/icons';
 import {
   Button,
@@ -25,6 +26,7 @@ import { useMutation } from '@apollo/client';
 import { DeleteMyClassDocument } from 'gql/graphql';
 import QRCode from 'qrcode.react';
 import copy from 'copy-to-clipboard';
+import { useAuth } from 'contexts/AuthContext';
 
 export interface IClassInfo {
   id: string;
@@ -32,6 +34,7 @@ export interface IClassInfo {
   avatar: string;
   end_date: string;
   from_date: string;
+  owner?: string;
   code: string;
   scoreFactor: number;
   handleRefetch: any;
@@ -44,12 +47,14 @@ const ClassItem = (props: IClassInfo) => {
     end_date,
     from_date,
     code,
+    owner,
     scoreFactor,
     id,
     handleRefetch,
   } = props;
   const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const { auth } = useAuth();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -159,13 +164,15 @@ const ClassItem = (props: IClassInfo) => {
           className="image"
         />
         {avatar ? '' : <span className="img_title">{name}</span>}
-        <Dropdown className="dropdown" overlay={menu}>
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              <SettingOutlined />
-            </Space>
-          </a>
-        </Dropdown>
+        {auth.role === 'TEACHER' && (
+          <Dropdown className="dropdown" overlay={menu}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <SettingOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        )}
       </div>
       <div className="content">
         <Link to={'/class_detail/' + id}>
@@ -185,6 +192,10 @@ const ClassItem = (props: IClassInfo) => {
             <ClockCircleOutlined />
             {t('my_class.end_date')}:{' '}
             <span>{moment(end_date).format('DD/MM/YYYY')}</span>
+          </li>
+          <li className="item">
+            <UserOutlined />
+            {t('my_class.teacher')}: <span>{owner}</span>
           </li>
         </ul>
 

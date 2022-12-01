@@ -1,13 +1,12 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { canUseLayoutEffect } from '@apollo/client/utilities';
+import { useQuery } from '@apollo/client';
 import { Button, Col, Form, Row, Select } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
-import { GetMyClassDocument } from 'gql/graphql';
+import { useAuth } from 'contexts/AuthContext';
+import { GetMyClassDocument, GetMyClassStudentDocument } from 'gql/graphql';
 import i18next from 'i18next';
-import moment from 'moment';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
 import ClassItem from './components/ClassItem';
@@ -21,6 +20,7 @@ export interface IClassInfo {
   from_date: string;
   code: string;
   scoreFactor: number;
+  owner: any;
 }
 
 const { Option } = Select;
@@ -28,11 +28,13 @@ const { Option } = Select;
 const Classes = () => {
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
+  const { auth } = useAuth();
 
-  const { data, refetch } = useQuery(GetMyClassDocument);
+  const { data, refetch }: any = useQuery(
+    auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
+  );
 
-  const datas = data?.getMyClass as IClassInfo[];
-  console.log('datas', datas);
+  const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
   const handleRefetch = () => {
     refetch();
@@ -75,7 +77,7 @@ const Classes = () => {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
-  
+
   return (
     <div className="site_wrapper">
       <div className="site_container">
@@ -156,6 +158,10 @@ const Classes = () => {
                     end_date={item.end_date}
                     from_date={item.from_date}
                     code={item.code}
+                    owner={
+                      auth.role === 'STUDENT' &&
+                      item.owner?.firstName + item.owner?.lastName
+                    }
                     scoreFactor={item.scoreFactor}
                     handleRefetch={handleRefetch}
                   />

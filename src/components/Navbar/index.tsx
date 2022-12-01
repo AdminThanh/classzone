@@ -5,7 +5,7 @@ import { useAuth } from 'contexts/AuthContext';
 // import { getAllUser } from 'graphql/user';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { INavItem } from 'routes/navs';
 import {
   CloseIcon,
@@ -28,6 +28,8 @@ export interface INavbarProps {
 const Navbar = (props: INavbarProps) => {
   const { navList = [] } = props;
   const { isAuthenticated, logout, auth } = useAuth();
+
+  console.log('auth', auth);
   const [isSidebar, setIsSidebar] = useState(false);
   const navigate = useNavigate();
   // const { refetch } = useQuery(getAllUser);
@@ -85,12 +87,19 @@ const Navbar = (props: INavbarProps) => {
             <ul className="navbar__listItem">
               {navList?.map((item, idx) => (
                 <li key={idx} className="navbar__item">
-                  <Link to={item.path} className="navbar__link">
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'navbar__link navbar__link--active'
+                        : 'navbar__link'
+                    }
+                    to={item.path}
+                  >
                     <item.icon className="navbar__icon" />
                     <span className="navbar__label">
                       {t(`navbar.${item.label}`)}
                     </span>
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -104,7 +113,14 @@ const Navbar = (props: INavbarProps) => {
                 <div className="navbar__label">
                   Chào, {auth?.firstName} {auth?.lastName}
                 </div>
-                <DefaultAvatar className="navbar__avatar" />
+                <img
+                  src={
+                    auth.avatar ||
+                    'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'
+                  }
+                  className="navbar__avatar"
+                  alt="avatar"
+                />
 
                 <div className="navbar__dropdown">
                   <div className="navbar__listControl">
