@@ -288,6 +288,7 @@ export default {
     class: 'Class',
     status: 'Status',
     had_done: 'Had done',
+    is_allow_review: 'Allow viewing',
 
     //action
     create_exam: 'Create Exam',

@@ -292,6 +292,7 @@ export default {
     class: 'Lớp',
     status: 'Tình trạng',
     had_done: 'Đã nộp bài',
+    is_allow_review: 'Cho phép xem bài',
 
     //action
     create_exam: 'Tạo bài kiểm tra',
