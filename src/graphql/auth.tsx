@@ -23,6 +23,7 @@ export const login = graphql(`
         address
         avatar
         _id
+        role
       }
     }
   }
