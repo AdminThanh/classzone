@@ -40,10 +40,10 @@ interface IAuthContext {
   login: (param: ILoginForm) => Promise<any>;
 }
 
-const defaultIsAuthenticated = null;
+const defaultIsAuthenticated = false;
 
 export const AuthContext = createContext<IAuthContext>({
-  isAuthenticated: null,
+  isAuthenticated: false,
   auth: {},
   loading: true,
   setIsAuthenticated: () => {},
@@ -61,7 +61,7 @@ export const useAuth = () => {
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [auth, setAuth] = useState<any>();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     defaultIsAuthenticated
   );
   const [loading, setLoading] = useState<boolean>(true);

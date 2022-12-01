@@ -25,6 +25,7 @@ export const RequireGuest = (props: IGuard) => {
   const { children } = props;
   const { isAuthenticated, loading } = useAuth();
 
+  console.log('asd');
   const navigate = useNavigate();
 
   useEffect(() => {
