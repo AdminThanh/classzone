@@ -22,7 +22,6 @@ const Timer = (props: any) => {
       clearInterval(timerRef);
     };
   }, [startTime, endTime]);
-  console.log(Math.floor(seconds / 60));
 
   return (
     <>

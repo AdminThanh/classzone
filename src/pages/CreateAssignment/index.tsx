@@ -10,7 +10,7 @@ import {
 import BreadCrumb from 'components/BreadCrumb';
 import QuestionItem from './components/QuestionItem';
 import './CreateAssignment.scss';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, notification, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
 import { useForm } from 'antd/es/form/Form';
@@ -28,6 +28,9 @@ import {
   SortableHandle,
 } from 'react-sortable-hoc';
 import QuestionTable from './components/QuestionTable';
+import { renderHTML } from 'pages/Question';
+import { useMutation } from '@apollo/client';
+import { CreateExamDocument } from 'gql/graphql';
 
 interface IQuestions {
   _id: string;
@@ -40,7 +43,6 @@ interface DataType {
   question: string;
   tags: string[];
   index: number;
-  _id: string;
 }
 
 const DragHandle = SortableHandle(() => (
@@ -57,6 +59,7 @@ const SortableBody = SortableContainer(
 const CreateAssignment = () => {
   const [dataQuestionList, setDataQuestionList] = useState<DataType[]>([]);
   const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(false);
+  const [fireCreateExam] = useMutation(CreateExamDocument);
   const { t } = useTranslation();
   const [form] = useForm();
 
@@ -72,12 +75,13 @@ const CreateAssignment = () => {
       dataIndex: 'tags',
       width: 30,
       className: 'drag-visible table__tag',
+      render: (_) => <Tag color="#2db7f5">HTML</Tag>,
     },
     {
       title: t('my_quession.quession'),
       dataIndex: 'question',
       render: (record, value) => (
-        <div className="table__question">{value.question}</div>
+        <div className="table__question">{renderHTML(value.question)}</div>
       ),
     },
     {
@@ -85,16 +89,18 @@ const CreateAssignment = () => {
         <div className="questionItem-drag__action">
           {/* <UpdateIcon /> */}
 
-          <BinIcon onClick={() => handleDeleteQuestion(value._id)} />
+          <BinIcon onClick={() => handleDeleteQuestion(value.key)} />
         </div>
       ),
     },
   ];
 
-  const handleDeleteQuestion = (id: string) => {
+  const handleDeleteQuestion = (key: string) => {
     const newDataQuestionList = dataQuestionList.filter((value) => {
-      return value._id !== id;
+      return value.key !== key;
     });
+    console.log('id', key);
+    console.log('newDataQuestionList', newDataQuestionList);
 
     setDataQuestionList(newDataQuestionList);
   };
@@ -134,6 +140,8 @@ const CreateAssignment = () => {
     const index = dataQuestionList.findIndex(
       (x) => x.index === restProps['data-row-key']
     );
+    console.log(index);
+
     return <SortableItem index={index} {...restProps} />;
   };
 
@@ -150,6 +158,31 @@ const CreateAssignment = () => {
     ],
     []
   );
+  const handleAxam = async (value: any) => {
+    console.log(value);
+
+    try {
+      await fireCreateExam({
+        variables: {
+          createExamInput: {
+            name: value.asssignment_name as string | '',
+            questions: value.question_ids,
+            tags: value.tags,
+          },
+        },
+      });
+      notification.success({
+        key: 'success',
+        message: t('action.add_success'),
+      });
+    } catch (error) {
+      notification.error({
+        key: 'error',
+        message: t('action.add_error'),
+      });
+    }
+    
+  };
 
   return (
     <div className="create-assignment">
@@ -157,7 +190,7 @@ const CreateAssignment = () => {
       <Form
         form={form}
         onFinish={(value) => {
-          console.log(value);
+          handleAxam(value);
         }}
       >
         <div className="create-assignment__skin">

@@ -10,6 +10,8 @@ export const getColumnScoreByClass = graphql(`
       type
       multiplier
       scores
+      reference_col
+      examOfClass_id
     }
   }
 `);
@@ -36,6 +38,8 @@ export const updateColumnScoreByClass = graphql(`
       type
       multiplier
       scores
+      reference_col
+      examOfClass_id
     }
   }
 `);

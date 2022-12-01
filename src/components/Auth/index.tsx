@@ -13,7 +13,7 @@ export const RequireAuth = (props: IGuard) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    if (loading === false && isAuthenticated === false) {
       navigate('/login');
     }
   }, [isAuthenticated]);
@@ -25,6 +25,7 @@ export const RequireGuest = (props: IGuard) => {
   const { children } = props;
   const { isAuthenticated, loading } = useAuth();
 
+  console.log('asd');
   const navigate = useNavigate();
 
   useEffect(() => {

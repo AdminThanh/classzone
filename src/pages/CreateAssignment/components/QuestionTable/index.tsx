@@ -1,128 +1,66 @@
-import { Table } from 'antd';
+import { useQuery } from '@apollo/client';
+import { Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { GetAllQuestionDocument } from 'gql/graphql';
+import { renderHTML } from 'pages/Question';
 import React, { useEffect, useState } from 'react';
 
-const fakeAPI: Promise<DataType[]> = new Promise((resolve) => {
-  setTimeout(() => {
-    resolve([
-      {
-        key: '123123123',
-        question:
-          ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 0,
-      },
-      {
-        key: 'asdasdasd',
-        question:
-          ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
+// const fakeAPI: Promise<DataType[]> = new Promise((resolve) => {
+//   setTimeout(() => {
+//     resolve([
+//       {
+//         key: '123123123',
+//         question:
+//           ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
+//         tags: [],
+//         index: 0,
+//       },
+//       {
+//         key: 'asdasdasd',
+//         question:
+//           ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
 
-        tags: [],
-        index: 1,
-      },
-      {
-        key: 'zxczxczxc',
-        question:
-          ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 2,
-      },
-      {
-        key: '4',
-        question:
-          ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 3,
-      },
-      {
-        key: '5',
-        question:
-          ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
+//         tags: [],
+//         index: 1,
+//       },
+//       {
+//         key: 'zxczxczxc',
+//         question:
+//           ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
+//         tags: [],
+//         index: 2,
+//       },
+//       {
+//         key: '4',
+//         question:
+//           ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
+//         tags: [],
+//         index: 3,
+//       },
+//       {
+//         key: '5',
+//         question:
+//           ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
 
-        tags: [],
-        index: 4,
-      },
-      {
-        key: '6',
-        question:
-          ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 5,
-      },
-      {
-        key: '7',
-        question:
-          ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 7,
-      },
-      {
-        key: '8',
-        question:
-          ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-
-        tags: [],
-        index: 8,
-      },
-      {
-        key: '9',
-        question:
-          ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 9,
-      },
-      {
-        key: '10',
-        question:
-          ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 10,
-      },
-      {
-        key: '11',
-        question:
-          ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-
-        tags: [],
-        index: 11,
-      },
-      {
-        key: '12',
-        question:
-          ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 12,
-      },
-      {
-        key: '13',
-        question:
-          ' Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả. Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 13,
-      },
-      {
-        key: '14',
-        question:
-          ' Bố mẹ mình mỗi người một ngả. Đó là chuyện của người lớn. Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-
-        tags: [],
-        index: 14,
-      },
-      {
-        key: '15',
-        question:
-          ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
-        tags: [],
-        index: 15,
-      },
-    ]);
-  });
-});
+//         tags: [],
+//         index: 4,
+//       },
+//       {
+//         key: '6',
+//         question:
+//           ' Mình sống với bà ngoại từ lúc ba tuổi đến giờ. Trong cuộc đời mình bà là người mình kính trọng nhất. Bà nuôi nấng dạy dỗ. Thúy Hiền ơi! Cậu là người hiểu mình hơn cả.',
+//         tags: [],
+//         index: 5,
+//       },
+//     ]);
+//   });
+// });
 
 interface DataType {
+  id: string;
   key: string;
   question: string;
-  tags: string[];
+  // tags: string[];
   index: number;
 }
 
@@ -146,21 +84,30 @@ const QuestionTable: React.FC<any> = (props) => {
       dataIndex: 'tags',
       width: 30,
       className: 'drag-visible table__tag',
+      render: (_) => <Tag color="#2db7f5">HTML</Tag>,
     },
     {
       title: 'Câu hỏi',
       dataIndex: 'question',
       render: (record, value) => (
-        <div className="table__question">{value.question}</div>
+        <div className="table__question">{renderHTML(value.question)}</div>
       ),
     },
   ];
 
-  useEffect(() => {
-    fakeAPI.then((res) => {
-      setListQuestion(res);
-    });
-  }, []);
+  const { data } = useQuery(GetAllQuestionDocument);
+  const listAllQuestion = data?.getAllQuestion.map((item, index) => ({
+    id: item.id,
+    key: item.id,
+    question: item.question,
+    index: index,
+  }));
+
+  // useEffect(() => {
+  //   fakeAPI.then((res) => {
+  //     setListQuestion(res);
+  //   });
+  // }, []);
 
   return (
     <div className="QuestionTable">
@@ -170,10 +117,8 @@ const QuestionTable: React.FC<any> = (props) => {
           selectedRowKeys: selectedKey,
         }}
         columns={columns}
-        dataSource={listQuestion}
+        dataSource={listAllQuestion}
       />
-      {/* <button onClick={handleCancel}>Cancel</button>
-      <button onClick={handleOk}>Ok</button> */}
     </div>
   );
 };

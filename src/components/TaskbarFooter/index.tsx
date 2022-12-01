@@ -7,7 +7,8 @@ import {
 import { Modal } from 'antd';
 import GiveAssingment from 'components/GiveAssignment';
 import WheelOfNames from 'components/WheelOfNames';
-import { useState } from 'react';
+import { useAuth } from 'contexts/AuthContext';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import './TaskbarFooter.scss';
@@ -23,6 +24,7 @@ const TaskbarFooter = () => {
     data: null,
   });
   const { t } = useTranslation();
+  const { auth } = useAuth();
 
   let { classId } = useParams();
   console.log(classId);
@@ -47,36 +49,66 @@ const TaskbarFooter = () => {
       data: null,
     });
   };
+  const items = useMemo(() => {
+    if (auth?.role === 'TEACHER') {
+      return [
+        {
+          Icon: <PullRequestOutlined />,
+          label: t('my_class.give_assignment'),
+          onClick: handleOpenAssignment,
+        },
+        {
+          Icon: <TableOutlined />,
+          label: t('my_class.table_score'),
+          path: 'table_score',
+        },
+        {
+          Icon: <FormOutlined />,
+          label: t('my_class.attendance'),
+          path: 'attendance',
+        },
+        {
+          Icon: <ScheduleOutlined />,
+          label: t('my_class.schedule'),
+          path: 'schedule',
+        },
+        {
+          Icon: <PieChartOutlined />,
+          label: t('my_class.rotating'),
+          onClick: handleOpenWheel,
+        },
+      ];
+    }
+
+    if (auth?.role === 'STUDENT') {
+      return [
+        {
+          Icon: <FormOutlined />,
+          label: t('my_class.my_history_attendance'),
+          path: 'check_attendance',
+        },
+      ]
+    }
+  }, [auth]);
 
   return (
     <>
       <div className="taskbar_footer">
         <div className="tabs">
-          <div className="tab-item" onClick={handleOpenAssignment}>
-            <PullRequestOutlined />
-            {t('my_class.give_assignment')}
-          </div>
-          <Link to={'table_score'}>
-            <div className="tab-item">
-              <TableOutlined />
-              {t('my_class.table_score')}
-            </div>
-          </Link>
-          <Link to={`attendance`}>
-            <div className="tab-item">
-              <FormOutlined />
-              {t('my_class.attendance')}
-            </div>
-          </Link>
-          <Link to={'schedule'}>
-            <div className="tab-item">
-              <ScheduleOutlined />
-              {t('my_class.schedule')}
-            </div>
-          </Link>
-          <div onClick={handleOpenWheel} className="tab-item">
-            <PieChartOutlined /> {t('my_class.rotating')}
-          </div>
+          {items?.map((item) => {
+            return (
+              <div className="tab-item">
+                <Link to={item.path || ''} onClick={item.onClick}>
+                  <div className="tab-item">
+                    {item.Icon}
+                    {item.label}
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
+
+          <div onClick={handleOpenWheel} className="tab-item"></div>
         </div>
       </div>
 

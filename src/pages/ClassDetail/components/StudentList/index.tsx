@@ -19,8 +19,6 @@ const StudentList = (props: any) => {
   });
 
   const dataListStudent = data?.getClassById?.students;
-  console.log(classId);
-  console.log(dataListStudent);
 
   const { t } = useTranslation();
   return (

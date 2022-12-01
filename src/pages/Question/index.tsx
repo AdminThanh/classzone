@@ -25,7 +25,11 @@ interface IQuession {
   question: string;
   createdAt?: any;
 }
-var decode = require('decode-html');
+
+export const renderHTML = (rawHTML: string) =>
+React.createElement('div', {
+  dangerouslySetInnerHTML: { __html: rawHTML },
+});
 
 const Question = () => {
   const navigate = useNavigate();
@@ -38,10 +42,7 @@ const Question = () => {
 
   console.log(dataTableQuession);
 
-  const renderHTML = (rawHTML: string) =>
-    React.createElement('div', {
-      dangerouslySetInnerHTML: { __html: rawHTML },
-    });
+ 
 
   const confirm = async (questionId: string) => {
     try {

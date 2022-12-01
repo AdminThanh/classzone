@@ -217,8 +217,6 @@ const dataStudent: IStudentInfo[] = [
 ];
 
 const ClassDetail = () => {
-
-
   let { classId } = useParams();
   return (
     <div className="site_wrapper">

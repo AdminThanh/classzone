@@ -51,13 +51,8 @@ export const routes: IRoute[] = [
   {
     path: '/',
     element: Classes,
-    role: ['teacher'],
+    role: ['teacher', "student"],
     layout: TeacherLayout,
-  },
-  {
-    path: '/wheel',
-    element: WheelOfNames,
-    role: ['teacher'],
   },
   {
     path: '/create_assignment',
@@ -66,15 +61,15 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
-    path: '/error',
-    element: ErrorPage,
+    path: '/exam_management/:examId',
+    element: CreateAssignment,
     role: ['teacher'],
     layout: TeacherLayout,
   },
   {
     path: '/class_detail/:classId',
     element: ClassDetail,
-    role: ['teacher'],
+    role: ['teacher', 'student'],
     layout: TeacherLayout,
   },
   {
@@ -102,22 +97,16 @@ export const routes: IRoute[] = [
     role: ['teacher'],
     layout: TeacherLayout,
   },
-  {
-    path: '/exam',
-    element: ExamPage,
-    role: ['teacher'],
-    layout: TeacherLayout,
-  },
-  {
-    path: '/login',
-    element: Login,
-    layout: AuthLayout,
-  },
-  {
-    path: '/register',
-    element: Register,
-    layout: AuthLayout,
-  },
+  // {
+  //   path: '/login',
+  //   element: Login,
+  //   layout: AuthLayout,
+  // },
+  // {
+  //   path: '/register',
+  //   element: Register,
+  //   layout: AuthLayout,
+  // },
   {
     path: '/home',
     element: Home,
@@ -128,7 +117,7 @@ export const routes: IRoute[] = [
   {
     path: '/profile',
     element: EditProfile,
-    role: ['teacher'],
+    role: ['teacher', 'student'],
     layout: TeacherLayout,
   },
   {
@@ -162,8 +151,14 @@ export const routes: IRoute[] = [
    */
   {
     path: '/assignment',
+    element: ExamPage,
+    role: ['student'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/assignment',
     element: Assignment,
-    role: ['teacher'],
+    role: ['student'],
     layout: StudentLayout,
   },
   /**

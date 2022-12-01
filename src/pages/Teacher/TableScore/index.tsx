@@ -20,6 +20,7 @@ import {
   DeleteColumnScoreDocument,
   GetClassByIdDocument,
   GetColumnScoresByClassDocument,
+  ScoreType,
   UpdateTableScoreDocument,
 } from 'gql/graphql';
 import React, { useEffect, useRef, useState } from 'react';
@@ -195,25 +196,27 @@ const TableScore = () => {
           </Dropdown>
         ),
         dataIndex: col.id,
-        render: (value: number, record: DataType) => (
-          <InputNumber
-            value={value}
-            max={10}
-            min={0}
-            onChange={(value) => {
-              if (value) {
-                handleChangeScoreStudent(
-                  { value, student_id: record.student_id },
-                  {
-                    value,
-                    record,
-                  },
-                  col.id
-                );
-              }
-            }}
-          />
-        ),
+        render: (value: number, record: DataType) => {
+          return (
+            <InputNumber
+              value={value}
+              max={10}
+              min={0}
+              onChange={(value) => {
+                if (value) {
+                  handleChangeScoreStudent(
+                    { value, student_id: record.student_id },
+                    {
+                      value,
+                      record,
+                    },
+                    col.id
+                  );
+                }
+              }}
+            />
+          );
+        },
         width: '15%',
         sorter: (a: DataType, b: DataType): number => {
           return +a[col.id]?.valueOf() - +b[col.id]?.valueOf();
@@ -482,7 +485,56 @@ const TableScore = () => {
 
           let multiplier;
 
-          if (dataTable && indexOfColumn) {
+          // Trường hợp là điểm cộng hoặc trừ
+          if (indexOfColumn) {
+            if (
+              dataTable?.[indexOfColumn]?.type === ScoreType.Minus ||
+              dataTable?.[indexOfColumn]?.type === ScoreType.Plus
+            ) {
+              switch (dataTable?.[indexOfColumn]?.type) {
+                case ScoreType.Minus: {
+                  const indexOfColumnReference = dataTable.findIndex(
+                    (col) => col.id === dataTable?.[indexOfColumn].reference_col
+                  );
+
+                  const multiplierOfColumnReference =
+                    dataTable[indexOfColumnReference]?.multiplier || 1;
+
+                  const multiplierOfColumn =
+                    dataTable[indexOfColumn]?.multiplier || 1;
+
+                  // Handle multiplier
+                  for (let i = 0; i < multiplierOfColumn; i++) {
+                    scores.push(-record[key] as number);
+                  }
+                  break;
+                }
+                case ScoreType.Plus:
+                  {
+                    const indexOfColumnReference = dataTable.findIndex(
+                      (col) =>
+                        col.id === dataTable?.[indexOfColumn].reference_col
+                    );
+
+                    const multiplierOfColumnReference =
+                      dataTable[indexOfColumnReference]?.multiplier || 1;
+
+                    // Handle multiplier
+                    for (let i = 0; i < multiplierOfColumnReference; i++) {
+                      scores.push(record[key] as number);
+                    }
+                  }
+                  break;
+              }
+              return;
+            }
+          }
+
+          if (
+            dataTable &&
+            indexOfColumn !== undefined &&
+            indexOfColumn !== -1
+          ) {
             multiplier = dataTable[indexOfColumn]?.multiplier || 1;
           } else {
             multiplier = 1;
@@ -493,6 +545,8 @@ const TableScore = () => {
             scores.push(record[key] as number);
           }
         });
+
+        console.log('scores', scores);
 
         return <div>{getAverage(scores).toFixed(2)}</div>;
       },
