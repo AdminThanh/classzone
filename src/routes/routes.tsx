@@ -61,6 +61,12 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
+    path: '/exam_management/:examId',
+    element: CreateAssignment,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
     path: '/class_detail/:classId',
     element: ClassDetail,
     role: ['teacher', 'student'],

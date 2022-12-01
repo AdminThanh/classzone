@@ -84,7 +84,7 @@ const FilterTags = (props: IFilterTags) => {
           <Select.Option
             key={opt._id}
             className="filter__tagItem"
-            value={opt.name}
+            value={opt.id}
           >
             <div className="filter__label">{opt.name}</div>
             <div className="filter__action">

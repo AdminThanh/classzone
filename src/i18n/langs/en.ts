@@ -115,7 +115,7 @@ export default {
     delete_error: 'Delete error',
     invite_success: 'Invite success',
     close: 'Close',
-    check_delete: 'Are you sure you want to delete this question?',
+    check_delete: 'Are you sure you want to delete this?',
   },
 
   field: {
