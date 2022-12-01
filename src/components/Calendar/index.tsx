@@ -27,7 +27,6 @@ const Calendars = (props: any) => {
   const from_date = moment(moment(fromDate).format('DDMMYYYY'), 'DDMMYYYY');
   const end_date = moment(moment(endDate).format('DDMMYYYY'), 'DDMMYYYY');
 
-  console.log('attendance', attendance);
   const dateCellRender = (value: Dayjs) => {
     // const listData = getListData(value);
     const key = value.format('DD-MM-YYYY') as any;

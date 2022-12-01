@@ -8,6 +8,7 @@ export default {
     class_management: 'Quản lý lớp học',
     add_question: 'Tạo câu hỏi',
     create_question: 'Tạo bài kiểm tra',
+    assignment: 'Bài kiểm tra được giao',
   },
 
   user_control: {
@@ -41,6 +42,7 @@ export default {
     rotating: 'Ô quay',
     table_score: 'Bảng điểm',
     give_assignment: 'Giao bài tập',
+    my_history_attendance: 'Lịch sử điểm danh của tôi',
 
     // Fied
     qr_code: 'Mã code',
@@ -116,7 +118,7 @@ export default {
     delete_error: 'Xóa thất bại',
     invite_success: 'Mời thành công',
     close: 'Đóng',
-    check_delete: 'Bạn có chắc chắn muốn xóa câu hỏi này?'
+    check_delete: 'Bạn có chắc chắn muốn xóa câu hỏi này?',
   },
 
   field: {

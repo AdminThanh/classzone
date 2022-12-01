@@ -53,6 +53,8 @@ const ModalFormColumn = (props: ModalFromColumn) => {
     type: undefined,
   });
 
+  console.log('selectTest', selectTest);
+
   const [fireCreateColumnScore] = useMutation(CreateColumnScoreDocument);
 
   const [fireUpdateColumnScore] = useMutation(UpdateColumnScoreDocument);
@@ -76,9 +78,10 @@ const ModalFormColumn = (props: ModalFromColumn) => {
               class_id,
               multiplier: value.multiplier,
               name: value.name,
-              type: ScoreType.Normal,
+              type: value.type,
               note: value.note,
               examOfClass_id: value.exam_id,
+              reference_col: value.reference_col,
             },
           },
         });
@@ -101,6 +104,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
               name: value.name,
               note: value.note,
               type: value.type,
+              reference_col: value.reference_col,
             },
             id: data.id,
           },
@@ -127,6 +131,11 @@ const ModalFormColumn = (props: ModalFromColumn) => {
 
   useEffect(() => {
     form.setFieldsValue(data);
+    setSelecteTest({
+      value: data.reference_col,
+      type: data.type,
+      isOpen: data.type === ScoreType.Minus || data.type === ScoreType.Plus,
+    });
   }, []);
 
   return (
@@ -135,12 +144,12 @@ const ModalFormColumn = (props: ModalFromColumn) => {
         onFinish={handleFinish}
         layout="vertical"
         colon={true}
-        initialValues={{
-          id: 'ascasaa',
-          name: '',
-          type: ScoreType.Normal,
-          multiplier: 1,
-        }}
+        // initialValues={{
+        //   id: 'ascasaa',
+        //   name: '',
+        //   type: ScoreType.Normal,
+        //   multiplier: 1,
+        // }}
         form={form}
       >
         <Form.Item
@@ -190,7 +199,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
           </Radio.Group>
         </Form.Item>
         <Form.Item
-          name="exam_id"
+          name="examOfClass_id"
           label={t('table_score.automatic_score_entry')}
         >
           <Select
