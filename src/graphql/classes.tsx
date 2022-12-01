@@ -34,6 +34,7 @@ export const getClassById = gql`
         lastName
         firstName
         email
+        avatar
       }
     }
   }
