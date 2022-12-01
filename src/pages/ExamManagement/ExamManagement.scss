@@ -1,7 +1,6 @@
 @use '../../assets/styles/colors' as c;
 
 .management-page {
-
   .action-exam {
     display: flex;
     align-items: center;
@@ -54,6 +53,9 @@
             width: 16px;
             height: 16px;
             cursor: pointer;
+          }
+          svg:first-child {
+            margin-right: 20px;
           }
           &:nth-child(even) {
             border-left: 1px solid c.$border;

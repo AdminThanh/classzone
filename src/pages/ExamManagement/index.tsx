@@ -1,9 +1,10 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { notification, Popconfirm, Tag } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
-import { GetAllExamDocument } from 'gql/graphql';
+import { DeleteExamDocument, GetAllExamDocument } from 'gql/graphql';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AddIcon, CancelIcon, EditIcon } from 'utils/drawer';
 import './ExamManagement.scss';
 
@@ -47,10 +48,29 @@ function ExamManagement() {
   const [listExam, setListExam] = useState<any[]>(dataStudent);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data } = useQuery(GetAllExamDocument);
-  console.log(data?.getAllExam);
-
-  const dataAllExam = data?.getAllExam;
+  const { data, refetch } = useQuery(GetAllExamDocument);
+  const [fireDeleteExam] = useMutation(DeleteExamDocument);
+  refetch();
+  const handleDelete = async (id: string) => {
+    console.log(id);
+    try {
+      await fireDeleteExam({
+        variables: {
+          id: id,
+        },
+      });
+      notification.success({
+        key: 'success',
+        message: t('action.delete_success'),
+      });
+      refetch();
+    } catch (error) {
+      notification.error({
+        key: 'error',
+        message: t('action.delete_error'),
+      });
+    }
+  };
 
   return (
     <div className="management-page">
@@ -63,7 +83,7 @@ function ExamManagement() {
         ]}
       />
       <div className="action-exam">
-        <div className="name_class">Khóa học Tiếng anh</div>
+        <div className="name_class">Bài đã giao</div>
         <div className="action">
           <button
             type="button"
@@ -82,30 +102,38 @@ function ExamManagement() {
         <table className="management-table">
           <thead>
             <tr>
-              <th>{t('management.name_exam')}</th>
+              <th>Tags</th>
               <th>{t('management.class')}</th>
-              <th>{t('management.status')}</th>
               <th>{t('management.had_done')}</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {dataAllExam?.map((item, index) => (
+            {data?.getAllExam?.map((item, index) => (
               <tr key={index}>
+                <td className="td-management">
+                  {item.tags?.map((tag) => (
+                    <Tag color={tag.color}>{tag.name}</Tag>
+                  ))}
+                </td>
                 <td className="td-management">
                   <p>{item.name}</p>
                 </td>
                 <td className="td-management">
-                  <p>{'item.class'}</p>
-                </td>
-                <td className="td-management">
-                  <p>{'item.status'}</p>
-                </td>
-                <td className="td-management">
-                  {'item.had_done'}/{'item.total_exam'}
-                </td>
-                <td className="td-management">
-                  <EditIcon /> <CancelIcon />
+                  <Link to={item.id}>
+                    <EditIcon />
+                  </Link>
+                  <Popconfirm
+                    placement="topRight"
+                    title={t('action.check_delete')}
+                    onConfirm={() => {
+                      handleDelete(item.id);
+                    }}
+                    okText={t('action.delete')}
+                    cancelText={t('action.close')}
+                  >
+                    <CancelIcon />
+                  </Popconfirm>
                 </td>
               </tr>
             ))}

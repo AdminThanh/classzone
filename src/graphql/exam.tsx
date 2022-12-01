@@ -36,3 +36,8 @@ export const createExam = graphql(`
     }
   }
 `);
+export const deleteExam = graphql(`
+  mutation deleteExam($id: String!) {
+    deleteExam(id: $id)
+  }
+`);

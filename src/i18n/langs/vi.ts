@@ -118,7 +118,7 @@ export default {
     delete_error: 'Xóa thất bại',
     invite_success: 'Mời thành công',
     close: 'Đóng',
-    check_delete: 'Bạn có chắc chắn muốn xóa câu hỏi này?',
+    check_delete: 'Bạn có chắc chắn muốn xóa?',
   },
 
   field: {
