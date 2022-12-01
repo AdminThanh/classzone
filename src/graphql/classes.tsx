@@ -24,6 +24,23 @@ export const getMyClass = gql`
     }
   }
 `;
+
+export const getMyClassStudent = gql`
+  query getMyClassStudent {
+    getMyClassStudent {
+      id
+      name
+      avatar
+      scoreFactor
+      code
+      owner {
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
 export const getClassById = gql`
   query getClassById($id: String!) {
     getClassById(id: $id) {
@@ -96,5 +113,3 @@ export const deleteMyClass = gql`
     deleteMyClass(id: $id)
   }
 `;
-
-export const a = 5;

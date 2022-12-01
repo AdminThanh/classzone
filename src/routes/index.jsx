@@ -54,12 +54,8 @@ const Router = () => {
                     let Layout = route?.layout || React.Fragment;
                     let Element = route.element;
 
-                    // console.log('auth', auth);
-                    // Đợi API login ms xử lý case này
-                    // if (route.role.includes('teacher')) {
                     const role = auth?.role;
 
-                    console.log({ auth, isAuthenticated });
                     if (route?.role?.includes(role?.toLowerCase())) {
                       return (
                         <Route

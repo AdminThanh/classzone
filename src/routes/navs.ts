@@ -1,3 +1,4 @@
+import { BookOutlined } from '@ant-design/icons';
 import { ReactElement } from 'react';
 import { ClassIcon, QuestionIcon, TestIcon } from 'utils/drawer';
 
@@ -30,6 +31,11 @@ export const StudentRoutes: INavItem[] = [
     label: 'my_class',
     icon: ClassIcon,
     path: '/',
+  },
+  {
+    label: 'assignment',
+    icon: TestIcon,
+    path: '/assignment',
   },
   // {
   //   label: 'test_management',

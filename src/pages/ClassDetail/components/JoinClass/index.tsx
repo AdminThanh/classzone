@@ -1,14 +1,13 @@
-import './JoinClass.scss';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { Avatar, Button, notification, Result, Tooltip } from 'antd';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
+import { Avatar, notification, Tooltip } from 'antd';
 import {
   AssignStudentToClassDocument,
   GetClassByIdDocument,
-  GetInfoMeDocument,
+  GetInfoMeDocument
 } from 'gql/graphql';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
+import './JoinClass.scss';
 
 const InviteStudentsLink = () => {
   let { classId } = useParams();

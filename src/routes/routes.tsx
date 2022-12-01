@@ -51,7 +51,7 @@ export const routes: IRoute[] = [
   {
     path: '/',
     element: Classes,
-    role: ['teacher'],
+    role: ['teacher', "student"],
     layout: TeacherLayout,
   },
   {
@@ -63,7 +63,7 @@ export const routes: IRoute[] = [
   {
     path: '/class_detail/:classId',
     element: ClassDetail,
-    role: ['teacher'],
+    role: ['teacher', 'student'],
     layout: TeacherLayout,
   },
   {
@@ -144,7 +144,7 @@ export const routes: IRoute[] = [
    * Student routes:
    */
   {
-    path: '/',
+    path: '/assignment',
     element: ExamPage,
     role: ['student'],
     layout: TeacherLayout,

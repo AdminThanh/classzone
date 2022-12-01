@@ -1,7 +1,5 @@
-import { useQuery } from '@apollo/client';
 import { Tabs } from 'antd';
 import TaskbarFooter from 'components/TaskbarFooter';
-import { GetAllUsersDocument } from 'gql/graphql';
 import StudentList from 'pages/ClassDetail/components/StudentList';
 import { useParams } from 'react-router-dom';
 import GroupList from '../GroupList';
@@ -219,10 +217,6 @@ const dataStudent: IStudentInfo[] = [
 ];
 
 const ClassDetail = () => {
-
-  const { data, refetch } = useQuery(GetAllUsersDocument);
-  console.log(data);
-
   let { classId } = useParams();
   return (
     <div className="site_wrapper">
