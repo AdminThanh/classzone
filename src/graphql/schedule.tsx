@@ -22,3 +22,12 @@ export const updateSchedules = graphql(`
     )
   }
 `);
+
+export const getScheduleByLearnDate = graphql(`
+  query getScheduleByLearnDate($learn_date: String!, $class_id: String!) {
+    getScheduleByLearnDate(learn_date: $learn_date, class_id: $class_id) {
+      learn_date
+      id
+    }
+  }
+`);
