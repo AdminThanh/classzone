@@ -1,20 +1,20 @@
 import {
   FormOutlined,
-  PieChartOutlined,
-  PullRequestOutlined,
   ScheduleOutlined,
-  TableOutlined,
+
+  PieChartOutlined, PullRequestOutlined, TableOutlined
 } from '@ant-design/icons';
 import { Modal } from 'antd';
+import GiveAssingment from 'components/GiveAssignment';
 import WheelOfNames from 'components/WheelOfNames';
 import { useAuth } from 'contexts/AuthContext';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './TaskbarFooter.scss';
 
 interface ICurrentModal {
-  modal: null | 'wheel' | 'a';
+  modal: null | 'wheel' | 'a' | 'assignment';
   data?: any;
 }
 
@@ -25,6 +25,9 @@ const TaskbarFooter = () => {
   });
   const { t } = useTranslation();
   const { auth } = useAuth();
+
+  let { classId } = useParams();
+  console.log(classId);
 
   const handleCloseModal = () => {
     setCurrentModal({
@@ -40,13 +43,19 @@ const TaskbarFooter = () => {
     });
   };
 
+  const handleOpenAssignment = () => {
+    setCurrentModal({
+      modal: 'assignment',
+      data: null,
+    });
+  };
   const items = useMemo(() => {
     if (auth?.role === 'TEACHER') {
       return [
         {
           Icon: <PullRequestOutlined />,
           label: t('my_class.give_assignment'),
-          path: '',
+          onClick: handleOpenAssignment,
         },
         {
           Icon: <TableOutlined />,
@@ -113,6 +122,16 @@ const TaskbarFooter = () => {
         footer={null}
       >
         <WheelOfNames />
+      </Modal>
+      <Modal
+        title={t('my_class.give_assignment')}
+        open={currentModal.modal === "assignment"}
+        onCancel={handleCloseModal}
+        width={800}
+        destroyOnClose={true}
+        footer={null}
+      >
+        <GiveAssingment />
       </Modal>
     </>
   );

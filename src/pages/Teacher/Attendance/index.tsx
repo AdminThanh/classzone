@@ -1,64 +1,143 @@
+import { useMutation, useQuery } from '@apollo/client';
+import { notification, Spin } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
-import { useState } from 'react';
+import { GetAttendanceTodayDocument, GetClassByIdDocument, GetScheduleByClassDocument, UppdateAttendancesDocument } from 'gql/graphql';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import './Attendance.scss';
 
-export interface IListStudent {
-    id: number;
-    img: string;
-    name: string;
-    note: string;
-    isCheck: boolean;
-    total: number;
-}
-
-let dataStudent: IListStudent[] = [
-    {
-        id: 1,
-        img: 'https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/120946730_352619426059311_851730369256431030_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rIy_dqzWHK0AX_BJsWh&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT82ZmCfcx_VdoVorAskrICvWUB2areOl-cQ-I4HNL8JuQ&oe=637BF31F',
-        name: 'Đào Đức Minh Khôi',
-        note: '',
-        isCheck: false,
-        total: 5,
-    },
-    {
-        id: 2,
-        img: 'https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/77183410_978855692486793_3641584607138152448_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=174925&_nc_ohc=fJIvoGOUX0QAX_NC4MW&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT__Iab7160RKdUacOrjiZH2Rym3UJ7JeLc0J5FMYY2Kgw&oe=637D33F2',
-        name: 'Lê Tuyền',
-        note: '',
-        isCheck: false,
-        total: 5,
-    },
-    {
-        id: 3,
-        img: 'https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/169157577_908675839887226_224514685520977440_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=QsfcB7Ptl1EAX_mzZfB&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT_SUdGUr41GJaAiAwXq3Oq1_ZjubMVlLpbrUJGq7VpCCQ&oe=637B9FFA',
-        name: 'Hoàng Yến',
-        note: '',
-        isCheck: false,
-        total: 5,
-    },
-];
-
 function Attendance() {
-    const [listStudent, setListStudent] = useState<any[]>(dataStudent);
     const { t } = useTranslation();
+    const { classId } = useParams();
 
-    const handleCheckedAttendance = (id: number): void => {
-        const newListStudent = structuredClone(listStudent);
-        newListStudent[id - 1].isCheck = !newListStudent[id - 1].isCheck;
-        setListStudent(newListStudent);
-    }
+    const { data, refetch } = useQuery(GetClassByIdDocument, {
+        variables: {
+            id: classId || ''
+        }
+    });
 
-    const handleChangeNote = (id: number, value: string): void => {
-        const newListStudent = structuredClone(listStudent);
-        newListStudent[id - 1].note = value;
-        setListStudent(newListStudent);
-    };
+    const [dataStudentAttendance, setDataStudentAttendance] = useState([]);
+
+    console.log(structuredClone(dataStudentAttendance));
+
+    // const {
+    //     data: scheduleData,
+    // } = useQuery(GetScheduleByClassDocument, {
+    //     variables: {
+    //         id: classId || ''
+    //     }
+    // })
+
+    const {
+        data: attendanceData,
+        loading: attendanceLoading,
+        refetch: attendanceRefetch
+    } = useQuery(GetAttendanceTodayDocument, {
+        variables: {
+            class_id: classId || ''
+        }
+    })
+
+
+    const [fireUpdateAttendences] = useMutation(UppdateAttendancesDocument);
+
+    // const handleCheckedAttendance = (id: string): void => {
+    //     const newListStudent = structuredClone(dataStudentAttendance);
+    //     newListStudent[id].is_present = !newListStudent[id].is_present;
+    //     setDataStudentAttendance(newListStudent);
+    // }
+
+    // const handleChangeNote = (id: string, value: string): void => {
+    //     setDataStudentAttendance({
+    //         ...dataStudentAttendance,
+    //         [id]: {
+    //             ...dataStudentAttendance
+    //         }
+    //     });
+    // };
+
+
 
     const handleSaveAttendance = (): void => {
-        const payload = listStudent;
-        console.log('payload', payload);
+        const payload: any = [];
+        console.log(data);
+        // const schedule_id = scheduleData?.getScheduleByClass?.find((schedule_id) => schedule_id.id);
+
+        data?.getClassById?.students?.map((student) => {
+            const indexOfAttendance = attendanceData?.getAttendanceToday.findIndex((attendance) => {
+                console.log(attendance.user_id, student.id)
+            })
+            // const attendance = ;
+
+            let note;
+            if (indexOfAttendance && indexOfAttendance !== -1) {
+                note = attendanceData?.getAttendanceToday[indexOfAttendance]
+                console.log("note", note);
+            }
+
+            // console.log("attendance", attendance)
+            const studentPayload = {
+                user_id: student.id,
+                // note:,
+                // is_present: scheduleData?.getScheduleByClass[indexOfAttendance]?.is_present,
+
+            }
+            console.log(student);
+
+            // const newAttendanceData: { [user_id: string]: any } = {};
+
+            // newAttendanceData.is_present = true;
+            // user_id && (newAttendanceData.is_present = user_id);
+            // attdnc.note && (newAttendanceData.note = 'Xin đi trễ');
+            // attdnc.is_present && (newAttendanceData.is_present = attdnc.is_present);
+
+            // payload.push(newAttendanceData);
+        })
+
+        console.log(payload);
+
+        // notification.open({
+        //     message: (
+        //         <>
+        //             <Spin /> &nbsp; Cập nhật điểm danh
+        //         </>
+        //     )
+        // });
+        // try {
+        //     notification.destroy();
+        //     notification.success({
+        //         message: "Cập nhật điểm danh thành công",
+        //     });
+        //     fireUpdateAttendences({
+        //         variables: {
+        //             attendanceClassInput: {
+        //                 Attendance: payload,
+        //             },
+        //             schedule_id: schedule_id?.id as any,
+        //         }
+        //     })
+        //     console.log(payload);
+        // } catch (error) {
+        //     notification.destroy();
+        //     notification.error({
+        //         message: "Có lỗi xảy ra khi cập nhật điểm danh"
+        //     })
+        // }
     };
+
+    useEffect(() => {
+        const newAttendanceData: any = {};
+        attendanceData?.getAttendanceToday.forEach((att) => {
+            if (att.user_id) {
+                newAttendanceData[att.user_id] = {
+                    user_id: att.user_id,
+                    note: att.note,
+                    is_present: att.is_present,
+                }
+            }
+        })
+    }, [attendanceData]);
 
     return (
         <div className="site_wrapper">
@@ -84,46 +163,47 @@ function Attendance() {
                                     <th>{t('attendance.name')}</th>
                                     <th>{t('attendance.activity')}</th>
                                     <th>{t('attendance.note')}</th>
-                                    <th>{t('attendance.total')}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {listStudent.map((item) => (
-                                    <tr key={item.id}>
-                                        <td className="td-attendance">
-                                            <img src={item.img} alt="" className="avatar-img" />
-                                        </td>
-                                        {/* <td className="td-attendance"><img alt="" src={require(item.img)} className="avatar-img" /></td> */}
-                                        <td className="td-attendance">
-                                            <p>{item.name}</p>
-                                        </td>
-                                        <td className="td-attendance">
-                                            <button
-                                                type="button"
-                                                onClick={() => handleCheckedAttendance(item.id)}
-                                            >
-                                                <img
-                                                    alt=""
-                                                    src={require(item.isCheck
-                                                        ? 'assets/images/icons/bee-green.png'
-                                                        : 'assets/images/icons/bee-red.png')}
-                                                    className="icon-bee"
+                                {data ? (
+                                    data?.getClassById?.students?.map((item) => (
+                                        <tr key={item.id}>
+                                            <td className="td-attendance">
+                                                <img src={item.avatar ? item.avatar : require("assets/images/avatar/4.jpg")} alt="" className="avatar-img" />
+                                            </td>
+                                            <td className="td-attendance">
+                                                <p>{item.firstName}</p>
+                                            </td>
+                                            <td className="td-attendance">
+                                                <button
+                                                    type="button"
+                                                // onClick={() => handleCheckedAttendance(item.id)}
+                                                >
+                                                    <img
+                                                        alt=""
+                                                        src={require(true
+                                                            ? 'assets/images/icons/bee-green.png'
+                                                            : 'assets/images/icons/bee-red.png')}
+                                                        className="icon-bee"
+                                                    />
+                                                </button>
+                                            </td>
+                                            <td className="td-attendance">
+                                                <input
+                                                    type="text"
+                                                    name="note"
+                                                    className="input-note"
+                                                // onChange={(e) =>
+                                                //     handleChangeNote(item.id, e.target.value)
+                                                // }
                                                 />
-                                            </button>
-                                        </td>
-                                        <td className="td-attendance">
-                                            <input
-                                                type="text"
-                                                name="note"
-                                                className="input-note"
-                                                onChange={(e) =>
-                                                    handleChangeNote(item.id, e.target.value)
-                                                }
-                                            />
-                                        </td>
-                                        <td className="td-attendance">{item.total}/31</td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                        </tr>
+                                    ))) : (
+                                    <></>
+                                )
+                                }
                             </tbody>
                         </table>
                         <div className="submit-button">
