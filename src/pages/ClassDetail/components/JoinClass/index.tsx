@@ -101,7 +101,7 @@ const InviteStudentsLink = () => {
               </Tooltip>
             </Avatar.Group>
             <div className="ant-result-extra">
-              <button type="button" className="ant-btn ant-btn-primary primary join_class_btn">
+              <button onClick={handleJoinClass} type="button" className="ant-btn ant-btn-primary primary join_class_btn">
                 <span>Tham gia</span>
               </button>
             </div>

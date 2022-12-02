@@ -19,6 +19,35 @@ export const getAllExam = graphql(`
     }
   }
 `);
+export const getMyExam = graphql(`
+  query getMyExam {
+    getMyExam {
+      id
+      name
+      tags {
+        name
+        color
+      }
+    }
+  }
+`);
+export const getExamById = graphql(`
+  query getExamById($id: String!) {
+    getExamById(id: $id) {
+      id
+      name
+      questions {
+        id
+        question
+      }
+      tags {
+        id
+        name
+        color
+      }
+    }
+  }
+`);
 
 export const createExam = graphql(`
   mutation createExam($createExamInput: CreateExamInput!) {

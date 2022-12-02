@@ -29,15 +29,23 @@ import {
 } from 'react-sortable-hoc';
 import QuestionTable from './components/QuestionTable';
 import { renderHTML } from 'pages/Question';
-import { useMutation } from '@apollo/client';
-import { CreateExamDocument } from 'gql/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import { CreateExamDocument, GetExamByIdDocument } from 'gql/graphql';
+import { useParams } from 'react-router-dom';
 
 interface IQuestions {
-  _id: string;
+  id: string;
   // order: number;
   question: string;
 }
 
+interface IDataTypeQuestion {
+  id: string;
+  key: string;
+  question: string;
+  // tags: string[];
+  index: number;
+}
 interface DataType {
   key: string;
   question: string;
@@ -57,11 +65,40 @@ const SortableBody = SortableContainer(
 );
 
 const CreateAssignment = () => {
-  const [dataQuestionList, setDataQuestionList] = useState<DataType[]>([]);
+  const [dataQuestionList, setDataQuestionList] = useState<any[]>([]);
   const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(false);
   const [fireCreateExam] = useMutation(CreateExamDocument);
   const { t } = useTranslation();
   const [form] = useForm();
+  const { examId } = useParams();
+  const skip = examId ? false : true;
+  const { data } = useQuery(GetExamByIdDocument, {
+    variables: {
+      id: examId as string,
+    },
+    skip,
+  });
+  console.log('dataQuestionList', dataQuestionList);
+  console.log('data', data);
+
+  useEffect(() => {
+    const dataExam = data?.getExamById;
+    // .map((item: any, index: any) => ({
+    //   id: item.id,
+    //   key: item.id,
+    //   question: item.question,
+    //   index: index,
+    // }));
+    // setDataQuestionList(dataExam?.questions);
+
+    form.setFieldsValue({
+      asssignment_name: dataExam?.name,
+      tags: dataExam?.tags,
+      question_ids: dataExam?.questions,
+    });
+
+    console.log('dataExam', dataExam);
+  }, [data]);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -158,6 +195,7 @@ const CreateAssignment = () => {
     ],
     []
   );
+
   const handleAxam = async (value: any) => {
     console.log(value);
 
@@ -181,12 +219,18 @@ const CreateAssignment = () => {
         message: t('action.add_error'),
       });
     }
-    
   };
 
   return (
     <div className="create-assignment">
       {/* Nav & Breadcrumb */}
+      <button
+        onClick={() => {
+          console.log(form.getFieldsValue());
+        }}
+      >
+        show
+      </button>
       <Form
         form={form}
         onFinish={(value) => {
