@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { Button, Checkbox, Col, DatePicker, Form, InputNumber, notification, Row, Select, Spin } from "antd";
 import { CreateExamClassDocument, GetClassByIdDocument, GetMyExamDocument } from "gql/graphql";
 import moment from "moment";
-
+import { useState } from 'react';
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import "./GiveAssignmanet.scss";
@@ -10,6 +10,7 @@ import "./GiveAssignmanet.scss";
 function GiveAssingment() {
     const { t } = useTranslation();
     const { classId } = useParams();
+    const [allowReview, setAllowReview] = useState<Boolean>(false);
 
     // const { data, refetch } = useQuery(GetClassByIdDocument, {
     //     variables: {
@@ -26,6 +27,11 @@ function GiveAssingment() {
 
         const fromDate = values.startTime.format('DD-MM-YYYY HH:mm:ss');
         const endDate = values.endTime.format('DD-MM-YYYY HH:mm:ss');
+        if (values.isAllowReview) {
+            setAllowReview(true);
+        } else {
+            setAllowReview(false);
+        }
 
         console.log(fromDate, endDate);
 
@@ -39,14 +45,14 @@ function GiveAssingment() {
         try {
             notification.destroy();
             notification.success({
-                message: 'Cập nhật thời khóa biểu thành công',
+                message: 'Giao bài kiểm tra thành công',
             })
             fireCreateExamClass({
                 variables: {
                     createExamClassInput: {
                         exam: values.exam,
                         classRoom: classId as string,
-                        isAllowReview: values.isAllowReview,
+                        isAllowReview: allowReview as boolean,
                         minutes: values.timeMake,
                         dateFrom: fromDate,
                         dateEnd: endDate,
@@ -57,7 +63,7 @@ function GiveAssingment() {
             console.log(error);
             notification.destroy();
             notification.error({
-                message: "Giao bài tập thất bại!"
+                message: "Giao bài kiểm tra thất bại!"
             })
         }
     };
@@ -92,7 +98,7 @@ function GiveAssingment() {
                     <InputNumber min={1} defaultValue={0} />
                 </Form.Item>
                 <Form.Item label={t("management.is_allow_review")} name="isAllowReview" valuePropName="checked">
-                    <Checkbox checked={false}></Checkbox>
+                    <Checkbox checked={false} value={false}></Checkbox>
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">{t("management.give_assignment")}</Button>
