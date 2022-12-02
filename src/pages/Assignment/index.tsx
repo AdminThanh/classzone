@@ -3,9 +3,12 @@ import {
   ExclamationCircleFilled,
   LogoutOutlined,
 } from '@ant-design/icons';
+import { useQuery } from '@apollo/client';
 import { Modal } from 'antd';
 import { clsx } from 'clsx';
+import { GetAllExamClassDocument, GetExamByIdDocument } from 'gql/graphql';
 import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -570,6 +573,16 @@ const Assignment = () => {
 
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const { examId } = useParams();
+
+  const { data } = useQuery(GetExamByIdDocument, {
+    variables: {
+      id: examId as string,
+    },
+  });
+  console.log('examId', examId);
+
+  console.log('GetExamByIdDocument', data?.getExamById);
 
   var settings = {
     dots: true,

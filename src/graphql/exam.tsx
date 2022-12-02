@@ -20,6 +20,36 @@ export const getAllExam = graphql(`
   }
 `);
 
+export const getAllExamClass = graphql(`
+  query getAllExamClass {
+    getAllExamClass {
+      id
+      minutes
+      dateFrom
+      dateEnd
+      scoreFactor
+      isAllowReview
+    }
+  }
+`);
+export const getExamById = graphql(`
+  query getExamById($id: String!) {
+    getExamById(id: $id) {
+      id
+      name
+      questions {
+        question
+        id
+      }
+      tags {
+        name
+        color
+      }
+      createdAt
+    }
+  }
+`);
+
 export const createExam = graphql(`
   mutation createExam($createExamInput: CreateExamInput!) {
     createExam(createExamInput: $createExamInput) {

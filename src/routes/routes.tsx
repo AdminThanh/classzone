@@ -51,7 +51,7 @@ export const routes: IRoute[] = [
   {
     path: '/',
     element: Classes,
-    role: ['teacher', "student"],
+    role: ['teacher', 'student'],
     layout: TeacherLayout,
   },
   {
@@ -78,15 +78,9 @@ export const routes: IRoute[] = [
     role: ['teacher'],
     layout: TeacherLayout,
   },
+
   {
-    // path: '/join_cLass/:classId/:studentId',
-    path: '/join_class/:classId',
-    element: JoinClass,
-    role: ['teacher'],
-    // layout: TeacherLayout,
-  },
-  {
-    path: '/class_detail/:classId/attendance',
+    path: '/attendance',
     element: Attendance,
     role: ['teacher'],
     layout: TeacherLayout,
@@ -156,10 +150,17 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
-    path: '/assignment',
+    path: '/assignment/:examId',
     element: Assignment,
     role: ['student'],
-    layout: StudentLayout,
+    layout: TeacherLayout,
+  },
+  {
+    // path: '/join_cLass/:classId/:studentId',
+    path: '/join_class/:classId',
+    element: JoinClass,
+    role: ['student'],
+    // layout: TeacherLayout,
   },
   /**
    * **********************************************
