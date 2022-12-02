@@ -1,145 +1,258 @@
+import { useMutation, useQuery } from '@apollo/client';
+import { notification, Spin } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
-import { useState } from 'react';
+import {
+  GetAttendanceTodayDocument,
+  GetClassByIdDocument,
+  GetScheduleByLearnDateDocument,
+  UppdateAttendancesDocument,
+} from 'gql/graphql';
+import moment from 'moment';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import './Attendance.scss';
 
-export interface IListStudent {
-    id: number;
-    img: string;
-    name: string;
-    note: string;
-    isCheck: boolean;
-    total: number;
-}
-
-let dataStudent: IListStudent[] = [
-    {
-        id: 1,
-        img: 'https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/120946730_352619426059311_851730369256431030_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=rIy_dqzWHK0AX_BJsWh&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT82ZmCfcx_VdoVorAskrICvWUB2areOl-cQ-I4HNL8JuQ&oe=637BF31F',
-        name: 'Đào Đức Minh Khôi',
-        note: '',
-        isCheck: false,
-        total: 5,
-    },
-    {
-        id: 2,
-        img: 'https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/77183410_978855692486793_3641584607138152448_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=174925&_nc_ohc=fJIvoGOUX0QAX_NC4MW&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT__Iab7160RKdUacOrjiZH2Rym3UJ7JeLc0J5FMYY2Kgw&oe=637D33F2',
-        name: 'Lê Tuyền',
-        note: '',
-        isCheck: false,
-        total: 5,
-    },
-    {
-        id: 3,
-        img: 'https://scontent.fsgn15-1.fna.fbcdn.net/v/t1.6435-9/169157577_908675839887226_224514685520977440_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=QsfcB7Ptl1EAX_mzZfB&_nc_ht=scontent.fsgn15-1.fna&oh=00_AT_SUdGUr41GJaAiAwXq3Oq1_ZjubMVlLpbrUJGq7VpCCQ&oe=637B9FFA',
-        name: 'Hoàng Yến',
-        note: '',
-        isCheck: false,
-        total: 5,
-    },
-];
-
 function Attendance() {
-    const [listStudent, setListStudent] = useState<any[]>(dataStudent);
-    const { t } = useTranslation();
+  const { t } = useTranslation();
+  const { classId } = useParams();
 
-    const handleCheckedAttendance = (id: number): void => {
-        const newListStudent = structuredClone(listStudent);
-        newListStudent[id - 1].isCheck = !newListStudent[id - 1].isCheck;
-        setListStudent(newListStudent);
-    }
+  const { data: studentData, refetch }: any = useQuery(GetClassByIdDocument, {
+    variables: {
+      id: classId || '',
+    },
+  });
 
-    const handleChangeNote = (id: number, value: string): void => {
-        const newListStudent = structuredClone(listStudent);
-        newListStudent[id - 1].note = value;
-        setListStudent(newListStudent);
-    };
+  const { data: scheduleData } = useQuery(GetScheduleByLearnDateDocument, {
+    variables: {
+      class_id: classId || '',
+      learn_date: moment(new Date()).format('DD-MM-YYYY'),
+    },
+  });
 
-    const handleSaveAttendance = (): void => {
-        const payload = listStudent;
-        console.log('payload', payload);
-    };
+  const {
+    data: attendanceData,
+    loading: attendanceLoading,
+    refetch: attendanceRefetch,
+  } = useQuery(GetAttendanceTodayDocument, {
+    variables: {
+      class_id: classId || '',
+    },
+  });
 
-    return (
-        <div className="site_wrapper">
-            <div className="site_container">
-                <div className="attendance-page">
-                    <BreadCrumb
-                        routes={[
-                            {
-                                name: t('bread_crumb.home'),
-                                path: '/',
-                            },
-                            {
-                                name: t('bread_crumb.attendance'),
-                                path: '/attendance',
-                            },
-                        ]}
-                    />
-                    <div className="attendance-container">
-                        <table className="attendance-table">
-                            <thead>
-                                <tr>
-                                    <th>{t('attendance.img')}</th>
-                                    <th>{t('attendance.name')}</th>
-                                    <th>{t('attendance.activity')}</th>
-                                    <th>{t('attendance.note')}</th>
-                                    <th>{t('attendance.total')}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {listStudent.map((item) => (
-                                    <tr key={item.id}>
-                                        <td className="td-attendance">
-                                            <img src={item.img} alt="" className="avatar-img" />
-                                        </td>
-                                        {/* <td className="td-attendance"><img alt="" src={require(item.img)} className="avatar-img" /></td> */}
-                                        <td className="td-attendance">
-                                            <p>{item.name}</p>
-                                        </td>
-                                        <td className="td-attendance">
-                                            <button
-                                                type="button"
-                                                onClick={() => handleCheckedAttendance(item.id)}
-                                            >
-                                                <img
-                                                    alt=""
-                                                    src={require(item.isCheck
-                                                        ? 'assets/images/icons/bee-green.png'
-                                                        : 'assets/images/icons/bee-red.png')}
-                                                    className="icon-bee"
-                                                />
-                                            </button>
-                                        </td>
-                                        <td className="td-attendance">
-                                            <input
-                                                type="text"
-                                                name="note"
-                                                className="input-note"
-                                                onChange={(e) =>
-                                                    handleChangeNote(item.id, e.target.value)
-                                                }
-                                            />
-                                        </td>
-                                        <td className="td-attendance">{item.total}/31</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <div className="submit-button">
-                            <button
-                                className="btn-submit"
-                                type="button"
-                                onClick={handleSaveAttendance}
-                            >
-                                {t('attendance.save')}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  const [dataStudentAttendance, setDataStudentAttendance] = useState([]);
+
+  const [fireUpdateAttendences] = useMutation(UppdateAttendancesDocument);
+
+  const students = useMemo(() => {
+    return studentData?.getClassById.students;
+  }, [studentData]);
+
+  useEffect(() => {
+    const newStudentAttendance = studentData?.getClassById?.students.map(
+      (student: any) => {
+        const attendances = attendanceData?.getAttendanceToday;
+        const indexAttendanceOfStudent = attendances?.findIndex(
+          (attendance) => {
+            return attendance.user_id === student.id;
+          }
+        );
+
+        if (
+          indexAttendanceOfStudent !== undefined &&
+          indexAttendanceOfStudent !== -1
+        ) {
+          return {
+            avatar: student.avatar,
+            username: student.firstName + ' ' + student.lastName,
+            id: student.id,
+            note: attendances?.[indexAttendanceOfStudent].note || '',
+            is_present:
+              attendances?.[indexAttendanceOfStudent].is_present || false,
+          };
+        }
+      }
     );
+
+    console.log('newStudentAttendance', newStudentAttendance);
+
+    setDataStudentAttendance(newStudentAttendance);
+  }, [studentData]);
+
+  const handleCheckedAttendance = (id: string): void => {
+    const indexOfStudent = dataStudentAttendance.findIndex(
+      (student: any) => student.id === id
+    );
+
+    if (indexOfStudent !== -1) {
+      const newDataStudentAttendance: any = [...dataStudentAttendance];
+
+      newDataStudentAttendance[indexOfStudent].is_present =
+        !newDataStudentAttendance[indexOfStudent].is_present;
+      setDataStudentAttendance(newDataStudentAttendance);
+    }
+  };
+
+  const handleChangeNote = (id: string, value: string): void => {
+    const indexOfStudent = dataStudentAttendance.findIndex(
+      (student: any) => student.id === id
+    );
+
+    console.log('value', {
+      indexOfStudent,
+      value,
+    });
+
+    if (indexOfStudent !== -1) {
+      const newDataStudentAttendance: any = [...dataStudentAttendance];
+
+      newDataStudentAttendance[indexOfStudent].note = value;
+      setDataStudentAttendance(newDataStudentAttendance);
+    }
+  };
+
+  const handleSaveAttendance = (): void => {
+    const payload: any = [];
+    // const schedule_id = scheduleData?.getScheduleByClass?.find((schedule_id) => schedule_id.id);
+
+    dataStudentAttendance?.map((student: any) => {
+      const studentPayload = {
+        user_id: student.id,
+        note: student.note,
+        is_present: student.is_present || false,
+      };
+
+      payload.push(studentPayload);
+    });
+
+    notification.open({
+      message: (
+        <>
+          <Spin /> &nbsp; Cập nhật điểm danh
+        </>
+      ),
+    });
+    try {
+      notification.destroy();
+      notification.success({
+        message: 'Cập nhật điểm danh thành công',
+      });
+      fireUpdateAttendences({
+        variables: {
+          attendanceClassInput: {
+            Attendance: payload,
+          },
+          schedule_id: scheduleData?.getScheduleByLearnDate.id as any,
+        },
+      });
+      console.log(payload);
+    } catch (error) {
+      notification.destroy();
+      notification.error({
+        message: 'Có lỗi xảy ra khi cập nhật điểm danh',
+      });
+    }
+  };
+
+  useEffect(() => {
+    const newAttendanceData: any = {};
+    attendanceData?.getAttendanceToday.forEach((att) => {
+      if (att.user_id) {
+        newAttendanceData[att.user_id] = {
+          user_id: att.user_id,
+          note: att.note,
+          is_present: att.is_present,
+        };
+      }
+    });
+  }, [attendanceData]);
+
+  return (
+    <div className="site_wrapper">
+      <div className="site_container">
+        <div className="attendance-page">
+          <BreadCrumb
+            routes={[
+              {
+                name: t('bread_crumb.home'),
+                path: '/',
+              },
+              {
+                name: t('bread_crumb.attendance'),
+                path: '/attendance',
+              },
+            ]}
+          />
+          <div className="attendance-container">
+            <table className="attendance-table">
+              <thead>
+                <tr>
+                  <th>{t('attendance.img')}</th>
+                  <th>{t('attendance.name')}</th>
+                  <th>{t('attendance.activity')}</th>
+                  <th>{t('attendance.note')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dataStudentAttendance?.map((student: any) => (
+                  <tr key={student.id}>
+                    <td className="td-attendance">
+                      <img
+                        src={
+                          student.avatar
+                            ? student.avatar
+                            : require('assets/images/avatar/4.jpg')
+                        }
+                        alt=""
+                        className="avatar-img"
+                      />
+                    </td>
+                    <td className="td-attendance">
+                      <p>{student.username}</p>
+                    </td>
+                    <td className="td-attendance">
+                      <button
+                        type="button"
+                        onClick={() => handleCheckedAttendance(student.id)}
+                      >
+                        <img
+                          alt=""
+                          src={require(student.is_present
+                            ? 'assets/images/icons/bee-green.png'
+                            : 'assets/images/icons/bee-red.png')}
+                          className="icon-bee"
+                        />
+                      </button>
+                    </td>
+                    <td className="td-attendance">
+                      <input
+                        type="text"
+                        name="note"
+                        value={student.note}
+                        className="input-note"
+                        onChange={(e) =>
+                          handleChangeNote(student.id, e.target.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="submit-button">
+              <button
+                className="btn-submit"
+                type="button"
+                onClick={handleSaveAttendance}
+              >
+                {t('attendance.save')}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Attendance;

@@ -29,7 +29,7 @@ export default {
 
   my_class: {
     // Label
-    filter: 'Bộ lộc',
+    filter: 'Bộ lọc',
     start_date: 'Ngày bắt đầu',
     end_date: 'Ngày kết thúc',
     status: 'Trạng thái',
@@ -41,7 +41,8 @@ export default {
     schedule: 'Lịch học',
     rotating: 'Ô quay',
     table_score: 'Bảng điểm',
-    give_assignment: 'Giao bài tập',
+    give_assignment: 'Giao bài kiểm tra',
+    list_assignment: 'Danh sách bài kiểm tra',
     my_history_attendance: 'Lịch sử điểm danh của tôi',
 
     // Fied

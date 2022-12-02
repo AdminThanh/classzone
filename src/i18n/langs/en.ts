@@ -8,7 +8,7 @@ export default {
     class_management: 'Class management',
     add_question: 'Add question',
     create_question: 'Create question',
-    assignment: "Assignment"
+    assignment: 'Assignment',
   },
   user_control: {
     account_management: 'Account management',
@@ -39,7 +39,8 @@ export default {
     rotating: 'Rotating umbrella',
     table_score: 'Table score',
     give_assignment: 'Give assignment',
-    my_history_attendance: "My history attendance",
+    list_assignment: 'List assignment',
+    my_history_attendance: 'My history attendance',
 
     // Fied
     qr_code: 'Code',

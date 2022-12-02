@@ -11,13 +11,15 @@ import {
 } from 'gql/graphql';
 import moment from 'moment';
 import './calendar.scss';
+import { useParams } from 'react-router';
 
 const Calendars = (props: any) => {
   const { endDate, fromDate } = props;
   const [selectedDate, setSelectedDate] = useState<any>(null);
+  const { classId = '' } = useParams();
   const { data, loading, refetch } = useQuery(GetScheduleByClassDocument, {
     variables: {
-      id: '584fd188-fabf-454b-9158-66c027ef06c7',
+      id: classId,
     },
   });
   const [fireUpdateAttendences] = useMutation(UpdateSchedulesDocument);
@@ -100,7 +102,7 @@ const Calendars = (props: any) => {
           updateSchedulesInput: {
             Schedules: payload,
           },
-          class_id: '584fd188-fabf-454b-9158-66c027ef06c7',
+          class_id: classId,
         },
       });
     } catch (err) {
