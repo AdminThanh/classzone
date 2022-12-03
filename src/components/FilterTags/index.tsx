@@ -18,6 +18,7 @@ interface IFilterTags {
   placeholder?: string;
   isShowTagControl?: boolean;
   opts?: IOptionTag[];
+  listTags?: any;
   onChange?: (value: string[]) => void;
 }
 
@@ -26,6 +27,7 @@ const FilterTags = (props: IFilterTags) => {
     isShowTagControl = false,
     placeholder = '',
     opts,
+    listTags,
     onChange: handleChange,
   } = props;
   const [form] = useForm();
@@ -57,7 +59,7 @@ const FilterTags = (props: IFilterTags) => {
       });
     }
   };
-  
+
   return (
     <Form form={form}>
       <Select

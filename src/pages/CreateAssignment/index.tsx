@@ -101,7 +101,7 @@ const CreateAssignment = () => {
     form.setFieldsValue({
       asssignment_name: data?.getExamById?.name,
       question_ids: question_ids,
-      tags: data?.getExamById?.tags,
+      tags: data?.getExamById?.tags?.map((item) => item.id),
     });
   }, [data]);
 
@@ -139,8 +139,6 @@ const CreateAssignment = () => {
     {
       render: (record, value) => (
         <div className="questionItem-drag__action">
-          {/* <UpdateIcon /> */}
-
           <BinIcon onClick={() => handleDeleteQuestion(value.key)} />
         </div>
       ),
@@ -164,11 +162,6 @@ const CreateAssignment = () => {
         oldIndex,
         newIndex
       ).filter((el: DataType) => !!el);
-
-      const question_ids = newData.map((item) => item.key);
-      form.setFieldsValue({
-        question_ids: question_ids,
-      });
       setDataQuestionList(newData);
     }
   };
@@ -210,6 +203,8 @@ const CreateAssignment = () => {
     ],
     []
   );
+
+  const listTags = data?.getExamById?.tags?.map((item) => item.name);
 
   const handleAxam = async (value: any) => {
     console.log(value);
@@ -300,7 +295,11 @@ const CreateAssignment = () => {
                 <Input />
               </Form.Item>
               <Form.Item name="tags" label={t('create_assignment.tag')}>
-                <FilterTags opts={tagOpts} isShowTagControl />
+                <FilterTags
+                  listTags={listTags}
+                  opts={tagOpts}
+                  isShowTagControl
+                />
               </Form.Item>
             </div>
 
@@ -356,8 +355,8 @@ const CreateAssignment = () => {
         <QuestionTable
           dataQuestionList={dataQuestionList}
           setDataQuestionList={(dataQuestionList: any) => {
-            // const question_ids = dataQuestionList.map((q: DataType) => q.key);
-            // form.setFieldValue('question_ids', question_ids);
+            const question_ids = dataQuestionList.map((q: DataType) => q.key);
+            form.setFieldValue('question_ids', question_ids);
             setDataQuestionList(dataQuestionList);
           }}
         />

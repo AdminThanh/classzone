@@ -54,11 +54,6 @@ function ExamManagement() {
   const navigate = useNavigate();
   const { data, refetch } = useQuery(GetMyExamDocument);
   console.log(data);
-
-  const HandleRefetchMyExam = () => {
-    refetch();
-  };
-
   const [fireDeleteExam] = useMutation(DeleteExamDocument);
   const handleDelete = async (id: string) => {
     console.log(id);
@@ -72,7 +67,7 @@ function ExamManagement() {
         key: 'success',
         message: t('action.delete_success'),
       });
-      // refetch();
+      refetch();
     } catch (error) {
       notification.error({
         key: 'error',
@@ -121,8 +116,10 @@ function ExamManagement() {
             {data?.getMyExam?.map((item, index) => (
               <tr key={index}>
                 <td className="td-management">
-                  {item.tags?.map((tag) => (
-                    <Tag color={tag.color}>{tag.name}</Tag>
+                  {item.tags?.map((tag, key) => (
+                    <Tag key={key} color={tag.color}>
+                      {tag.name}
+                    </Tag>
                   ))}
                 </td>
                 <td className="td-management">

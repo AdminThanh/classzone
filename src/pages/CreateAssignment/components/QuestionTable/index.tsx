@@ -73,10 +73,11 @@ const QuestionTable: React.FC<any> = (props) => {
     dataQuestionList,
   } = props;
 
-  console.log('dataQuestionList', dataQuestionList);
-
+  const listIDSelected = dataQuestionList?.map(
+    (item: any) => item.id as React.Key[]
+  );
   const [listQuestion, setListQuestion] = useState<DataType[]>([]);
-  const [selectedKey, setSelectedKey] = useState<React.Key[]>(questionIds);
+  const [selectedKey, setSelectedKey] = useState<React.Key[]>(listIDSelected);
 
   const handleSelectKey = (
     selectedRowKeys: React.Key[],
