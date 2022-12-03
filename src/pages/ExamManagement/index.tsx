@@ -1,7 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { notification, Popconfirm, Tag } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
-import { DeleteExamDocument, GetAllExamDocument } from 'gql/graphql';
+import {
+  DeleteExamDocument,
+  GetAllExamDocument,
+  GetMyExamDocument,
+} from 'gql/graphql';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
@@ -48,9 +52,9 @@ function ExamManagement() {
   const [listExam, setListExam] = useState<any[]>(dataStudent);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data, refetch } = useQuery(GetAllExamDocument);
+  const { data, refetch } = useQuery(GetMyExamDocument);
+  console.log(data);
   const [fireDeleteExam] = useMutation(DeleteExamDocument);
-  refetch();
   const handleDelete = async (id: string) => {
     console.log(id);
     try {
@@ -109,11 +113,13 @@ function ExamManagement() {
             </tr>
           </thead>
           <tbody>
-            {data?.getAllExam?.map((item, index) => (
+            {data?.getMyExam?.map((item, index) => (
               <tr key={index}>
                 <td className="td-management">
-                  {item.tags?.map((tag) => (
-                    <Tag color={tag.color}>{tag.name}</Tag>
+                  {item.tags?.map((tag, key) => (
+                    <Tag key={key} color={tag.color}>
+                      {tag.name}
+                    </Tag>
                   ))}
                 </td>
                 <td className="td-management">

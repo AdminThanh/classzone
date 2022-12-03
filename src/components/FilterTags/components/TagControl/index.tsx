@@ -38,7 +38,7 @@ const TagControl = (props: any) => {
     setTagValues({
       ...tagValues,
       name: e?.target?.value || '',
-    });
+    })    
   };
 
   const handleChangeTagColorUsingInput = useCallback(

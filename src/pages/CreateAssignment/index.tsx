@@ -29,20 +29,33 @@ import {
 } from 'react-sortable-hoc';
 import QuestionTable from './components/QuestionTable';
 import { renderHTML } from 'pages/Question';
-import { useMutation } from '@apollo/client';
-import { CreateExamDocument } from 'gql/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  CreateExamDocument,
+  GetExamByIdDocument,
+  UpdateExamDocument,
+} from 'gql/graphql';
+import { useParams } from 'react-router-dom';
 
 interface IQuestions {
-  _id: string;
+  id: string;
   // order: number;
   question: string;
 }
 
+interface IDataTypeQuestion {
+  id: string;
+  key: string;
+  question: string;
+  // tags: string[];
+  index: number;
+}
 interface DataType {
   key: string;
   question: string;
   tags: string[];
   index: number;
+  name: string;
 }
 
 const DragHandle = SortableHandle(() => (
@@ -60,8 +73,37 @@ const CreateAssignment = () => {
   const [dataQuestionList, setDataQuestionList] = useState<DataType[]>([]);
   const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(false);
   const [fireCreateExam] = useMutation(CreateExamDocument);
+  const [fireUpdateExam] = useMutation(UpdateExamDocument);
   const { t } = useTranslation();
   const [form] = useForm();
+  const { examId } = useParams();
+  const skip = examId ? false : true;
+  const { data, refetch } = useQuery(GetExamByIdDocument, {
+    variables: {
+      id: examId as string,
+    },
+    skip,
+  });
+
+  useEffect(() => {
+    const dataExam = data?.getExamById?.questions?.map((item, index) => ({
+      id: item.id,
+      key: item.id,
+      question: item.question,
+      tags: item.tags,
+      index: index,
+    }));
+
+    if (dataExam) {
+      setDataQuestionList(dataExam as any);
+    }
+    const question_ids = data?.getExamById?.questions.map((q: any) => q.id);
+    form.setFieldsValue({
+      asssignment_name: data?.getExamById?.name,
+      question_ids: question_ids,
+      tags: data?.getExamById?.tags?.map((item) => item.id),
+    });
+  }, [data]);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -75,7 +117,17 @@ const CreateAssignment = () => {
       dataIndex: 'tags',
       width: 30,
       className: 'drag-visible table__tag',
-      render: (_) => <Tag color="#2db7f5">HTML</Tag>,
+      render: (tags) => (
+        <>
+          {tags.map((tag: any, index: any) => {
+            return (
+              <Tag color={tag.color} key={index}>
+                {tag.name}
+              </Tag>
+            );
+          })}
+        </>
+      ),
     },
     {
       title: t('my_quession.quession'),
@@ -87,8 +139,6 @@ const CreateAssignment = () => {
     {
       render: (record, value) => (
         <div className="questionItem-drag__action">
-          {/* <UpdateIcon /> */}
-
           <BinIcon onClick={() => handleDeleteQuestion(value.key)} />
         </div>
       ),
@@ -112,11 +162,6 @@ const CreateAssignment = () => {
         oldIndex,
         newIndex
       ).filter((el: DataType) => !!el);
-
-      const question_ids = newData.map((item) => item.key);
-      form.setFieldsValue({
-        question_ids: question_ids,
-      });
       setDataQuestionList(newData);
     }
   };
@@ -140,53 +185,86 @@ const CreateAssignment = () => {
     const index = dataQuestionList.findIndex(
       (x) => x.index === restProps['data-row-key']
     );
-    console.log(index);
-
     return <SortableItem index={index} {...restProps} />;
   };
 
-  const tagOpts: IOptionTag[] = useMemo(
+  const tagOpts: any[] = useMemo(
     () => [
       {
-        label: 'Tiếng Anh',
-        value: '1',
+        color: '#28ffe8',
+        id: 'd6eadcf0-7da8-4aa2-9c6a-7fec720bd618',
+        name: 'CSS',
       },
       {
-        label: 'Tiếng Đức',
-        value: '2',
+        color: '#28ffe8',
+        id: 'd6eadcf0-7da8-4aa2-9c6a-7fec720bd618',
+        name: 'CSS',
       },
     ],
     []
   );
+
+  const listTags = data?.getExamById?.tags?.map((item) => item.name);
+
   const handleAxam = async (value: any) => {
     console.log(value);
-
-    try {
-      await fireCreateExam({
-        variables: {
-          createExamInput: {
-            name: value.asssignment_name as string | '',
-            questions: value.question_ids,
-            tags: value.tags,
+    if (examId) {
+      try {
+        await fireUpdateExam({
+          variables: {
+            updateExamInput: {
+              name: value.asssignment_name as string | '',
+              questions: value.question_ids,
+              tags: value.tags,
+            },
+            id: examId,
           },
-        },
-      });
-      notification.success({
-        key: 'success',
-        message: t('action.add_success'),
-      });
-    } catch (error) {
-      notification.error({
-        key: 'error',
-        message: t('action.add_error'),
-      });
+        });
+        notification.success({
+          key: 'success',
+          message: t('action.edit_success'),
+        });
+        refetch();
+      } catch (error) {
+        notification.error({
+          key: 'error',
+          message: t('action.edit_error'),
+        });
+      }
+    } else {
+      try {
+        await fireCreateExam({
+          variables: {
+            createExamInput: {
+              name: value.asssignment_name as string | '',
+              questions: value.question_ids,
+              tags: value.tags,
+            },
+          },
+        });
+        notification.success({
+          key: 'success',
+          message: t('action.add_success'),
+        });
+      } catch (error) {
+        notification.error({
+          key: 'error',
+          message: t('action.add_error'),
+        });
+      }
     }
-    
   };
 
   return (
     <div className="create-assignment">
       {/* Nav & Breadcrumb */}
+      <button
+        onClick={() => {
+          console.log(form.getFieldsValue());
+        }}
+      >
+        show
+      </button>
       <Form
         form={form}
         onFinish={(value) => {
@@ -217,7 +295,11 @@ const CreateAssignment = () => {
                 <Input />
               </Form.Item>
               <Form.Item name="tags" label={t('create_assignment.tag')}>
-                <FilterTags opts={tagOpts} isShowTagControl />
+                <FilterTags
+                  listTags={listTags}
+                  opts={tagOpts}
+                  isShowTagControl
+                />
               </Form.Item>
             </div>
 
@@ -271,9 +353,9 @@ const CreateAssignment = () => {
         width="90%"
       >
         <QuestionTable
+          dataQuestionList={dataQuestionList}
           setDataQuestionList={(dataQuestionList: any) => {
             const question_ids = dataQuestionList.map((q: DataType) => q.key);
-
             form.setFieldValue('question_ids', question_ids);
             setDataQuestionList(dataQuestionList);
           }}

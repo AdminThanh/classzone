@@ -1,11 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { notification, Select } from 'antd';
+import { Form, notification, Select } from 'antd';
 import { DeleteTagDocument, GetTagDocument } from 'gql/graphql';
 import { deleteTag } from 'graphql/tags';
+import { useForm } from 'antd/es/form/Form';
 import { useTranslation } from 'react-i18next';
 import { BinIcon } from 'utils/drawer';
 import TagControl from './components/TagControl';
 import './FilterTags.scss';
+import Item from 'antd/lib/list/Item';
 
 export interface IOptionTag {
   label: string;
@@ -16,6 +18,7 @@ interface IFilterTags {
   placeholder?: string;
   isShowTagControl?: boolean;
   opts?: IOptionTag[];
+  listTags?: any;
   onChange?: (value: string[]) => void;
 }
 
@@ -24,12 +27,14 @@ const FilterTags = (props: IFilterTags) => {
     isShowTagControl = false,
     placeholder = '',
     opts,
+    listTags,
     onChange: handleChange,
   } = props;
+  const [form] = useForm();
+  const { t } = useTranslation();
 
   const { data, refetch } = useQuery(GetTagDocument);
   const [fireDeleteTag] = useMutation(DeleteTagDocument);
-
   const handleRefetch = () => {
     refetch();
   };
@@ -38,9 +43,9 @@ const FilterTags = (props: IFilterTags) => {
     try {
       await fireDeleteTag({
         variables: {
-          id: id
-        }
-      })
+          id: id,
+        },
+      });
       handleRefetch();
       notification.success({
         key: 'success',
@@ -55,10 +60,8 @@ const FilterTags = (props: IFilterTags) => {
     }
   };
 
-  const { t } = useTranslation();
-
   return (
-    <div>
+    <Form form={form}>
       <Select
         mode="multiple"
         style={{ width: '100%' }}
@@ -68,21 +71,20 @@ const FilterTags = (props: IFilterTags) => {
         popupClassName="filter_popup"
         {...(isShowTagControl
           ? {
-            dropdownRender: (menu) => {
-              return (
-                <>
-                  {menu}
-                  <TagControl handleRefetch={handleRefetch}
-                  />
-                </>
-              );
-            },
-          }
+              dropdownRender: (menu) => {
+                return (
+                  <>
+                    {menu}
+                    <TagControl handleRefetch={handleRefetch} />
+                  </>
+                );
+              },
+            }
           : {})}
       >
         {data?.getTag.map((opt) => (
           <Select.Option
-            key={opt._id}
+            key={opt.id}
             className="filter__tagItem"
             value={opt.id}
           >
@@ -93,7 +95,7 @@ const FilterTags = (props: IFilterTags) => {
           </Select.Option>
         ))}
       </Select>
-    </div>
+    </Form>
   );
 };
 

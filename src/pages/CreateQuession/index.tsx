@@ -61,6 +61,7 @@ const CreateQuession = () => {
 
   const handleQuestion = async (formData: any) => {
     console.log('Payload:', formData);
+
     if (questionId.questionId) {
       try {
         await fireUpdateQuestion({
@@ -92,6 +93,7 @@ const CreateQuession = () => {
               question: formData.question,
               correctAnswer: formData.answer,
               isMultiple: formData.isMultiple || false,
+              tags: formData.tag_ids,
             },
           },
         });
