@@ -51,7 +51,7 @@ export const routes: IRoute[] = [
   {
     path: '/',
     element: Classes,
-    role: ['teacher', "student"],
+    role: ['teacher', 'student'],
     layout: TeacherLayout,
   },
   {
@@ -82,7 +82,7 @@ export const routes: IRoute[] = [
     // path: '/join_cLass/:classId/:studentId',
     path: '/join_class/:classId',
     element: JoinClass,
-    role: ['teacher'],
+    role: ['student'],
     // layout: TeacherLayout,
   },
   {

@@ -19,20 +19,40 @@ export const getAllExam = graphql(`
     }
   }
 `);
-
 export const getMyExam = graphql(`
-  query getMyExam{
-  getMyExam{
-    name
-    id
-    tags{
+  query getMyExam {
+    getMyExam {
+      id
       name
-      color
+      tags {
+        name
+        color
+      }
     }
   }
-}
-`)
-
+`);
+export const getExamById = graphql(`
+  query getExamById($id: String!) {
+    getExamById(id: $id) {
+      id
+      name
+      questions {
+        id
+        question
+        tags {
+          id
+          name
+          color
+        }
+      }
+      tags {
+        id
+        name
+        color
+      }
+    }
+  }
+`);
 
 export const createExam = graphql(`
   mutation createExam($createExamInput: CreateExamInput!) {
@@ -50,7 +70,27 @@ export const createExam = graphql(`
     }
   }
 `);
-
+export const updateExam = graphql(`
+  mutation updateExam($updateExamInput: UpdateExamInput!, $id: String!) {
+    updateExam(updateExamInput: $updateExamInput, id: $id) {
+      name
+      tags {
+        name
+        color
+        id
+      }
+      questions {
+        id
+        question
+        tags {
+          name
+          color
+          id
+        }
+      }
+    }
+  }
+`);
 export const deleteExam = graphql(`
   mutation deleteExam($id: String!) {
     deleteExam(id: $id)
