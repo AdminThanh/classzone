@@ -96,3 +96,20 @@ export const deleteExam = graphql(`
     deleteExam(id: $id)
   }
 `);
+
+export const createExamClass = graphql(`
+  mutation createExamClass($createExamClassInput: CreateExamClassInput!){
+    createExamClass(createExamClassInput: $createExamClassInput){
+      exam{
+        id
+      }
+      classRoom{
+        id
+      }
+      isAllowReview
+      minutes
+      dateFrom
+      dateEnd
+    }
+  }
+`)
