@@ -16,6 +16,16 @@ export const getColumnScoreByClass = graphql(`
   }
 `);
 
+export const getBadgeByClass = graphql(`
+  query getBadgeByClass($class_id: String!) {
+    getBadgeByClass(class_id: $class_id) {
+      id
+      name
+      type
+    }
+  }
+`);
+
 export const createColumnScoreByClass = graphql(`
   mutation createColumnScore($inputCreateColumnScore: CreateColumnScoreInput!) {
     createColumnScore(createAttendanceInput: $inputCreateColumnScore) {

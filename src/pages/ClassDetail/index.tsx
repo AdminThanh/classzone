@@ -1,9 +1,15 @@
-import { Tabs } from 'antd';
+import { notification, Tabs } from 'antd';
 import TaskbarFooter from 'components/TaskbarFooter';
 import StudentList from 'pages/ClassDetail/components/StudentList';
 import { useParams } from 'react-router-dom';
 import GroupList from '../GroupList';
 import './ClassDetail.scss';
+import { useEffect, useState } from 'react';
+import Modal from 'antd/lib/modal/Modal';
+import PopupBadge from './components/PopupBadge';
+import socket from 'utils/socket';
+import { useQuery } from '@apollo/client';
+import { GetBadgeByClassDocument, ScoreType } from 'gql/graphql';
 
 interface IStudentInfo {
   _id: string;
@@ -218,14 +224,95 @@ const dataStudent: IStudentInfo[] = [
 
 const ClassDetail = () => {
   let { classId } = useParams();
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [badgeModal, setBadgeModal] = useState<any>({
+    data: null,
+    isOpen: false,
+  });
+  const { data: resBadges } = useQuery(GetBadgeByClassDocument, {
+    variables: {
+      class_id: classId || '',
+    },
+  });
+
+  console.log('badges', resBadges?.getBadgeByClass);
+
+  useEffect(() => {
+    socket.emit('join_class', classId);
+  }, [classId]);
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      setIsConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      setIsConnected(false);
+    });
+
+    socket.on('join_class', () => {
+      // setLastPong(new Date().toISOString());
+      console.log('Message');
+    });
+
+    socket.on('receive_message', (data) => {
+      console.log('Nhận tin nhắn', data);
+    });
+
+    socket.on('receive_badge', (data) => {
+      console.log('data', data);
+      if (data.type === ScoreType.Minus) {
+        notification.error({
+          message: data.message,
+        });
+      }
+
+      if (data.type === ScoreType.Plus) {
+        notification.success({
+          message: data.message,
+        });
+      }
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('message');
+      socket.off('receive_badge');
+      socket.off('receive_message');
+    };
+  }, []);
+
+  const handleSubmitNewMessage = () => {
+    socket.emit('send_message', {
+      room: classId,
+      message: 'CCCC',
+    });
+  };
+
+  const handleOpenBadgeStudent = (id: string, username: string) => {
+    setBadgeModal({
+      data: {
+        id,
+        username,
+      },
+      isOpen: true,
+    });
+  };
+
   return (
     <div className="site_wrapper">
       <div className="site_container">
         <div className="classdetail">
+          <button onClick={handleSubmitNewMessage}>ASDSA</button>
           <div className="classdetail__tab">
             <Tabs defaultActiveKey="1">
               <Tabs.TabPane tab="Học sinh" key="1">
-                <StudentList classId={classId} dataStudent={dataStudent} />
+                <StudentList
+                  handleOpenBadgeStudent={handleOpenBadgeStudent}
+                  classId={classId}
+                  dataStudent={dataStudent}
+                />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Nhóm" key="2">
                 <GroupList dataGroup={dataGroup} />
@@ -235,6 +322,23 @@ const ClassDetail = () => {
         </div>
       </div>
       <TaskbarFooter />
+
+      <Modal
+        onCancel={() =>
+          setBadgeModal({
+            ...badgeModal,
+            isOpen: false,
+          })
+        }
+        footer={false}
+        className="popup-badge__modal"
+        open={badgeModal.isOpen}
+      >
+        <PopupBadge
+          badges={resBadges?.getBadgeByClass}
+          data={badgeModal.data}
+        />
+      </Modal>
     </div>
   );
 };

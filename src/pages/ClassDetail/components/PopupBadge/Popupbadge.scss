@@ -1,0 +1,53 @@
+.popup-badge__modal {
+  .ant-modal-body {
+    padding: 0;
+  }
+
+  .popup-badge {
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    min-height: 50vh;
+  }
+
+  .popup-badge__skeleton {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    // justify-content: space-around;
+  }
+
+  .popup-badge__skin {
+    padding: 10px;
+  }
+
+  .popup-badge__badge-item-skin {
+    width: 25%;
+    padding: 10px;
+  }
+
+  .popup-badge__badge-item-skeleton {
+    border-radius: 6px;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #000;
+    text-align: center;
+    cursor: pointer;
+
+    &--correctly {
+      color: green;
+    }
+
+    &--incorrectly {
+      color: red;
+    }
+
+    &:hover {
+        background-color: rgb(87, 89, 218);
+        color: #fff
+    }
+  }
+
+  .popup-badge__badge-item-label {
+  }
+}

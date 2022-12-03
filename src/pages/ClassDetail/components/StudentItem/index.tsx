@@ -2,10 +2,13 @@ import './StudentItem.scss';
 import { Avatar } from 'antd';
 
 const StudentItem = (props: any) => {
-  const { avatar, name, _id } = props;
+  const { avatar, name, id, handleOpenBadgeStudent } = props;
 
   return (
-    <div className="student-item">
+    <div
+      className="student-item"
+      onClick={() => handleOpenBadgeStudent(id, name)}
+    >
       <Avatar src={avatar && avatar}>{name.charAt(0).toUpperCase()}</Avatar>
       <div className="name">
         <a>{name}</a>
