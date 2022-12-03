@@ -20,6 +20,20 @@ export const getAllExam = graphql(`
   }
 `);
 
+export const getMyExam = graphql(`
+  query getMyExam{
+  getMyExam{
+    name
+    id
+    tags{
+      name
+      color
+    }
+  }
+}
+`)
+
+
 export const createExam = graphql(`
   mutation createExam($createExamInput: CreateExamInput!) {
     createExam(createExamInput: $createExamInput) {
@@ -36,8 +50,26 @@ export const createExam = graphql(`
     }
   }
 `);
+
 export const deleteExam = graphql(`
   mutation deleteExam($id: String!) {
     deleteExam(id: $id)
   }
 `);
+
+export const createExamClass = graphql(`
+  mutation createExamClass($createExamClassInput: CreateExamClassInput!){
+    createExamClass(createExamClassInput: $createExamClassInput){
+      exam{
+        id
+      }
+      classRoom{
+        id
+      }
+      isAllowReview
+      minutes
+      dateFrom
+      dateEnd
+    }
+  }
+`)

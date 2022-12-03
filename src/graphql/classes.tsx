@@ -46,6 +46,7 @@ export const getClassById = gql`
     getClassById(id: $id) {
       name
       avatar
+      scoreFactor
       students {
         id
         lastName
