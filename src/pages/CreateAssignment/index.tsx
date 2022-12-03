@@ -95,19 +95,14 @@ const CreateAssignment = () => {
     }));
 
     if (dataExam) {
-      console.log('dataExam', dataExam);
-      console.log('dataQuestionList', dataQuestionList);
       setDataQuestionList(dataExam as any);
-      console.log('dataQuestionList', dataQuestionList);
     }
     const question_ids = data?.getExamById?.questions.map((q: any) => q.id);
     form.setFieldsValue({
       asssignment_name: data?.getExamById?.name,
-      // tags: dataExam?.tags,
       question_ids: question_ids,
+      tags: data?.getExamById?.tags,
     });
-
-    // console.log('dataExam', dataExam);
   }, [data]);
 
   const columns: ColumnsType<DataType> = [
@@ -200,15 +195,17 @@ const CreateAssignment = () => {
     return <SortableItem index={index} {...restProps} />;
   };
 
-  const tagOpts: IOptionTag[] = useMemo(
+  const tagOpts: any[] = useMemo(
     () => [
       {
-        label: 'Tiếng Anh',
-        value: '1',
+        color: '#28ffe8',
+        id: 'd6eadcf0-7da8-4aa2-9c6a-7fec720bd618',
+        name: 'CSS',
       },
       {
-        label: 'Tiếng Đức',
-        value: '2',
+        color: '#28ffe8',
+        id: 'd6eadcf0-7da8-4aa2-9c6a-7fec720bd618',
+        name: 'CSS',
       },
     ],
     []
