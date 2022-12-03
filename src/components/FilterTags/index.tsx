@@ -38,9 +38,9 @@ const FilterTags = (props: IFilterTags) => {
     try {
       await fireDeleteTag({
         variables: {
-          id: id
-        }
-      })
+          id: id,
+        },
+      });
       handleRefetch();
       notification.success({
         key: 'success',
@@ -68,16 +68,15 @@ const FilterTags = (props: IFilterTags) => {
         popupClassName="filter_popup"
         {...(isShowTagControl
           ? {
-            dropdownRender: (menu) => {
-              return (
-                <>
-                  {menu}
-                  <TagControl handleRefetch={handleRefetch}
-                  />
-                </>
-              );
-            },
-          }
+              dropdownRender: (menu) => {
+                return (
+                  <>
+                    {menu}
+                    <TagControl handleRefetch={handleRefetch} />
+                  </>
+                );
+              },
+            }
           : {})}
       >
         {data?.getTag.map((opt) => (

@@ -7,6 +7,11 @@ export const createQuestion = gql`
       question
       answers
       isMultiple
+      tags {
+        id
+        name
+        color
+      }
     }
   }
 `;
@@ -35,6 +40,22 @@ export const getAllQuestion = gql`
     }
   }
 `;
+
+export const getMyQuestion = gql`
+  query getMyQuestion {
+    getMyQuestion {
+      id
+      question
+      createdAt
+      tags {
+        id
+        name
+        color
+      }
+    }
+  }
+`;
+
 export const updateQuestion = gql`
   mutation updateQuestion(
     $updateQuestionInput: UpdateQuestionInput!

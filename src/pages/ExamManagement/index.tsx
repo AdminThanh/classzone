@@ -1,7 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { notification, Popconfirm, Tag } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
-import { DeleteExamDocument, GetAllExamDocument, GetMyExamDocument } from 'gql/graphql';
+import {
+  DeleteExamDocument,
+  GetAllExamDocument,
+  GetMyExamDocument,
+} from 'gql/graphql';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
@@ -50,9 +54,12 @@ function ExamManagement() {
   const navigate = useNavigate();
   const { data, refetch } = useQuery(GetMyExamDocument);
   console.log(data);
-  
+
+  const HandleRefetchMyExam = () => {
+    refetch();
+  };
+
   const [fireDeleteExam] = useMutation(DeleteExamDocument);
-  refetch();
   const handleDelete = async (id: string) => {
     console.log(id);
     try {
@@ -65,7 +72,7 @@ function ExamManagement() {
         key: 'success',
         message: t('action.delete_success'),
       });
-      refetch();
+      // refetch();
     } catch (error) {
       notification.error({
         key: 'error',

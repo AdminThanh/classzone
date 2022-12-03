@@ -39,6 +39,11 @@ export const getExamById = graphql(`
       questions {
         id
         question
+        tags {
+          id
+          name
+          color
+        }
       }
       tags {
         id
@@ -61,6 +66,27 @@ export const createExam = graphql(`
       questions {
         question
         answers
+      }
+    }
+  }
+`);
+export const updateExam = graphql(`
+  mutation updateExam($updateExamInput: UpdateExamInput!, $id: String!) {
+    updateExam(updateExamInput: $updateExamInput, id: $id) {
+      name
+      tags {
+        name
+        color
+        id
+      }
+      questions {
+        id
+        question
+        tags {
+          name
+          color
+          id
+        }
       }
     }
   }
