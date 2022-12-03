@@ -7,7 +7,11 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import BreadCrumb from 'components/BreadCrumb';
-import { DeleteQuestionDocument, GetAllQuestionDocument } from 'gql/graphql';
+import {
+  DeleteQuestionDocument,
+  GetAllQuestionDocument,
+  GetMyQuestionDocument,
+} from 'gql/graphql';
 import i18next from 'i18next';
 import moment from 'moment';
 import React from 'react';
@@ -27,22 +31,19 @@ interface IQuession {
 }
 
 export const renderHTML = (rawHTML: string) =>
-React.createElement('div', {
-  dangerouslySetInnerHTML: { __html: rawHTML },
-});
+  React.createElement('div', {
+    dangerouslySetInnerHTML: { __html: rawHTML },
+  });
 
 const Question = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { data, refetch } = useQuery(GetAllQuestionDocument);
-  const dataTableQuession = data?.getAllQuestion;
+  const { data, refetch } = useQuery(GetMyQuestionDocument);
+
+  const dataTableQuession = data?.getMyQuestion;
   const [fireDeleteQuestion] = useMutation(DeleteQuestionDocument);
 
-  refetch();
-
-  console.log(dataTableQuession);
-
- 
+  console.log('dataTableQuession', dataTableQuession);
 
   const confirm = async (questionId: string) => {
     try {
@@ -55,7 +56,7 @@ const Question = () => {
         type: 'success',
         content: t('action.delete_success'),
       });
-      // refetch();
+      refetch();
     } catch {
       message.error({
         type: 'error',
@@ -65,22 +66,22 @@ const Question = () => {
   };
 
   const columns: ColumnsType<IQuession> = [
-    // {
-    //   title: t('my_quession.tags'),
-    //   key: 'tags',
-    //   dataIndex: 'tags',
-    //   render: (_, { tags }) => (
-    //     <>
-    //       {tags.map((tag, index) => {
-    //         return (
-    //           <Tag color={tag.color} key={index}>
-    //             {tag.name}
-    //           </Tag>
-    //         );
-    //       })}
-    //     </>
-    //   ),
-    // },
+    {
+      title: t('my_quession.tags'),
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (tags) => (
+        <>
+          {tags.map((tag: any, index: any) => {
+            return (
+              <Tag color={tag.color} key={index}>
+                {tag.name}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
     {
       title: t('my_quession.quession'),
       dataIndex: 'question',

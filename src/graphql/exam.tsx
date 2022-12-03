@@ -19,6 +19,42 @@ export const getAllExam = graphql(`
     }
   }
 `);
+export const getMyExam = graphql(`
+  query getMyExam {
+    getMyExam {
+      id
+      name
+      tags {
+        name
+        color
+      }
+    }
+  }
+`);
+
+export const getExamById = graphql(`
+  query getExamById($id: String!) {
+    getExamById(id: $id) {
+      id
+      name
+      createdAt
+      questions {
+        id
+        question
+        tags {
+          id
+          name
+          color
+        }
+      }
+      tags {
+        id
+        name
+        color
+      }
+    }
+  }
+`);
 
 export const getAllExamClass = graphql(`
   query getAllExamClass {
@@ -29,23 +65,6 @@ export const getAllExamClass = graphql(`
       dateEnd
       scoreFactor
       isAllowReview
-    }
-  }
-`);
-export const getExamById = graphql(`
-  query getExamById($id: String!) {
-    getExamById(id: $id) {
-      id
-      name
-      questions {
-        question
-        id
-      }
-      tags {
-        name
-        color
-      }
-      createdAt
     }
   }
 `);
@@ -66,8 +85,46 @@ export const createExam = graphql(`
     }
   }
 `);
+export const updateExam = graphql(`
+  mutation updateExam($updateExamInput: UpdateExamInput!, $id: String!) {
+    updateExam(updateExamInput: $updateExamInput, id: $id) {
+      name
+      tags {
+        name
+        color
+        id
+      }
+      questions {
+        id
+        question
+        tags {
+          name
+          color
+          id
+        }
+      }
+    }
+  }
+`);
 export const deleteExam = graphql(`
   mutation deleteExam($id: String!) {
     deleteExam(id: $id)
+  }
+`);
+
+export const createExamClass = graphql(`
+  mutation createExamClass($createExamClassInput: CreateExamClassInput!) {
+    createExamClass(createExamClassInput: $createExamClassInput) {
+      exam {
+        id
+      }
+      classRoom {
+        id
+      }
+      isAllowReview
+      minutes
+      dateFrom
+      dateEnd
+    }
   }
 `);

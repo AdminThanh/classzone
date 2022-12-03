@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { GetAllQuestionDocument } from 'gql/graphql';
+import { GetAllQuestionDocument, GetMyQuestionDocument } from 'gql/graphql';
 import { renderHTML } from 'pages/Question';
 import React, { useEffect, useState } from 'react';
 
@@ -65,10 +65,19 @@ interface DataType {
 }
 
 const QuestionTable: React.FC<any> = (props) => {
-  const { questionIds, handleCancel, handleOk, setDataQuestionList } = props;
+  const {
+    questionIds,
+    handleCancel,
+    handleOk,
+    setDataQuestionList,
+    dataQuestionList,
+  } = props;
 
+  const listIDSelected = dataQuestionList?.map(
+    (item: any) => item.id as React.Key[]
+  );
   const [listQuestion, setListQuestion] = useState<DataType[]>([]);
-  const [selectedKey, setSelectedKey] = useState<React.Key[]>(questionIds);
+  const [selectedKey, setSelectedKey] = useState<React.Key[]>(listIDSelected);
 
   const handleSelectKey = (
     selectedRowKeys: React.Key[],
@@ -84,7 +93,17 @@ const QuestionTable: React.FC<any> = (props) => {
       dataIndex: 'tags',
       width: 30,
       className: 'drag-visible table__tag',
-      render: (_) => <Tag color="#2db7f5">HTML</Tag>,
+      render: (tags) => (
+        <>
+          {tags.map((tag: any, index: any) => {
+            return (
+              <Tag color={tag.color} key={index}>
+                {tag.name}
+              </Tag>
+            );
+          })}
+        </>
+      ),
     },
     {
       title: 'Câu hỏi',
@@ -95,13 +114,15 @@ const QuestionTable: React.FC<any> = (props) => {
     },
   ];
 
-  const { data } = useQuery(GetAllQuestionDocument);
-  const listAllQuestion = data?.getAllQuestion.map((item, index) => ({
+  const { data } = useQuery(GetMyQuestionDocument);
+  const getMyQuestion = data?.getMyQuestion.map((item, index) => ({
     id: item.id,
     key: item.id,
     question: item.question,
     index: index,
+    tags: item.tags,
   }));
+  console.log('getMyQuestion ', getMyQuestion);
 
   // useEffect(() => {
   //   fakeAPI.then((res) => {
@@ -117,7 +138,7 @@ const QuestionTable: React.FC<any> = (props) => {
           selectedRowKeys: selectedKey,
         }}
         columns={columns}
-        dataSource={listAllQuestion}
+        dataSource={getMyQuestion}
       />
     </div>
   );
