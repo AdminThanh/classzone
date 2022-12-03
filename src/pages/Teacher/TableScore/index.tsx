@@ -31,6 +31,7 @@ import { getAverage } from 'utils/calculator';
 import DropdownAction from './components/DropdownAction';
 import ModalFormColumn from './components/ModalFormColumn';
 import './tableScore.scss';
+import { Excel } from 'antd-table-saveas-excel';
 interface DataType {
   key: React.Key;
   name: string;
@@ -48,41 +49,6 @@ interface IColumnTable {
   test: string;
   multiplier: number;
 }
-
-const fakeAPIScoreStudent: Promise<DataType[]> = new Promise(
-  (resolve, reject) => {
-    resolve([
-      {
-        key: '1',
-        name: 'Đào Đức Minh Khôi',
-        // '6843f699-9feb-4e35-bbc9-a73bf782aa2f': 9,
-        // dasdjosakfoaskdas: 10,
-        student_id: '101',
-      },
-      {
-        key: '2',
-        name: 'Phan Trọng Nghĩa',
-        // sadasdaccans: 5,
-        // dasdjosakfoaskdas: 7.5,
-        student_id: '102',
-      },
-      {
-        key: '3',
-        name: 'Hồ Đắc Di',
-        // sadasdaccans: 6,
-        // dasdjosakfoaskdas: 8.3,
-        student_id: '103',
-      },
-      {
-        key: '4',
-        name: 'Nguyễn Tất Thành',
-        // sadasdaccans: 9,
-        // dasdjosakfoaskdas: 9.5,
-        student_id: '104',
-      },
-    ]);
-  }
-);
 
 const TableScore = () => {
   const searchInput = useRef<InputRef>(null);
@@ -241,6 +207,18 @@ const TableScore = () => {
               throw new Error('Type filter not found');
           }
         },
+      })) || []
+    );
+  };
+
+  const renderExportScoreColumn = (columns?: IColumnTable[]) => {
+    return (
+      columns?.map((col: IColumnTable) => ({
+        key: col.id,
+        title: col.name,
+        dataIndex: col.id,
+        render: (value: number) => value,
+        width: '15%',
       })) || []
     );
   };
@@ -553,6 +531,117 @@ const TableScore = () => {
     },
   ];
 
+  const handleExportTableScore = () => {
+    const columnsExport: ColumnsType<DataType> = [
+      // Cột họ và tên
+      {
+        title: t('table_score.full_name'),
+        width: '20%',
+        dataIndex: 'name',
+        key: 'name',
+        fixed: 'left',
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        ...getColumnSearchProps('name'),
+      },
+
+      // Render score columns from api response
+      ...(renderExportScoreColumn(dataTable) as any),
+
+      {
+        title: t('table_score.average'),
+        key: 'average',
+        dataIndex: 'average',
+        fixed: 'right',
+        width: 200,
+        // sorter: (a, b) => a.average - b.average,
+        render: (_, record: DataType) => {
+          const scores: number[] = [];
+          Object.keys(record || {}).forEach((key: string) => {
+            if (key === 'key' || key === 'name' || key === 'student_id') {
+              return;
+            }
+
+            const indexOfColumn = dataTable?.findIndex((col) => col.id === key);
+
+            let multiplier;
+
+            // Trường hợp là điểm cộng hoặc trừ
+            if (indexOfColumn) {
+              if (
+                dataTable?.[indexOfColumn]?.type === ScoreType.Minus ||
+                dataTable?.[indexOfColumn]?.type === ScoreType.Plus
+              ) {
+                switch (dataTable?.[indexOfColumn]?.type) {
+                  case ScoreType.Minus: {
+                    const indexOfColumnReference = dataTable.findIndex(
+                      (col) =>
+                        col.id === dataTable?.[indexOfColumn].reference_col
+                    );
+
+                    const multiplierOfColumnReference =
+                      dataTable[indexOfColumnReference]?.multiplier || 1;
+
+                    const multiplierOfColumn =
+                      dataTable[indexOfColumn]?.multiplier || 1;
+
+                    // Handle multiplier
+                    for (let i = 0; i < multiplierOfColumn; i++) {
+                      scores.push(-record[key] as number);
+                    }
+                    break;
+                  }
+                  case ScoreType.Plus:
+                    {
+                      const indexOfColumnReference = dataTable.findIndex(
+                        (col) =>
+                          col.id === dataTable?.[indexOfColumn].reference_col
+                      );
+
+                      const multiplierOfColumnReference =
+                        dataTable[indexOfColumnReference]?.multiplier || 1;
+
+                      // Handle multiplier
+                      for (let i = 0; i < multiplierOfColumnReference; i++) {
+                        scores.push(record[key] as number);
+                      }
+                    }
+                    break;
+                }
+                return;
+              }
+            }
+
+            if (
+              dataTable &&
+              indexOfColumn !== undefined &&
+              indexOfColumn !== -1
+            ) {
+              multiplier = dataTable[indexOfColumn]?.multiplier || 1;
+            } else {
+              multiplier = 1;
+            }
+
+            // Handle multiplier
+            for (let i = 0; i < multiplier; i++) {
+              scores.push(record[key] as number);
+            }
+          });
+
+          return getAverage(scores).toFixed(2);
+        },
+      },
+    ];
+
+    const excel = new Excel();
+    excel
+      .addSheet('test')
+      .addColumns(columnsExport as any)
+      .addDataSource(dataScoreStudent, {
+        str2Percent: true,
+      })
+      .saveAs('Excel.xlsx');
+  };
+
   return (
     <div className="tableScore">
       <BreadCrumb
@@ -567,6 +656,7 @@ const TableScore = () => {
           },
         ]}
       />
+      <button onClick={handleExportTableScore}>Xuất bảng điêm</button>
       <Table
         className="tableScore__table"
         columns={columns}

@@ -1,14 +1,14 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { notification, Spin } from 'antd';
+import { Alert, notification, Spin } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
 import {
   GetAttendanceTodayDocument,
   GetClassByIdDocument,
   GetScheduleByLearnDateDocument,
-  UppdateAttendancesDocument,
+  UppdateAttendancesDocument
 } from 'gql/graphql';
 import moment from 'moment';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import './Attendance.scss';
@@ -34,6 +34,7 @@ function Attendance() {
     data: attendanceData,
     loading: attendanceLoading,
     refetch: attendanceRefetch,
+    error,
   } = useQuery(GetAttendanceTodayDocument, {
     variables: {
       class_id: classId || '',
@@ -43,10 +44,6 @@ function Attendance() {
   const [dataStudentAttendance, setDataStudentAttendance] = useState([]);
 
   const [fireUpdateAttendences] = useMutation(UppdateAttendancesDocument);
-
-  const students = useMemo(() => {
-    return studentData?.getClassById.students;
-  }, [studentData]);
 
   useEffect(() => {
     const newStudentAttendance = studentData?.getClassById?.students.map(
@@ -70,11 +67,17 @@ function Attendance() {
             is_present:
               attendances?.[indexAttendanceOfStudent].is_present || false,
           };
+        } else {
+          return {
+            avatar: student.avatar,
+            username: student.firstName + ' ' + student.lastName,
+            id: student.id,
+            note: '',
+            is_present: true,
+          };
         }
       }
     );
-
-    console.log('newStudentAttendance', newStudentAttendance);
 
     setDataStudentAttendance(newStudentAttendance);
   }, [studentData]);
@@ -184,70 +187,78 @@ function Attendance() {
             ]}
           />
           <div className="attendance-container">
-            <table className="attendance-table">
-              <thead>
-                <tr>
-                  <th>{t('attendance.img')}</th>
-                  <th>{t('attendance.name')}</th>
-                  <th>{t('attendance.activity')}</th>
-                  <th>{t('attendance.note')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dataStudentAttendance?.map((student: any) => (
-                  <tr key={student.id}>
-                    <td className="td-attendance">
-                      <img
-                        src={
-                          student.avatar
-                            ? student.avatar
-                            : require('assets/images/avatar/4.jpg')
-                        }
-                        alt=""
-                        className="avatar-img"
-                      />
-                    </td>
-                    <td className="td-attendance">
-                      <p>{student.username}</p>
-                    </td>
-                    <td className="td-attendance">
-                      <button
-                        type="button"
-                        onClick={() => handleCheckedAttendance(student.id)}
-                      >
-                        <img
-                          alt=""
-                          src={require(student.is_present
-                            ? 'assets/images/icons/bee-green.png'
-                            : 'assets/images/icons/bee-red.png')}
-                          className="icon-bee"
-                        />
-                      </button>
-                    </td>
-                    <td className="td-attendance">
-                      <input
-                        type="text"
-                        name="note"
-                        value={student.note}
-                        className="input-note"
-                        onChange={(e) =>
-                          handleChangeNote(student.id, e.target.value)
-                        }
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="submit-button">
-              <button
-                className="btn-submit"
-                type="button"
-                onClick={handleSaveAttendance}
-              >
-                {t('attendance.save')}
-              </button>
-            </div>
+            {error?.message === 'Attendance today not found' && (
+              <Alert type="error" message={'Hôm nay không có lịch học'} />
+            )}
+
+            {!error && (
+              <>
+                <table className="attendance-table">
+                  <thead>
+                    <tr>
+                      <th>{t('attendance.img')}</th>
+                      <th>{t('attendance.name')}</th>
+                      <th>{t('attendance.activity')}</th>
+                      <th>{t('attendance.note')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataStudentAttendance?.map((student: any) => (
+                      <tr key={student?.id}>
+                        <td className="td-attendance">
+                          <img
+                            src={
+                              student?.avatar
+                                ? student?.avatar
+                                : require('assets/images/avatar/4.jpg')
+                            }
+                            alt=""
+                            className="avatar-img"
+                          />
+                        </td>
+                        <td className="td-attendance">
+                          <p>{student?.username}</p>
+                        </td>
+                        <td className="td-attendance">
+                          <button
+                            type="button"
+                            onClick={() => handleCheckedAttendance(student?.id)}
+                          >
+                            <img
+                              alt=""
+                              src={require(student?.is_present
+                                ? 'assets/images/icons/bee-green.png'
+                                : 'assets/images/icons/bee-red.png')}
+                              className="icon-bee"
+                            />
+                          </button>
+                        </td>
+                        <td className="td-attendance">
+                          <input
+                            type="text"
+                            name="note"
+                            value={student?.note}
+                            className="input-note"
+                            onChange={(e) =>
+                              handleChangeNote(student?.id, e.target.value)
+                            }
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="submit-button">
+                  <button
+                    className="btn-submit"
+                    type="button"
+                    onClick={handleSaveAttendance}
+                  >
+                    {t('attendance.save')}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
