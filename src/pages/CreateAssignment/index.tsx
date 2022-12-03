@@ -85,8 +85,6 @@ const CreateAssignment = () => {
     skip,
   });
 
-  console.log('dataQuestionListCCC', dataQuestionList);
-
   useEffect(() => {
     const dataExam = data?.getExamById?.questions?.map((item, index) => ({
       id: item.id,
@@ -95,17 +93,18 @@ const CreateAssignment = () => {
       tags: item.tags,
       index: index,
     }));
+
     if (dataExam) {
       console.log('dataExam', dataExam);
       console.log('dataQuestionList', dataQuestionList);
       setDataQuestionList(dataExam as any);
-      var questionIds = dataExam;
+      console.log('dataQuestionList', dataQuestionList);
     }
-
+    const question_ids = data?.getExamById?.questions.map((q: any) => q.id);
     form.setFieldsValue({
       asssignment_name: data?.getExamById?.name,
       // tags: dataExam?.tags,
-      // question_ids: dataExam?.questions,
+      question_ids: question_ids,
     });
 
     // console.log('dataExam', dataExam);
@@ -360,8 +359,8 @@ const CreateAssignment = () => {
         <QuestionTable
           dataQuestionList={dataQuestionList}
           setDataQuestionList={(dataQuestionList: any) => {
-            const question_ids = dataQuestionList.map((q: DataType) => q.key);
-            form.setFieldValue('question_ids', question_ids);
+            // const question_ids = dataQuestionList.map((q: DataType) => q.key);
+            // form.setFieldValue('question_ids', question_ids);
             setDataQuestionList(dataQuestionList);
           }}
         />
