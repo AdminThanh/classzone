@@ -5,7 +5,7 @@ import {
   GetAttendanceTodayDocument,
   GetClassByIdDocument,
   GetScheduleByLearnDateDocument,
-  UppdateAttendancesDocument
+  UppdateAttendancesDocument,
 } from 'gql/graphql';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -80,7 +80,7 @@ function Attendance() {
     );
 
     setDataStudentAttendance(newStudentAttendance);
-  }, [studentData]);
+  }, [studentData?.getClassById?.students, attendanceData?.getAttendanceToday]);
 
   const handleCheckedAttendance = (id: string): void => {
     const indexOfStudent = dataStudentAttendance.findIndex(
