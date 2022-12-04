@@ -30,8 +30,6 @@ const QuestionTable: React.FC<any> = (props) => {
   const [listQuestion, setListQuestion] = useState<DataType[]>([]);
   const [selectedKey, setSelectedKey] = useState<React.Key[]>(listIDSelected);
 
-  console.log("selectedKey", selectedKey)
-
   const handleSelectKey = (
     selectedRowKeys: React.Key[],
     selectedQuestionList: DataType[]
@@ -75,7 +73,6 @@ const QuestionTable: React.FC<any> = (props) => {
     index: index,
     tags: item.tags,
   }));
-  console.log('getMyQuestion ', getMyQuestion);
 
   // useEffect(() => {
   //   fakeAPI.then((res) => {

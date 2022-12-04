@@ -6,12 +6,9 @@
   .popup-badge {
     border-radius: 6px;
     background: #fff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-    min-height: 50vh;
   }
 
   .popup-badge__skeleton {
-    margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     // justify-content: space-around;
@@ -27,6 +24,7 @@
   }
 
   .popup-badge__badge-item-skeleton {
+    height: 100%;
     border-radius: 6px;
     background: #fff;
     padding: 10px;

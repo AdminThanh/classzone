@@ -16,7 +16,7 @@ interface IAssignment {
   content: string;
   answer: IAnswer[];
   handleAnswered: (id: string, value: any) => void;
-  order: number;
+  order?: number;
   dataAnswer: any;
 }
 
@@ -37,19 +37,21 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
       handleAnswered(question_id, checkedValues);
     }
   };
-  console.log(dataAnswer[question_id]);
+  // console.log(dataAnswer[question_id]);
 
   return (
     <div className="content__question-item">
-      <div className="question__heading">
-        <p>
-          Câu<span>{order < 10 ? '0' + order : order}</span>
-        </p>
-      </div>
+      {order && (
+        <div className="question__heading">
+          <p>
+            Câu<span>{order < 10 ? '0' + order : order}</span>
+          </p>
+        </div>
+      )}
       <div className="question">
         <div className="question__name">
           <strong>{name}</strong>
-          <p>{content}</p>
+          <div dangerouslySetInnerHTML={{ __html: content }}></div>
         </div>
         <div className="answer">
           <div className="answer__title">
@@ -64,18 +66,18 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
 
             <Checkbox.Group
               style={{ width: '100%' }}
-              value={dataAnswer[question_id]}
+              // value={dataAnswer[question_id]}
               onChange={onChange}
             >
               <Row gutter={16}>
                 {answer?.length !== 0 &&
                   answer?.map((item, index) => (
                     <Col key={index} xs={24} sm={24} lg={12}>
-                      <Checkbox value={item.label} checked>
+                      <Checkbox value={item} checked>
                         <Avatar>
                           {alphabet.charAt(index++).toLowerCase()}
                         </Avatar>
-                        {item.label}
+                        {item as any}
                       </Checkbox>
                     </Col>
                   ))}

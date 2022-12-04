@@ -1,15 +1,19 @@
-import { notification, Tabs } from 'antd';
+import { useQuery } from '@apollo/client';
+import { Button, notification, Progress, Steps, Tabs } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
 import TaskbarFooter from 'components/TaskbarFooter';
+import { useAuth } from 'contexts/AuthContext';
+import { GetBadgeByClassDocument, ScoreType } from 'gql/graphql';
+import Assignment from 'pages/Assignment';
+import AssignmentItem from 'pages/Assignment/components/AssignmentItem';
 import StudentList from 'pages/ClassDetail/components/StudentList';
+import { useEffect, useState, useTransition } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import socket from 'utils/socket';
 import GroupList from '../GroupList';
 import './ClassDetail.scss';
-import { useEffect, useState } from 'react';
-import Modal from 'antd/lib/modal/Modal';
 import PopupBadge from './components/PopupBadge';
-import socket from 'utils/socket';
-import { useQuery } from '@apollo/client';
-import { GetBadgeByClassDocument, ScoreType } from 'gql/graphql';
 
 interface IStudentInfo {
   _id: string;
@@ -225,6 +229,13 @@ const dataStudent: IStudentInfo[] = [
 const ClassDetail = () => {
   let { classId } = useParams();
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const { auth } = useAuth();
+  const [current, setCurrent] = useState(1);
+  const { t } = useTranslation();
+  const [quickTest, setQuickTest] = useState<any>({
+    data: null,
+    isOpen: false,
+  });
   const [badgeModal, setBadgeModal] = useState<any>({
     data: null,
     isOpen: false,
@@ -234,12 +245,30 @@ const ClassDetail = () => {
       class_id: classId || '',
     },
   });
+  const [onlines, setOnlines] = useState([]);
 
-  console.log('badges', resBadges?.getBadgeByClass);
+  const onChange = (value: number) => {
+    console.log('onChange:', value);
+    setCurrent(value);
+  };
+
+  const handleNextQuestion = () => {
+    console.log(
+      'current < quickTest.data.length',
+      current,
+      quickTest.data.length
+    );
+    if (current < quickTest.data.length) {
+      setCurrent(current + 1);
+    }
+  };
 
   useEffect(() => {
-    socket.emit('join_class', classId);
-  }, [classId]);
+    socket.emit('join_class', {
+      classId,
+      userId: auth.id,
+    });
+  }, [classId, auth.id]);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -259,8 +288,20 @@ const ClassDetail = () => {
       console.log('Nhận tin nhắn', data);
     });
 
+    socket.on('receive_quick-test', (data) => {
+      console.log('nhận quick test', data);
+      setQuickTest({
+        data: data,
+        isOpen: true,
+      });
+    });
+
+    socket.on('receive_students-online-in-class', (data) => {
+      console.log('receive_students-online-in-class', data);
+      setOnlines(data);
+    });
+
     socket.on('receive_badge', (data) => {
-      console.log('data', data);
       if (data.type === ScoreType.Minus) {
         notification.error({
           message: data.message,
@@ -275,6 +316,9 @@ const ClassDetail = () => {
     });
 
     return () => {
+      socket.emit('leave_class', classId);
+
+      socket.off('receive_students-online-in-class');
       socket.off('connect');
       socket.off('disconnect');
       socket.off('message');
@@ -282,13 +326,6 @@ const ClassDetail = () => {
       socket.off('receive_message');
     };
   }, []);
-
-  const handleSubmitNewMessage = () => {
-    socket.emit('send_message', {
-      room: classId,
-      message: 'CCCC',
-    });
-  };
 
   const handleOpenBadgeStudent = (id: string, username: string) => {
     setBadgeModal({
@@ -304,7 +341,6 @@ const ClassDetail = () => {
     <div className="site_wrapper">
       <div className="site_container">
         <div className="classdetail">
-          <button onClick={handleSubmitNewMessage}>ASDSA</button>
           <div className="classdetail__tab">
             <Tabs defaultActiveKey="1">
               <Tabs.TabPane tab="Học sinh" key="1">
@@ -312,6 +348,7 @@ const ClassDetail = () => {
                   handleOpenBadgeStudent={handleOpenBadgeStudent}
                   classId={classId}
                   dataStudent={dataStudent}
+                  onlines={onlines}
                 />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Nhóm" key="2">
@@ -324,6 +361,7 @@ const ClassDetail = () => {
       <TaskbarFooter />
 
       <Modal
+        title="Thêm thành tích cho học sinh"
         onCancel={() =>
           setBadgeModal({
             ...badgeModal,
@@ -338,6 +376,54 @@ const ClassDetail = () => {
           badges={resBadges?.getBadgeByClass}
           data={badgeModal.data}
         />
+      </Modal>
+
+      <Modal
+        title={t('create_assignment.add_assignment')}
+        centered
+        closable={false}
+        open={quickTest.isOpen}
+        footer={false}
+        onCancel={() => {
+          // setQuickTest({
+          //   data: null,
+          //   isOpen: false,
+          // });
+        }}
+        onOk={() => {
+          console.log('badgeModal', badgeModal);
+          // socket.emit('add_question', {
+          //   classRoom: classId,
+          //   questionIds,
+          // });
+          // setIsOpenTableAddQuestion(false);
+        }}
+        width="90%"
+      >
+        <Progress
+          percent={80}
+          steps={5}
+          className="classDetail-quick-test-progress"
+          strokeColor={['green', 'green', 'red', 'red']}
+        />
+        {quickTest.data && (
+          <AssignmentItem
+            dataAnswer={quickTest.data?.[current - 1]?.answer}
+            handleAnswered={(id, value) => {
+              // console.log('Change', {
+              //   id,
+              //   value,
+              // });
+            }}
+            question_id={quickTest.data?.[current - 1].id}
+            name={quickTest.data?.[current - 1]?.name}
+            content={quickTest.data?.[current - 1]?.question}
+            answer={quickTest.data?.[current - 1]?.answers}
+          />
+        )}
+        <Button type="primary" onClick={handleNextQuestion}>
+          Câu tiếp theo
+        </Button>
       </Modal>
     </div>
   );

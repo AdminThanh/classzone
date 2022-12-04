@@ -1,4 +1,5 @@
 import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
+import { Alert } from 'antd';
 import clsx from 'clsx';
 import { ScoreType } from 'gql/graphql';
 import { useParams } from 'react-router-dom';
@@ -23,6 +24,14 @@ const PopupBadge = (props: any) => {
     <div className="popup-badge">
       <div className="popup-badge__skin">
         <div className="popup-badge__skeleton">
+          {!badges?.length && (
+            <Alert
+              type="warning"
+              message={
+                'Bạn chưa có cột điểm cộng hoặc trừ nào vui lòng truy cập bảng điểm để tạo'
+              }
+            />
+          )}
           {badges?.map((badge: any) => (
             <div
               onClick={() => handleAddaBadge(badge.id)}

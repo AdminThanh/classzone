@@ -145,7 +145,7 @@ const TableScore = () => {
 
   const renderScoreColumn = (columns?: IColumnTable[]) => {
     return (
-      columns?.map((col: IColumnTable) => ({
+      columns?.map((col: IColumnTable, iCol) => ({
         key: col.id,
         title: (
           <Dropdown
@@ -163,11 +163,20 @@ const TableScore = () => {
         ),
         dataIndex: col.id,
         render: (value: number, record: DataType) => {
+          const propsInput =
+            columns[iCol].type === ScoreType.Minus ||
+            columns[iCol].type === ScoreType.Plus
+              ? {
+                  min: 0,
+                }
+              : {
+                  max: 10,
+                  min: 0,
+                };
           return (
             <InputNumber
               value={value}
-              max={10}
-              min={0}
+              {...propsInput}
               onChange={(value) => {
                 if (value) {
                   handleChangeScoreStudent(
@@ -523,8 +532,6 @@ const TableScore = () => {
             scores.push(record[key] as number);
           }
         });
-
-        console.log('scores', scores);
 
         return <div>{getAverage(scores).toFixed(2)}</div>;
       },
