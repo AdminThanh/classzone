@@ -41,6 +41,7 @@ export const getExamById = graphql(`
       questions {
         id
         question
+        answers
         tags {
           id
           name
@@ -65,6 +66,27 @@ export const getAllExamClass = graphql(`
       dateEnd
       scoreFactor
       isAllowReview
+    }
+  }
+`);
+export const getExamClassById = graphql(`
+  query getExamClassById($id: String!) {
+    getExamClassById(id: $id) {
+      id
+      dateFrom
+      dateEnd
+      minutes
+      scoreFactor
+      id
+      exam {
+        id
+        name
+        questions {
+          id
+          question
+          answers
+        }
+      }
     }
   }
 `);

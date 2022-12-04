@@ -163,8 +163,8 @@ function ExamPage() {
             <Col xs={24} sm={24} md={12} lg={12} xl={8} xxl={8} key={item.id}>
               <ExamItem
                 name_exam={'item.name_exam'}
-                start_time={moment(item.dateFrom).format("MM:SS - DD/MM/YYYY")}
-                deadline={moment(item.dateEnd).format("MM:SS - DD/MM/YYYY")}
+                start_time={moment(item.dateFrom).format("HH:MM - DD/MM/YYYY")}
+                deadline={moment(item.dateEnd).format("HH:MM - DD/MM/YYYY")}
                 work_time={item.minutes + ' Phút'}
                 num_question={allExamClassList.length}
                 status={'item.status'}

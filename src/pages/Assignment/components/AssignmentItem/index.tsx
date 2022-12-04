@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { json } from 'stream/consumers';
+import { renderHTML } from 'pages/Question';
 
 interface IAnswer {
   label: string;
@@ -14,7 +15,7 @@ interface IAssignment {
   question_id: string;
   name: string;
   content: string;
-  answer: IAnswer[];
+  answer: string[];
   handleAnswered: (id: string, value: any) => void;
   order: number;
   dataAnswer: any;
@@ -48,8 +49,8 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
       </div>
       <div className="question">
         <div className="question__name">
-          <strong>{name}</strong>
-          <p>{content}</p>
+          <strong>Câu hỏi</strong>
+          <p>{renderHTML(content)}</p>
         </div>
         <div className="answer">
           <div className="answer__title">
@@ -71,11 +72,11 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
                 {answer?.length !== 0 &&
                   answer?.map((item, index) => (
                     <Col key={index} xs={24} sm={24} lg={12}>
-                      <Checkbox value={item.label} checked>
+                      <Checkbox value={item} checked>
                         <Avatar>
                           {alphabet.charAt(index++).toLowerCase()}
                         </Avatar>
-                        {item.label}
+                        {item}
                       </Checkbox>
                     </Col>
                   ))}
