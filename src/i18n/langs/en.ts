@@ -37,6 +37,7 @@ export default {
     attendance: 'Attendance',
     schedule: 'Schedule',
     rotating: 'Rotating umbrella',
+    quick_test: "Quick test",
     table_score: 'Table score',
     give_assignment: 'Give assignment',
     list_assignment: 'List assignment',

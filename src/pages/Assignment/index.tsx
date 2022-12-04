@@ -275,7 +275,7 @@ const Assignment = () => {
           message: 'Nộp bài Thành công',
         });
         sessionStorage.removeItem('dataAnswer');
-        navigate('/assignment');
+        navigate('/assignments');
       }, 1500);
     } catch (error) {
       notification.error({
@@ -317,7 +317,7 @@ const Assignment = () => {
         return new Promise((resolve, reject) => {
           setTimeout(resolve, 1000);
           setTimeout(() => {
-            navigate('/assignment');
+            navigate('/assignments');
           }, 1000);
         }).catch(() => console.log('Oops errors!'));
       },

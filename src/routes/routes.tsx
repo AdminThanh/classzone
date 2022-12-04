@@ -144,13 +144,13 @@ export const routes: IRoute[] = [
    * Student routes:
    */
   {
-    path: '/assignment',
+    path: '/assignments',
     element: ExamPage,
     role: ['student'],
     layout: TeacherLayout,
   },
   {
-    path: '/assignment/:examId/:assignmentId',
+    path: '/assignments/:examId/:assignmentId',
     element: Assignment,
     role: ['student'],
     layout: TeacherLayout,

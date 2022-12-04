@@ -72,7 +72,7 @@ const Question = () => {
       dataIndex: 'tags',
       render: (tags) => (
         <>
-          {tags.map((tag: any, index: any) => {
+          {tags?.map((tag: any, index: any) => {
             return (
               <Tag color={tag.color} key={index}>
                 {tag.name}

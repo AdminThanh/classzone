@@ -29,7 +29,6 @@ const Navbar = (props: INavbarProps) => {
   const { navList = [] } = props;
   const { isAuthenticated, logout, auth } = useAuth();
 
-  console.log('auth', auth);
   const [isSidebar, setIsSidebar] = useState(false);
   const navigate = useNavigate();
   // const { refetch } = useQuery(getAllUser);

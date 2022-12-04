@@ -17,7 +17,7 @@ interface IAssignment {
   content: string;
   answer: string[];
   handleAnswered: (id: string, value: any) => void;
-  order: number;
+  order?: number;
   dataAnswer: any;
 }
 
@@ -38,19 +38,21 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
       handleAnswered(question_id, checkedValues);
     }
   };
-  console.log(dataAnswer[question_id]);
+  // console.log(dataAnswer[question_id]);
 
   return (
     <div className="content__question-item">
-      <div className="question__heading">
-        <p>
-          Câu<span>{order < 10 ? '0' + order : order}</span>
-        </p>
-      </div>
+      {order && (
+        <div className="question__heading">
+          <p>
+            Câu<span>{order < 10 ? '0' + order : order}</span>
+          </p>
+        </div>
+      )}
       <div className="question">
         <div className="question__name">
-          <strong>Câu hỏi</strong>
-          <p>{renderHTML(content)}</p>
+          <strong>{name}</strong>
+          <div dangerouslySetInnerHTML={{ __html: content }}></div>
         </div>
         <div className="answer">
           <div className="answer__title">
@@ -65,7 +67,7 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
 
             <Checkbox.Group
               style={{ width: '100%' }}
-              value={dataAnswer[question_id]}
+              // value={dataAnswer[question_id]}
               onChange={onChange}
             >
               <Row gutter={16}>
@@ -76,7 +78,7 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
                         <Avatar>
                           {alphabet.charAt(index++).toLowerCase()}
                         </Avatar>
-                        {item}
+                        {item as any}
                       </Checkbox>
                     </Col>
                   ))}
