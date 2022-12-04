@@ -1,16 +1,21 @@
 import {
   FormOutlined,
   ScheduleOutlined,
-
-  PieChartOutlined, PullRequestOutlined, TableOutlined
+  PieChartOutlined,
+  PullRequestOutlined,
+  TableOutlined,
+  BookOutlined,
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import GiveAssingment from 'components/GiveAssignment';
 import WheelOfNames from 'components/WheelOfNames';
 import { useAuth } from 'contexts/AuthContext';
+import Assignment from 'pages/Assignment';
+import QuestionTable from 'pages/CreateAssignment/components/QuestionTable';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
+import socket from 'utils/socket';
 import './TaskbarFooter.scss';
 
 interface ICurrentModal {
@@ -23,11 +28,13 @@ const TaskbarFooter = () => {
     modal: null,
     data: null,
   });
+  const [dataQuestionList, setDataQuestionList] = useState<any[]>([]);
+  const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(false);
+  const [questionIds, setQuestionIds] = useState([]);
   const { t } = useTranslation();
   const { auth } = useAuth();
 
   let { classId } = useParams();
-  console.log(classId);
 
   const handleCloseModal = () => {
     setCurrentModal({
@@ -73,6 +80,14 @@ const TaskbarFooter = () => {
           path: 'schedule',
         },
         {
+          Icon: <BookOutlined />,
+          label: t('my_class.quick_test'),
+          onClick: () => {
+            setIsOpenTableAddQuestion(true);
+            console.log('Quick test');
+          },
+        },
+        {
           Icon: <PieChartOutlined />,
           label: t('my_class.rotating'),
           onClick: handleOpenWheel,
@@ -87,7 +102,7 @@ const TaskbarFooter = () => {
           label: t('my_class.my_history_attendance'),
           path: 'check_attendance',
         },
-      ]
+      ];
     }
   }, [auth]);
 
@@ -125,13 +140,39 @@ const TaskbarFooter = () => {
       </Modal>
       <Modal
         title={t('my_class.give_assignment')}
-        open={currentModal.modal === "assignment"}
+        open={currentModal.modal === 'assignment'}
         onCancel={handleCloseModal}
         width={800}
         destroyOnClose={true}
         footer={null}
       >
         <GiveAssingment />
+      </Modal>
+
+      <Modal
+        title={t('create_assignment.add_assignment')}
+        centered
+        open={isOpenTableAddQuestion}
+        onCancel={() => {
+          setIsOpenTableAddQuestion(false);
+        }}
+        onOk={() => {
+          socket.emit('add_question', {
+            classRoom: classId,
+            questionIds,
+          });
+          // setIsOpenTableAddQuestion(false);
+        }}
+        width="90%"
+      >
+        <QuestionTable
+          dataQuestionList={dataQuestionList}
+          setDataQuestionList={(dataQuestionList: any) => {
+            const question_ids = dataQuestionList.map((q: any) => q.key);
+            setQuestionIds(question_ids);
+            setDataQuestionList(dataQuestionList);
+          }}
+        />
       </Modal>
     </>
   );

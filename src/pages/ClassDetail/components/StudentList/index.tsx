@@ -9,8 +9,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GetClassByIdDocument } from 'gql/graphql';
 
 const StudentList = (props: any) => {
+  const { dataStudent, classId, handleOpenBadgeStudent, onlines } = props;
+
+  console.log("onlines", onlines)
   const [showInviteStudents, setShowInviteStudents] = useState(false);
-  const { dataStudent, classId } = props;
 
   const { data, refetch } = useQuery(GetClassByIdDocument, {
     variables: {
@@ -36,6 +38,8 @@ const StudentList = (props: any) => {
             className="classdetail__item"
           >
             <StudentItem
+              isOnline={onlines.includes(item.id)}
+              handleOpenBadgeStudent={handleOpenBadgeStudent}
               id={item.id}
               name={item.firstName + ' ' + item.lastName}
             />

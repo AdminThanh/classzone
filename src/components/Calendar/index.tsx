@@ -15,13 +15,14 @@ import { useParams } from 'react-router';
 
 const Calendars = (props: any) => {
   const { endDate, fromDate } = props;
-  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [selectedDate, setSelectedDate] = useState<any>(moment());
   const { classId = '' } = useParams();
   const { data, loading, refetch } = useQuery(GetScheduleByClassDocument, {
     variables: {
       id: classId,
     },
   });
+
   const [fireUpdateAttendences] = useMutation(UpdateSchedulesDocument);
 
   const [attendance, setAttendance] = useState<any>(null);
@@ -62,6 +63,7 @@ const Calendars = (props: any) => {
   };
 
   const handleChangeis_learn_date = (e: any) => {
+    console.log('E', e.target.checked, selectedDate);
     setAttendance({
       ...attendance,
       [selectedDate.format('DD-MM-YYYY')]: {
@@ -136,6 +138,7 @@ const Calendars = (props: any) => {
         <div className="calendar__panel-item">
           <span>Nội dung</span>
           <Input
+            disabled={!selectedDate.isBetween(from_date, end_date)}
             value={attendance?.[selectedDate?.format('DD-MM-YYYY')]?.content}
             onChange={handleChangeNote}
           />
@@ -144,6 +147,7 @@ const Calendars = (props: any) => {
         <div className="calendar__panel-item">
           <span>Ngày học</span>
           <Checkbox
+            disabled={!selectedDate.isBetween(from_date, end_date)}
             onChange={handleChangeis_learn_date}
             checked={
               attendance?.[selectedDate?.format('DD-MM-YYYY')]?.is_learn_date

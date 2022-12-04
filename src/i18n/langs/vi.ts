@@ -38,6 +38,7 @@ export default {
     class: 'Lớp học',
     student: 'Học sinh',
     attendance: 'Điểm danh',
+    quick_test: 'Bài kiểm tra nhanh',
     schedule: 'Lịch học',
     rotating: 'Ô quay',
     table_score: 'Bảng điểm',
