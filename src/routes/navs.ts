@@ -35,7 +35,7 @@ export const StudentRoutes: INavItem[] = [
   {
     label: 'assignment',
     icon: TestIcon,
-    path: '/assignment',
+    path: '/assignments',
   },
   // {
   //   label: 'test_management',

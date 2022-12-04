@@ -118,6 +118,8 @@ export default {
     invite_success: 'Invite success',
     close: 'Close',
     check_delete: 'Are you sure you want to delete this?',
+    load_data_success: 'Download data successfully',
+    load_data_error: 'Data download failed',
   },
 
   field: {

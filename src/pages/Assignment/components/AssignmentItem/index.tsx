@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { json } from 'stream/consumers';
+import { renderHTML } from 'pages/Question';
 
 interface IAnswer {
   label: string;
@@ -14,7 +15,7 @@ interface IAssignment {
   question_id: string;
   name: string;
   content: string;
-  answer: IAnswer[];
+  answer: string[];
   handleAnswered: (id: string, value: any) => void;
   order?: number;
   dataAnswer: any;

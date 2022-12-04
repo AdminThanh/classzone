@@ -56,7 +56,7 @@ const Question = () => {
         type: 'success',
         content: t('action.delete_success'),
       });
-      // refetch();
+      refetch();
     } catch {
       message.error({
         type: 'error',

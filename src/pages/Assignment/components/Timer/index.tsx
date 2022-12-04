@@ -1,18 +1,45 @@
-import { useEffect, useState } from 'react';
+import { Modal } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
+
 const Timer = (props: any) => {
-  const { startTime, endTime } = props;
+  const { minutes, handleSubmitAsignmentAuto, setLoadingItem } = props;
   const [seconds, setSeconds] = useState(0);
+
+  const countDown = () => {
+    let secondsToGo = 5;
+
+    const modal = Modal.error({
+      title: 'Đã hết thời gian làm bài',
+      content: `Trang sẽ chuyển hướng sau ${secondsToGo} giây.`,
+    });
+
+    const timer = setInterval(() => {
+      secondsToGo -= 1;
+      modal.update({
+        content: `Trang sẽ chuyển hướng sau ${secondsToGo} giây.`,
+      });
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(timer);
+      modal.destroy();
+      handleSubmitAsignmentAuto();
+    }, secondsToGo * 1000);
+  };
 
   useEffect(() => {
     let timerRef = 0;
-
-    if (startTime && endTime) {
-      const timer = (+new Date(endTime) - +new Date(startTime)) / 1000;
-
+    if (minutes) {
+      const timer = minutes;
       setSeconds(timer);
-
       timerRef = window.setInterval(() => {
         setSeconds((prevValue) => {
+          console.log(prevValue);
+          if (prevValue === 0) {
+            countDown();
+            setLoadingItem(true);
+            clearInterval(timerRef);
+          }
           return prevValue - 1;
         });
       }, 1000);
@@ -21,12 +48,12 @@ const Timer = (props: any) => {
     return () => {
       clearInterval(timerRef);
     };
-  }, [startTime, endTime]);
+  }, [minutes]);
 
   return (
     <>
       <span>
-        {Math.floor(seconds / 60) < 9
+        {Math.floor(seconds / 60) < 10
           ? '0' + Math.floor(seconds / 60)
           : Math.floor(seconds / 60)}
       </span>{' '}
