@@ -22,7 +22,7 @@ export const login = graphql(`
         phoneNumber
         address
         avatar
-        _id
+        id
         role
       }
     }

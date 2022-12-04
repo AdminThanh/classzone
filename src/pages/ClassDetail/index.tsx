@@ -268,6 +268,11 @@ const ClassDetail = () => {
       classId,
       userId: auth.id,
     });
+
+    console.log({
+      classId,
+      userId: auth.id,
+    });
   }, [classId, auth.id]);
 
   useEffect(() => {

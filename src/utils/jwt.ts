@@ -85,6 +85,8 @@ const JWTManager = () => {
       return true;
     } catch (err) {
       console.log('UNAUTHENTICATED', err);
+      document.cookie = '';
+      localStorage.removeItem('have_refresh_token');
       deleteToken();
       return false;
     }
