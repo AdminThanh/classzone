@@ -296,7 +296,10 @@ const Assignment = () => {
       onOk() {
         return new Promise((resolve, reject) => {
           setTimeout(resolve, 1000);
-          handleSubmitAsignmentAuto();
+          setTimeout(() => {
+            setLoadingItem(true);
+            handleSubmitAsignmentAuto();
+          }, 2000);
         }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {},
