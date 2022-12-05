@@ -37,7 +37,7 @@ export default {
     attendance: 'Attendance',
     schedule: 'Schedule',
     rotating: 'Rotating umbrella',
-    quick_test: "Quick test",
+    quick_test: 'Quick test',
     table_score: 'Table score',
     give_assignment: 'Give assignment',
     list_assignment: 'List assignment',
@@ -240,6 +240,10 @@ export default {
     note: 'Note',
     total: 'Total',
     save: 'Save',
+    topic: 'Topic',
+    learn_date: 'Learn date',
+    content: 'Content',
+    present: 'Present',
   },
 
   //exam

@@ -101,7 +101,7 @@ const TaskbarFooter = (props: any) => {
         {
           Icon: <FormOutlined />,
           label: t('my_class.my_history_attendance'),
-          path: 'check_attendance',
+          path: 'check_my_attendance',
         },
       ];
     }

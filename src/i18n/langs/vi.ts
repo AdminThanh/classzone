@@ -244,6 +244,10 @@ export default {
     note: 'Ghi chú',
     total: 'Tổng',
     save: 'Lưu',
+    topic: 'Bài',
+    learn_date: 'Ngày học',
+    content: 'Nội dung',
+    present: 'Có mặt',
   },
 
   //exam
