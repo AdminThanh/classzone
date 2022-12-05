@@ -1,6 +1,6 @@
 import './StudentList.scss';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Avatar, Col, Modal, notification, Row } from 'antd';
+import { Avatar, Col, Modal, notification, Row, Skeleton } from 'antd';
 import StudentItem from '../StudentItem';
 import { useState } from 'react';
 import InviteStudents from '../InviteStudents';
@@ -13,7 +13,7 @@ const StudentList = (props: any) => {
 
   const [showInviteStudents, setShowInviteStudents] = useState(false);
 
-  const { data, refetch } = useQuery(GetClassByIdDocument, {
+  const { data, refetch, loading } = useQuery(GetClassByIdDocument, {
     variables: {
       id: classId,
     },
@@ -36,6 +36,16 @@ const StudentList = (props: any) => {
             xxl={3}
             className="classdetail__item"
           >
+            {
+              !loading ? (
+                <StudentItem
+                  id={item.id}
+                  name={item.firstName + ' ' + item.lastName}
+                />
+              ) : (
+                <Skeleton.Node active fullSize />
+              )
+            }
             <StudentItem
               isOnline={onlines.includes(item.id)}
               handleOpenBadgeStudent={handleOpenBadgeStudent}

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { notification, Popconfirm, Tag } from 'antd';
+import { notification, Popconfirm, Skeleton, Tag } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
 import {
   DeleteExamDocument,
@@ -52,8 +52,8 @@ function ExamManagement() {
   const [listExam, setListExam] = useState<any[]>(dataStudent);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data, refetch } = useQuery(GetMyExamDocument);
-  console.log(data);
+  const { data, refetch, loading } = useQuery(GetMyExamDocument);
+  console.log(loading);
   const [fireDeleteExam] = useMutation(DeleteExamDocument);
   const handleDelete = async (id: string) => {
     console.log(id);
@@ -87,19 +87,31 @@ function ExamManagement() {
         ]}
       />
       <div className="action-exam">
-        <div className="name_class">Bài đã giao</div>
+        {!loading ? (
+          <div className="name_class">Bài đã giao</div>
+        ) : (
+          <Skeleton.Button size='large' />
+        )}
         <div className="action">
-          <button
-            type="button"
-            className="create-exam primary"
-            onClick={() => navigate('/create_assignment')}
-          >
-            <AddIcon />
-            {t('management.create_exam')}
-          </button>
-          <button type="button" className="give-exam primary">
-            {t('management.give_assignment')}
-          </button>
+          {!loading ? (
+            <button
+              type="button"
+              className="create-exam primary"
+              onClick={() => navigate('/create_assignment')}
+            >
+              <AddIcon />
+              {t('management.create_exam')}
+            </button>
+          ) : (
+            <Skeleton.Button size='large' />
+          )}
+          {!loading ? (
+            <button type="button" className="give-exam primary">
+              {t('management.give_assignment')}
+            </button>
+          ) : (
+            <Skeleton.Button size='large' />
+          )}
         </div>
       </div>
       <div className="management-container">
@@ -114,34 +126,40 @@ function ExamManagement() {
           </thead>
           <tbody>
             {data?.getMyExam?.map((item, index) => (
-              <tr key={index}>
-                <td className="td-management">
-                  {item.tags?.map((tag, key) => (
-                    <Tag key={key} color={tag.color}>
-                      {tag.name}
-                    </Tag>
-                  ))}
-                </td>
-                <td className="td-management">
-                  <p>{item.name}</p>
-                </td>
-                <td className="td-management">
-                  <Link to={item.id}>
-                    <EditIcon />
-                  </Link>
-                  <Popconfirm
-                    placement="topRight"
-                    title={t('action.check_delete')}
-                    onConfirm={() => {
-                      handleDelete(item.id);
-                    }}
-                    okText={t('action.delete')}
-                    cancelText={t('action.close')}
-                  >
-                    <CancelIcon />
-                  </Popconfirm>
-                </td>
-              </tr>
+              !loading ? (
+                <tr key={index}>
+                  <td className="td-management">
+                    {item.tags?.map((tag, key) => (
+                      <Tag key={key} color={tag.color}>
+                        {tag.name}
+                      </Tag>
+                    ))}
+                  </td>
+                  <td className="td-management">
+                    <p>{item.name}</p>
+                  </td>
+                  <td className="td-management">
+                    <Link to={item.id}>
+                      <EditIcon />
+                    </Link>
+                    <Popconfirm
+                      placement="topRight"
+                      title={t('action.check_delete')}
+                      onConfirm={() => {
+                        handleDelete(item.id);
+                      }}
+                      okText={t('action.delete')}
+                      cancelText={t('action.close')}
+                    >
+                      <CancelIcon />
+                    </Popconfirm>
+                  </td>
+                </tr>
+              ) : (
+                <div className='loading-skeleton'>
+                  <Skeleton.Input active size='default' />
+                </div>
+              )
             ))}
           </tbody>
         </table>

@@ -18,7 +18,7 @@ function GiveAssingment() {
     //     }
     // })
 
-    const { data: examData, refetch: examRefetch } = useQuery(GetMyExamDocument);
+    const { data: examData, loading: examLoading, refetch: examRefetch } = useQuery(GetMyExamDocument);
 
     const [fireCreateExamClass] = useMutation(CreateExamClassDocument);
 
