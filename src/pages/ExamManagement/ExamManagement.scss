@@ -27,6 +27,9 @@
         }
       }
     }
+    .ant-skeleton-button {
+      margin-right: 10px;
+    }
   }
   .management-table {
     margin-top: 36px;
@@ -79,6 +82,13 @@
         &:nth-child(even) {
           background: c.$gray2_color;
         }
+      }
+    }
+    .loading-skeleton {
+      display: flex;
+      flex-direction: column;
+      .ant-skeleton-input {
+        width: 162.7%;
       }
     }
   }

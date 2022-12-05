@@ -4,7 +4,7 @@ import {
   PlusCircleOutlined,
 } from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, message, Popconfirm, Skeleton, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import BreadCrumb from 'components/BreadCrumb';
 import {
@@ -38,7 +38,7 @@ export const renderHTML = (rawHTML: string) =>
 const Question = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { data, refetch } = useQuery(GetMyQuestionDocument);
+  const { data, refetch, loading } = useQuery(GetMyQuestionDocument);
 
   const dataTableQuession = data?.getMyQuestion;
   const [fireDeleteQuestion] = useMutation(DeleteQuestionDocument);
@@ -169,14 +169,20 @@ const Question = () => {
           <div className="question">
             <div className="action">
               <Link to={'/create_question'}>
-                <Button
-                  type="primary"
-                  className="primary"
-                  icon={<PlusCircleOutlined />}
-                  size={'large'}
-                >
-                  {t('my_quession.add_quession')}
-                </Button>
+                {
+                  !loading ? (
+                    <Button
+                      type="primary"
+                      className="primary"
+                      icon={<PlusCircleOutlined />}
+                      size={'large'}
+                    >
+                      {t('my_quession.add_quession')}
+                    </Button>
+                  ) : (
+                    <Skeleton.Button size='large' />
+                  )
+                }
               </Link>
             </div>
             <Table

@@ -1,6 +1,7 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
-import { Button, Col, Form, Row, Select } from 'antd';
+import { Button, Col, Form, Row, Select, Skeleton } from 'antd';
+import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import { useAuth } from 'contexts/AuthContext';
@@ -29,15 +30,16 @@ const Classes = () => {
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
   const { auth } = useAuth();
-
-  const { data, refetch }: any = useQuery(
+  const { data, refetch, loading }: any = useQuery(
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
   );
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
   const handleRefetch = () => {
+    loading(true);
     refetch();
+    loading(false);
   };
 
   const fields: TField[] = useMemo(
@@ -77,7 +79,6 @@ const Classes = () => {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
-
   return (
     <div className="site_wrapper">
       <div className="site_container">
@@ -151,20 +152,26 @@ const Classes = () => {
                   xl={8}
                   xxl={8}
                 >
-                  <ClassItem
-                    id={item.id}
-                    name={item.name}
-                    avatar={item.avatar}
-                    end_date={item.end_date}
-                    from_date={item.from_date}
-                    code={item.code}
-                    owner={
-                      auth.role === 'STUDENT' &&
-                      item.owner?.firstName + item.owner?.lastName
-                    }
-                    scoreFactor={item.scoreFactor}
-                    handleRefetch={handleRefetch}
-                  />
+                  {
+                    !loading ? (
+                      <ClassItem
+                        id={item.id}
+                        name={item.name}
+                        avatar={item.avatar}
+                        end_date={item.end_date}
+                        from_date={item.from_date}
+                        code={item.code}
+                        owner={
+                          auth.role === 'STUDENT' &&
+                          item.owner?.firstName + item.owner?.lastName
+                        }
+                        scoreFactor={item.scoreFactor}
+                        handleRefetch={handleRefetch}
+                      />
+                    ) : (
+                      <Skeleton.Node active fullSize={true} />
+                    )
+                  }
                 </Col>
               ))}
           </Row>
