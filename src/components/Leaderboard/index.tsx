@@ -1,33 +1,42 @@
+import { Avatar } from 'antd';
+import { useMemo } from 'react';
 import './Leaderboard.scss';
 
-const Leaderboard = () => {
-  const dados = [
-    {
-      id: 1,
-      name: 'Trương Trung Kiên',
-      image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
-      score: 100,
-    },
-    {
-      id: 2,
-      name: 'Đào Đức Minh Khôi',
-      image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
-      score: 100,
-    },
-  ];
+const Leaderboard = (props: any) => {
+  const { students, leaderboard, onlines }: any = props;
+
+  const listStudentOnline = useMemo(() => {
+    const result: any[] = [];
+    students.forEach((student: any) => {
+      const newStudent: any = { ...student };
+      newStudent.score = leaderboard?.[newStudent.id] || 0;
+      if (onlines.includes(newStudent.id)) result.push(newStudent);
+    });
+
+    // Sort answer higher to lower
+    result.sort((a, b) => b.score - a.score);
+
+    return result;
+  }, [onlines, students, leaderboard]);
   return (
     <div className="Leaderboard">
       <div className="topLeadersList">
-        {dados.map((leader, index) => (
-          <div className="leader" key={leader.id}>
+        {listStudentOnline.map((student, index) => (
+          <div className="leader" key={student.id}>
             {index + 1 <= 3 && (
               <div className="containerImage">
-                <img
-                  className="image"
-                  loading="lazy"
-                  src={leader.image}
-                  alt={leader.image}
-                />
+                {student.image ? (
+                  <img
+                    className="image"
+                    loading="lazy"
+                    src={student.image}
+                    alt={student.image}
+                  />
+                ) : (
+                  <Avatar className="image">
+                    {student.firstName.charAt(0).toUpperCase()}
+                  </Avatar>
+                )}
                 <div className="crown">
                   <svg
                     id="crown1"
@@ -42,7 +51,9 @@ const Leaderboard = () => {
                     />
                   </svg>
                 </div>
-                <div className="leaderName">{leader.name}</div>
+                <div className="leaderName">
+                  {student.firstName + ' ' + student.lastName}
+                </div>
               </div>
             )}
           </div>
@@ -58,14 +69,19 @@ const Leaderboard = () => {
           <div>Score</div>
         </div>
         <div className="list">
-          {dados.map((leader, index) => (
-            <div className="player" key={leader.id}>
+          {listStudentOnline.map((student, index) => (
+            <div className="player" key={student.id}>
               <span> {index + 1}</span>
               <div className="user">
-                <img className="image" src={leader.image} />
-                <span> {leader.name} </span>
+                {student.image ? (
+                  <img className="image" src={student.image} />
+                ) : (
+                  <Avatar>{student.firstName.charAt(0).toUpperCase()}</Avatar>
+                )}
+
+                <span> {student.firstName + ' ' + student.lastName} </span>
               </div>
-              <span> {leader.score} </span>
+              <span> {leaderboard?.[student.id]} </span>
             </div>
           ))}
         </div>

@@ -24,17 +24,14 @@ interface ICurrentModal {
   data?: any;
 }
 
-const TaskbarFooter = () => {
+const TaskbarFooter = (props: any) => {
+  const { handleOpenLeaderboard } = props;
   const [currentModal, setCurrentModal] = useState<ICurrentModal>({
     modal: null,
     data: null,
   });
   const [dataQuestionList, setDataQuestionList] = useState<any[]>([]);
   const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(false);
-  const [quickTestLeaderboard, setQuickTestLeaderboard] = useState<any>({
-    isOpen: false,
-    data: null,
-  });
   const [questionIds, setQuestionIds] = useState([]);
   const { t } = useTranslation();
   const { auth } = useAuth();
@@ -89,7 +86,6 @@ const TaskbarFooter = () => {
           label: t('my_class.quick_test'),
           onClick: () => {
             setIsOpenTableAddQuestion(true);
-            console.log('Quick test');
           },
         },
         {
@@ -166,6 +162,8 @@ const TaskbarFooter = () => {
             classRoom: classId,
             questionIds,
           });
+
+          handleOpenLeaderboard();
           setIsOpenTableAddQuestion(false);
         }}
         width="90%"
@@ -178,29 +176,6 @@ const TaskbarFooter = () => {
             setDataQuestionList(dataQuestionList);
           }}
         />
-      </Modal>
-
-      <Modal
-        title={t('create_assignment.add_assignment')}
-        centered
-        open={quickTestLeaderboard.isOpen}
-        footer={false}
-        onCancel={() => {
-          // setIsOpenTableAddQuestion(false);
-        }}
-        onOk={() => {
-          socket.emit('add_question', {
-            classRoom: classId,
-            questionIds,
-          });
-          setQuickTestLeaderboard({
-            isOpen: false,
-            data: {},
-          });
-        }}
-        width="90%"
-      >
-        <Leaderboard />
       </Modal>
     </>
   );

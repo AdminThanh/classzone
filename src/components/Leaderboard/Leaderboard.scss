@@ -2,9 +2,7 @@
   width: 445px;
   height: 600px;
   background-color: black;
-  margin: auto;
   font-family: 'Amatic SC';
-  margin: auto;
   padding: 1rem;
   border-radius: 5px;
   box-shadow: 7px 9px 7px #00000052;
@@ -244,5 +242,16 @@
     overflow: scroll;
     height: 20rem;
     overflow-x: hidden;
+  }
+
+  .containerImage {
+    .ant-avatar {
+      background-color: #ddd;
+    }
+    .ant-avatar-string {
+      font-size: 40px;
+      top: 50%;
+      transform: scale(1) translateX(-50%) translateY(-50%) !important;
+    }
   }
 }

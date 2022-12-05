@@ -113,3 +113,17 @@
     }
   }
 }
+
+.leaderboard__modal {
+  width: auto !important;
+  .ant-modal-header {
+    display: none;
+  }
+  .ant-modal-body {
+    padding: 0;
+  }
+
+  .ant-modal-close-x {
+    color: #fff
+  }
+}
