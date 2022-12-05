@@ -33,14 +33,13 @@ const Classes = () => {
   const { data, refetch, loading }: any = useQuery(
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
   );
-  
+
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
   const handleRefetch = () => {
-    loading(true);
     refetch();
-    loading(false);
+
   };
 
   const fields: TField[] = useMemo(
@@ -141,20 +140,21 @@ const Classes = () => {
         </div>
 
         <div className="classes">
-          <Row gutter={[20, 20]}>
-            {datas?.length !== 0 &&
-              datas?.map((item) => (
-                <Col
-                  key={item.id}
-                  xs={24}
-                  sm={12}
-                  md={12}
-                  lg={8}
-                  xl={8}
-                  xxl={8}
-                >
-                  {
-                    !loading ? (
+          {
+            !loading ? (
+              <Row gutter={[20, 20]}>
+                {datas?.length !== 0 &&
+                  datas?.map((item) => (
+                    <Col
+                      key={item.id}
+                      xs={24}
+                      sm={12}
+                      md={12}
+                      lg={8}
+                      xl={8}
+                      xxl={8}
+                    >
+
                       <ClassItem
                         id={item.id}
                         name={item.name}
@@ -169,16 +169,23 @@ const Classes = () => {
                         scoreFactor={item.scoreFactor}
                         handleRefetch={handleRefetch}
                       />
-                    ) : (
-                      <Skeleton.Node active fullSize={true} />
-                    )
-                  }
-                </Col>
-              ))}
-          </Row>
+
+                    </Col>
+                  ))}
+              </Row>
+            ) : (< Row className='loading-list'>
+              {[1, 2, 3].map(() => (
+                <div className='loading-item'>
+                  <Skeleton.Node active />
+                </div>
+              ))
+              }
+            </Row>
+            )
+          }
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default Classes;

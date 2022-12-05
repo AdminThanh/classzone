@@ -36,11 +36,22 @@
       margin-bottom: 15px;
     }
   }
-  .ant-skeleton {
+  .loading-list {
+    display: flex;
     width: 100%;
-    .ant-skeleton-image {
-      width: 100%;
-      height: 150px;
+    margin-left: 8px;
+    margin-right: -8px;
+    .loading-item {
+      width: 15%;
+      margin-right: 16px;
+      margin-bottom: 16px;
+      .ant-skeleton {
+        width: 100%;
+        .ant-skeleton-image {
+          width: 100%;
+          height: 160px;
+        }
+      }
     }
   }
 }

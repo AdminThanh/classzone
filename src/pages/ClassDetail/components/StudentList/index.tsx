@@ -17,7 +17,8 @@ const StudentList = (props: any) => {
   const { t } = useTranslation();
   return (
     <Row className="classdetail__list" gutter={[20, 20]}>
-      {dataListStudent?.length !== 0 &&
+      {!loading ? (
+        dataListStudent?.length !== 0 &&
         dataListStudent?.map((item: any, index: any) => (
           <Col
             key={index}
@@ -40,7 +41,17 @@ const StudentList = (props: any) => {
               <Skeleton.Node active fullSize />
             )}
           </Col>
-        ))}
+        ))
+      ) : (
+        <div className='loading-list'>
+          {[1, 2, 3, 4, 5, 6].map(() => (
+            <div className='loading-item'>
+              <Skeleton.Node active fullSize={true} />
+            </div>
+          ))
+          }
+        </div>
+      )}
       <Col
         onClick={() => {
           setShowInviteStudents(true);

@@ -125,8 +125,8 @@ function ExamManagement() {
             </tr>
           </thead>
           <tbody>
-            {data?.getMyExam?.map((item, index) => (
-              !loading ? (
+            {!loading ? (
+              data?.getMyExam?.map((item, index) => (
                 <tr key={index}>
                   <td className="td-management">
                     {item.tags?.map((tag, key) => (
@@ -155,12 +155,13 @@ function ExamManagement() {
                     </Popconfirm>
                   </td>
                 </tr>
-              ) : (
+              ))) : (
+              [1, 2, 3, 4].map(() => (
                 <div className='loading-skeleton'>
                   <Skeleton.Input active size='default' />
                 </div>
-              )
-            ))}
+              ))
+            )}
           </tbody>
         </table>
       </div>
