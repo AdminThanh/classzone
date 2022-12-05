@@ -38,7 +38,7 @@ function Register() {
           username,
           email,
           password,
-          role: roleEnum[roleSelect || 1],
+          role: roleEnum[roleSelect || 1] as any,
         },
       },
     });
@@ -128,7 +128,8 @@ function Register() {
           name="password"
           rules={[
             { required: true, message: t('edit_profile.val_password') },
-            { min: 6, message: t('edit_profile.val_countpass') },]}
+            { min: 6, message: t('edit_profile.val_countpass') },
+          ]}
         >
           <Input.Password
             placeholder="Nhập mật khẩu"

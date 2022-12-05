@@ -29,6 +29,7 @@ import StudentLayout from 'layouts/Student';
 import Assignment from 'pages/Assignment';
 import JoinClass from 'pages/ClassDetail/components/JoinClass';
 import CreateAttendance from 'pages/CreateAttendance';
+import CheckMyAttendance from 'pages/CheckMyAttendance';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -83,6 +84,12 @@ export const routes: IRoute[] = [
     path: '/class_detail/:classId/attendance',
     element: Attendance,
     role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/class_detail/:classId/check_my_attendance',
+    element: CheckMyAttendance,
+    role: ['student'],
     layout: TeacherLayout,
   },
   {

@@ -31,23 +31,23 @@ function ExamItem(props: any) {
   const [loadingItem, setLoadingItem] = useState(false);
   const handleCreateAssignment = () => {
     setLoadingItem(true);
-    try {
-      fireCreateAssignment({
-        variables: {
-          createAssignmentInput: {
-            examClass: examId as string,
-            startTime: new Date(),
-            minuteDoing: null,
-            answerSubmit: null,
-          },
-        },
-      });
-    } catch (error) {
-      notification.error({
-        key: 'error',
-        message: t('action.load_data_error'),
-      });
-    }
+    // try {
+    //   fireCreateAssignment({
+    //     variables: {
+    //       createAssignmentInput: {
+    //         examClass: examId as string,
+    //         startTime: new Date(),
+    //         minuteDoing: null,
+    //         answerSubmit: null,
+    //       },
+    //     },
+    //   });
+    // } catch (error) {
+    //   notification.error({
+    //     key: 'error',
+    //     message: t('action.load_data_error'),
+    //   });
+    // }
   };
 
   useEffect(() => {
