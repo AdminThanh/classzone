@@ -104,11 +104,14 @@ const EditClass = (props: any) => {
           key: 'success',
           message: t('action.add_success'),
         });
+        handleRefetch();
       } catch (error) {
         notification.error({
           key: 'error',
           message: t('action.add_error'),
         });
+      } finally {
+        setConfirmLoading(false);
       }
     } else if (type === 'edit') {
       try {
@@ -127,11 +130,14 @@ const EditClass = (props: any) => {
           key: 'success',
           message: t('action.edit_success'),
         });
+        handleRefetch();
       } catch (error) {
         notification.error({
           key: 'error',
           message: t('action.edit_error'),
         });
+      } finally {
+        setConfirmLoading(false);
       }
     }
     setTimeout(() => {
