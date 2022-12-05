@@ -355,7 +355,7 @@ const Assignment = () => {
         <main className="content">
           <div className="content__question">
             <AssignmentItem
-              dataAnswer={dataAnswer}
+              // dataAnswer={dataAnswer}
               handleAnswered={handleAnswered}
               order={order}
               question_id={currentQuestion?.question_id}

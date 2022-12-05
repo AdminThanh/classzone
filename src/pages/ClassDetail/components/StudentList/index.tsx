@@ -9,18 +9,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GetClassByIdDocument } from 'gql/graphql';
 
 const StudentList = (props: any) => {
-  const { dataStudent, classId, handleOpenBadgeStudent, onlines } = props;
+  const { dataListStudent, loading, classId, handleOpenBadgeStudent, onlines } =
+    props;
 
-  console.log("onlines", onlines)
   const [showInviteStudents, setShowInviteStudents] = useState(false);
-
-  const { data, refetch, loading } = useQuery(GetClassByIdDocument, {
-    variables: {
-      id: classId,
-    },
-  });
-
-  const dataListStudent = data?.getClassById?.students;
 
   const { t } = useTranslation();
   return (
@@ -37,22 +29,16 @@ const StudentList = (props: any) => {
             xxl={3}
             className="classdetail__item"
           >
-            {
-              !loading ? (
-                <StudentItem
-                  id={item.id}
-                  name={item.firstName + ' ' + item.lastName}
-                />
-              ) : (
-                <Skeleton.Node active fullSize />
-              )
-            }
-            <StudentItem
-              isOnline={onlines.includes(item.id)}
-              handleOpenBadgeStudent={handleOpenBadgeStudent}
-              id={item.id}
-              name={item.firstName + ' ' + item.lastName}
-            />
+            {!loading ? (
+              <StudentItem
+                isOnline={onlines.includes(item.id)}
+                handleOpenBadgeStudent={handleOpenBadgeStudent}
+                id={item.id}
+                name={item.firstName + ' ' + item.lastName}
+              />
+            ) : (
+              <Skeleton.Node active fullSize />
+            )}
           </Col>
         ))}
       <Col
