@@ -1,26 +1,26 @@
 import { useEffect, useMemo, useState } from 'react';
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-  ResponderProvided,
-} from 'react-beautiful-dnd';
 // import { ShowmoreIcon } from 'utils/drawer';
-import BreadCrumb from 'components/BreadCrumb';
-import QuestionItem from './components/QuestionItem';
-import './CreateAssignment.scss';
 import { Form, Input, Modal, notification, Tag } from 'antd';
-import { useTranslation } from 'react-i18next';
-import FilterTags, { IOptionTag } from 'components/FilterTags';
 import { useForm } from 'antd/es/form/Form';
+import BreadCrumb from 'components/BreadCrumb';
 import Button from 'components/Button';
-import { BinIcon, EditIcon, SaveIcon, UpdateIcon } from 'utils/drawer';
+import FilterTags from 'components/FilterTags';
+import { useTranslation } from 'react-i18next';
+import { BinIcon, EditIcon, SaveIcon } from 'utils/drawer';
+import './CreateAssignment.scss';
 // import './index.css';
 import { MenuOutlined } from '@ant-design/icons';
+import { useMutation, useQuery } from '@apollo/client';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { arrayMoveImmutable } from 'array-move';
+import {
+  CreateExamDocument,
+  GetExamByIdDocument,
+  UpdateExamDocument,
+} from 'gql/graphql';
+import { renderHTML } from 'pages/Question';
+import { useParams } from 'react-router-dom';
 import type { SortableContainerProps, SortEnd } from 'react-sortable-hoc';
 import {
   SortableContainer,
@@ -28,14 +28,6 @@ import {
   SortableHandle,
 } from 'react-sortable-hoc';
 import QuestionTable from './components/QuestionTable';
-import { renderHTML } from 'pages/Question';
-import { useMutation, useQuery } from '@apollo/client';
-import {
-  CreateExamDocument,
-  GetExamByIdDocument,
-  UpdateExamDocument,
-} from 'gql/graphql';
-import { useParams } from 'react-router-dom';
 
 interface IQuestions {
   id: string;
@@ -119,7 +111,7 @@ const CreateAssignment = () => {
       className: 'drag-visible table__tag',
       render: (tags) => (
         <>
-          {tags.map((tag: any, index: any) => {
+          {tags?.map((tag: any, index: any) => {
             return (
               <Tag color={tag.color} key={index}>
                 {tag.name}
@@ -258,13 +250,6 @@ const CreateAssignment = () => {
   return (
     <div className="create-assignment">
       {/* Nav & Breadcrumb */}
-      <button
-        onClick={() => {
-          console.log(form.getFieldsValue());
-        }}
-      >
-        show
-      </button>
       <Form
         form={form}
         onFinish={(value) => {

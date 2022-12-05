@@ -78,15 +78,9 @@ export const routes: IRoute[] = [
     role: ['teacher'],
     layout: TeacherLayout,
   },
+
   {
-    // path: '/join_cLass/:classId/:studentId',
-    path: '/join_class/:classId',
-    element: JoinClass,
-    role: ['student'],
-    // layout: TeacherLayout,
-  },
-  {
-    path: '/class_detail/:classId/attendance',
+    path: '/attendance',
     element: Attendance,
     role: ['teacher'],
     layout: TeacherLayout,
@@ -150,16 +144,23 @@ export const routes: IRoute[] = [
    * Student routes:
    */
   {
-    path: '/assignment',
+    path: '/assignments',
     element: ExamPage,
     role: ['student'],
     layout: TeacherLayout,
   },
   {
-    path: '/assignment',
+    path: '/assignments/:examId/:assignmentId',
     element: Assignment,
     role: ['student'],
-    layout: StudentLayout,
+    layout: TeacherLayout,
+  },
+  {
+    // path: '/join_cLass/:classId/:studentId',
+    path: '/join_class/:classId',
+    element: JoinClass,
+    role: ['student'],
+    // layout: TeacherLayout,
   },
   /**
    * **********************************************

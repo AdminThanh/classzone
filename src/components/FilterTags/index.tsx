@@ -1,13 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Form, notification, Select } from 'antd';
-import { DeleteTagDocument, GetTagDocument } from 'gql/graphql';
-import { deleteTag } from 'graphql/tags';
 import { useForm } from 'antd/es/form/Form';
+import { DeleteTagDocument, GetTagDocument } from 'gql/graphql';
 import { useTranslation } from 'react-i18next';
 import { BinIcon } from 'utils/drawer';
 import TagControl from './components/TagControl';
 import './FilterTags.scss';
-import Item from 'antd/lib/list/Item';
 
 export interface IOptionTag {
   label: string;

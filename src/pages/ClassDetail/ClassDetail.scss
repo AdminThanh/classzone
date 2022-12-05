@@ -2,7 +2,6 @@
 
 .classdetail {
   width: 100%;
-  padding: 0 48px;
   margin-top: 20px;
 
   .ant-tabs-tab:hover {
@@ -101,5 +100,16 @@
     // max-height: 600px;
     // overflow-y: auto;
     margin-bottom: 100px;
+  }
+}
+
+.classDetail-quick-test-progress {
+  width: 100%;
+
+  .ant-progress-steps-outer {
+    width: 100%;
+    .ant-progress-steps-item {
+      flex-grow: 1;
+    }
   }
 }

@@ -37,6 +37,7 @@ export default {
     attendance: 'Attendance',
     schedule: 'Schedule',
     rotating: 'Rotating umbrella',
+    quick_test: "Quick test",
     table_score: 'Table score',
     give_assignment: 'Give assignment',
     list_assignment: 'List assignment',
@@ -117,6 +118,8 @@ export default {
     invite_success: 'Invite success',
     close: 'Close',
     check_delete: 'Are you sure you want to delete this?',
+    load_data_success: 'Download data successfully',
+    load_data_error: 'Data download failed',
   },
 
   field: {

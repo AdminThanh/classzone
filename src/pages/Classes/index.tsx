@@ -33,6 +33,7 @@ const Classes = () => {
   const { data, refetch, loading }: any = useQuery(
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
   );
+  
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 

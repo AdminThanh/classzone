@@ -38,6 +38,7 @@ export default {
     class: 'Lớp học',
     student: 'Học sinh',
     attendance: 'Điểm danh',
+    quick_test: 'Bài kiểm tra nhanh',
     schedule: 'Lịch học',
     rotating: 'Ô quay',
     table_score: 'Bảng điểm',
@@ -120,6 +121,8 @@ export default {
     invite_success: 'Mời thành công',
     close: 'Đóng',
     check_delete: 'Bạn có chắc chắn muốn xóa?',
+    load_data_success: 'Tải dữ liệu thành công',
+    load_data_error: 'Tải dữ liệu thất bại',
   },
 
   field: {
