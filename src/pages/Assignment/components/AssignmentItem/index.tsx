@@ -1,10 +1,7 @@
-import { Avatar, Checkbox, Col, Radio, Row } from 'antd';
-import './AssignmentItem.scss';
-import React, { useState } from 'react';
-import type { RadioChangeEvent } from 'antd';
+import { Avatar, Checkbox, Col, Row } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { json } from 'stream/consumers';
-import { renderHTML } from 'pages/Question';
+import React from 'react';
+import './AssignmentItem.scss';
 
 interface IAnswer {
   label: string;
@@ -31,6 +28,7 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
     order,
     dataAnswer,
   } = props;
+
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   const onChange = (checkedValues: CheckboxValueType[]) => {
@@ -38,7 +36,6 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
       handleAnswered(question_id, checkedValues);
     }
   };
-  // console.log(dataAnswer[question_id]);
 
   return (
     <div className="content__question-item">
@@ -59,22 +56,16 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
             <label>Chọn đáp án đúng:</label>
           </div>
           <div className="answer__list">
-            {/* <Checkbox.Group
-              options={answer}
-              value={dataAnswer[question_id]}
-              onChange={onChange}
-            /> */}
-
             <Checkbox.Group
               style={{ width: '100%' }}
-              // value={dataAnswer[question_id]}
+              value={dataAnswer}
               onChange={onChange}
             >
               <Row gutter={16}>
                 {answer?.length !== 0 &&
                   answer?.map((item, index) => (
                     <Col key={index} xs={24} sm={24} lg={12}>
-                      <Checkbox value={item} checked>
+                      <Checkbox value={item}>
                         <Avatar>
                           {alphabet.charAt(index++).toLowerCase()}
                         </Avatar>

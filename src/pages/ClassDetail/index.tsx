@@ -1,13 +1,14 @@
 import { useQuery } from '@apollo/client';
 import { Button, notification, Progress, Steps, Tabs } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
+import Leaderboard from 'components/Leaderboard';
 import TaskbarFooter from 'components/TaskbarFooter';
 import { useAuth } from 'contexts/AuthContext';
 import { GetBadgeByClassDocument, ScoreType } from 'gql/graphql';
 import Assignment from 'pages/Assignment';
 import AssignmentItem from 'pages/Assignment/components/AssignmentItem';
 import StudentList from 'pages/ClassDetail/components/StudentList';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import socket from 'utils/socket';
@@ -229,6 +230,7 @@ const dataStudent: IStudentInfo[] = [
 const ClassDetail = () => {
   let { classId } = useParams();
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const emitter: any = useRef();
   const { auth } = useAuth();
   const [current, setCurrent] = useState(1);
   const { t } = useTranslation();
@@ -236,6 +238,8 @@ const ClassDetail = () => {
     data: null,
     isOpen: false,
   });
+
+  console.log('quickTest', quickTest);
   const [badgeModal, setBadgeModal] = useState<any>({
     data: null,
     isOpen: false,
@@ -258,21 +262,27 @@ const ClassDetail = () => {
       current,
       quickTest.data.length
     );
+
+    // Handle emit answer of student
+
+    // Handle next question
     if (current < quickTest.data.length) {
       setCurrent(current + 1);
     }
   };
 
   useEffect(() => {
-    socket.emit('join_class', {
-      classId,
-      userId: auth.id,
-    });
+    // emitter.current = window.setInterval(() => {
+      socket.emit('join_class', {
+        classId,
+        userId: auth.id,
+      });
+    // }, 1000);
 
-    console.log({
-      classId,
-      userId: auth.id,
-    });
+    return () => {
+      socket.off('join_class');
+      clearInterval(emitter.current);
+    };
   }, [classId, auth.id]);
 
   useEffect(() => {
@@ -282,11 +292,6 @@ const ClassDetail = () => {
 
     socket.on('disconnect', () => {
       setIsConnected(false);
-    });
-
-    socket.on('join_class', () => {
-      // setLastPong(new Date().toISOString());
-      console.log('Message');
     });
 
     socket.on('receive_message', (data) => {
@@ -302,7 +307,6 @@ const ClassDetail = () => {
     });
 
     socket.on('receive_students-online-in-class', (data) => {
-      console.log('receive_students-online-in-class', data);
       setOnlines(data);
     });
 
@@ -407,18 +411,18 @@ const ClassDetail = () => {
       >
         <Progress
           percent={80}
-          steps={5}
+          steps={quickTest?.data?.length}
           className="classDetail-quick-test-progress"
           strokeColor={['green', 'green', 'red', 'red']}
         />
         {quickTest.data && (
           <AssignmentItem
-            dataAnswer={quickTest.data?.[current - 1]?.answer}
+            dataAnswer={quickTest.data?.[current - 1]?.answers}
             handleAnswered={(id, value) => {
-              // console.log('Change', {
-              //   id,
-              //   value,
-              // });
+              console.log('Change', {
+                id,
+                value,
+              });
             }}
             question_id={quickTest.data?.[current - 1].id}
             name={quickTest.data?.[current - 1]?.name}
@@ -428,6 +432,15 @@ const ClassDetail = () => {
         )}
         <Button type="primary" onClick={handleNextQuestion}>
           Câu tiếp theo
+        </Button>
+
+        <Button
+          type="primary"
+          onClick={() => {
+            setCurrent(current - 1);
+          }}
+        >
+          Câu lùi
         </Button>
       </Modal>
     </div>

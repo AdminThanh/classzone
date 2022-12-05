@@ -11,7 +11,6 @@ import { GetClassByIdDocument } from 'gql/graphql';
 const StudentList = (props: any) => {
   const { dataStudent, classId, handleOpenBadgeStudent, onlines } = props;
 
-  console.log("onlines", onlines)
   const [showInviteStudents, setShowInviteStudents] = useState(false);
 
   const { data, refetch } = useQuery(GetClassByIdDocument, {

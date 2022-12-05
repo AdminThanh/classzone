@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import GiveAssingment from 'components/GiveAssignment';
+import Leaderboard from 'components/Leaderboard';
 import WheelOfNames from 'components/WheelOfNames';
 import { useAuth } from 'contexts/AuthContext';
 import Assignment from 'pages/Assignment';
@@ -30,6 +31,10 @@ const TaskbarFooter = () => {
   });
   const [dataQuestionList, setDataQuestionList] = useState<any[]>([]);
   const [isOpenTableAddQuestion, setIsOpenTableAddQuestion] = useState(false);
+  const [quickTestLeaderboard, setQuickTestLeaderboard] = useState<any>({
+    isOpen: false,
+    data: null,
+  });
   const [questionIds, setQuestionIds] = useState([]);
   const { t } = useTranslation();
   const { auth } = useAuth();
@@ -161,7 +166,7 @@ const TaskbarFooter = () => {
             classRoom: classId,
             questionIds,
           });
-          // setIsOpenTableAddQuestion(false);
+          setIsOpenTableAddQuestion(false);
         }}
         width="90%"
       >
@@ -173,6 +178,29 @@ const TaskbarFooter = () => {
             setDataQuestionList(dataQuestionList);
           }}
         />
+      </Modal>
+
+      <Modal
+        title={t('create_assignment.add_assignment')}
+        centered
+        open={quickTestLeaderboard.isOpen}
+        footer={false}
+        onCancel={() => {
+          // setIsOpenTableAddQuestion(false);
+        }}
+        onOk={() => {
+          socket.emit('add_question', {
+            classRoom: classId,
+            questionIds,
+          });
+          setQuickTestLeaderboard({
+            isOpen: false,
+            data: {},
+          });
+        }}
+        width="90%"
+      >
+        <Leaderboard />
       </Modal>
     </>
   );
