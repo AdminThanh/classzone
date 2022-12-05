@@ -15,6 +15,8 @@ import {
   message,
   Modal,
   notification,
+  Row,
+  Skeleton,
   Space,
   Tooltip,
 } from 'antd';
@@ -58,10 +60,12 @@ const ClassItem = (props: IClassInfo) => {
 
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [loading, setLoading] = useState<Boolean>(false);
   const [fireDeleteMyClass] = useMutation(DeleteMyClassDocument);
   const link_qr = window.location.origin + '/join_class/' + id;
 
   const DeleteMyClass = async (id: string) => {
+    setLoading(true);
     try {
       await fireDeleteMyClass({
         variables: {
@@ -78,6 +82,8 @@ const ClassItem = (props: IClassInfo) => {
         key: 'error',
         message: t('action.delete_error'),
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -152,108 +158,116 @@ const ClassItem = (props: IClassInfo) => {
   );
 
   return (
-    <div className="class-item">
-      <div className="action">
-        <img
-          src={
-            avatar
-              ? avatar
-              : 'https://png.pngtree.com/background/20210710/original/pngtree-math-improve-class-enrollment-cartoon-blue-background-picture-image_1003463.jpg'
-          }
-          alt={name}
-          className="image"
-        />
-        {avatar ? '' : <span className="img_title">{name}</span>}
-        {auth.role === 'TEACHER' && (
-          <Dropdown className="dropdown" overlay={menu}>
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                <SettingOutlined />
-              </Space>
-            </a>
-          </Dropdown>
-        )}
-      </div>
-      <div className="content">
-        <Link to={'/class_detail/' + id}>
-          <h2 className="title">{name}</h2>
-        </Link>
-        <ul className="list-desc">
-          <li className="item" onClick={() => setOpen(true)}>
-            <QrcodeOutlined />
-            <span className="view_qr_code">{t('my_class.view_qr_code')}</span>
-          </li>
-          <li className="item">
-            <ClockCircleOutlined />
-            {t('my_class.start_date')}:{' '}
-            <span>{moment(from_date).format('DD/MM/YYYY')}</span>
-          </li>
-          <li className="item">
-            <ClockCircleOutlined />
-            {t('my_class.end_date')}:{' '}
-            <span>{moment(end_date).format('DD/MM/YYYY')}</span>
-          </li>
-          <li className="item">
-            <UserOutlined />
-            {t('my_class.teacher')}: <span>{owner}</span>
-          </li>
-        </ul>
-
-        <Button
-          type="primary"
-          className="primary"
-          size={'large'}
-          onClick={() => {
-            navigate('class_detail/' + id);
-          }}
-        >
-          {t('action.detail')}
-        </Button>
-
-        {openModal && (
-          <EditClass
-            title={t('my_class.edit_class')}
-            type={'edit'}
-            name={name}
-            avatar={avatar}
-            from_date={from_date}
-            end_date={end_date}
-            qr_code={code}
-            scoreFactor={scoreFactor}
-            id={id}
-            setOpenModal={setOpenModal}
-            handleRefetch={handleRefetch}
+    !loading ? (
+      <div className="class-item">
+        <div className="action">
+          <img
+            src={
+              avatar
+                ? avatar
+                : 'https://png.pngtree.com/background/20210710/original/pngtree-math-improve-class-enrollment-cartoon-blue-background-picture-image_1003463.jpg'
+            }
+            alt={name}
+            className="image"
           />
-        )}
+          {avatar ? '' : <span className="img_title">{name}</span>}
+          {auth.role === 'TEACHER' && (
+            <Dropdown className="dropdown" overlay={menu}>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <SettingOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          )}
+        </div>
+        <div className="content">
+          <Link to={'/class_detail/' + id}>
+            <h2 className="title">{name}</h2>
+          </Link>
+          <ul className="list-desc">
+            <li className="item" onClick={() => setOpen(true)}>
+              <QrcodeOutlined />
+              <span className="view_qr_code">{t('my_class.view_qr_code')}</span>
+            </li>
+            <li className="item">
+              <ClockCircleOutlined />
+              {t('my_class.start_date')}:{' '}
+              <span>{moment(from_date).format('DD/MM/YYYY')}</span>
+            </li>
+            <li className="item">
+              <ClockCircleOutlined />
+              {t('my_class.end_date')}:{' '}
+              <span>{moment(end_date).format('DD/MM/YYYY')}</span>
+            </li>
+            <li className="item">
+              <UserOutlined />
+              {t('my_class.teacher')}: <span>{owner}</span>
+            </li>
+          </ul>
 
-        <Modal
-          title={name}
-          open={open}
-          onOk={handleDowloadQRCode}
-          onCancel={() => setOpen(false)}
-          okText={'Tải xuống'}
-          cancelText={'Đóng'}
-          className="qr_code"
-        >
-          <QRCode
-            id="qrcode"
-            value={link_qr}
-            size={180}
-            level={'H'}
-            includeMargin={true}
-          />
-          <Tooltip
-            placement="bottom"
-            title={t('action.coppy')}
-            arrowPointAtCenter
+          <Button
+            type="primary"
+            className="primary"
+            size={'large'}
+            onClick={() => {
+              navigate('class_detail/' + id);
+            }}
           >
-            <p onClick={copyLinkToClipboard} className="coppy_link">
-              {link_qr}
-            </p>
-          </Tooltip>
-        </Modal>
+            {t('action.detail')}
+          </Button>
+
+          {openModal && (
+            <EditClass
+              title={t('my_class.edit_class')}
+              type={'edit'}
+              name={name}
+              avatar={avatar}
+              from_date={from_date}
+              end_date={end_date}
+              qr_code={code}
+              scoreFactor={scoreFactor}
+              id={id}
+              setOpenModal={setOpenModal}
+              handleRefetch={handleRefetch}
+            />
+          )}
+
+          <Modal
+            title={name}
+            open={open}
+            onOk={handleDowloadQRCode}
+            onCancel={() => setOpen(false)}
+            okText={'Tải xuống'}
+            cancelText={'Đóng'}
+            className="qr_code"
+          >
+            <QRCode
+              id="qrcode"
+              value={link_qr}
+              size={180}
+              level={'H'}
+              includeMargin={true}
+            />
+            <Tooltip
+              placement="bottom"
+              title={t('action.coppy')}
+              arrowPointAtCenter
+            >
+              <p onClick={copyLinkToClipboard} className="coppy_link">
+                {link_qr}
+              </p>
+            </Tooltip>
+          </Modal>
+        </div>
       </div>
-    </div>
+    ) : (
+      <div className='skeleton-list'>
+        <div className='skeleton-item'>
+          <Skeleton.Node active fullSize={true} />
+        </div>
+      </div>
+    )
   );
 };
 
