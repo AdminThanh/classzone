@@ -1,6 +1,15 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { useMutation } from '@apollo/client';
-import { Button, Col, Form, Input, notification, Row, Spin } from 'antd';
+import {
+  Avatar,
+  Button,
+  Col,
+  Form,
+  Input,
+  notification,
+  Row,
+  Spin,
+} from 'antd';
 import clsx from 'clsx';
 import BreadCrumb from 'components/BreadCrumb';
 import { useAuth } from 'contexts/AuthContext';
@@ -152,27 +161,18 @@ function EditProfile() {
                           onChange={handleChangeFile}
                           disabled={!isEdit}
                         />
-                        {auth.avatar ? (
+                        
+                        {auth.avatar || avatar?.preview ? (
                           <img
-                            className="avatar-img"
-                            src={auth.avatar}
-                            alt=""
-                          />
-                        ) : avatar ? (
-                          <img
-                            className="avatar-img"
-                            src={avatar.preview}
-                            alt=""
+                            className="navbar__avatar"
+                            src={avatar.preview || auth.avatar}
                           />
                         ) : (
-                          <img
-                            className="avatar-img"
-                            src={
-                              'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'
-                            }
-                            alt=""
-                          />
+                          <Avatar className="navbar__avatar">
+                            {auth.firstName.charAt(0).toUpperCase()}
+                          </Avatar>
                         )}
+
                         <img
                           className="icon-upload"
                           src={require('assets/images/icon-upload.png')}

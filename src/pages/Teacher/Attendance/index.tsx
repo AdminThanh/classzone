@@ -101,11 +101,6 @@ function Attendance() {
       (student: any) => student.id === id
     );
 
-    console.log('value', {
-      indexOfStudent,
-      value,
-    });
-
     if (indexOfStudent !== -1) {
       const newDataStudentAttendance: any = [...dataStudentAttendance];
 
@@ -177,12 +172,12 @@ function Attendance() {
           <BreadCrumb
             routes={[
               {
-                name: t('bread_crumb.home'),
-                path: '/',
+                name: studentData?.getClassById.name as string,
+                path: `/class_detail/${classId}`,
               },
               {
-                name: t('bread_crumb.attendance'),
-                path: '/attendance',
+                name: t('navbar.attendance'),
+                path: '#',
               },
             ]}
           />

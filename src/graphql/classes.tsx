@@ -64,6 +64,7 @@ export const getClassByIdForSchedule = gql`
       id
       from_date
       end_date
+      name
     }
   }
 `;

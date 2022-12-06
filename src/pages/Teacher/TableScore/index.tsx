@@ -548,10 +548,6 @@ const TableScore = () => {
           }
         });
 
-        console.log({
-          scores,
-          refScores,
-        });
         return <div>{getAverage(scores, refScores).toFixed(2)}</div>;
       },
     },
@@ -653,7 +649,6 @@ const TableScore = () => {
             }
           });
 
-          console.log('scores', scores);
           return getAverage(scores).toFixed(2);
         },
       },
@@ -674,12 +669,12 @@ const TableScore = () => {
       <BreadCrumb
         routes={[
           {
-            name: 'Lớp học NODEJS',
-            path: '/class_detail',
+            name: studentData?.getClassById.name as string,
+            path: `/class_detail/${classId}`,
           },
           {
             name: t('navbar.table_score'),
-            path: '/',
+            path: '#',
           },
         ]}
       />

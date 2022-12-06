@@ -9,6 +9,8 @@ export default {
     add_question: 'Tạo câu hỏi',
     create_question: 'Tạo bài kiểm tra',
     assignment: 'Bài kiểm tra được giao',
+    table_score: 'Bảng điểm',
+    attendance: "Điểm danh"
   },
 
   user_control: {
@@ -75,7 +77,12 @@ export default {
 
   auth: {
     login_success: 'Đăng nhập thành công',
-    logout_success: 'Đăng nhập thất bại',
+    logout_success: 'Đăng xuất thành công',
+    register_success: 'Đăng ký thành công',
+
+    login_error: 'Đăng nhập thất bại',
+    logout_error: 'Đăng xuất thất bại',
+    register_error: 'Đăng ký thất bại',
 
     //top tab
     register: 'Đăng ký',
