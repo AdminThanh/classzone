@@ -5,9 +5,11 @@ import BreadCrumb from 'components/BreadCrumb';
 import { useAuth } from 'contexts/AuthContext';
 import {
   GetAttendanceTodayDocument,
+  GetClassByIdDocument,
   GetMyHistoryAttendanceDocument,
   UppdateAttendancesDocument,
 } from 'gql/graphql';
+import { getClassById } from 'graphql/classes';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -23,10 +25,13 @@ function CheckMyAttendance() {
     },
   });
 
-  console.log(
-    'scheduleData?.getMyHistoryAttendance',
-    scheduleData?.getMyHistoryAttendance
-  );
+  const { data: dataClass } = useQuery(GetClassByIdDocument, {
+    variables: {
+      id: classId || '',
+    },
+  });
+
+  console.log('dataClass', dataClass);
 
   return (
     <div className="site_wrapper">
@@ -35,11 +40,11 @@ function CheckMyAttendance() {
           <BreadCrumb
             routes={[
               {
-                name: t('bread_crumb.home'),
-                path: '/',
+                name: dataClass?.getClassById.name as string,
+                path: '#',
               },
               {
-                name: t('bread_crumb.check_my_attendance'),
+                name: t('navbar.history_attendance'),
                 path: '/attendance',
               },
             ]}

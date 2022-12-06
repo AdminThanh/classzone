@@ -14,6 +14,14 @@
 .attendance-table {
   margin-top: 36px;
   width: 100%;
+
+  .avatar-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
   thead {
     background: c.$header_table;
     border-radius: 10px 10px 0 0;

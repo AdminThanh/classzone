@@ -3,7 +3,7 @@ import { Avatar, notification, Tooltip } from 'antd';
 import {
   AssignStudentToClassDocument,
   GetClassByIdDocument,
-  GetInfoMeDocument
+  GetInfoMeDocument,
 } from 'gql/graphql';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,10 +12,10 @@ import './JoinClass.scss';
 const InviteStudentsLink = () => {
   let { classId } = useParams();
   const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const { data } = useQuery(GetInfoMeDocument);
-  const nameMe = (data?.me?.firstName + ' ' + data?.me?.lastName) as string;
+  const nameMe = (data?.me?.lastName + ' ' + data?.me?.firstName) as string;
 
   const [fireAssignStudentToClass] = useMutation(AssignStudentToClassDocument);
 
@@ -69,12 +69,22 @@ const InviteStudentsLink = () => {
                 aria-label="exclamation-circle"
                 className="anticon anticon-exclamation-circle"
               >
-                <img src={classBanner ? classBanner : 'https://static.taogiaoduc.vn/2018/01/thao-luan-nhom.png'} className='class_banner' />
+                <img
+                  src={
+                    classBanner
+                      ? classBanner
+                      : 'https://static.taogiaoduc.vn/2018/01/thao-luan-nhom.png'
+                  }
+                  className="class_banner"
+                />
                 {/* <Avatar className='className'>{className?.charAt(0).toUpperCase()}</Avatar> */}
               </span>
             </div>
             <div className="ant-result-title">{className}</div>
-            <div className="ant-result-subtitle">{t('my_class.hello')}{nameMe}. {t('my_class.join_class_act')}</div>
+            <div className="ant-result-subtitle">
+              {t('my_class.hello')}
+              {nameMe}. {t('my_class.join_class_act')}
+            </div>
             <Avatar.Group
               maxCount={2}
               maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
@@ -101,7 +111,11 @@ const InviteStudentsLink = () => {
               </Tooltip>
             </Avatar.Group>
             <div className="ant-result-extra">
-              <button onClick={handleJoinClass} type="button" className="ant-btn ant-btn-primary primary join_class_btn">
+              <button
+                onClick={handleJoinClass}
+                type="button"
+                className="ant-btn ant-btn-primary primary join_class_btn"
+              >
                 <span>Tham gia</span>
               </button>
             </div>

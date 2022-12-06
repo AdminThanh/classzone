@@ -10,7 +10,9 @@ export default {
     create_question: 'Tạo bài kiểm tra',
     assignment: 'Bài kiểm tra được giao',
     table_score: 'Bảng điểm',
-    attendance: "Điểm danh"
+    attendance: 'Điểm danh',
+    schedule: 'Thời khóa biểu',
+    history_attendance: 'Lịch sử điểm danh',
   },
 
   user_control: {

@@ -9,8 +9,10 @@ export default {
     add_question: 'Add question',
     create_question: 'Create question',
     assignment: 'Assignment',
-    table_score: "Table score",
-    attendance: "Attendance"
+    table_score: 'Table score',
+    attendance: 'Attendance',
+    schedule: 'Schedule',
+    history_attendance: "History attendance"
   },
   user_control: {
     account_management: 'Account management',
@@ -76,7 +78,7 @@ export default {
   auth: {
     login_success: 'Login success',
     logout_success: 'Logout success',
-    register_success: "Register success",
+    register_success: 'Register success',
     //top tab
     register: 'Register',
     login: 'Login',

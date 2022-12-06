@@ -23,7 +23,7 @@ const CreateAttendance = () => {
             path: `/class_detail/${classId}`,
           },
           {
-            name: t('navbar.attendance'),
+            name: t('navbar.schedule'),
             path: '#',
           },
         ]}

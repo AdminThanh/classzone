@@ -127,10 +127,6 @@ function EditProfile() {
       <BreadCrumb
         routes={[
           {
-            name: t('bread_crumb.home'),
-            path: '/',
-          },
-          {
             name: t('bread_crumb.edit_profile'),
             path: '/profile',
           },
@@ -161,7 +157,7 @@ function EditProfile() {
                           onChange={handleChangeFile}
                           disabled={!isEdit}
                         />
-                        
+
                         {auth.avatar || avatar?.preview ? (
                           <img
                             className="navbar__avatar"

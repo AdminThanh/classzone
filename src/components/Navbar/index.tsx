@@ -111,14 +111,11 @@ const Navbar = (props: INavbarProps) => {
             {isAuthenticated && (
               <div className="navbar__user">
                 <div className="navbar__label">
-                  Chào, {auth?.firstName} {auth?.lastName}
+                  Chào, {auth?.lastName} {auth?.firstName}
                 </div>
 
                 {auth.avatar ? (
-                  <img
-                    className="navbar__avatar"
-                    src={auth.avatar}
-                  />
+                  <img className="navbar__avatar" src={auth.avatar} />
                 ) : (
                   <Avatar>{auth.firstName.charAt(0).toUpperCase()}</Avatar>
                 )}

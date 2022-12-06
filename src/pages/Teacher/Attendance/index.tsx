@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Alert, notification, Spin } from 'antd';
+import { Alert, Avatar, notification, Spin } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
 import {
   GetAttendanceTodayDocument,
@@ -61,7 +61,8 @@ function Attendance() {
         ) {
           return {
             avatar: student.avatar,
-            username: student.firstName + ' ' + student.lastName,
+            username: student.lastName + ' ' + student.firstName,
+            firstName: student.firstName,
             id: student.id,
             note: attendances?.[indexAttendanceOfStudent].note || '',
             is_present:
@@ -70,7 +71,8 @@ function Attendance() {
         } else {
           return {
             avatar: student.avatar,
-            username: student.firstName + ' ' + student.lastName,
+            username: student.lastName + ' ' + student.firstName,
+            firstName: student.firstName,
             id: student.id,
             note: '',
             is_present: true,
@@ -109,6 +111,10 @@ function Attendance() {
     }
   };
 
+  useEffect(() => {
+    attendanceRefetch();
+  }, []);
+
   const handleSaveAttendance = (): void => {
     const payload: any = [];
     // const schedule_id = scheduleData?.getScheduleByClass?.find((schedule_id) => schedule_id.id);
@@ -130,6 +136,8 @@ function Attendance() {
         </>
       ),
     });
+
+    attendanceRefetch();
     try {
       notification.destroy();
       notification.success({
@@ -201,15 +209,16 @@ function Attendance() {
                     {dataStudentAttendance?.map((student: any) => (
                       <tr key={student?.id}>
                         <td className="td-attendance">
-                          <img
-                            src={
-                              student?.avatar
-                                ? student?.avatar
-                                : require('assets/images/avatar/4.jpg')
-                            }
-                            alt=""
-                            className="avatar-img"
-                          />
+                          {student.avatar || student?.preview ? (
+                            <img
+                              className="avatar-img"
+                              src={student.preview || student.avatar}
+                            />
+                          ) : (
+                            <Avatar className="avatar-img">
+                              {student.firstName?.charAt(0).toUpperCase()}
+                            </Avatar>
+                          )}
                         </td>
                         <td className="td-attendance">
                           <p>{student?.username}</p>
