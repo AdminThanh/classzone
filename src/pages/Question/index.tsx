@@ -12,7 +12,6 @@ import {
   GetAllQuestionDocument,
   GetMyQuestionDocument,
 } from 'gql/graphql';
-import i18next from 'i18next';
 import moment from 'moment';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -145,15 +144,7 @@ const Question = () => {
     <div>
       <div className="site_wrapper">
         <div className="site_container">
-          <div>
-            <button
-              onClick={() => {
-                i18next.changeLanguage(i18next.language === 'vi' ? 'en' : 'vi');
-              }}
-            >
-              {t('count.change_language')}
-            </button>
-          </div>
+
           <BreadCrumb
             routes={[
               {

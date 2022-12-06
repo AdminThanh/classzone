@@ -46,6 +46,7 @@ function EditProfile() {
 
       reader.onload = () => {
         res(reader.result);
+        setAvatarBase64(reader.result);
       };
 
       reader.onerror = (error) => {
@@ -66,6 +67,7 @@ function EditProfile() {
 
   const onFinish = async (values: any) => {
     console.log('Success:', values);
+
     notification.open({
       key: 'spin',
       message: (
@@ -85,7 +87,7 @@ function EditProfile() {
             phoneNumber: values.phone,
             oldPassword: values.firstpassword,
             newPassword: values.inputpassword,
-            avatar: avatarBase64 || '',
+            avatar: avatarBase64,
           },
         },
       });
@@ -143,7 +145,7 @@ function EditProfile() {
               <div className="input-content">
                 <Row justify="center">
                   <Col span={48}>
-                    <Form.Item>
+                    <Form.Item name="avatar">
                       <label className="upload-avatar" htmlFor="upload">
                         <input
                           type="file"
@@ -152,27 +154,13 @@ function EditProfile() {
                           onChange={handleChangeFile}
                           disabled={!isEdit}
                         />
-                        {auth.avatar ? (
-                          <img
-                            className="avatar-img"
-                            src={auth.avatar}
-                            alt=""
-                          />
-                        ) : avatar ? (
-                          <img
-                            className="avatar-img"
-                            src={avatar.preview}
-                            alt=""
-                          />
-                        ) : (
-                          <img
-                            className="avatar-img"
-                            src={
-                              'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'
-                            }
-                            alt=""
-                          />
-                        )}
+
+                        <img
+                          className="avatar-img"
+                          src={avatar ? avatar.preview : auth.avatar ? auth.avatar : 'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'}
+                          alt=""
+                        />
+
                         <img
                           className="icon-upload"
                           src={require('assets/images/icon-upload.png')}

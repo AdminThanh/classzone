@@ -117,7 +117,7 @@ const TaskbarFooter = (props: any) => {
                 <Link to={item.path || ''} onClick={item.onClick}>
                   <div className="tab-item">
                     {item.Icon}
-                    {item.label}
+                    <p>{item.label}</p>
                   </div>
                 </Link>
               </div>
