@@ -6,12 +6,7 @@ import ErrorPage from 'pages/404Page';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
 import React, { useEffect } from 'react';
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes
-} from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { routes } from './routes';
 
 // Import pages
@@ -89,7 +84,7 @@ const Router = () => {
                   </>
                 }
               />
-               <Route
+              <Route
                 path="/"
                 element={
                   <>
@@ -114,6 +109,7 @@ const Router = () => {
                 }
               />
               <Route path="not-found" element={<ErrorPage />} />
+              <Route path="*" element={<Navigate to="/not-found" />} />;
             </>
           )}
         </Routes>

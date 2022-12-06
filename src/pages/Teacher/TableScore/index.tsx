@@ -106,7 +106,7 @@ const TableScore = () => {
         colScore?.forEach((cs: any) => {
           Object.keys(cs?.scores || {}).forEach((student_id) => {
             if (student.id === student_id) {
-              scoreOfStudent[cs.id] = cs?.scores[student_id] || null;
+              scoreOfStudent[cs.id] = cs?.scores[student_id] ?? null;
             }
           });
         });
@@ -463,6 +463,58 @@ const TableScore = () => {
       // sorter: (a, b) => a.average - b.average,
       render: (_, record: DataType) => {
         const scores: number[] = [];
+        const refScores: number[] = [];
+
+        // Tính điểm tham chiếu
+        Object.keys(record || {}).forEach((key: string) => {
+          if (key === 'key' || key === 'name' || key === 'student_id') {
+            return;
+          }
+
+          const indexOfColumn = dataTable?.findIndex((col) => col.id === key);
+
+          // Trường hợp là điểm cộng hoặc trừ
+          if (indexOfColumn !== undefined && indexOfColumn !== -1) {
+            if (
+              dataTable?.[indexOfColumn]?.type === ScoreType.Minus ||
+              dataTable?.[indexOfColumn]?.type === ScoreType.Plus
+            ) {
+              switch (dataTable?.[indexOfColumn]?.type) {
+                case ScoreType.Minus: {
+                  // const indexOfColumnReference = dataTable.findIndex(
+                  //   (col) => col.id === dataTable?.[indexOfColumn].reference_col
+                  // );
+
+                  const multiplierOfColumn =
+                    dataTable[indexOfColumn]?.multiplier || 1;
+
+                  // Handle multiplier
+                  for (let i = 0; i < multiplierOfColumn; i++) {
+                    refScores.push(-record[key] as number);
+                  }
+
+                  break;
+                }
+                case ScoreType.Plus:
+                  {
+                    // const multiplierOfColumnReference =
+                    //   dataTable[indexOfColumnReference]?.multiplier || 1;
+                    const multiplierOfColumn =
+                      dataTable[indexOfColumn]?.multiplier || 1;
+
+                    // Handle multiplier
+                    for (let i = 0; i < multiplierOfColumn; i++) {
+                      refScores.push(record[key] as number);
+                    }
+                  }
+                  break;
+              }
+              return;
+            }
+          }
+        });
+
+        // Tính điểm
         Object.keys(record || {}).forEach((key: string) => {
           if (key === 'key' || key === 'name' || key === 'student_id') {
             return;
@@ -471,69 +523,36 @@ const TableScore = () => {
           const indexOfColumn = dataTable?.findIndex((col) => col.id === key);
 
           let multiplier;
-
-          // Trường hợp là điểm cộng hoặc trừ
-          if (indexOfColumn) {
+          if (indexOfColumn !== undefined && indexOfColumn !== -1) {
             if (
               dataTable?.[indexOfColumn]?.type === ScoreType.Minus ||
               dataTable?.[indexOfColumn]?.type === ScoreType.Plus
             ) {
-              switch (dataTable?.[indexOfColumn]?.type) {
-                case ScoreType.Minus: {
-                  const indexOfColumnReference = dataTable.findIndex(
-                    (col) => col.id === dataTable?.[indexOfColumn].reference_col
-                  );
-
-                  const multiplierOfColumnReference =
-                    dataTable[indexOfColumnReference]?.multiplier || 1;
-
-                  const multiplierOfColumn =
-                    dataTable[indexOfColumn]?.multiplier || 1;
-
-                  // Handle multiplier
-                  for (let i = 0; i < multiplierOfColumn; i++) {
-                    scores.push(-record[key] as number);
-                  }
-                  break;
-                }
-                case ScoreType.Plus:
-                  {
-                    const indexOfColumnReference = dataTable.findIndex(
-                      (col) =>
-                        col.id === dataTable?.[indexOfColumn].reference_col
-                    );
-
-                    const multiplierOfColumnReference =
-                      dataTable[indexOfColumnReference]?.multiplier || 1;
-
-                    // Handle multiplier
-                    for (let i = 0; i < multiplierOfColumnReference; i++) {
-                      scores.push(record[key] as number);
-                    }
-                  }
-                  break;
-              }
               return;
             }
-          }
 
-          if (
-            dataTable &&
-            indexOfColumn !== undefined &&
-            indexOfColumn !== -1
-          ) {
-            multiplier = dataTable[indexOfColumn]?.multiplier || 1;
-          } else {
-            multiplier = 1;
-          }
+            if (
+              dataTable &&
+              indexOfColumn !== undefined &&
+              indexOfColumn !== -1
+            ) {
+              multiplier = dataTable[indexOfColumn]?.multiplier || 1;
+            } else {
+              multiplier = 1;
+            }
 
-          // Handle multiplier
-          for (let i = 0; i < multiplier; i++) {
-            scores.push(record[key] as number);
+            // Handle multiplier
+            for (let i = 0; i < multiplier; i++) {
+              scores.push(record[key] as number);
+            }
           }
         });
 
-        return <div>{getAverage(scores).toFixed(2)}</div>;
+        console.log({
+          scores,
+          refScores,
+        });
+        return <div>{getAverage(scores, refScores).toFixed(2)}</div>;
       },
     },
   ];
@@ -634,6 +653,7 @@ const TableScore = () => {
             }
           });
 
+          console.log('scores', scores);
           return getAverage(scores).toFixed(2);
         },
       },

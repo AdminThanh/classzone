@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Col, Row } from 'antd';
+import { Col, Row, Skeleton } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
@@ -14,7 +14,7 @@ import './ExamPage.scss';
 
 export interface IExamList {
   id_exam: number;
-  name_exam: string;
+  name: string;
   start_time: string;
   deadline: string;
   work_time: number;
@@ -26,7 +26,7 @@ export interface IExamList {
 const datas: IExamList[] = [
   {
     id_exam: 1,
-    name_exam: 'Bài kiểm tra số 1',
+    name: 'Bài kiểm tra số 1',
     start_time: '10:55 - 15/02/2022',
     deadline: '10:55 - 15/02/2022',
     work_time: 45,
@@ -36,7 +36,7 @@ const datas: IExamList[] = [
   },
   {
     id_exam: 2,
-    name_exam: 'Bài kiểm tra số 2',
+    name: 'Bài kiểm tra số 2',
     start_time: '10:55 - 15/02/2022',
     deadline: '10:55 - 15/02/2022',
     work_time: 45,
@@ -46,7 +46,7 @@ const datas: IExamList[] = [
   },
   {
     id_exam: 3,
-    name_exam: 'Bài kiểm tra số 3',
+    name: 'Bài kiểm tra số 3',
     start_time: '10:55 - 15/02/2022',
     deadline: '10:55 - 15/02/2022',
     work_time: 45,
@@ -56,7 +56,7 @@ const datas: IExamList[] = [
   },
   {
     id_exam: 4,
-    name_exam: 'Bài kiểm tra số 4',
+    name: 'Bài kiểm tra số 4',
     start_time: '10:55 - 15/02/2022',
     deadline: '10:55 - 15/02/2022',
     work_time: 45,
@@ -72,7 +72,7 @@ function ExamPage() {
   const [listExam, setListExam] = useState<any[]>(datas);
   //status 1 : đã làm, 2: Chưa làm, 3: Đã có điểm, 4: Chưa bắt đầu
 
-  const { data } = useQuery(GetAllExamClassDocument);
+  const { data, loading } = useQuery(GetAllExamClassDocument);
   console.log('GetAllExamClassDocument', data?.getAllExamClass);
 
   const allExamClassList = data?.getAllExamClass;
@@ -159,21 +159,31 @@ function ExamPage() {
       </Row>
       <Row gutter={[20, 20]}>
         {allExamClassList ? (
-          allExamClassList?.map((item) => (
-            <Col xs={24} sm={24} md={12} lg={12} xl={8} xxl={8} key={item.id}>
-              <ExamItem
-                name_exam={'item.name_exam'}
-                start_time={moment(item.dateFrom).format("HH:MM - DD/MM/YYYY")}
-                deadline={moment(item.dateEnd).format("HH:MM - DD/MM/YYYY")}
-                work_time={item.minutes + ' Phút'}
-                num_question={allExamClassList.length}
-                status={'item.status'}
-                status_btn={'item.status_btn'}
-                examId={item.id}
-              />
-            </Col>
-          ))
-        ) : (
+          !loading ? (
+            allExamClassList?.map((item) => (
+              <Col xs={24} sm={24} md={12} lg={12} xl={8} xxl={8} key={item.id}>
+                <ExamItem
+                  name_exam={`item.name`}
+                  start_time={moment(item.dateFrom).format("HH:MM - DD/MM/YYYY")}
+                  deadline={moment(item.dateEnd).format("HH:MM - DD/MM/YYYY")}
+                  work_time={item.minutes + ' Phút'}
+                  num_question={allExamClassList.length}
+                  status={'item.status'}
+                  status_btn={'item.status_btn'}
+                  examId={item.id}
+                />
+              </Col>
+            ))
+          ) : (
+            < Row className='exam-loading-list'>
+              {[1, 2, 3].map(() => (
+                <div className='exam-loading-item'>
+                  <Skeleton.Node active />
+                </div>
+              ))
+              }
+            </Row>
+          )) : (
           <div className="not-exam">Chưa có bài kiểm tra nào</div>
         )}
       </Row>

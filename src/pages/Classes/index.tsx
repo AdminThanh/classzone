@@ -1,6 +1,7 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
-import { Button, Col, Form, Row, Select } from 'antd';
+import { Button, Col, Form, Row, Select, Skeleton } from 'antd';
+import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import { useAuth } from 'contexts/AuthContext';
@@ -29,16 +30,16 @@ const Classes = () => {
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
   const { auth } = useAuth();
-
-  const { data, refetch }: any = useQuery(
+  const { data, refetch, loading }: any = useQuery(
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
   );
-  
+
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
   const handleRefetch = () => {
     refetch();
+
   };
 
   const fields: TField[] = useMemo(
@@ -78,7 +79,6 @@ const Classes = () => {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
-
   return (
     <div className="site_wrapper">
       <div className="site_container">
@@ -140,38 +140,52 @@ const Classes = () => {
         </div>
 
         <div className="classes">
-          <Row gutter={[20, 20]}>
-            {datas?.length !== 0 &&
-              datas?.map((item) => (
-                <Col
-                  key={item.id}
-                  xs={24}
-                  sm={12}
-                  md={12}
-                  lg={8}
-                  xl={8}
-                  xxl={8}
-                >
-                  <ClassItem
-                    id={item.id}
-                    name={item.name}
-                    avatar={item.avatar}
-                    end_date={item.end_date}
-                    from_date={item.from_date}
-                    code={item.code}
-                    owner={
-                      auth.role === 'STUDENT' &&
-                      item.owner?.firstName + item.owner?.lastName
-                    }
-                    scoreFactor={item.scoreFactor}
-                    handleRefetch={handleRefetch}
-                  />
-                </Col>
-              ))}
-          </Row>
+          {
+            !loading ? (
+              <Row gutter={[20, 20]}>
+                {datas?.length !== 0 &&
+                  datas?.map((item) => (
+                    <Col
+                      key={item.id}
+                      xs={24}
+                      sm={12}
+                      md={12}
+                      lg={8}
+                      xl={8}
+                      xxl={8}
+                    >
+
+                      <ClassItem
+                        id={item.id}
+                        name={item.name}
+                        avatar={item.avatar}
+                        end_date={item.end_date}
+                        from_date={item.from_date}
+                        code={item.code}
+                        owner={
+                          auth.role === 'STUDENT' &&
+                          item.owner?.firstName + item.owner?.lastName
+                        }
+                        scoreFactor={item.scoreFactor}
+                        handleRefetch={handleRefetch}
+                      />
+
+                    </Col>
+                  ))}
+              </Row>
+            ) : (< Row className='loading-list'>
+              {[1, 2, 3].map(() => (
+                <div className='loading-item'>
+                  <Skeleton.Node active />
+                </div>
+              ))
+              }
+            </Row>
+            )
+          }
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default Classes;

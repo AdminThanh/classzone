@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import GiveAssingment from 'components/GiveAssignment';
+import Leaderboard from 'components/Leaderboard';
 import WheelOfNames from 'components/WheelOfNames';
 import { useAuth } from 'contexts/AuthContext';
 import Assignment from 'pages/Assignment';
@@ -27,6 +28,7 @@ const TaskbarFooter = (props: any) => {
 
  
 
+  const { handleOpenLeaderboard } = props;
   const [currentModal, setCurrentModal] = useState<ICurrentModal>({
     modal: null,
     data: null,
@@ -87,7 +89,6 @@ const TaskbarFooter = (props: any) => {
           label: t('my_class.quick_test'),
           onClick: () => {
             setIsOpenTableAddQuestion(true);
-            console.log('Quick test');
           },
         },
         {
@@ -103,7 +104,7 @@ const TaskbarFooter = (props: any) => {
         {
           Icon: <FormOutlined />,
           label: t('my_class.my_history_attendance'),
-          path: 'check_attendance',
+          path: 'check_my_attendance',
         },
       ];
     }
@@ -164,7 +165,9 @@ const TaskbarFooter = (props: any) => {
             classRoom: classId,
             questionIds,
           });
-          // setIsOpenTableAddQuestion(false);
+
+          handleOpenLeaderboard();
+          setIsOpenTableAddQuestion(false);
         }}
         width="90%"
       >
