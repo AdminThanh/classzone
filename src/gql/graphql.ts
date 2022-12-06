@@ -30,7 +30,7 @@ export type AnswerSubmitInput = {
 
 export type AnswerSubmitType = {
   __typename?: 'AnswerSubmitType';
-  answer: Scalars['String'];
+  answer: Array<Scalars['String']>;
   questionId: Scalars['String'];
 };
 
@@ -55,8 +55,9 @@ export type AssignmentType = {
   minuteDoing?: Maybe<Scalars['Float']>;
   score?: Maybe<Scalars['Float']>;
   startTime: Scalars['DateTime'];
+  status?: Maybe<Status>;
+  student: User;
   updatedAt: Scalars['DateTime'];
-  user: User;
 };
 
 export type Attendance = {
@@ -117,10 +118,8 @@ export type CreateAndUpdateScheduleInput = {
 };
 
 export type CreateAssignmentInput = {
-  answerSubmit?: InputMaybe<Array<AnswerSubmitInput>>;
   examClass: Scalars['String'];
-  minuteDoing?: InputMaybe<Scalars['Float']>;
-  startTime: Scalars['DateTime'];
+  student: Scalars['ID'];
 };
 
 export type CreateAttendanceInput = {
@@ -222,6 +221,7 @@ export type ExamClassType = {
   id: Scalars['String'];
   isAllowReview: Scalars['Boolean'];
   minutes: Scalars['Float'];
+  owner: User;
   scoreFactor: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
 };
@@ -531,7 +531,9 @@ export type Query = {
   getAllClasses: Array<Class>;
   getAllExam: Array<ExamType>;
   getAllExamClass: Array<ExamClassType>;
+  getAllExamOfClass: Array<ExamClassType>;
   getAllGroup: Array<GroupType>;
+  getAllMyAssignment: Array<AssignmentType>;
   getAllQuestion: Array<QuestionType>;
   getAllUsers: Array<User>;
   getAssignmentById: AssignmentType;
@@ -546,6 +548,7 @@ export type Query = {
   getMyClass: Array<Class>;
   getMyClassStudent: Array<Class>;
   getMyExam: Array<ExamType>;
+  getMyExamClass: Array<ExamClassType>;
   getMyQuestion: Array<QuestionType>;
   getQuestionById: QuestionType;
   getScheduleByClass: Array<ScheduleType>;
@@ -554,6 +557,11 @@ export type Query = {
   getUserById: User;
   me: User;
   refreshToken: TokenAndUser;
+};
+
+
+export type QueryGetAllExamOfClassArgs = {
+  classId: Scalars['String'];
 };
 
 
@@ -639,7 +647,7 @@ export type QuestionType = {
 export type RegisterInput = {
   email: Scalars['String'];
   password: Scalars['String'];
-  role: Scalars['String'];
+  role: Role;
   username: Scalars['String'];
 };
 
@@ -664,6 +672,12 @@ export enum ScoreType {
   Minus = 'MINUS',
   Normal = 'NORMAL',
   Plus = 'PLUS'
+}
+
+export enum Status {
+  Doing = 'DOING',
+  Done = 'DONE',
+  DontDo = 'DONT_DO'
 }
 
 export type Tag = {
@@ -791,6 +805,7 @@ export type User = {
   email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  is_online?: Maybe<Scalars['Boolean']>;
   lastName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   role?: Maybe<Role>;
@@ -1014,6 +1029,36 @@ export type CreateExamClassMutationVariables = Exact<{
 
 export type CreateExamClassMutation = { __typename?: 'Mutation', createExamClass: { __typename?: 'ExamClassType', isAllowReview: boolean, minutes: number, dateFrom: any, dateEnd: any, exam: { __typename?: 'ExamType', id: string }, classRoom: { __typename?: 'Class', id: string } } };
 
+export type GetGroupOfClassQueryVariables = Exact<{
+  classId: Scalars['String'];
+}>;
+
+
+export type GetGroupOfClassQuery = { __typename?: 'Query', getGroupOfClass: Array<{ __typename?: 'GroupType', id: string, name?: string | null, class: { __typename?: 'Class', id: string, name: string }, students: Array<{ __typename?: 'User', id: string, lastName?: string | null, firstName?: string | null, avatar?: string | null }> }> };
+
+export type CreateGroupMutationVariables = Exact<{
+  createGroupInput: CreateGroupInput;
+}>;
+
+
+export type CreateGroupMutation = { __typename?: 'Mutation', createGroup: { __typename?: 'GroupType', id: string, name?: string | null, class: { __typename?: 'Class', id: string }, students: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email: string }> } };
+
+export type CreateAutoGroupMutationVariables = Exact<{
+  classId: Scalars['String'];
+  groupAmount: Scalars['Float'];
+}>;
+
+
+export type CreateAutoGroupMutation = { __typename?: 'Mutation', createAutoGroup: Array<{ __typename?: 'GroupType', id: string, name?: string | null, students: Array<{ __typename?: 'User', id: string, lastName?: string | null, firstName?: string | null }> }> };
+
+export type UpdateGroupMutationVariables = Exact<{
+  updateGroupInput: UpdateGroupInput;
+  id: Scalars['String'];
+}>;
+
+
+export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'GroupType', id: string, name?: string | null, class: { __typename?: 'Class', id: string, name: string }, students: Array<{ __typename?: 'User', id: string, lastName?: string | null, firstName?: string | null, avatar?: string | null }> } };
+
 export type CreateQuestionMutationVariables = Exact<{
   createQuestion: CreateQuestionInput;
 }>;
@@ -1145,6 +1190,10 @@ export const CreateExamDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const UpdateExamDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateExam"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateExamInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateExamInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateExam"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateExamInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateExamInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<UpdateExamMutation, UpdateExamMutationVariables>;
 export const DeleteExamDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteExam"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteExam"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeleteExamMutation, DeleteExamMutationVariables>;
 export const CreateExamClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createExamClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createExamClassInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateExamClassInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createExamClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createExamClassInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createExamClassInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"classRoom"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isAllowReview"}},{"kind":"Field","name":{"kind":"Name","value":"minutes"}},{"kind":"Field","name":{"kind":"Name","value":"dateFrom"}},{"kind":"Field","name":{"kind":"Name","value":"dateEnd"}}]}}]}}]} as unknown as DocumentNode<CreateExamClassMutation, CreateExamClassMutationVariables>;
+export const GetGroupOfClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getGroupOfClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"classId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getGroupOfClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"classId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"classId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}}]}}]}}]}}]} as unknown as DocumentNode<GetGroupOfClassQuery, GetGroupOfClassQueryVariables>;
+export const CreateGroupDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createGroup"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createGroupInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateGroupInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createGroup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createGroupInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createGroupInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<CreateGroupMutation, CreateGroupMutationVariables>;
+export const CreateAutoGroupDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createAutoGroup"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"classId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"groupAmount"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAutoGroup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"classId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"classId"}}},{"kind":"Argument","name":{"kind":"Name","value":"groupAmount"},"value":{"kind":"Variable","name":{"kind":"Name","value":"groupAmount"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}}]}}]}}]}}]} as unknown as DocumentNode<CreateAutoGroupMutation, CreateAutoGroupMutationVariables>;
+export const UpdateGroupDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateGroup"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateGroupInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateGroupInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateGroup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateGroupInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateGroupInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"class"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"students"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateGroupMutation, UpdateGroupMutationVariables>;
 export const CreateQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createQuestion"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateQuestionInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createQuestion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createQuestionInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createQuestion"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}},{"kind":"Field","name":{"kind":"Name","value":"isMultiple"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]}}]} as unknown as DocumentNode<CreateQuestionMutation, CreateQuestionMutationVariables>;
 export const GetQuestionByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getQuestionById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getQuestionById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}},{"kind":"Field","name":{"kind":"Name","value":"isMultiple"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"correctAnswer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]}}]} as unknown as DocumentNode<GetQuestionByIdQuery, GetQuestionByIdQueryVariables>;
 export const GetAllQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllQuestion"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllQuestion"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<GetAllQuestionQuery, GetAllQuestionQueryVariables>;

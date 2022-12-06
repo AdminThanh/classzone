@@ -9,18 +9,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GetClassByIdDocument } from 'gql/graphql';
 
 const StudentList = (props: any) => {
-  const { dataStudent, classId, handleOpenBadgeStudent, onlines } = props;
+  const { dataListStudent, classId, handleOpenBadgeStudent, onlines } = props;
 
-  console.log("onlines", onlines)
+  console.log('onlines', onlines);
   const [showInviteStudents, setShowInviteStudents] = useState(false);
-
-  const { data, refetch } = useQuery(GetClassByIdDocument, {
-    variables: {
-      id: classId,
-    },
-  });
-
-  const dataListStudent = data?.getClassById?.students;
 
   const { t } = useTranslation();
   return (
@@ -61,11 +53,11 @@ const StudentList = (props: any) => {
           <PlusCircleOutlined />
         </div>
       </Col>
-      {showInviteStudents ? (
+      {showInviteStudents && (
         <InviteStudents setShowInviteStudents={setShowInviteStudents} />
-      ) : (
-        ''
       )}
+
+      
     </Row>
   );
 };

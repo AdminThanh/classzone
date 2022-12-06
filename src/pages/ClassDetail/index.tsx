@@ -3,7 +3,11 @@ import { Button, notification, Progress, Steps, Tabs } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import TaskbarFooter from 'components/TaskbarFooter';
 import { useAuth } from 'contexts/AuthContext';
-import { GetBadgeByClassDocument, ScoreType } from 'gql/graphql';
+import {
+  GetBadgeByClassDocument,
+  GetClassByIdDocument,
+  ScoreType,
+} from 'gql/graphql';
 import Assignment from 'pages/Assignment';
 import AssignmentItem from 'pages/Assignment/components/AssignmentItem';
 import StudentList from 'pages/ClassDetail/components/StudentList';
@@ -247,6 +251,14 @@ const ClassDetail = () => {
   });
   const [onlines, setOnlines] = useState([]);
 
+  const { data, refetch } = useQuery(GetClassByIdDocument, {
+    variables: {
+      id: classId as string,
+    },
+  });
+
+  const dataListStudent = data?.getClassById?.students;
+
   const onChange = (value: number) => {
     console.log('onChange:', value);
     setCurrent(value);
@@ -284,11 +296,11 @@ const ClassDetail = () => {
       console.log('Message');
     });
 
-    socket.on('receive_message', (data) => {
+    socket.on('receive_message', (data: any) => {
       console.log('Nhận tin nhắn', data);
     });
 
-    socket.on('receive_quick-test', (data) => {
+    socket.on('receive_quick-test', (data: any) => {
       console.log('nhận quick test', data);
       setQuickTest({
         data: data,
@@ -296,12 +308,12 @@ const ClassDetail = () => {
       });
     });
 
-    socket.on('receive_students-online-in-class', (data) => {
+    socket.on('receive_students-online-in-class', (data: any) => {
       console.log('receive_students-online-in-class', data);
       setOnlines(data);
     });
 
-    socket.on('receive_badge', (data) => {
+    socket.on('receive_badge', (data: any) => {
       if (data.type === ScoreType.Minus) {
         notification.error({
           message: data.message,
@@ -347,18 +359,21 @@ const ClassDetail = () => {
                 <StudentList
                   handleOpenBadgeStudent={handleOpenBadgeStudent}
                   classId={classId}
-                  dataStudent={dataStudent}
+                  dataListStudent={dataListStudent}
                   onlines={onlines}
                 />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Nhóm" key="2">
-                <GroupList dataGroup={dataGroup} />
+                <GroupList
+                  dataListStudent={dataListStudent}
+                  dataGroup={dataGroup}
+                />
               </Tabs.TabPane>
             </Tabs>
           </div>
         </div>
       </div>
-      <TaskbarFooter />
+      <TaskbarFooter dataListStudent={dataListStudent} dataGroup={dataGroup} />
 
       <Modal
         title="Thêm thành tích cho học sinh"

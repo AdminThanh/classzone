@@ -37,3 +37,28 @@
     }
   }
 }
+.chose_createGroup {
+  .ant-modal-body {
+    display: flex;
+    justify-content: space-around;
+  }
+  button.primary {
+    padding: 30px;
+    line-height: 0;
+  }
+}
+.create_group_auto {
+  .ant-modal-body {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  .ant-input-number{
+    margin: 0px auto;
+    margin-bottom: 20px;
+  }
+  button.primary {
+    padding: 10px;
+    line-height: 0;
+  }
+}
