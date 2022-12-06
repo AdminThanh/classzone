@@ -49,6 +49,7 @@ export default {
     give_assignment: 'Giao bài kiểm tra',
     list_assignment: 'Danh sách bài kiểm tra',
     my_history_attendance: 'Lịch sử điểm danh của tôi',
+    history_attendance: 'Lịch sử điểm danh',
 
     // Fied
     qr_code: 'Mã code',

@@ -46,6 +46,7 @@ export default {
     give_assignment: 'Give assignment',
     list_assignment: 'List assignment',
     my_history_attendance: 'My history attendance',
+    history_attendance: 'History attendance',
 
     // Fied
     qr_code: 'Code',
