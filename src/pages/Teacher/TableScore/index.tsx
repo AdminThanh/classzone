@@ -113,7 +113,7 @@ const TableScore = () => {
 
         return {
           key: student.id,
-          name: student.firstName || '' + student.lastName || '',
+          name: student.lastName + ' ' + student.firstName || '',
           student_id: student.id,
           ...scoreOfStudent,
         };

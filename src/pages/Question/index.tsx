@@ -16,6 +16,7 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import Color from 'color';
 import './Question.scss';
 
 interface IQuessionTags {
@@ -70,8 +71,14 @@ const Question = () => {
       render: (tags) => (
         <>
           {tags?.map((tag: any, index: any) => {
+            const color = new Color(tag.color);
+
             return (
-              <Tag color={tag.color} key={index}>
+              <Tag
+                color={tag.color}
+                style={{ color: color.isLight() ? '#000' : '#fff' }}
+                key={index}
+              >
                 {tag.name}
               </Tag>
             );

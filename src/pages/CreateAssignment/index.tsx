@@ -28,6 +28,7 @@ import {
   SortableHandle,
 } from 'react-sortable-hoc';
 import QuestionTable from './components/QuestionTable';
+import Color from 'color';
 
 interface IQuestions {
   id: string;
@@ -112,8 +113,13 @@ const CreateAssignment = () => {
       render: (tags) => (
         <>
           {tags?.map((tag: any, index: any) => {
+            const color = new Color(tag.color);
             return (
-              <Tag color={tag.color} key={index}>
+              <Tag
+                color={tag.color}
+                key={index}
+                style={{ color: color.isLight() ? '#000' : '#fff' }}
+              >
                 {tag.name}
               </Tag>
             );
