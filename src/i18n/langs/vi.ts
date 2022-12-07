@@ -78,6 +78,11 @@ export default {
     join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học',
   },
 
+  history_attendance: {
+    student_name: 'Tên học sinh',
+    total: 'Tổng buổi học',
+  },
+
   auth: {
     login_success: 'Đăng nhập thành công',
     logout_success: 'Đăng xuất thành công',
