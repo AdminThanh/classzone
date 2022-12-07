@@ -30,6 +30,7 @@ import Assignment from 'pages/Assignment';
 import JoinClass from 'pages/ClassDetail/components/JoinClass';
 import CreateAttendance from 'pages/CreateAttendance';
 import CheckMyAttendance from 'pages/CheckMyAttendance';
+import AssignedExam from 'pages/AssignedExam';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -95,6 +96,12 @@ export const routes: IRoute[] = [
   {
     path: '/class_detail/:classId/schedule',
     element: CreateAttendance,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/class_detail/:classId/exam',
+    element: AssignedExam,
     role: ['teacher'],
     layout: TeacherLayout,
   },
