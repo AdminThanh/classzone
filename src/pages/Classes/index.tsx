@@ -112,7 +112,7 @@ const Classes = () => {
             </Form.Item>
           </div>
           <div className="addclass">
-            {auth.role === 'teacher' && (
+            {auth.role === 'TEACHER' && (
               <Button
                 type="primary"
                 className="primary"
