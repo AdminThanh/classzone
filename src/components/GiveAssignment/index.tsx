@@ -25,15 +25,13 @@ function GiveAssingment() {
     const onFinish = (values: any) => {
         console.log(values);
 
-        const fromDate = values.startTime.format('DD-MM-YYYY HH:mm:ss');
-        const endDate = values.endTime.format('DD-MM-YYYY HH:mm:ss');
+        const fromDate = values.startTime;
+        const endDate = values.endTime;
         if (values.isAllowReview) {
             setAllowReview(true);
         } else {
             setAllowReview(false);
         }
-
-        console.log(fromDate, endDate);
 
         notification.open({
             message: (
@@ -54,8 +52,8 @@ function GiveAssingment() {
                         classRoom: classId as string,
                         isAllowReview: allowReview as boolean,
                         minutes: values.timeMake,
-                        dateFrom: fromDate,
-                        dateEnd: endDate,
+                        dateFrom: fromDate.toISOString(),
+                        dateEnd: endDate.toISOString(),
                     }
                 }
             })

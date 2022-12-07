@@ -231,6 +231,10 @@ export default {
       'Select the test for the automatic score column',
   },
 
+  assignment: {
+    name: 'Assignment name',
+  },
+
   create_assignment: {
     assignment_name: 'Assignment name',
     add_question: 'Add question',

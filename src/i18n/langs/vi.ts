@@ -238,6 +238,10 @@ export default {
       'Chọn bài kiểm tra cho cột điểm tự động',
   },
 
+  assignment: {
+    name: 'Tên bài kiểm tra',
+  },
+
   create_assignment: {
     create_assignment: 'Tạo bài kiểm tra',
     assignment_name: 'Tên bài kiểm tra',
