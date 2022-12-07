@@ -55,6 +55,7 @@ function EditProfile() {
 
       reader.onload = () => {
         res(reader.result);
+        setAvatarBase64(reader.result);
       };
 
       reader.onerror = (error) => {
@@ -75,6 +76,7 @@ function EditProfile() {
 
   const onFinish = async (values: any) => {
     console.log('Success:', values);
+
     notification.open({
       key: 'spin',
       message: (
@@ -94,7 +96,7 @@ function EditProfile() {
             phoneNumber: values.phone,
             oldPassword: values.firstpassword,
             newPassword: values.inputpassword,
-            avatar: avatarBase64 || '',
+            avatar: avatarBase64,
           },
         },
       });
@@ -148,7 +150,7 @@ function EditProfile() {
               <div className="input-content">
                 <Row justify="center">
                   <Col span={48}>
-                    <Form.Item>
+                    <Form.Item name="avatar">
                       <label className="upload-avatar" htmlFor="upload">
                         <input
                           type="file"

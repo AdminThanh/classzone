@@ -12,7 +12,6 @@ import {
   GetAllQuestionDocument,
   GetMyQuestionDocument,
 } from 'gql/graphql';
-import i18next from 'i18next';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
