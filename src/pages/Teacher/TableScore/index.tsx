@@ -664,6 +664,9 @@ const TableScore = () => {
       .saveAs('Excel.xlsx');
   };
 
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <div className="tableScore">
       <BreadCrumb

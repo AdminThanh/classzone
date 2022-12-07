@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   Button,
   Form,
@@ -13,6 +13,7 @@ import { useForm } from 'antd/es/form/Form';
 import {
   ColumnScoreType,
   CreateColumnScoreDocument,
+  GetAllExamClassDocument,
   ScoreType,
   UpdateColumnScoreDocument,
 } from 'gql/graphql';
@@ -46,15 +47,14 @@ const ModalFormColumn = (props: ModalFromColumn) => {
     handleRefetchTableScore,
     onCancel,
   } = props;
-  console.log('listColumnScore', listColumnScore);
+
   const [selectTest, setSelecteTest] = useState<ISelectTest>({
     value: '',
     isOpen: false,
     type: undefined,
   });
 
-  console.log('selectTest', selectTest);
-
+  const { data: dataExamClass } = useQuery(GetAllExamClassDocument);
   const [fireCreateColumnScore] = useMutation(CreateColumnScoreDocument);
 
   const [fireUpdateColumnScore] = useMutation(UpdateColumnScoreDocument);
@@ -80,7 +80,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
               name: value.name,
               type: value.type,
               note: value.note,
-              examOfClass_id: value.exam_id,
+              examOfClass_id: value.examOfClass_id,
               reference_col: value.reference_col,
             },
           },
@@ -208,9 +208,11 @@ const ModalFormColumn = (props: ModalFromColumn) => {
             )}
             allowClear
           >
-            <Option value="15">Bài kiểm tra 15'</Option>
-            <Option value="45">Bài kiểm tra 45'</Option>
-            <Option value="ielts">Bài kiểm tra IELTS</Option>
+            {dataExamClass?.getAllExamClass?.map((examClass) => (
+              <Option key={examClass.id} value={examClass.id}>
+                {examClass.exam.name}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
         {selectTest.isOpen && (
