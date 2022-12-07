@@ -67,3 +67,8 @@ export const updateGroup = graphql(`
     }
   }
 `);
+export const deleteGroup = graphql(`
+  mutation deleteGroup($id: String!) {
+    deleteGroup(id: $id)
+  }
+`);

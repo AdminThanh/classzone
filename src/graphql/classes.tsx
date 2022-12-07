@@ -12,8 +12,8 @@ import { gql } from '@apollo/client';
 // `;
 
 export const getMyClass = gql`
-  query getMyClass {
-    getMyClass {
+  query getMyClass($fitlerClassType: FilterClassType!) {
+    getMyClass(fitlerClassType: $fitlerClassType) {
       id
       name
       avatar
@@ -26,8 +26,8 @@ export const getMyClass = gql`
 `;
 
 export const getMyClassStudent = gql`
-  query getMyClassStudent {
-    getMyClassStudent {
+  query getMyClassStudent($fitlerClassType: FilterClassType!) {
+    getMyClassStudent(fitlerClassType: $fitlerClassType) {
       id
       name
       avatar

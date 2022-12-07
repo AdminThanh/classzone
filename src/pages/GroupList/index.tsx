@@ -75,6 +75,7 @@ const GroupList = (props: any) => {
       classId: classId as string,
     },
   });
+  
 
   const datas = groupOfClass?.getGroupOfClass.map((item) => ({
     id: item.id,

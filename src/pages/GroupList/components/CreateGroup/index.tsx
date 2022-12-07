@@ -13,13 +13,19 @@ import {
   Row,
   Col,
   Avatar,
+  Spin,
 } from 'antd';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
-import { CreateGroupDocument, UpdateGroupDocument } from 'gql/graphql';
+import {
+  CreateGroupDocument,
+  DeleteGroupDocument,
+  UpdateGroupDocument,
+} from 'gql/graphql';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useForm } from 'antd/es/form/Form';
+import Item from 'antd/lib/list/Item';
 
 const layout = {
   labelCol: { span: 24 },
@@ -44,6 +50,8 @@ const CreateGroup = (props: any) => {
   const [fireUpdateGroup, data] = useMutation(UpdateGroupDocument);
   const [form] = useForm();
 
+  const [fireDeleteGroup] = useMutation(DeleteGroupDocument);
+
   if (groupDetailInfo) {
     const membersId = groupDetailInfo.members.map((item: any) => item.id);
     form.setFieldsValue({
@@ -54,6 +62,36 @@ const CreateGroup = (props: any) => {
 
   const handleCancel = () => {
     setShowCreateGroup(false);
+  };
+
+  const handleDeleteGroup = async (id: string) => {
+    notification.open({
+      message: (
+        <>
+          <Spin /> &nbsp; Đang xoá
+        </>
+      ),
+    });
+    try {
+      await fireDeleteGroup({
+        variables: {
+          id,
+        },
+      });
+      setTimeout(() => {
+        notification.destroy();
+        notification.success({
+          message: t('action.delete_success'),
+        });
+        handleCancel();
+        handleRefetchGoup();
+      }, 1500);
+    } catch (err) {
+      notification.destroy();
+      notification.error({
+        message: t('action.delete_error'),
+      });
+    }
   };
 
   const onFinish = async (values: any) => {
@@ -67,7 +105,7 @@ const CreateGroup = (props: any) => {
               students: values.members,
               name: values.name,
             },
-            id: groupDetailInfo.id
+            id: groupDetailInfo.id,
           },
         });
         setLoadingOK(true);
@@ -75,10 +113,10 @@ const CreateGroup = (props: any) => {
           setLoadingOK(false);
           setShowCreateGroup(false);
           handleRefetchGoup();
-          message.success(t('action.create_success') as string);
+          message.success(t('action.edit_success') as string);
         }, 2000);
       } catch (error) {
-        message.success(t('action.create_error') as string);
+        message.success(t('action.edit_error') as string);
       }
     } else {
       try {
@@ -173,6 +211,15 @@ const CreateGroup = (props: any) => {
           >
             {t('action.close')}
           </Button>
+          {groupDetailInfo && (
+            <Button
+              style={{ float: 'right' }}
+              onClick={() => handleDeleteGroup(groupDetailInfo.id)}
+              key="back"
+            >
+              {t('action.delete')}
+            </Button>
+          )}
         </Form.Item>
       </Form>
     </Modal>
