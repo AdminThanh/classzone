@@ -9,7 +9,7 @@ const StudentItem = (props: any) => {
       onClick={() => handleOpenBadgeStudent(id, name)}
     >
       <Badge color={isOnline ? 'green' : 'red'} />
-      <Avatar src={avatar && avatar}>{name.charAt(0).toUpperCase()}</Avatar>
+      <Avatar src={avatar}>{name.charAt(0).toUpperCase()}</Avatar>
       <div className="name">
         <a>{name}</a>
       </div>

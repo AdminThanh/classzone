@@ -1,21 +1,16 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { useMutation, useQuery } from '@apollo/client';
-import { Alert } from 'antd';
+import { useQuery } from '@apollo/client';
 import BreadCrumb from 'components/BreadCrumb';
 import { useAuth } from 'contexts/AuthContext';
 import {
-  GetAttendanceTodayDocument,
   GetClassByIdDocument,
-  GetMyHistoryAttendanceDocument,
-  UppdateAttendancesDocument,
+  GetMyHistoryAttendanceDocument
 } from 'gql/graphql';
-import { getClassById } from 'graphql/classes';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import './CheckMyAttendance.scss';
+import './CheckHistoryAttendance.scss';
 
-function CheckMyAttendance() {
+function CheckHistoryAttendance() {
   const { t } = useTranslation();
   const { classId } = useParams();
   const { auth } = useAuth();
@@ -99,4 +94,4 @@ function CheckMyAttendance() {
   );
 }
 
-export default CheckMyAttendance;
+export default CheckHistoryAttendance;

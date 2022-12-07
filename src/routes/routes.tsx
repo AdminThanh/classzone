@@ -30,7 +30,7 @@ import Assignment from 'pages/Assignment';
 import JoinClass from 'pages/ClassDetail/components/JoinClass';
 import CreateAttendance from 'pages/CreateAttendance';
 import CheckMyAttendance from 'pages/CheckMyAttendance';
-import AssignedExam from 'pages/AssignedExam';
+import CheckHistoryAttendance from 'pages/CheckHistoryAttendance';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -100,8 +100,8 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
-    path: '/class_detail/:classId/exam',
-    element: AssignedExam,
+    path: '/class_detail/:classId/history_attendance',
+    element: CheckHistoryAttendance,
     role: ['teacher'],
     layout: TeacherLayout,
   },

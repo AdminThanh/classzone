@@ -52,7 +52,7 @@ const Leaderboard = (props: any) => {
                   </svg>
                 </div>
                 <div className="leaderName">
-                  {student.firstName + ' ' + student.lastName}
+                  {student.lastName + ' ' + student.firstName}
                 </div>
               </div>
             )}
@@ -79,7 +79,7 @@ const Leaderboard = (props: any) => {
                   <Avatar>{student.firstName.charAt(0).toUpperCase()}</Avatar>
                 )}
 
-                <span> {student.firstName + ' ' + student.lastName} </span>
+                <span> {student.lastName + ' ' + student.firstName} </span>
               </div>
               <span> {leaderboard?.[student.id]} </span>
             </div>

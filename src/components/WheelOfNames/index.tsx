@@ -11,30 +11,15 @@ import './WheelOfNames.scss';
 interface IPropsWheelOfNames {
   names?: string[];
   onClick?: (values: string) => void;
+  dataListStudent: string[];
 }
 
 const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
-  const {
-    names = [
-      'Đào Đức Minh Khôi',
-      'Phan Trọng Nghĩa',
-      'Trường Trung Kiên',
-      'Phan Quốc Huy',
-      'Nguyễn Đăng Thành',
-      'Lý Quốc Sư',
-      'OPtimus',
-      'Phan Bội Chau',
-      'Huỳnh Văn Hưng',
-      'Lê Thị Thúy',
-      'Mỹ Nga',
-      'PKD',
-      'Hình ',
-      'Ảnh',
-      'Của',
-      'Ai',
-    ],
-    onClick,
-  } = props;
+  const { dataListStudent, onClick } = props;
+
+  var names = dataListStudent.map(
+    (item: any) => item.firstName + ' ' + item.lastName
+  );
 
   ChartJS.register(ArcElement);
   // Spinner count
@@ -53,7 +38,7 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
   const [count, setCount] = useState<number>(1);
   const isWheeling = useRef(false);
   const { t } = useTranslation();
-  
+
   const data = {
     labels: names,
     datasets: [
@@ -84,7 +69,8 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
         formatter: (_: any, context: any) =>
           context.chart.data.labels[context.dataIndex],
         font: {
-          size: 100 / Math.floor(names.length / 2),
+          // size: 100 / Math.floor(names.length / 2),
+          size: 20,
         },
         anchor: 'center',
         rotation: function (ctx: any) {

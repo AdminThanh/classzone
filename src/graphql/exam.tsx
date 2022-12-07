@@ -82,6 +82,24 @@ export const getAllExamClass = graphql(`
     }
   }
 `);
+export const getMyExamClass = graphql(`
+  query getMyExamClass {
+    getMyExamClass {
+      id
+      exam {
+        name
+        questions {
+          id
+        }
+      }
+      dateFrom
+      dateEnd
+      minutes
+      isAllowReview
+    }
+  }
+`);
+
 export const getExamClassById = graphql(`
   query getExamClassById($id: String!) {
     getExamClassById(id: $id) {

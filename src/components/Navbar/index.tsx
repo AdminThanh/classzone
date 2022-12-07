@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { Avatar } from 'antd';
 import logo from 'assets/images/logo.png';
 import clsx from 'clsx';
 import { useAuth } from 'contexts/AuthContext';
@@ -123,16 +124,14 @@ const Navbar = (props: INavbarProps) => {
             {isAuthenticated && (
               <div className="navbar__user">
                 <div className="navbar__label">
-                  Chào, {auth?.firstName} {auth?.lastName}
+                  Chào, {auth?.lastName} {auth?.firstName}
                 </div>
-                <img
-                  src={
-                    auth.avatar ||
-                    'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg'
-                  }
-                  className="navbar__avatar"
-                  alt="avatar"
-                />
+
+                {auth.avatar ? (
+                  <img className="navbar__avatar" src={auth.avatar} />
+                ) : (
+                  <Avatar>{auth.firstName.charAt(0).toUpperCase()}</Avatar>
+                )}
 
                 <div className="navbar__dropdown">
                   <div className="navbar__listControl">
