@@ -31,7 +31,16 @@ const Classes = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
   const { data, refetch, loading }: any = useQuery(
-    auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
+    auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument,
+    {
+      variables: {
+        fitlerClassType: {
+          // name: '',
+          // sortType: 'FROM_DATE',
+          // status: "AVAILABLE"
+        },
+      },
+    }
   );
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];

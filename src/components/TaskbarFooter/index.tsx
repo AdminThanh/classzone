@@ -14,18 +14,21 @@ import WheelOfNames from 'components/WheelOfNames';
 import { useAuth } from 'contexts/AuthContext';
 import Assignment from 'pages/Assignment';
 import QuestionTable from 'pages/CreateAssignment/components/QuestionTable';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import socket from 'utils/socket';
 import './TaskbarFooter.scss';
-
 interface ICurrentModal {
   modal: null | 'wheel' | 'a' | 'assignment';
   data?: any;
 }
 
 const TaskbarFooter = (props: any) => {
+  const { dataListStudent, dataGroup } = props;
+
+ 
+
   const { handleOpenLeaderboard } = props;
   const [currentModal, setCurrentModal] = useState<ICurrentModal>({
     modal: null,
@@ -143,7 +146,7 @@ const TaskbarFooter = (props: any) => {
         onCancel={handleCloseModal}
         footer={null}
       >
-        <WheelOfNames />
+        <WheelOfNames dataListStudent={dataListStudent} />
       </Modal>
       <Modal
         title={t('my_class.give_assignment')}

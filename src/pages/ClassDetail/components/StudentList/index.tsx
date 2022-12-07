@@ -65,11 +65,11 @@ const StudentList = (props: any) => {
           <PlusCircleOutlined />
         </div>
       </Col>
-      {showInviteStudents ? (
+      {showInviteStudents && (
         <InviteStudents setShowInviteStudents={setShowInviteStudents} />
-      ) : (
-        ''
       )}
+
+      
     </Row>
   );
 };
