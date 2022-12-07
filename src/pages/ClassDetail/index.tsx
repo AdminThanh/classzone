@@ -359,6 +359,7 @@ const ClassDetail = () => {
   }, [classId, auth.id]);
 
   useEffect(() => {
+    refetchClass();
     socket.on('connect', () => {
       setIsConnected(true);
     });

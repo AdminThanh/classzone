@@ -7,7 +7,7 @@ import FilterMenu, { TField } from 'components/FilterMenu';
 import { useAuth } from 'contexts/AuthContext';
 import { GetMyClassDocument, GetMyClassStudentDocument } from 'gql/graphql';
 import i18next from 'i18next';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
 import ClassItem from './components/ClassItem';
@@ -34,12 +34,10 @@ const Classes = () => {
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
   );
 
-
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
   const handleRefetch = () => {
     refetch();
-
   };
 
   const fields: TField[] = useMemo(
@@ -79,15 +77,12 @@ const Classes = () => {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
+
   return (
     <div className="site_wrapper">
       <div className="site_container">
         <BreadCrumb
           routes={[
-            {
-              name: t('navbar.home'),
-              path: '/',
-            },
             {
               name: t('navbar.class_management'),
               path: '/',
@@ -117,17 +112,20 @@ const Classes = () => {
             </Form.Item>
           </div>
           <div className="addclass">
-            <Button
-              type="primary"
-              className="primary"
-              icon={<PlusCircleOutlined />}
-              size={'large'}
-              onClick={() => {
-                setOpenModal(true);
-              }}
-            >
-              {t('my_class.add_class')}
-            </Button>
+            {auth.role === 'teacher' && (
+              <Button
+                type="primary"
+                className="primary"
+                icon={<PlusCircleOutlined />}
+                size={'large'}
+                onClick={() => {
+                  setOpenModal(true);
+                }}
+              >
+                {t('my_class.add_class')}
+              </Button>
+            )}
+
             {openModal && (
               <EditClass
                 handleRefetch={handleRefetch}
@@ -140,52 +138,48 @@ const Classes = () => {
         </div>
 
         <div className="classes">
-          {
-            !loading ? (
-              <Row gutter={[20, 20]}>
-                {datas?.length !== 0 &&
-                  datas?.map((item) => (
-                    <Col
-                      key={item.id}
-                      xs={24}
-                      sm={12}
-                      md={12}
-                      lg={8}
-                      xl={8}
-                      xxl={8}
-                    >
-
-                      <ClassItem
-                        id={item.id}
-                        name={item.name}
-                        avatar={item.avatar}
-                        end_date={item.end_date}
-                        from_date={item.from_date}
-                        code={item.code}
-                        owner={
-                          auth.role === 'STUDENT' &&
-                          item.owner?.firstName + item.owner?.lastName
-                        }
-                        scoreFactor={item.scoreFactor}
-                        handleRefetch={handleRefetch}
-                      />
-
-                    </Col>
-                  ))}
-              </Row>
-            ) : (< Row className='loading-list'>
+          {!loading ? (
+            <Row gutter={[20, 20]}>
+              {datas?.length !== 0 &&
+                datas?.map((item) => (
+                  <Col
+                    key={item.id}
+                    xs={24}
+                    sm={12}
+                    md={12}
+                    lg={8}
+                    xl={8}
+                    xxl={8}
+                  >
+                    <ClassItem
+                      id={item.id}
+                      name={item.name}
+                      avatar={item.avatar}
+                      end_date={item.end_date}
+                      from_date={item.from_date}
+                      code={item.code}
+                      owner={
+                        auth.role === 'STUDENT' &&
+                        item.owner?.firstName + item.owner?.lastName
+                      }
+                      scoreFactor={item.scoreFactor}
+                      handleRefetch={handleRefetch}
+                    />
+                  </Col>
+                ))}
+            </Row>
+          ) : (
+            <Row className="loading-list">
               {[1, 2, 3].map(() => (
-                <div className='loading-item'>
+                <div className="loading-item">
                   <Skeleton.Node active />
                 </div>
-              ))
-              }
+              ))}
             </Row>
-            )
-          }
+          )}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 export default Classes;

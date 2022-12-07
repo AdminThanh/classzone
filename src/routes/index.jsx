@@ -84,18 +84,7 @@ const Router = () => {
                   </>
                 }
               />
-              <Route
-                path="/"
-                element={
-                  <>
-                    <RequireGuest>
-                      <AuthLayout>
-                        <Login />
-                      </AuthLayout>
-                    </RequireGuest>
-                  </>
-                }
-              />
+              <Route path="/" element={<Navigate to="login" />} />
               <Route
                 path="register"
                 element={

@@ -5,6 +5,7 @@ import {
   PullRequestOutlined,
   TableOutlined,
   BookOutlined,
+  HistoryOutlined,
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import GiveAssingment from 'components/GiveAssignment';
@@ -80,6 +81,11 @@ const TaskbarFooter = (props: any) => {
           Icon: <ScheduleOutlined />,
           label: t('my_class.schedule'),
           path: 'schedule',
+        },
+        {
+          Icon: <HistoryOutlined />,
+          label: t('my_class.history_attendance'),
+          path: 'history_attendance',
         },
         {
           Icon: <BookOutlined />,

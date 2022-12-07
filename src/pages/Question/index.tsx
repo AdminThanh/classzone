@@ -13,7 +13,7 @@ import {
   GetMyQuestionDocument,
 } from 'gql/graphql';
 import moment from 'moment';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import './Question.scss';
@@ -41,8 +41,6 @@ const Question = () => {
 
   const dataTableQuession = data?.getMyQuestion;
   const [fireDeleteQuestion] = useMutation(DeleteQuestionDocument);
-
-  console.log('dataTableQuession', dataTableQuession);
 
   const confirm = async (questionId: string) => {
     try {
@@ -140,48 +138,43 @@ const Question = () => {
     },
   ];
 
-  return (
-    <div>
-      <div className="site_wrapper">
-        <div className="site_container">
+  useEffect(() => {
+    refetch();
+  }, []);
 
-          <BreadCrumb
-            routes={[
-              {
-                name: t('navbar.home'),
-                path: '/',
-              },
-              {
-                name: t('navbar.question_management'),
-                path: '/question',
-              },
-            ]}
-          />
-          <div className="question">
-            <div className="action">
-              <Link to={'/create_question'}>
-                {
-                  !loading ? (
-                    <Button
-                      type="primary"
-                      className="primary"
-                      icon={<PlusCircleOutlined />}
-                      size={'large'}
-                    >
-                      {t('my_quession.add_quession')}
-                    </Button>
-                  ) : (
-                    <Skeleton.Button size='large' />
-                  )
-                }
-              </Link>
-            </div>
-            <Table
-              className="table_question"
-              columns={columns}
-              dataSource={dataTableQuession}
-            />
+  return (
+    <div className="site_wrapper">
+      <div className="site_container">
+        <BreadCrumb
+          routes={[
+            {
+              name: t('navbar.question_management'),
+              path: '/question',
+            },
+          ]}
+        />
+        <div className="question">
+          <div className="action">
+            <Link to={'/create_question'}>
+              {!loading ? (
+                <Button
+                  type="primary"
+                  className="primary"
+                  icon={<PlusCircleOutlined />}
+                  size={'large'}
+                >
+                  {t('my_quession.add_quession')}
+                </Button>
+              ) : (
+                <Skeleton.Button size="large" />
+              )}
+            </Link>
           </div>
+          <Table
+            className="table_question"
+            columns={columns}
+            dataSource={dataTableQuession}
+          />
         </div>
       </div>
     </div>

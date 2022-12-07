@@ -10,7 +10,7 @@ const AuthLayout = (props: any) => {
   const location = useLocation();
 
   const [tabChange, setTabChange] = useState<1 | 2>(
-    location.pathname === '/login' ? 2 : 1
+    location.pathname === '/register' ? 1 : 2
   ); // 1: register, 2: login
 
   const handleChangeTab = (e: number): void => {

@@ -33,6 +33,8 @@ export const getMyClassStudent = gql`
       avatar
       scoreFactor
       code
+      from_date
+      end_date
       owner {
         firstName
         lastName
@@ -64,6 +66,7 @@ export const getClassByIdForSchedule = gql`
       id
       from_date
       end_date
+      name
     }
   }
 `;
