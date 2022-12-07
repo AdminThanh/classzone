@@ -31,15 +31,18 @@ const Classes = () => {
   const { t } = useTranslation();
   const { auth } = useAuth();
   const { data, refetch, loading }: any = useQuery(
-    auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument
+    auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument,
+    {
+      variables: {
+        fitlerClassType: {},
+      },
+    }
   );
-
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
   const handleRefetch = () => {
     refetch();
-
   };
 
   const fields: TField[] = useMemo(
@@ -140,52 +143,48 @@ const Classes = () => {
         </div>
 
         <div className="classes">
-          {
-            !loading ? (
-              <Row gutter={[20, 20]}>
-                {datas?.length !== 0 &&
-                  datas?.map((item) => (
-                    <Col
-                      key={item.id}
-                      xs={24}
-                      sm={12}
-                      md={12}
-                      lg={8}
-                      xl={8}
-                      xxl={8}
-                    >
-
-                      <ClassItem
-                        id={item.id}
-                        name={item.name}
-                        avatar={item.avatar}
-                        end_date={item.end_date}
-                        from_date={item.from_date}
-                        code={item.code}
-                        owner={
-                          auth.role === 'STUDENT' &&
-                          item.owner?.firstName + item.owner?.lastName
-                        }
-                        scoreFactor={item.scoreFactor}
-                        handleRefetch={handleRefetch}
-                      />
-
-                    </Col>
-                  ))}
-              </Row>
-            ) : (< Row className='loading-list'>
+          {!loading ? (
+            <Row gutter={[20, 20]}>
+              {datas?.length !== 0 &&
+                datas?.map((item) => (
+                  <Col
+                    key={item.id}
+                    xs={24}
+                    sm={12}
+                    md={12}
+                    lg={8}
+                    xl={8}
+                    xxl={8}
+                  >
+                    <ClassItem
+                      id={item.id}
+                      name={item.name}
+                      avatar={item.avatar}
+                      end_date={item.end_date}
+                      from_date={item.from_date}
+                      code={item.code}
+                      owner={
+                        auth.role === 'STUDENT' &&
+                        item.owner?.firstName + item.owner?.lastName
+                      }
+                      scoreFactor={item.scoreFactor}
+                      handleRefetch={handleRefetch}
+                    />
+                  </Col>
+                ))}
+            </Row>
+          ) : (
+            <Row className="loading-list">
               {[1, 2, 3].map(() => (
-                <div className='loading-item'>
+                <div className="loading-item">
                   <Skeleton.Node active />
                 </div>
-              ))
-              }
+              ))}
             </Row>
-            )
-          }
+          )}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 export default Classes;
