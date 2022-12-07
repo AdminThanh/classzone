@@ -49,13 +49,13 @@ function Login() {
       } else {
         JWTManager.setIsHaveRefreshToken(false);
         notification.error({
-          message: t('error.have_error'),
+          message: t('auth.login_error'),
         });
       }
     } catch (err) {
       notification.destroy();
       notification.error({
-        message: t('error.have_error'),
+        message: t('auth.login_error'),
       });
     }
   };

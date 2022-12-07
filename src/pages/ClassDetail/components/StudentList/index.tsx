@@ -1,12 +1,10 @@
-import './StudentList.scss';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Avatar, Col, Modal, notification, Row, Skeleton } from 'antd';
-import StudentItem from '../StudentItem';
+import { Col, Row, Skeleton } from 'antd';
 import { useState } from 'react';
-import InviteStudents from '../InviteStudents';
 import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from '@apollo/client';
-import { GetClassByIdDocument } from 'gql/graphql';
+import InviteStudents from '../InviteStudents';
+import StudentItem from '../StudentItem';
+import './StudentList.scss';
 
 const StudentList = (props: any) => {
   const { dataListStudent, loading, classId, handleOpenBadgeStudent, onlines } =
@@ -35,7 +33,7 @@ const StudentList = (props: any) => {
                 isOnline={onlines.includes(item.id)}
                 handleOpenBadgeStudent={handleOpenBadgeStudent}
                 id={item.id}
-                name={item.firstName + ' ' + item.lastName}
+                name={item.lastName + ' ' + item.firstName}
               />
             ) : (
               <Skeleton.Node active fullSize />
@@ -43,13 +41,12 @@ const StudentList = (props: any) => {
           </Col>
         ))
       ) : (
-        <div className='loading-list'>
+        <div className="loading-list">
           {[1, 2, 3, 4, 5, 6].map(() => (
-            <div className='loading-item'>
+            <div className="loading-item">
               <Skeleton.Node active fullSize={true} />
             </div>
-          ))
-          }
+          ))}
         </div>
       )}
       <Col

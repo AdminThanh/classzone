@@ -9,6 +9,10 @@ export default {
     add_question: 'Add question',
     create_question: 'Create question',
     assignment: 'Assignment',
+    table_score: 'Table score',
+    attendance: 'Attendance',
+    schedule: 'Schedule',
+    history_attendance: "History attendance"
   },
   user_control: {
     account_management: 'Account management',
@@ -42,6 +46,7 @@ export default {
     give_assignment: 'Give assignment',
     list_assignment: 'List assignment',
     my_history_attendance: 'My history attendance',
+    history_attendance: 'History attendance',
 
     // Fied
     qr_code: 'Code',
@@ -74,6 +79,7 @@ export default {
   auth: {
     login_success: 'Login success',
     logout_success: 'Logout success',
+    register_success: 'Register success',
     //top tab
     register: 'Register',
     login: 'Login',

@@ -7,7 +7,7 @@ import FilterMenu, { TField } from 'components/FilterMenu';
 import { useAuth } from 'contexts/AuthContext';
 import { GetMyClassDocument, GetMyClassStudentDocument } from 'gql/graphql';
 import i18next from 'i18next';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
 import ClassItem from './components/ClassItem';
@@ -86,15 +86,12 @@ const Classes = () => {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
+
   return (
     <div className="site_wrapper">
       <div className="site_container">
         <BreadCrumb
           routes={[
-            {
-              name: t('navbar.home'),
-              path: '/',
-            },
             {
               name: t('navbar.class_management'),
               path: '/',
@@ -124,17 +121,20 @@ const Classes = () => {
             </Form.Item>
           </div>
           <div className="addclass">
-            <Button
-              type="primary"
-              className="primary"
-              icon={<PlusCircleOutlined />}
-              size={'large'}
-              onClick={() => {
-                setOpenModal(true);
-              }}
-            >
-              {t('my_class.add_class')}
-            </Button>
+            {auth.role === 'TEACHER' && (
+              <Button
+                type="primary"
+                className="primary"
+                icon={<PlusCircleOutlined />}
+                size={'large'}
+                onClick={() => {
+                  setOpenModal(true);
+                }}
+              >
+                {t('my_class.add_class')}
+              </Button>
+            )}
+
             {openModal && (
               <EditClass
                 handleRefetch={handleRefetch}

@@ -8,10 +8,28 @@
     // padding: 0 48px;
 
     .addclass {
+      display: flex;
+      align-items: flex-end;
     }
 
     @media screen and (max-width: 768px) {
       padding: 0 12px;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .taskbars {
+      width: 100%;
+      flex-direction: column;
+      .fillter {
+        width: 100%;
+      }
+      .addclass {
+        margin-top: 16px;
+        width: 100%;
+      }
+      .ant-form-item-control {
+        width: 100%;
+      }
     }
   }
 

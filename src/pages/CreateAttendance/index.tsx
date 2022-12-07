@@ -19,12 +19,12 @@ const CreateAttendance = () => {
       <BreadCrumb
         routes={[
           {
-            name: t('navbar.home'),
-            path: '/',
+            name: data?.getClassById.name as string,
+            path: `/class_detail/${classId}`,
           },
           {
-            name: t('navbar.class_management'),
-            path: '/',
+            name: t('navbar.schedule'),
+            path: '#',
           },
         ]}
       />

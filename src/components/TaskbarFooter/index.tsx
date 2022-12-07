@@ -5,6 +5,7 @@ import {
   PullRequestOutlined,
   TableOutlined,
   BookOutlined,
+  HistoryOutlined,
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import GiveAssingment from 'components/GiveAssignment';
@@ -85,6 +86,11 @@ const TaskbarFooter = (props: any) => {
           path: 'schedule',
         },
         {
+          Icon: <HistoryOutlined />,
+          label: t('my_class.history_attendance'),
+          path: 'history_attendance',
+        },
+        {
           Icon: <BookOutlined />,
           label: t('my_class.quick_test'),
           onClick: () => {
@@ -120,7 +126,7 @@ const TaskbarFooter = (props: any) => {
                 <Link to={item.path || ''} onClick={item.onClick}>
                   <div className="tab-item">
                     {item.Icon}
-                    {item.label}
+                    <p>{item.label}</p>
                   </div>
                 </Link>
               </div>

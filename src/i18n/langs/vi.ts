@@ -9,6 +9,10 @@ export default {
     add_question: 'Tạo câu hỏi',
     create_question: 'Tạo bài kiểm tra',
     assignment: 'Bài kiểm tra được giao',
+    table_score: 'Bảng điểm',
+    attendance: 'Điểm danh',
+    schedule: 'Thời khóa biểu',
+    history_attendance: 'Lịch sử điểm danh',
   },
 
   user_control: {
@@ -45,6 +49,7 @@ export default {
     give_assignment: 'Giao bài kiểm tra',
     list_assignment: 'Danh sách bài kiểm tra',
     my_history_attendance: 'Lịch sử điểm danh của tôi',
+    history_attendance: 'Lịch sử điểm danh',
 
     // Fied
     qr_code: 'Mã code',
@@ -75,7 +80,12 @@ export default {
 
   auth: {
     login_success: 'Đăng nhập thành công',
-    logout_success: 'Đăng nhập thất bại',
+    logout_success: 'Đăng xuất thành công',
+    register_success: 'Đăng ký thành công',
+
+    login_error: 'Đăng nhập thất bại',
+    logout_error: 'Đăng xuất thất bại',
+    register_error: 'Đăng ký thất bại',
 
     //top tab
     register: 'Đăng ký',

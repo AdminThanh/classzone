@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { FetchResult, useMutation } from '@apollo/client';
 import { RegisterDocument, RegisterMutation } from 'gql/graphql';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface IFormRegister {
   username: string;
@@ -17,6 +18,7 @@ interface IFormRegister {
 
 function Register() {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const [roleSelect, setRoleSelect] = useState<1 | 2>(1);
   const [fireRegister] = useMutation(RegisterDocument);
@@ -47,9 +49,11 @@ function Register() {
       notification.success({
         message: t('register.register_success') as string,
       });
+
+      navigate('/login');
     } else {
       notification.error({
-        message: t('error.have_error'),
+        message: t('auth.register_error'),
       });
     }
   };
@@ -90,17 +94,16 @@ function Register() {
                 >
                   <StudenIcon />
                   <h4>Học sinh</h4>
-                </div>{' '}
+                </div>
               </Radio>
               <Radio value="teacher">
-                {' '}
                 <div
                   className={clsx('role-item', { active: roleSelect === 2 })}
                   onClick={() => handleRoleSelect(2)}
                 >
                   <TeacherIcon />
                   <h4>Giáo viên</h4>
-                </div>{' '}
+                </div>
               </Radio>
             </Radio.Group>
           </div>
