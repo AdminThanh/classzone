@@ -5,7 +5,7 @@ const Timer = (props: any) => {
   const { minutes, handleSubmitAsignmentAuto, setLoadingItem } = props;
   const [seconds, setSeconds] = useState(0);
 
-  const countDown = () => {
+  const handleTimeOut = () => {
     let secondsToGo = 5;
 
     const modal = Modal.error({
@@ -34,9 +34,8 @@ const Timer = (props: any) => {
       setSeconds(timer);
       timerRef = window.setInterval(() => {
         setSeconds((prevValue) => {
-          console.log(prevValue);
-          if (prevValue === 0) {
-            countDown();
+          if (prevValue === 1) {
+            handleTimeOut();
             setLoadingItem(true);
             clearInterval(timerRef);
           }

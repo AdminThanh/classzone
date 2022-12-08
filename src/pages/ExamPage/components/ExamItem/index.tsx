@@ -4,10 +4,15 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import Link from 'antd/lib/typography/Link';
 import { useNavigate } from 'react-router-dom';
-import { CreateAssignmentDocument } from 'gql/graphql';
+import {
+  CreateAssignmentDocument,
+  UpdateAssignmentDocument,
+} from 'gql/graphql';
 import { useMutation } from '@apollo/client';
 import { notification, Spin } from 'antd';
 import React, { useState, useEffect } from 'react';
+import Item from 'antd/lib/list/Item';
+import moment from 'moment';
 
 function ExamItem(props: any) {
   const {
@@ -17,37 +22,54 @@ function ExamItem(props: any) {
     deadline,
     num_question,
     status,
-    status_btn,
-    examId,
+    isAllowReview,
+    examClassId,
+    assignmentId,
   } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [fireCreateAssignment, { data: dataAssignment }] = useMutation(
     CreateAssignmentDocument
   );
-
-  console.log('dataAssignment', dataAssignment);
-
+  const [fireUpdateAssignment] = useMutation(UpdateAssignmentDocument);
   const [loadingItem, setLoadingItem] = useState(false);
-  const handleCreateAssignment = () => {
+
+  const handleCreateAssignment = async () => {
     setLoadingItem(true);
-    // try {
-    //   fireCreateAssignment({
-    //     variables: {
-    //       createAssignmentInput: {
-    //         examClass: examId as string,
-    //         startTime: new Date(),
-    //         minuteDoing: null,
-    //         answerSubmit: null,
-    //       },
-    //     },
-    //   });
-    // } catch (error) {
-    //   notification.error({
-    //     key: 'error',
-    //     message: t('action.load_data_error'),
-    //   });
-    // }
+    if (status === 'DONE') {
+      alert('chưa xem được đâu');
+    } else if (status === 'DOING') {
+      setTimeout(() => {
+        navigate('/assignments/' + examClassId + '/' + assignmentId);
+        notification.success({
+          key: 'success',
+          message: t('action.load_data_success'),
+        });
+      }, 2000);
+    } else {
+      try {
+        await fireUpdateAssignment({
+          variables: {
+            updateAssignmentInput: {
+              startTime: new Date(),
+            },
+            id: assignmentId,
+          },
+        });
+        setTimeout(() => {
+          navigate('/assignments/' + examClassId + '/' + assignmentId);
+          notification.success({
+            key: 'success',
+            message: t('action.load_data_success'),
+          });
+        }, 2000);
+      } catch (error) {
+        notification.error({
+          key: 'error',
+          message: t('action.load_data_error'),
+        });
+      }
+    }
   };
 
   useEffect(() => {
@@ -57,7 +79,7 @@ function ExamItem(props: any) {
           key: 'success',
           message: t('action.load_data_success'),
         });
-        navigate(examId + '/' + dataAssignment?.createAssignment.id);
+        navigate(examClassId + '/' + dataAssignment?.createAssignment.id);
       }, 2500);
     }
   }, [dataAssignment]);
@@ -89,34 +111,45 @@ function ExamItem(props: any) {
               {t('exam.status')}
               <p
                 className={clsx('status-exam', {
-                  done: status === 1,
-                  not: status === 2,
-                  notStart: status === 3,
+                  done: status === 'DONE',
+                  not: status === 'DONT_DO',
+                  notStart: status === 'DOING',
                   hadScore: status === 4,
                 })}
               >
-                {status === 1
+                {status === 'DONE'
                   ? t('exam.status_done')
-                  : status === 2
+                  : status === 'DONT_DO'
                   ? t('exam.status_not')
-                  : status === 3
-                  ? t('exam.status_score')
+                  : status === 'DOING'
+                  ? t('exam.status_doing')
                   : t('exam.status_notStart')}
               </p>
             </div>
           </div>
+          {/* //status 1 : đã làm, 2: Chưa làm, 3: Đã có điểm, 4: Chưa bắt đầu */}
           <div className="button-action">
             <button
               type="button"
-              onClick={handleCreateAssignment}
+              onClick={() => {
+                handleCreateAssignment();
+              }}
               className={clsx('btn-make', {
-                take: status_btn === 1,
-                seen: status_btn === 2,
-                disable: status_btn === 3,
+                take: status === 'DONT_DO',
+                seen: status === 'DOING',
+                disable: status === 'DONE' && isAllowReview == false,
+                disable2: moment(Date()).isBetween(start_time, deadline),
               })}
             >
-              <EditIcon />{' '}
-              {status_btn === 2 ? t('exam.review') : t('exam.doing')}
+              <EditIcon />
+              {/* {status === 'DONE' ? t('exam.review') : t('exam.doing')} */}
+              {status === 'DONE'
+                ? 'Xem điểm'
+                : status === 'DONT_DO'
+                ? 'Làm bài'
+                : status === 'DOING'
+                ? 'Làm tiếp'
+                : 'Làm bài'}
             </button>
           </div>
         </div>

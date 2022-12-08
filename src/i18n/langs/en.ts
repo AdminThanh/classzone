@@ -277,6 +277,7 @@ export default {
     status_not: 'Do not',
     status_notStart: 'Not start',
     status_score: 'Got scores',
+    status_doing: 'Doing',
 
     //button
     doing: 'Doing',

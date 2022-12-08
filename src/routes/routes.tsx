@@ -8,29 +8,22 @@ import Home from 'pages/Home';
 /* Student */
 
 /* Teacher */
-import WheelOfNames from 'components/WheelOfNames';
-import AuthLayout from 'layouts/Auth';
-import ErrorPage from 'pages/404Page';
+import Assignment from 'pages/Assignment';
+import CheckHistoryAttendance from 'pages/CheckHistoryAttendance';
+import CheckMyAttendance from 'pages/CheckMyAttendance';
 import ClassDetail from 'pages/ClassDetail';
+import JoinClass from 'pages/ClassDetail/components/JoinClass';
 import Classes from 'pages/Classes';
 import CreateAssignment from 'pages/CreateAssignment';
+import CreateAttendance from 'pages/CreateAttendance';
 import CreateQuession from 'pages/CreateQuession';
 import EditProfile from 'pages/EditProfile';
-import Login from 'pages/Login';
+import ExamManagement from 'pages/ExamManagement';
+import ExamPage from 'pages/ExamPage';
 import Question from 'pages/Question';
-import Register from 'pages/Register';
 import Attendance from 'pages/Teacher/Attendance';
 import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
-import AuthPage from 'pages/AuthPage';
-import ExamPage from 'pages/ExamPage';
-import ExamManagement from 'pages/ExamManagement';
-import StudentLayout from 'layouts/Student';
-import Assignment from 'pages/Assignment';
-import JoinClass from 'pages/ClassDetail/components/JoinClass';
-import CreateAttendance from 'pages/CreateAttendance';
-import CheckMyAttendance from 'pages/CheckMyAttendance';
-import CheckHistoryAttendance from 'pages/CheckHistoryAttendance';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -164,7 +157,7 @@ export const routes: IRoute[] = [
     layout: TeacherLayout,
   },
   {
-    path: '/assignments/:examId/:assignmentId',
+    path: '/assignments/:examClassId/:assignmentId',
     element: Assignment,
     role: ['student'],
     layout: TeacherLayout,

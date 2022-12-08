@@ -3,12 +3,16 @@ import { Col, Row, Skeleton } from 'antd';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
 import FilterTags, { IOptionTag } from 'components/FilterTags';
-import { GetAllExamClassDocument } from 'gql/graphql';
+import {
+  GetAllExamClassDocument,
+  GetAllMyAssignmentDocument,
+} from 'gql/graphql';
 import i18next from 'i18next';
 import moment from 'moment';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { isTypeNode } from 'typescript';
 import ExamItem from './components/ExamItem';
 import './ExamPage.scss';
 
@@ -72,10 +76,13 @@ function ExamPage() {
   const [listExam, setListExam] = useState<any[]>(datas);
   //status 1 : đã làm, 2: Chưa làm, 3: Đã có điểm, 4: Chưa bắt đầu
 
-  const { data, loading } = useQuery(GetAllExamClassDocument);
-  console.log('GetAllExamClassDocument', data?.getAllExamClass);
-
-  const allExamClassList = data?.getAllExamClass;
+  const {
+    data: allMyAssignment,
+    loading,
+    refetch,
+  } = useQuery(GetAllMyAssignmentDocument);
+  const dataAllMyAssignment = allMyAssignment?.getAllMyAssignment;
+  const allExamClassList = allMyAssignment?.getAllMyAssignment;
 
   const fields: TField[] = useMemo(
     () => [
@@ -114,6 +121,10 @@ function ExamPage() {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
+  
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <div className="exam-page">
@@ -158,32 +169,47 @@ function ExamPage() {
         </Col>
       </Row>
       <Row gutter={[20, 20]}>
-        {allExamClassList ? (
+        {dataAllMyAssignment ? (
           !loading ? (
-            allExamClassList?.map((item) => (
-              <Col xs={24} sm={24} md={12} lg={12} xl={8} xxl={8} key={item.id}>
+            dataAllMyAssignment?.map((item) => (
+              <Col
+                className="exam_col"
+                xs={24}
+                sm={24}
+                md={12}
+                lg={12}
+                xl={8}
+                xxl={8}
+                key={item.id}
+              >
                 <ExamItem
-                  name_exam={`item.name`}
-                  start_time={moment(item.dateFrom).format("HH:MM - DD/MM/YYYY")}
-                  deadline={moment(item.dateEnd).format("HH:MM - DD/MM/YYYY")}
-                  work_time={item.minutes + ' Phút'}
-                  num_question={allExamClassList.length}
-                  status={'item.status'}
-                  status_btn={'item.status_btn'}
-                  examId={item.id}
+                  name_exam={item.examClass.exam.name}
+                  start_time={moment(item.examClass.dateFrom).format(
+                    'HH:MM - DD/MM/YYYY'
+                  )}
+                  deadline={moment(item.examClass.dateEnd).format(
+                    'HH:MM - DD/MM/YYYY'
+                  )}
+                  dateEnd={item.examClass.dateEnd}
+                  work_time={item.examClass.minutes + ' Phút'}
+                  num_question={item.examClass.exam.questions.length}
+                  status={item.status}
+                  isAllowReview={item.examClass.isAllowReview}
+                  examClassId={item.examClass.id}
+                  assignmentId={item.id}
                 />
               </Col>
             ))
           ) : (
-            < Row className='exam-loading-list'>
+            <Row className="exam-loading-list">
               {[1, 2, 3].map(() => (
-                <div className='exam-loading-item'>
+                <div className="exam-loading-item">
                   <Skeleton.Node active />
                 </div>
-              ))
-              }
+              ))}
             </Row>
-          )) : (
+          )
+        ) : (
           <div className="not-exam">Chưa có bài kiểm tra nào</div>
         )}
       </Row>
