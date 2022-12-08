@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, Modal, Popconfirm, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import BreadCrumb from 'components/BreadCrumb';
 import {
@@ -17,6 +17,8 @@ import {
   GetAllExamClassOfClassDocument,
 } from 'gql/graphql';
 import { useMemo, useState, useEffect } from 'react';
+import GiveAssingment from 'components/GiveAssignment';
+import moment from 'moment';
 
 interface ITags {
   name: string;
@@ -30,13 +32,12 @@ interface IExamClassOfClass {
   status: string;
   minutes: number;
   submitted: string;
+  deadline: string;
 }
 
 const AssignedExam = () => {
-  const [currentModal, setCurrentModal] = useState<ICurrentModal>({
-    modal: null,
-    data: null,
-  });
+  const [currentModal, setCurrentModal] = useState(false);
+
   const { t } = useTranslation();
   const { classId } = useParams();
 
@@ -45,6 +46,8 @@ const AssignedExam = () => {
       classId: classId as string,
     },
   });
+  console.log(dataExamOfClass);
+  
 
   const dataListExamOfClass: any = dataExamOfClass?.getAllExamClassOfClass.map(
     (item) => ({
@@ -53,23 +56,13 @@ const AssignedExam = () => {
       minutes: item.minutes as number,
       // status: 'Chưa',
       tags: item.exam.tags,
+      deadline: moment(item.dateFrom).format("DD/MM/YYYY") + ' - ' + moment(item.dateEnd).format("DD/MM/YYYY"),
       submitted: item.assignmentDone?.length
         ? item.assignmentDone?.length
         : '0' + '/' + item.classRoom.students?.length,
     })
   );
   console.log('dataListExamOfClass', dataListExamOfClass);
-
-  const data: IExamClassOfClass[] = [
-    {
-      nameExam: '1',
-      numQuestion: 'John Brown',
-      minutes: 32,
-      status: '124',
-      tags: ['nice', 'developer'],
-      submitted: '12/15',
-    },
-  ];
 
   const datas = dataExamOfClass?.getAllExamClassOfClass;
 
@@ -112,51 +105,49 @@ const AssignedExam = () => {
       key: 'minutes',
     },
     {
+      title: t('exam.deadline'),
+      dataIndex: 'deadline',
+      key: 'deadline',
+    },
+    {
       title: t('management.had_done'),
       dataIndex: 'submitted',
       key: 'submitted',
     },
 
-    {
-      title: t('action.action'),
-      key: 'id',
-      render: (_, id) => (
-        <Space size="middle">
-          <Popconfirm
-            placement="topRight"
-            title={t('action.check_delete')}
-            onConfirm={() => {
-              //   confirm(id.id);
-              console.log('onConfirm');
-            }}
-            okText={t('action.delete')}
-            cancelText={t('action.close')}
-          >
-            <Tag icon={<CloseCircleOutlined />} color="error">
-              {t('action.delete')}
-            </Tag>
-          </Popconfirm>
-          <Tag
-            icon={<EditOutlined />}
-            color="warning"
-            onClick={() => {
-              // navigate('/question/' + id.id);
-              console.log('click');
-            }}
-          >
-            {t('action.edit')}
-          </Tag>
-        </Space>
-      ),
-    },
+    // {
+    //   title: t('action.action'),
+    //   key: 'id',
+    //   render: (_, id) => (
+    //     <Space size="middle">
+    //       <Popconfirm
+    //         placement="topRight"
+    //         title={t('action.check_delete')}
+    //         onConfirm={() => {
+    //           //   confirm(id.id);
+    //           console.log('onConfirm');
+    //         }}
+    //         okText={t('action.delete')}
+    //         cancelText={t('action.close')}
+    //       >
+    //         <Tag icon={<CloseCircleOutlined />} color="error">
+    //           {t('action.delete')}
+    //         </Tag>
+    //       </Popconfirm>
+    //       <Tag
+    //         icon={<EditOutlined />}
+    //         color="warning"
+    //         onClick={() => {
+    //           // navigate('/question/' + id.id);
+    //           console.log('click');
+    //         }}
+    //       >
+    //         {t('action.edit')}
+    //       </Tag>
+    //     </Space>
+    //   ),
+    // },
   ];
-
-  const handleOpenAssignment = () => {
-    setCurrentModal({
-      modal: 'assignment',
-      data: null,
-    });
-  };
 
   return (
     <div className="site_wrapper">
@@ -174,13 +165,23 @@ const AssignedExam = () => {
           className="primary"
           icon={<PullRequestOutlined />}
           size={'large'}
-          //   onClick={() => {
-          //     setOpenModal(true);
-          //   }}
+          onClick={() => {
+            setCurrentModal(true);
+          }}
         >
           {t('management.give_assignment')}
         </Button>
         <Table columns={columns} dataSource={dataListExamOfClass} />;
+        <Modal
+          title={t('my_class.give_assignment')}
+          open={currentModal}
+          onCancel={() => setCurrentModal(false)}
+          width={800}
+          destroyOnClose={true}
+          footer={null}
+        >
+          <GiveAssingment />
+        </Modal>
       </div>
     </div>
   );
