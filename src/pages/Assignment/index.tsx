@@ -47,95 +47,6 @@ interface IAnswers {
   [key: string]: string[];
 }
 
-// const fakeAPIAssignment: Promise<IAssignment[]> = new Promise(
-//   (resolve, reject) => {
-//     setTimeout(() => {
-//       const dataAssignment: IAssignment[] = [
-//         {
-//           nameAssignment: 'Unit 1: Test Online',
-//           start_time: '2022-11-23T12:10:48.758+00:00',
-//           end_time: '2022-11-23T12:25:01.758+00:00',
-//           assignment: [
-//             {
-//               question_id: '101',
-//               name: 'Đọc đoạn văn sau và trả lời câu hỏi',
-//               content:
-//                 'Ngoài việc hiển thị vị trí người dùng trên bản đồ, bạn có thể sử dụng Geolocation để làm gì?',
-//               answer: [
-//                 {
-//                   label: 'Lưu trữ dữ liệu',
-//                   value: 'Lưu trữ dữ liệu',
-//                 },
-//                 {
-//                   label: 'Chỉ đường cho người dùng (GPS)',
-//                   value: 'Chỉ đường cho người dùng (GPS)',
-//                 },
-//                 {
-//                   label: 'Hiển thị các địa điểm được yêu thích gần người dùng',
-//                   value: 'Hiển thị các địa điểm được yêu thích gần người dùng',
-//                 },
-//                 {
-//                   label: 'Cập nhật, lưu trữ thông tin về vị trí người dùng',
-//                   value: 'Cập nhật, lưu trữ thông tin về vị trí người dùng',
-//                 },
-//               ],
-//             },
-//             {
-//               question_id: '102',
-//               name: 'Đọc đoạn văn sau và trả lời câu hỏi',
-//               content:
-//                 'Phương thức nào được gọi để chặn các tính năng xử lý mặc định của trình duyệt với dữ liệu',
-//               answer: [
-//                 {
-//                   label: 'drag',
-//                   value: 'drag',
-//                 },
-//                 {
-//                   label: 'preventDefault ',
-//                   value: 'preventDefault ',
-//                 },
-//                 {
-//                   label: 'dataTransfer',
-//                   value: 'dataTransfer',
-//                 },
-//                 {
-//                   label: 'drop',
-//                   value: 'drop',
-//                 },
-//               ],
-//             },
-//             {
-//               question_id: '103',
-//               name: 'Đọc đoạn văn sau và trả lời câu hỏi',
-//               content:
-//                 'Để sử dụng canvas, ta cần phải sử dụng phương thức ____ để truy cập toàn bộ đến hàm và thuộc tính của canvas.',
-//               answer: [
-//                 {
-//                   label: 'restore',
-//                   value: 'restore',
-//                 },
-//                 {
-//                   label: 'getImageData',
-//                   value: 'getImageData',
-//                 },
-//                 {
-//                   label: 'toDataURL',
-//                   value: 'toDataURL',
-//                 },
-//                 {
-//                   label: 'getContext ',
-//                   value: 'getContext ',
-//                 },
-//               ],
-//             },
-//           ],
-//         },
-//       ];
-//       resolve(dataAssignment);
-//     }, 1000);
-//   }
-// );
-
 const dataSession = sessionStorage.getItem('dataAnswer') || 'undefined';
 
 const NextArrow = (props: any) => {
@@ -166,7 +77,7 @@ const Assignment = () => {
   const [minutes, setMinutes] = useState(0);
   const [loadingItem, setLoadingItem] = useState(false);
   const { t } = useTranslation();
-  const { examId, assignmentId } = useParams();
+  const { examClassId, assignmentId } = useParams();
   const navigate = useNavigate();
   const [fireUpdateAssignment] = useMutation(UpdateAssignmentDocument);
 
@@ -175,11 +86,10 @@ const Assignment = () => {
       id: assignmentId as string,
     },
   });
-  console.log('getAssignmentById', getAssignmentById);
 
   const { data } = useQuery(GetExamClassByIdDocument, {
     variables: {
-      id: examId as string,
+      id: examClassId as string,
     },
   });
 
@@ -235,7 +145,8 @@ const Assignment = () => {
       ...dataAnswer,
       [id]: answered,
     });
-
+    console.log('dataAnswer',dataAnswer);
+    
     sessionStorage.setItem(
       'dataAnswer',
       JSON.stringify({
@@ -255,12 +166,17 @@ const Assignment = () => {
         +new Date(getAssignmentById?.getAssignmentById.startTime)) /
       1000
     ).toFixed();
+    
+    console.log('listQuestion',listQuestion);
+    console.log('answerSubmit',answerSubmit);
+    console.log('dataAnswer',dataAnswer);
+    
 
     try {
       await fireUpdateAssignment({
         variables: {
           updateAssignmentInput: {
-            examClass: examId,
+            examClass: examClassId,
             answerSubmit: answerSubmit,
             startTime: getAssignmentById?.getAssignmentById.startTime,
             minuteDoing: Number(timeDoing),
@@ -355,7 +271,7 @@ const Assignment = () => {
         <main className="content">
           <div className="content__question">
             <AssignmentItem
-              // dataAnswer={dataAnswer}
+              dataAnswer={dataAnswer}
               handleAnswered={handleAnswered}
               order={order}
               question_id={currentQuestion?.question_id}

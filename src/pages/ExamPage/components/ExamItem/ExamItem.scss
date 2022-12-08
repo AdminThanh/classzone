@@ -76,6 +76,10 @@
         background: c.$gray6_color;
         pointer-events: none;
       }
+      &.disable2 {
+        background: c.$gray6_color;
+        pointer-events: none;
+      }
       svg {
         margin-right: 6px;
       }
