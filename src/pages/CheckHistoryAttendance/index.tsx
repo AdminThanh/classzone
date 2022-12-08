@@ -4,8 +4,9 @@ import BreadCrumb from 'components/BreadCrumb';
 import { useAuth } from 'contexts/AuthContext';
 import {
   GetClassByIdDocument,
-  GetMyHistoryAttendanceDocument
+  GetHistoryAttendanceByClassDocument, GetScheduleByClassDocument
 } from 'gql/graphql';
+import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import './CheckHistoryAttendance.scss';
@@ -14,9 +15,15 @@ function CheckHistoryAttendance() {
   const { t } = useTranslation();
   const { classId } = useParams();
   const { auth } = useAuth();
-  const { data: scheduleData } = useQuery(GetMyHistoryAttendanceDocument, {
+  const { data: historyData } = useQuery(GetHistoryAttendanceByClassDocument, {
     variables: {
       class_id: classId || '',
+    },
+  });
+
+  const { data: scheduleData } = useQuery(GetScheduleByClassDocument, {
+    variables: {
+      id: classId || '',
     },
   });
 
@@ -25,8 +32,6 @@ function CheckHistoryAttendance() {
       id: classId || '',
     },
   });
-
-  console.log('dataClass', dataClass);
 
   return (
     <div className="site_wrapper">
@@ -48,43 +53,104 @@ function CheckHistoryAttendance() {
             <table className="attendance-table">
               <thead>
                 <tr>
-                  <th>{t('attendance.topic')}</th>
-                  <th>{t('attendance.learn_date')}</th>
-                  <th>{t('attendance.content')}</th>
-                  <th>{t('attendance.present')}</th>
-                  <th>{t('attendance.note')}</th>
+                  <th>{t('history_attendance.student_name')}</th>
+                  {scheduleData?.getScheduleByClass.map((schedule) => {
+                    return (
+                      <th>
+                        {moment(schedule.learn_date, 'DD-MM-YYYY').format(
+                          'D/M'
+                        )}
+                      </th>
+                    );
+                  })}
+
+                  <th>{t('history_attendance.total')}</th>
                 </tr>
               </thead>
               <tbody>
-                {scheduleData?.getMyHistoryAttendance?.map(
-                  (attendance: any, index) => (
-                    <tr key={attendance?.id}>
-                      <td className="td-attendance">{index + 1}</td>
+                {dataClass?.getClassById?.students?.map((student: any) => {
+                  const indexOfStudent =
+                    historyData?.getHistoryAttendanceByClass.findIndex(
+                      (attendance) => {
+                        if (attendance[0].user_id === student.id) return true;
+                      }
+                    );
+
+                  const attendances =
+                    indexOfStudent !== -1 && indexOfStudent !== undefined
+                      ? historyData?.getHistoryAttendanceByClass[indexOfStudent]
+                      : undefined;
+
+                  let totalLession = 0;
+                  attendances?.forEach((attendance) => {
+                    if (attendance.is_present) totalLession++;
+                  });
+
+                  return (
+                    <tr key={student?.id}>
                       <td className="td-attendance">
-                        <p>{attendance.schedule.learn_date}</p>
+                        {student.lastName + ' ' + student.firstName}
                       </td>
+                      {scheduleData?.getScheduleByClass.map((schedule) => {
+                        const indexAttendanceOfLearnDay =
+                          attendances?.findIndex((attendance) => {
+                            if (attendance?.schedule?.id === schedule?.id)
+                              return true;
+                          });
+
+                        const attendance =
+                          indexAttendanceOfLearnDay !== -1 &&
+                          indexAttendanceOfLearnDay !== undefined
+                            ? attendances?.[indexAttendanceOfLearnDay]
+                            : undefined;
+
+                        return (
+                          <td className="td-attendance">
+                            {attendance?.is_present === true && (
+                              <CheckOutlined
+                                style={{
+                                  color: 'green',
+                                }}
+                              />
+                            )}
+                            {attendance?.is_present === false && (
+                              <CloseOutlined
+                                style={{
+                                  color: 'red',
+                                }}
+                              />
+                            )}
+                          </td>
+                        );
+                      })}
+
+                      {/* {attendances?.map((attendance) => {
+                        return (
+                          <td className="td-attendance">
+                            {attendance.is_present ? (
+                              <CheckOutlined
+                                style={{
+                                  color: 'green',
+                                }}
+                              />
+                            ) : (
+                              <CloseOutlined
+                                style={{
+                                  color: 'red',
+                                }}
+                              />
+                            )}
+                          </td>
+                        );
+                      })} */}
+
                       <td className="td-attendance">
-                        {attendance.schedule.content}
+                        {totalLession}/{scheduleData?.getScheduleByClass.length}
                       </td>
-                      <td className="td-attendance">
-                        {attendance.is_present ? (
-                          <CheckOutlined
-                            style={{
-                              color: 'green',
-                            }}
-                          />
-                        ) : (
-                          <CloseOutlined
-                            style={{
-                              color: 'red',
-                            }}
-                          />
-                        )}
-                      </td>
-                      <td className="td-attendance">{attendance.note}</td>
+                      {/* <td className="td-attendance">{attendance.note}</td> */}
                     </tr>
-                  )
-                )}
+                  );
+                })}
               </tbody>
             </table>
           </div>

@@ -17,8 +17,8 @@ interface IPropsWheelOfNames {
 const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
   const { dataListStudent, onClick } = props;
 
-  var names = dataListStudent.map(
-    (item: any) => item.firstName + ' ' + item.lastName
+  var names = dataListStudent?.map(
+    (item: any) => item.lastName + ' ' + item.firstName
   );
 
   ChartJS.register(ArcElement);
@@ -44,7 +44,7 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
     datasets: [
       {
         label: '# Vote off',
-        data: Array(names.length).fill(1),
+        data: Array(names?.length).fill(1),
         backgroundColor: [
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
@@ -101,12 +101,6 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
           Math.floor(random * 360) * (MAX_ROUNDS - MIN_ROUNDS)) *
         count *
         2;
-
-      // console.log(
-      //   `(${MIN_ROUNDS * 360} + ${Math.floor(random * 360)} * ${
-      //     MAX_ROUNDS - MIN_ROUNDS
-      //   }) * ${count * 2} = ${randomDegree}`
-      // );
 
       setCount(count + 1);
       setRotate(randomDegree);

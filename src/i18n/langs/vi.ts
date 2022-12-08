@@ -78,6 +78,11 @@ export default {
     join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học',
   },
 
+  history_attendance: {
+    student_name: 'Tên học sinh',
+    total: 'Tổng buổi học',
+  },
+
   auth: {
     login_success: 'Đăng nhập thành công',
     logout_success: 'Đăng xuất thành công',
@@ -231,6 +236,10 @@ export default {
     message_close_modal: 'Dữ liệu chưa được lưu bạn có chắc muốn tắt',
     message_choose_test_for_auto_score_column:
       'Chọn bài kiểm tra cho cột điểm tự động',
+  },
+
+  assignment: {
+    name: 'Tên bài kiểm tra',
   },
 
   create_assignment: {

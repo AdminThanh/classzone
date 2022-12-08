@@ -60,6 +60,7 @@ const TaskbarFooter = (props: any) => {
       data: null,
     });
   };
+  
   const items = useMemo(() => {
     if (auth?.role === 'TEACHER') {
       return [

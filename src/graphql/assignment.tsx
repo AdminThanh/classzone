@@ -30,6 +30,13 @@ export const getAssignmentById = graphql(`
     getAssignmentById(id: $id) {
       id
       startTime
+      minuteDoing
+      answerSubmit {
+        answer
+      }
+      examClass {
+        id
+      }
     }
   }
 `);

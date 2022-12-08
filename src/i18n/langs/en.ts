@@ -12,7 +12,7 @@ export default {
     table_score: 'Table score',
     attendance: 'Attendance',
     schedule: 'Schedule',
-    history_attendance: "History attendance"
+    history_attendance: 'History attendance',
   },
   user_control: {
     account_management: 'Account management',
@@ -74,6 +74,11 @@ export default {
     class_link: 'Class link',
     hello: 'Hello ',
     join_class_act: 'Please click the button below to join the class',
+  },
+
+  history_attendance: {
+    student_name: 'Full name',
+    total: 'Total',
   },
 
   auth: {
@@ -224,6 +229,10 @@ export default {
     message_close_modal: 'Unsaved data are you sure you want to turn it off',
     message_choose_test_for_auto_score_column:
       'Select the test for the automatic score column',
+  },
+
+  assignment: {
+    name: 'Assignment name',
   },
 
   create_assignment: {

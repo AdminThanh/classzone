@@ -121,7 +121,7 @@ function ExamPage() {
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
   };
-  
+
   useEffect(() => {
     refetch();
   }, []);
@@ -183,6 +183,7 @@ function ExamPage() {
                 key={item.id}
               >
                 <ExamItem
+                  examId={item.examClass.exam.id}
                   name_exam={item.examClass.exam.name}
                   start_time={moment(item.examClass.dateFrom).format(
                     'HH:MM - DD/MM/YYYY'

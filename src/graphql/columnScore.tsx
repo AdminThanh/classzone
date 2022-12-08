@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client';
 import { graphql } from 'gql';
 
 export const getColumnScoreByClass = graphql(`
@@ -12,6 +11,7 @@ export const getColumnScoreByClass = graphql(`
       scores
       reference_col
       examOfClass_id
+      assignments
     }
   }
 `);
