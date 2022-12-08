@@ -3,7 +3,7 @@ import { notification, Spin } from 'antd';
 import clsx from 'clsx';
 import {
   CreateAssignmentDocument,
-  UpdateAssignmentDocument
+  UpdateAssignmentDocument,
 } from 'gql/graphql';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -15,17 +15,20 @@ import './ExamItem.scss';
 function ExamItem(props: any) {
   const {
     name_exam,
-    start_time,
+    startTime,
     work_time,
-    deadline,
+    deadLine,
     num_question,
     status,
     isAllowReview,
     examClassId,
+    examId,
     assignmentId,
   } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  console.log('ExamItem', props);
   const [fireCreateAssignment, { data: dataAssignment }] = useMutation(
     CreateAssignmentDocument
   );
@@ -35,7 +38,7 @@ function ExamItem(props: any) {
   const handleCreateAssignment = async () => {
     setLoadingItem(true);
     if (status === 'DONE') {
-      alert('chưa xem được đâu');
+      navigate(`/review/${examId}/${assignmentId}`);
     } else if (status === 'DOING') {
       setTimeout(() => {
         navigate('/assignments/' + examClassId + '/' + assignmentId);
@@ -94,10 +97,12 @@ function ExamItem(props: any) {
           <h3 className="content-title">{name_exam}</h3>
           <div className="exam-detail">
             <p className="title-detail">
-              {t('exam.start_time')} {start_time}
+              {t('exam.start_time')}
+              {moment(startTime).format('HH:MM - DD/MM/YYYY')}
             </p>
             <p className="title-detail">
-              {t('exam.deadline')} {deadline}
+              {t('exam.deadline')}
+              {moment(deadLine).format('HH:MM - DD/MM/YYYY')}
             </p>
             <p className="title-detail">
               {t('exam.work_time')} {work_time}
@@ -135,8 +140,7 @@ function ExamItem(props: any) {
               className={clsx('btn-make', {
                 take: status === 'DONT_DO',
                 seen: status === 'DOING',
-                disable: status === 'DONE' && isAllowReview == false,
-                disable2: moment(Date()).isBetween(start_time, deadline),
+                disable: Boolean(moment(Date()).isBetween(startTime, deadLine)),
               })}
             >
               <EditIcon />

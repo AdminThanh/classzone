@@ -24,6 +24,7 @@ import Question from 'pages/Question';
 import Attendance from 'pages/Teacher/Attendance';
 import TableScore from 'pages/Teacher/TableScore';
 import { FunctionComponent } from 'react';
+import ReviewAssignment from 'pages/ReviewAssignment';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -159,6 +160,12 @@ export const routes: IRoute[] = [
   {
     path: '/assignments/:examClassId/:assignmentId',
     element: Assignment,
+    role: ['student'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/review/:examId/:assignmentId',
+    element: ReviewAssignment,
     role: ['student'],
     layout: TeacherLayout,
   },

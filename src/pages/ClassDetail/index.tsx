@@ -273,9 +273,7 @@ const ClassDetail = () => {
                 />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Nhóm" key="2">
-                <GroupList
-                  dataListStudent={dataListStudent}
-                />
+                <GroupList dataListStudent={dataListStudent} />
               </Tabs.TabPane>
             </Tabs>
           </div>
@@ -330,6 +328,7 @@ const ClassDetail = () => {
             name={quickTest.data?.[current - 1]?.name}
             content={quickTest.data?.[current - 1]?.question}
             answer={quickTest.data?.[current - 1]?.answers}
+            type="quick_test"
           />
         )}
         <Button type="primary" onClick={handleNextQuestion}>

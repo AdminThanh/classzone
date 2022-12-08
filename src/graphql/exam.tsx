@@ -55,6 +55,10 @@ export const getExamById = graphql(`
         id
         question
         answers
+        correctAnswer {
+          text
+          result
+        }
         tags {
           id
           name
