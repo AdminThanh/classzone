@@ -11,6 +11,10 @@
   justify-content: center;
   flex-direction: column;
   gap: 15px;
+  &.disable {
+    pointer-events: none;
+    cursor: none;
+  }
   .anticon {
     font-size: 30px;
     color: c.$primary;

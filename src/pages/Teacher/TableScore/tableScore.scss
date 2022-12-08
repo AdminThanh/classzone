@@ -1,3 +1,5 @@
+@use '/src/assets/styles/colors' as c;
+
 .tableScore {
   // margin-top: 80px;
   // padding: 0 48px;
@@ -51,6 +53,21 @@
 
     span {
       white-space: nowrap;
+    }
+  }
+  .btn-export {
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border: none;
+    background: c.$white;
+    color: c.$primary;
+    border-radius: 8px;
+    cursor: pointer;
+    svg {
+      transform: rotate(90deg);
+    }
+    &:hover {
+      background: c.$gray1_color;
     }
   }
 }

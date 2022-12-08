@@ -24,7 +24,6 @@ export interface IClassInfo {
   scoreFactor: number;
   owner: any;
 }
-
 const { Option } = Select;
 
 const Classes = () => {
@@ -174,7 +173,7 @@ const Classes = () => {
 
             {openModal && (
               <EditClass
-                handleRefetch={handleRefetch}
+                // handleRefetch={handleRefetch}
                 type={'add'}
                 title={t('my_class.add_class')}
                 setOpenModal={setOpenModal}

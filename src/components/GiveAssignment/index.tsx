@@ -27,12 +27,21 @@ function GiveAssingment() {
 
         const fromDate = values.startTime;
         const endDate = values.endTime;
+
         if (values.isAllowReview) {
             setAllowReview(true);
         } else {
             setAllowReview(false);
         }
 
+        if (endDate < fromDate) {
+            notification.error({
+                message: "Ngày kết thúc không được nhỏ hơn ngày bắt đầu!"
+            })
+            return;
+        }
+
+        notification.destroy();
         notification.open({
             message: (
                 <>
@@ -73,7 +82,7 @@ function GiveAssingment() {
                 layout="horizontal"
                 onFinish={onFinish}
             >
-                <Form.Item label={t('my_class.list_assignment')} name="exam">
+                <Form.Item label={t('my_class.list_assignment')} name="exam" rules={[{ required: true, message: t("exam.choose_assignment") }]}>
                     <Select defaultValue={t('my_class.list_assignment')}>
                         {examData?.getMyExam.map((exam, index) => (
                             <Select.Option key={index} value={exam.id}>{exam.name}</Select.Option>
@@ -82,24 +91,24 @@ function GiveAssingment() {
                 </Form.Item>
                 <Row>
                     <Col span={12}>
-                        <Form.Item label={t('my_class.start_date')} name="startTime">
+                        <Form.Item label={t('my_class.start_date')} name="startTime" rules={[{ required: true, message: t("exam.val_startDate") }]}>
                             <DatePicker showTime />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
-                        <Form.Item label={t('my_class.end_date')} name="endTime">
+                        <Form.Item label={t('my_class.end_date')} name="endTime" rules={[{ required: true, message: t("exam.val_endDate") }]}>
                             <DatePicker showTime />
                         </Form.Item>
                     </Col>
                 </Row>
-                <Form.Item label={t("exam.work_time")} name="timeMake">
+                <Form.Item label={t("exam.work_time")} name="timeMake" rules={[{ required: true, message: t("exam.val_makeTime") }]}>
                     <InputNumber min={1} defaultValue={0} />
                 </Form.Item>
                 <Form.Item label={t("management.is_allow_review")} name="isAllowReview" valuePropName="checked">
                     <Checkbox checked={false} value={false}></Checkbox>
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">{t("management.give_assignment")}</Button>
+                    <Button type="primary" className="btn-give" htmlType="submit">{t("management.give_assignment")}</Button>
                 </Form.Item>
             </Form>
         </div>

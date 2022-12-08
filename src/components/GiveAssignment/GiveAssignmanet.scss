@@ -1,3 +1,5 @@
+@use '/src/assets/styles/colors' as c;
+
 .create-assignment {
   .ant-row {
     width: 100%;
@@ -7,5 +9,13 @@
     text-align: start;
     flex: 1;
     max-width: 100%;
+  }
+  .btn-give {
+    background: c.$primary;
+    border: none;
+    border-radius: 8px;
+    &:hover {
+      background: c.$primary_hover;
+    }
   }
 }

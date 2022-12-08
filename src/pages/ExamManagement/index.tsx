@@ -129,40 +129,40 @@ function ExamManagement() {
           <tbody>
             {!loading
               ? data?.getMyExam?.map((item, index) => (
-                  <tr key={index}>
-                    <td className="td-management">
-                      {item.tags?.map((tag, key) => (
-                        <Tag key={key} color={tag.color}>
-                          {tag.name}
-                        </Tag>
-                      ))}
-                    </td>
-                    <td className="td-management">
-                      <p>{item.name}</p>
-                    </td>
-                    <td className="td-management">
-                      <Link to={item.id}>
-                        <EditIcon />
-                      </Link>
-                      <Popconfirm
-                        placement="topRight"
-                        title={t('action.check_delete')}
-                        onConfirm={() => {
-                          handleDelete(item.id);
-                        }}
-                        okText={t('action.delete')}
-                        cancelText={t('action.close')}
-                      >
-                        <CancelIcon />
-                      </Popconfirm>
-                    </td>
-                  </tr>
-                ))
+                <tr key={index}>
+                  <td className="td-management">
+                    {item.tags?.map((tag, key) => (
+                      <Tag key={key} color={tag.color}>
+                        {tag.name}
+                      </Tag>
+                    ))}
+                  </td>
+                  <td className="td-management">
+                    <p>{item.name}</p>
+                  </td>
+                  <td className="td-management">
+                    <Link to={item.id}>
+                      <EditIcon />
+                    </Link>
+                    <Popconfirm
+                      placement="topRight"
+                      title={t('action.check_delete')}
+                      onConfirm={() => {
+                        handleDelete(item.id);
+                      }}
+                      okText={t('action.delete')}
+                      cancelText={t('action.close')}
+                    >
+                      <CancelIcon />
+                    </Popconfirm>
+                  </td>
+                </tr>
+              ))
               : [1, 2, 3, 4].map(() => (
-                  <div className="loading-skeleton">
-                    <Skeleton.Input active size="default" />
-                  </div>
-                ))}
+                <div className="loading-skeleton">
+                  <Skeleton.Input active size="default" />
+                </div>
+              ))}
           </tbody>
         </table>
       </div>

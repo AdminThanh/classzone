@@ -52,7 +52,7 @@ const ClassItem = (props: IClassInfo) => {
     owner,
     scoreFactor,
     id,
-    handleRefetch,
+    // handleRefetch,
   } = props;
   const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
@@ -76,7 +76,7 @@ const ClassItem = (props: IClassInfo) => {
         key: 'success',
         message: t('action.delete_success'),
       });
-      handleRefetch();
+      // handleRefetch();
     } catch (error) {
       notification.error({
         key: 'error',
@@ -243,7 +243,7 @@ const ClassItem = (props: IClassInfo) => {
           scoreFactor={scoreFactor}
           id={id}
           setOpenModal={setOpenModal}
-          handleRefetch={handleRefetch}
+        // handleRefetch={handleRefetch}
         />
       )}
       <Modal
