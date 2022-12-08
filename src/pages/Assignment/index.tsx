@@ -145,6 +145,8 @@ const Assignment = () => {
       ...dataAnswer,
       [id]: answered,
     });
+    console.log('dataAnswer',dataAnswer);
+    
     sessionStorage.setItem(
       'dataAnswer',
       JSON.stringify({
@@ -164,6 +166,11 @@ const Assignment = () => {
         +new Date(getAssignmentById?.getAssignmentById.startTime)) /
       1000
     ).toFixed();
+    
+    console.log('listQuestion',listQuestion);
+    console.log('answerSubmit',answerSubmit);
+    console.log('dataAnswer',dataAnswer);
+    
 
     try {
       await fireUpdateAssignment({

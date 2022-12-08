@@ -7,7 +7,6 @@ interface IAnswers {
   [key: string]: string[];
 }
 
-
 interface IAssignment {
   question_id: string;
   name: string;
@@ -15,7 +14,7 @@ interface IAssignment {
   answer: string[];
   handleAnswered: (id: string, value: any) => void;
   order?: number;
-  dataAnswer?: IAnswers;
+  dataAnswer?: any;
 }
 
 const AssignmentItem: React.FC<IAssignment> = (props) => {
@@ -59,6 +58,7 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
             <Checkbox.Group
               style={{ width: '100%' }}
               onChange={onChange}
+              value={dataAnswer[question_id]}
             >
               <Row gutter={16}>
                 {answer?.length !== 0 &&
