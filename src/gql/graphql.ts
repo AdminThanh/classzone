@@ -224,6 +224,7 @@ export type CreateUserInput = {
 export type ExamClassType = {
   __typename?: 'ExamClassType';
   _id: Scalars['ID'];
+  assignmentDone?: Maybe<Array<AssignmentType>>;
   classRoom: Class;
   createdAt: Scalars['DateTime'];
   dateEnd: Scalars['DateTime'];
@@ -250,6 +251,8 @@ export type ExamType = {
 };
 
 export type FilterClassType = {
+  end_date?: InputMaybe<Scalars['DateTime']>;
+  from_date?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   sortType?: InputMaybe<ClassSortType>;
   status?: InputMaybe<ClassStatus>;
@@ -548,7 +551,7 @@ export type Query = {
   getAllClasses: Array<Class>;
   getAllExam: Array<ExamType>;
   getAllExamClass: Array<ExamClassType>;
-  getAllExamOfClass: Array<ExamClassType>;
+  getAllExamClassOfClass: Array<ExamClassType>;
   getAllGroup: Array<GroupType>;
   getAllMyAssignment: Array<AssignmentType>;
   getAllQuestion: Array<QuestionType>;
@@ -562,6 +565,7 @@ export type Query = {
   getExamClassById: ExamClassType;
   getGroupById: GroupType;
   getGroupOfClass: Array<GroupType>;
+  getHistoryAttendanceByClass: Array<Array<Attendance>>;
   getMyClass: Array<Class>;
   getMyClassStudent: Array<Class>;
   getMyExam: Array<ExamType>;
@@ -578,7 +582,7 @@ export type Query = {
 };
 
 
-export type QueryGetAllExamOfClassArgs = {
+export type QueryGetAllExamClassOfClassArgs = {
   classId: Scalars['String'];
 };
 
@@ -625,6 +629,11 @@ export type QueryGetGroupByIdArgs = {
 
 export type QueryGetGroupOfClassArgs = {
   classId: Scalars['String'];
+};
+
+
+export type QueryGetHistoryAttendanceByClassArgs = {
+  class_id: Scalars['String'];
 };
 
 
@@ -849,7 +858,7 @@ export type User = {
 export type GetAllMyAssignmentQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllMyAssignmentQuery = { __typename?: 'Query', getAllMyAssignment: Array<{ __typename?: 'AssignmentType', id: string, startTime: any, minuteDoing?: number | null, examClass: { __typename?: 'ExamClassType', id: string, dateFrom: any, dateEnd: any, isAllowReview: boolean, minutes: number, exam: { __typename?: 'ExamType', name: string, questions: Array<{ __typename?: 'QuestionType', id: string }> } } }> };
+export type GetAllMyAssignmentQuery = { __typename?: 'Query', getAllMyAssignment: Array<{ __typename?: 'AssignmentType', id: string, minuteDoing?: number | null, status?: Status | null, examClass: { __typename?: 'ExamClassType', id: string, dateFrom: any, dateEnd: any, isAllowReview: boolean, minutes: number, exam: { __typename?: 'ExamType', id: string, name: string, questions: Array<{ __typename?: 'QuestionType', id: string }> } } }> };
 
 export type GetAssignmentByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -1024,13 +1033,6 @@ export type GetAllExamQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllExamQuery = { __typename?: 'Query', getAllExam: Array<{ __typename?: 'ExamType', id: string, name: string, createdAt: any, tags?: Array<{ __typename?: 'Tag', name: string, color: string }> | null, questions: Array<{ __typename?: 'QuestionType', id: string, question: string, answers: Array<string> }> }> };
-
-export type GetAllExamOfClassQueryVariables = Exact<{
-  classId: Scalars['String'];
-}>;
-
-
-export type GetAllExamOfClassQuery = { __typename?: 'Query', getAllExamOfClass: Array<{ __typename?: 'ExamClassType', id: string, exam: { __typename?: 'ExamType', name: string, questions: Array<{ __typename?: 'QuestionType', question: string }> } }> };
 
 export type GetMyExamQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1226,7 +1228,7 @@ export type UpdateprofileMutationVariables = Exact<{
 export type UpdateprofileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', firstName?: string | null, lastName?: string | null, phoneNumber?: string | null, address?: string | null, avatar?: string | null } };
 
 
-export const GetAllMyAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllMyAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllMyAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"minuteDoing"}},{"kind":"Field","name":{"kind":"Name","value":"examClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"exam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"dateFrom"}},{"kind":"Field","name":{"kind":"Name","value":"dateEnd"}},{"kind":"Field","name":{"kind":"Name","value":"isAllowReview"}},{"kind":"Field","name":{"kind":"Name","value":"minutes"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllMyAssignmentQuery, GetAllMyAssignmentQueryVariables>;
+export const GetAllMyAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllMyAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllMyAssignment"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"minuteDoing"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"examClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"exam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"dateFrom"}},{"kind":"Field","name":{"kind":"Name","value":"dateEnd"}},{"kind":"Field","name":{"kind":"Name","value":"isAllowReview"}},{"kind":"Field","name":{"kind":"Name","value":"minutes"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllMyAssignmentQuery, GetAllMyAssignmentQueryVariables>;
 export const GetAssignmentByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAssignmentById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAssignmentById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}}]}}]}}]} as unknown as DocumentNode<GetAssignmentByIdQuery, GetAssignmentByIdQueryVariables>;
 export const CreateAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createAssignment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createAssignmentInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAssignmentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAssignment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createAssignmentInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createAssignmentInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"minuteDoing"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}}]}}]}}]} as unknown as DocumentNode<CreateAssignmentMutation, CreateAssignmentMutationVariables>;
 export const UpdateAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateAssignment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateAssignmentInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateAssignmentInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAssignment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateAssignmentInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateAssignmentInput"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"minuteDoing"}}]}}]}}]} as unknown as DocumentNode<UpdateAssignmentMutation, UpdateAssignmentMutationVariables>;
@@ -1252,7 +1254,6 @@ export const UpdateColumnScoreDocument = {"kind":"Document","definitions":[{"kin
 export const DeleteColumnScoreDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteColumnScore"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteColumnScore"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"deleteColumnScore"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<DeleteColumnScoreMutation, DeleteColumnScoreMutationVariables>;
 export const UpdateTableScoreDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateTableScore"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateTableScore"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateTableScoreInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateTableScore"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateTableScoreInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateTableScore"}}},{"kind":"Argument","name":{"kind":"Name","value":"class_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"class_id"}}}]}]}}]} as unknown as DocumentNode<UpdateTableScoreMutation, UpdateTableScoreMutationVariables>;
 export const GetAllExamDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllExamQuery, GetAllExamQueryVariables>;
-export const GetAllExamOfClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllExamOfClass"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"classId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllExamOfClass"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"classId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"classId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"exam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetAllExamOfClassQuery, GetAllExamOfClassQueryVariables>;
 export const GetMyExamDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMyExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMyExam"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]}}]} as unknown as DocumentNode<GetMyExamQuery, GetMyExamQueryVariables>;
 export const GetExamByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getExamById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getExamById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"answers"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"color"}}]}}]}}]}}]} as unknown as DocumentNode<GetExamByIdQuery, GetExamByIdQueryVariables>;
 export const GetAllExamClassDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllExamClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllExamClass"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"minutes"}},{"kind":"Field","name":{"kind":"Name","value":"dateFrom"}},{"kind":"Field","name":{"kind":"Name","value":"dateEnd"}},{"kind":"Field","name":{"kind":"Name","value":"scoreFactor"}},{"kind":"Field","name":{"kind":"Name","value":"isAllowReview"}}]}}]}}]} as unknown as DocumentNode<GetAllExamClassQuery, GetAllExamClassQueryVariables>;

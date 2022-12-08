@@ -77,7 +77,7 @@ const Assignment = () => {
   const [minutes, setMinutes] = useState(0);
   const [loadingItem, setLoadingItem] = useState(false);
   const { t } = useTranslation();
-  const { examId, assignmentId } = useParams();
+  const { examClassId, assignmentId } = useParams();
   const navigate = useNavigate();
   const [fireUpdateAssignment] = useMutation(UpdateAssignmentDocument);
 
@@ -86,11 +86,10 @@ const Assignment = () => {
       id: assignmentId as string,
     },
   });
-  console.log('getAssignmentById', getAssignmentById);
 
   const { data } = useQuery(GetExamClassByIdDocument, {
     variables: {
-      id: examId as string,
+      id: examClassId as string,
     },
   });
 
@@ -146,7 +145,6 @@ const Assignment = () => {
       ...dataAnswer,
       [id]: answered,
     });
-
     sessionStorage.setItem(
       'dataAnswer',
       JSON.stringify({
@@ -171,7 +169,7 @@ const Assignment = () => {
       await fireUpdateAssignment({
         variables: {
           updateAssignmentInput: {
-            examClass: examId,
+            examClass: examClassId,
             answerSubmit: answerSubmit,
             startTime: getAssignmentById?.getAssignmentById.startTime,
             minuteDoing: Number(timeDoing),
@@ -266,7 +264,7 @@ const Assignment = () => {
         <main className="content">
           <div className="content__question">
             <AssignmentItem
-              // dataAnswer={dataAnswer}
+              dataAnswer={dataAnswer}
               handleAnswered={handleAnswered}
               order={order}
               question_id={currentQuestion?.question_id}

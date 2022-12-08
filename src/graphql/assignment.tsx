@@ -5,11 +5,12 @@ export const getAllMyAssignment = graphql(`
   query getAllMyAssignment {
     getAllMyAssignment {
       id
-      startTime
       minuteDoing
+      status
       examClass {
         id
         exam {
+          id
           name
           questions {
             id

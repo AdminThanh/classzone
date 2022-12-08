@@ -19,19 +19,19 @@ export const getAllExam = graphql(`
     }
   }
 `);
-export const getAllExamOfClass = graphql(`
-  query getAllExamOfClass($classId: String!) {
-    getAllExamOfClass(classId: $classId) {
-      id
-      exam {
-        name
-        questions {
-          question
-        }
-      }
-    }
-  }
-`);
+// export const getAllExamOfClass = graphql(`
+//   query getAllExamOfClass($classId: String!) {
+//     getAllExamOfClass(classId: $classId) {
+//       id
+//       exam {
+//         name
+//         questions {
+//           question
+//         }
+//       }
+//     }
+//   }
+// `);
 export const getMyExam = graphql(`
   query getMyExam {
     getMyExam {

@@ -3,10 +3,10 @@ import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import React from 'react';
 import './AssignmentItem.scss';
 
-interface IAnswer {
-  label: string;
-  value: string;
+interface IAnswers {
+  [key: string]: string[];
 }
+
 
 interface IAssignment {
   question_id: string;
@@ -15,7 +15,7 @@ interface IAssignment {
   answer: string[];
   handleAnswered: (id: string, value: any) => void;
   order?: number;
-  dataAnswer?: string[];
+  dataAnswer?: IAnswers;
 }
 
 const AssignmentItem: React.FC<IAssignment> = (props) => {

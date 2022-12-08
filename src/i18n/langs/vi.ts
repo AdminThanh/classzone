@@ -276,6 +276,7 @@ export default {
     status_not: 'Chưa làm',
     status_notStart: 'Chưa bắt đầu',
     status_score: 'Đã có điểm',
+    status_doing: 'Đang làm',
 
     //button
     doing: 'Làm bài',
