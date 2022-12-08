@@ -3,9 +3,8 @@ import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import React from 'react';
 import './AssignmentItem.scss';
 
-interface IAnswer {
-  label: string;
-  value: string;
+interface IAnswers {
+  [key: string]: string[];
 }
 
 interface IAssignment {
@@ -15,7 +14,7 @@ interface IAssignment {
   answer: string[];
   handleAnswered: (id: string, value: any) => void;
   order?: number;
-  dataAnswer?: string[];
+  dataAnswer?: any;
 }
 
 const AssignmentItem: React.FC<IAssignment> = (props) => {
@@ -59,6 +58,7 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
             <Checkbox.Group
               style={{ width: '100%' }}
               onChange={onChange}
+              value={dataAnswer[question_id]}
             >
               <Row gutter={16}>
                 {answer?.length !== 0 &&
