@@ -290,6 +290,12 @@ export default {
     //button
     doing: 'Làm bài',
     review: 'Xem lại',
+
+    //action
+    student_name: 'Họ tên',
+    date_doing: 'Ngày làm',
+    point: 'Điểm',
+    second: 'Giây'
   },
   my_quession: {
     tags: 'Thẻ',

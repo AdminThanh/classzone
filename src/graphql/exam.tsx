@@ -56,10 +56,20 @@ export const getAllExamClassOfClass = graphql(`
       classRoom {
         students {
           id
+          firstName
+          lastName
         }
       }
       assignmentDone {
         id
+        minuteDoing
+        score
+        status
+        startTime
+        student {
+          firstName
+          lastName
+        }
       }
       exam {
         id

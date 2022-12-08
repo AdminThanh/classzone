@@ -282,6 +282,12 @@ export default {
     //button
     doing: 'Doing',
     review: 'review',
+
+    //action
+    student_name: 'Full name',
+    date_doing: 'Exam start date',
+    point: 'The point',
+    second: 'Second'
   },
   my_quession: {
     tags: 'Tags',

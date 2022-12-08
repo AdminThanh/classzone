@@ -20,7 +20,7 @@ import {
 import { useMemo, useState, useEffect } from 'react';
 import GiveAssingment from 'components/GiveAssignment';
 import moment from 'moment';
-import './AssignedExam.scss';
+import './ScoreExam.scss';
 
 interface ITags {
   name: string;
@@ -28,7 +28,6 @@ interface ITags {
 }
 
 interface IExamClassOfClass {
-  tags: string[];
   nameExam: string;
   numQuestion: string;
   status: string;
@@ -37,7 +36,7 @@ interface IExamClassOfClass {
   deadline: string;
 }
 
-const AssignedExam = () => {
+const ScoreExam = () => {
   const [currentModal, setCurrentModal] = useState(false);
   const { t } = useTranslation();
   const { classId } = useParams();
@@ -49,86 +48,80 @@ const AssignedExam = () => {
     },
   });
 
-  const dataListExamOfClass: any = dataExamOfClass?.getAllExamClassOfClass.map(
+  const assignmentDone: any = dataExamOfClass?.getAllExamClassOfClass.map(
     (item) => ({
-      nameExam: item.exam.name,
-      numQuestion: item.exam.questions.length,
-      minutes: item.minutes as number,
-      // status: 'Chưa',
-      tags: item.exam.tags,
-      deadline:
-        moment(item.dateFrom).format('DD/MM/YYYY') +
-        ' - ' +
-        moment(item.dateEnd).format('DD/MM/YYYY'),
-      submitted:
-        (item.assignmentDone?.length ? item.assignmentDone?.length : 0) +
-        '/' +
-        item.classRoom.students?.length,
+      assignmentDone: item.assignmentDone,
     })
   );
 
-  const columns: ColumnsType<IExamClassOfClass> = [
+  const examId = dataExamOfClass?.getAllExamClassOfClass[0].exam.id;
+
+  const dataListAssignmentDone = assignmentDone.map(
+    (student: any) => student.assignmentDone
+  );
+
+  var postsItems = [];
+  for (let i = 0; i < dataListAssignmentDone.length; i++) {
+    for (let j = 0; j < dataListAssignmentDone[i].length; j++) {
+      postsItems.push(dataListAssignmentDone[i][j]);
+    }
+  }
+
+  const dataTable = postsItems.map((item: any) => ({
+    nameExam: item.student.firstName + ' ' + item.student.lastName,
+    startTime: item.startTime,
+    minuteDoing: item.minuteDoing,
+    score: item.score,
+    id: item.id,
+  }));
+
+  const columns: ColumnsType<any> = [
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (tags) => (
-        <>
-          {tags?.map((tag: any, index: any) => {
-            return (
-              <Tag color={tag.color} key={index}>
-                {tag.name}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: t('management.name_exam'),
+      title: t('exam.student_name'),
       dataIndex: 'nameExam',
       key: 'nameExam',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: t('exam.num_question'),
-      dataIndex: 'numQuestion',
-      key: 'numQuestion',
+      title: t('exam.date_doing'),
+      dataIndex: 'startTime',
+      key: 'startTime',
+      render: (startTime) => (
+        <>{moment(startTime).format('HH:MM - DD/MM/YYYY')}</>
+      ),
     },
-    // {
-    //   title: t('management.status'),
-    //   dataIndex: 'status',
-    //   key: 'status',
-    // },
     {
       title: t('exam.work_time'),
-      dataIndex: 'minutes',
-      key: 'minutes',
+      dataIndex: 'minuteDoing',
+      key: 'minuteDoing',
+      render: (second) => (
+        <>
+          {second} {t('exam.second')}
+        </>
+      ),
     },
+
     {
-      title: t('exam.deadline'),
-      dataIndex: 'deadline',
-      key: 'deadline',
-    },
-    {
-      title: t('management.had_done'),
-      dataIndex: 'submitted',
-      key: 'submitted',
+      title: t('exam.point'),
+      dataIndex: 'score',
+      key: 'score',
+      render: (score) => <>{score.toFixed(2)}</>,
     },
 
     {
       title: t('action.action'),
       key: 'id',
       render: (_, id) => (
-        <Space size="middle" className='view'>
+        <Space size="middle" className="view">
           <Tag
             icon={<EyeOutlined />}
             color="warning"
             onClick={() => {
-              navigate('score_exam');
+              navigate('/review/' + examId + '/' + id.id);
             }}
           >
-            {t('action.detail')}
+            {/* {t('action.detail')} */}
+            Xem bài làm
           </Tag>
         </Space>
       ),
@@ -146,18 +139,11 @@ const AssignedExam = () => {
             },
           ]}
         />
-        <Button
-          type="primary"
-          className="primary"
-          icon={<PullRequestOutlined />}
-          size={'large'}
-          onClick={() => {
-            setCurrentModal(true);
-          }}
-        >
-          {t('management.give_assignment')}
-        </Button>
-        <Table className='tableExamOfClass' columns={columns} dataSource={dataListExamOfClass} />
+        <Table
+          className="tableScoreExam"
+          columns={columns}
+          dataSource={dataTable}
+        />
         <Modal
           title={t('my_class.give_assignment')}
           open={currentModal}
@@ -173,4 +159,4 @@ const AssignedExam = () => {
   );
 };
 
-export default AssignedExam;
+export default ScoreExam;

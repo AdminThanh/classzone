@@ -28,6 +28,7 @@ import AuthPage from 'pages/AuthPage';
 import StudentLayout from 'layouts/Student';
 import AssignedExam from 'pages/AssignedExam';
 import ReviewAssignment from 'pages/ReviewAssignment';
+import ScoreExam from 'pages/ScoreExam';
 
 export declare namespace JSX {
   interface IntrinsicElements {
@@ -74,6 +75,18 @@ export const routes: IRoute[] = [
   {
     path: '/class_detail/:classId/exam',
     element: AssignedExam,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/class_detail/:classId/exam/score_exam',
+    element: ScoreExam,
+    role: ['teacher'],
+    layout: TeacherLayout,
+  },
+  {
+    path: '/review/:examId/:assignmentId',
+    element: ReviewAssignment,
     role: ['teacher'],
     layout: TeacherLayout,
   },

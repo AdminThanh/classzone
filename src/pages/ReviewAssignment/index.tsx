@@ -71,8 +71,6 @@ const ReviewAssignment = () => {
     },
   });
 
-  console.log('dataAssignment', dataAssignment);
-
   useEffect(() => {
     setNameAssignment(dataExam?.getExamById.name as string);
 
@@ -116,9 +114,13 @@ const ReviewAssignment = () => {
               <div className="heading__content-timer">
                 <Timer
                   setLoadingItem={setLoadingItem}
-                  // handleSubmitAsignmentAuto={handleSubmitAsignmentAuto}
                   minutes={dataAssignment?.getAssignmentById.minuteDoing}
                 />
+              </div>
+              <div className="heading__content-submit">
+                <button>
+                  {dataAssignment?.getAssignmentById.score?.toFixed(2)} Điểm
+                </button>
               </div>
             </div>
           </div>
