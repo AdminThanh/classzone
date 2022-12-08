@@ -38,6 +38,7 @@ export default {
     score_factor: 'Score factor',
     class: 'Class',
     student: 'Student',
+    group: 'Group',
     attendance: 'Attendance',
     schedule: 'Schedule',
     rotating: 'Rotating umbrella',
@@ -282,6 +283,13 @@ export default {
     //button
     doing: 'Doing',
     review: 'review',
+
+    //validate
+    choose_assignment: 'Please choose assignment',
+    val_startDate: 'Please choose start date',
+    val_endDate: 'Please choose end date',
+    val_makeTime: 'Please choose make time',
+    val_result: 'Please choose result true!',
   },
   my_quession: {
     tags: 'Tags',

@@ -205,10 +205,10 @@ const CreateQuession = () => {
             onFinish={handleQuestion}
             autoComplete="off"
             form={form}
-            // initialValues={{
-            //   answer: correctAnswer,
-            //   isMultiple: isMultiple,
-            // }}
+          // initialValues={{
+          //   answer: correctAnswer,
+          //   isMultiple: isMultiple,
+          // }}
           >
             <div className="action-navbar">
               <label>{t('my_quession.tags')}</label>
@@ -237,8 +237,10 @@ const CreateQuession = () => {
               </Checkbox>
             </Form.Item>
 
-            <Form.List name="answer">
-              {(fields, { add, remove }) => (
+            <Form.List name="answer"
+
+            >
+              {(fields, { add, remove }, { errors }) => (
                 <>
                   <label>{t('my_quession.answer')}</label>
                   {fields.map(({ key, name, ...restField }, index) => (

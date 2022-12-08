@@ -6,6 +6,7 @@ import {
   Col,
   Form,
   Input,
+  InputNumber,
   notification,
   Row,
   Spin,
@@ -163,7 +164,7 @@ function EditProfile() {
                         {auth.avatar || avatar?.preview ? (
                           <img
                             className="navbar__avatar"
-                            src={avatar.preview || auth.avatar}
+                            src={avatar?.preview || auth?.avatar}
                           />
                         ) : (
                           <Avatar className="navbar__avatar">
@@ -245,15 +246,9 @@ function EditProfile() {
                       className="input-profile"
                       label={t('edit_profile.phone')}
                       name="phone"
-                      rules={[
-                        {
-                          required: true,
-                          message: t('edit_profile.val_phone'),
-                        },
-                      ]}
                       initialValue={auth?.phoneNumber}
                     >
-                      <Input
+                      <InputNumber
                         disabled={!isEdit}
                         className="input-profile"
                         placeholder={t('edit_profile.ph_phone')}

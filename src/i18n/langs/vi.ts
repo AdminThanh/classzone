@@ -41,6 +41,7 @@ export default {
     score_factor: 'Hệ số điểm',
     class: 'Lớp học',
     student: 'Học sinh',
+    group: 'Nhóm',
     attendance: 'Điểm danh',
     quick_test: 'Bài kiểm tra nhanh',
     schedule: 'Lịch học',
@@ -290,6 +291,13 @@ export default {
     //button
     doing: 'Làm bài',
     review: 'Xem lại',
+
+    //validate
+    choose_assignment: 'Mời bạn chọn bài kiểm tra!',
+    val_startDate: 'Mời bạn chọn ngày bắt đầu!',
+    val_endDate: 'Mời bạn chọn ngày kết thúc!',
+    val_makeTime: 'Mời bạn chọn thời gian làm!',
+    val_result: 'Mời bạn chọn đáp án đúng!',
   },
   my_quession: {
     tags: 'Thẻ',
