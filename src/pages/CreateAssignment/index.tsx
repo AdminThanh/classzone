@@ -20,7 +20,7 @@ import {
   UpdateExamDocument,
 } from 'gql/graphql';
 import { renderHTML } from 'pages/Question';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { SortableContainerProps, SortEnd } from 'react-sortable-hoc';
 import {
   SortableContainer,
@@ -71,6 +71,7 @@ const CreateAssignment = () => {
   const [form] = useForm();
   const { examId } = useParams();
   const skip = examId ? false : true;
+  const navigate = useNavigate();
   const { data, refetch } = useQuery(GetExamByIdDocument, {
     variables: {
       id: examId as string,
@@ -223,6 +224,10 @@ const CreateAssignment = () => {
           message: t('action.edit_success'),
         });
         refetch();
+
+        setTimeout(() => {
+          navigate('/exam_management');
+        }, 500);
       } catch (error) {
         notification.error({
           key: 'error',

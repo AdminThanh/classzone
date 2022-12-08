@@ -12,6 +12,7 @@ export const getColumnScoreByClass = graphql(`
       scores
       reference_col
       examOfClass_id
+      assignments
     }
   }
 `);

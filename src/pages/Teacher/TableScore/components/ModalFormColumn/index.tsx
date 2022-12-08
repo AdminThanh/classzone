@@ -13,7 +13,7 @@ import { useForm } from 'antd/es/form/Form';
 import {
   ColumnScoreType,
   CreateColumnScoreDocument,
-  GetAllExamClassDocument,
+  GetMyExamClassDocument,
   ScoreType,
   UpdateColumnScoreDocument,
 } from 'gql/graphql';
@@ -54,9 +54,8 @@ const ModalFormColumn = (props: ModalFromColumn) => {
     type: undefined,
   });
 
-  const { data: dataExamClass } = useQuery(GetAllExamClassDocument);
+  const { data: dataExamClass } = useQuery(GetMyExamClassDocument);
   const [fireCreateColumnScore] = useMutation(CreateColumnScoreDocument);
-
   const [fireUpdateColumnScore] = useMutation(UpdateColumnScoreDocument);
   const [form] = useForm();
   const { t } = useTranslation();
@@ -104,6 +103,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
               name: value.name,
               note: value.note,
               type: value.type,
+              examOfClass_id: value.examOfClass_id,
               reference_col: value.reference_col,
             },
             id: data.id,
@@ -208,7 +208,7 @@ const ModalFormColumn = (props: ModalFromColumn) => {
             )}
             allowClear
           >
-            {dataExamClass?.getAllExamClass?.map((examClass) => (
+            {dataExamClass?.getMyExamClass?.map((examClass) => (
               <Option key={examClass.id} value={examClass.id}>
                 {examClass.exam.name}
               </Option>

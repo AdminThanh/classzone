@@ -102,12 +102,6 @@ const WheelOfNames: FunctionComponent<IPropsWheelOfNames> = (props) => {
         count *
         2;
 
-      // console.log(
-      //   `(${MIN_ROUNDS * 360} + ${Math.floor(random * 360)} * ${
-      //     MAX_ROUNDS - MIN_ROUNDS
-      //   }) * ${count * 2} = ${randomDegree}`
-      // );
-
       setCount(count + 1);
       setRotate(randomDegree);
 

@@ -104,11 +104,21 @@ const TableScore = () => {
         const scoreOfStudent: any = {};
 
         colScore?.forEach((cs: any) => {
-          Object.keys(cs?.scores || {}).forEach((student_id) => {
-            if (student.id === student_id) {
-              scoreOfStudent[cs.id] = cs?.scores[student_id] ?? null;
-            }
-          });
+          if (Object.keys(cs.assignments).length) {
+            Object.keys(cs?.assignments || cs?.scores || {}).forEach(
+              (student_id) => {
+                if (student.id === student_id) {
+                  scoreOfStudent[cs.id] = cs?.assignments[student_id] ?? null;
+                }
+              }
+            );
+          } else {
+            Object.keys(cs?.scores || {}).forEach((student_id) => {
+              if (student.id === student_id) {
+                scoreOfStudent[cs.id] = cs?.scores[student_id] ?? null;
+              }
+            });
+          }
         });
 
         return {

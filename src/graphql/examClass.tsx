@@ -55,3 +55,20 @@ export const createExamClass = graphql(`
     }
   }
 `);
+
+export const getMyExamClass = graphql(`
+  query getMyExamClass {
+    getMyExamClass {
+      id
+      minutes
+      scoreFactor
+      owner {
+        id
+        lastName
+      }
+      exam {
+        name
+      }
+    }
+  }
+`);
