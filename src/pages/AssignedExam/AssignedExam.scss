@@ -1,0 +1,10 @@
+@use '../../assets/styles/colors' as c;
+.tableExamOfClass {
+  margin-top: 20px;
+  .view {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

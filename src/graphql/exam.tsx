@@ -32,6 +32,7 @@ export const getAllExam = graphql(`
 //     }
 //   }
 // `);
+
 export const getMyExam = graphql(`
   query getMyExam {
     getMyExam {
@@ -40,6 +41,47 @@ export const getMyExam = graphql(`
       tags {
         name
         color
+      }
+    }
+  }
+`);
+
+export const getAllExamClassOfClass = graphql(`
+  query getAllExamClassOfClass($classId: String!) {
+    getAllExamClassOfClass(classId: $classId) {
+      id
+      dateEnd
+      dateFrom
+      minutes
+      classRoom {
+        students {
+          id
+          firstName
+          lastName
+        }
+      }
+      assignmentDone {
+        id
+        minuteDoing
+        score
+        status
+        startTime
+        student {
+          firstName
+          lastName
+        }
+      }
+      exam {
+        id
+        name
+        tags {
+          name
+          color
+        }
+        questions {
+          question
+          id
+        }
       }
     }
   }

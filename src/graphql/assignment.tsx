@@ -31,6 +31,7 @@ export const getAssignmentById = graphql(`
       id
       startTime
       minuteDoing
+      score
       answerSubmit {
         answer
       }

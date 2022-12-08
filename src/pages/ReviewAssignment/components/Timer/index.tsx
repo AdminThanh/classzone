@@ -1,7 +1,7 @@
 const Timer = (props: any) => {
   const { minutes } = props;
 
-  const seconds = minutes * 60;
+  const seconds = minutes;
 
   return (
     <>
@@ -15,4 +15,5 @@ const Timer = (props: any) => {
     </>
   );
 };
+
 export default Timer;

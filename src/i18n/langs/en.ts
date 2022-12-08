@@ -284,6 +284,12 @@ export default {
     doing: 'Doing',
     review: 'review',
 
+    //action
+    student_name: 'Full name',
+    date_doing: 'Exam start date',
+    point: 'The point',
+    second: 'Second',
+    
     //validate
     choose_assignment: 'Please choose assignment',
     val_startDate: 'Please choose start date',

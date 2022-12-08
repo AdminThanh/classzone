@@ -27,8 +27,6 @@ interface ICurrentModal {
 const TaskbarFooter = (props: any) => {
   const { dataListStudent, dataGroup } = props;
 
- 
-
   const { handleOpenLeaderboard } = props;
   const [currentModal, setCurrentModal] = useState<ICurrentModal>({
     modal: null,
@@ -62,13 +60,16 @@ const TaskbarFooter = (props: any) => {
       data: null,
     });
   };
+  
   const items = useMemo(() => {
     if (auth?.role === 'TEACHER') {
       return [
         {
           Icon: <PullRequestOutlined />,
-          label: t('my_class.give_assignment'),
-          onClick: handleOpenAssignment,
+          // label: t('my_class.give_assignment'),
+          label: t('table_score.test'),
+          // onClick: handleOpenAssignment,
+          path: 'exam',
         },
         {
           Icon: <TableOutlined />,
