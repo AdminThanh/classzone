@@ -1,18 +1,16 @@
-import './ExamItem.scss';
-import { EditIcon } from 'utils/drawer';
-import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
-import Link from 'antd/lib/typography/Link';
-import { useNavigate } from 'react-router-dom';
-import {
-  CreateAssignmentDocument,
-  UpdateAssignmentDocument,
-} from 'gql/graphql';
 import { useMutation } from '@apollo/client';
 import { notification, Spin } from 'antd';
-import React, { useState, useEffect } from 'react';
-import Item from 'antd/lib/list/Item';
+import clsx from 'clsx';
+import {
+  CreateAssignmentDocument,
+  UpdateAssignmentDocument
+} from 'gql/graphql';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { EditIcon } from 'utils/drawer';
+import './ExamItem.scss';
 
 function ExamItem(props: any) {
   const {

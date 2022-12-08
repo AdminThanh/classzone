@@ -48,6 +48,8 @@ interface IColumnTable {
   type: string;
   test: string;
   multiplier: number;
+  examOfClass_id: string;
+  assignments: Object;
 }
 
 const TableScore = () => {
@@ -186,6 +188,7 @@ const TableScore = () => {
           return (
             <InputNumber
               value={value}
+              disabled={Boolean(col?.examOfClass_id)}
               {...propsInput}
               onChange={(value) => {
                 if (value) {
