@@ -40,7 +40,7 @@ interface IGroupInfo {
 }
 
 const GroupList = (props: any) => {
-  const { dataGroup, dataListStudent } = props;
+  const { dataGroup, dataListStudent, role } = props;
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [choseType, setChoseType] = useState(false);
   const [choseNumber, setChoseNumber] = useState(false);
@@ -75,7 +75,7 @@ const GroupList = (props: any) => {
       classId: classId as string,
     },
   });
-  
+
 
   const datas = groupOfClass?.getGroupOfClass.map((item) => ({
     id: item.id,
@@ -151,23 +151,26 @@ const GroupList = (props: any) => {
           </Col>
         ))}
 
-      <Col
-        onClick={() => {
-          // setShowCreateGroup(true);
-          setGroupDetailInfo('');
-          setChoseType(true);
-        }}
-        xs={24}
-        sm={12}
-        md={8}
-        lg={6}
-        xl={4}
-        xxl={4}
-      >
-        <div className="groups_list-item add">
-          <PlusCircleOutlined />
-        </div>
-      </Col>
+      {
+        role === "TEACHER" &&
+        <Col
+          onClick={() => {
+            // setShowCreateGroup(true);
+            setGroupDetailInfo('');
+            setChoseType(true);
+          }}
+          xs={24}
+          sm={12}
+          md={8}
+          lg={6}
+          xl={4}
+          xxl={4}
+        >
+          <div className="groups_list-item add">
+            <PlusCircleOutlined />
+          </div>
+        </Col>
+      }
       {showCreateGroup && (
         <CreateGroup
           groupDetailInfo={groupDetailInfo}

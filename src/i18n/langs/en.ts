@@ -38,6 +38,7 @@ export default {
     score_factor: 'Score factor',
     class: 'Class',
     student: 'Student',
+    group: 'Group',
     attendance: 'Attendance',
     schedule: 'Schedule',
     rotating: 'Rotating umbrella',

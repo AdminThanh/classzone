@@ -41,6 +41,7 @@ export default {
     score_factor: 'Hệ số điểm',
     class: 'Lớp học',
     student: 'Học sinh',
+    group: 'Nhóm',
     attendance: 'Điểm danh',
     quick_test: 'Bài kiểm tra nhanh',
     schedule: 'Lịch học',

@@ -463,19 +463,22 @@ const ClassDetail = () => {
         <div className="classdetail">
           <div className="classdetail__tab">
             <Tabs defaultActiveKey="1">
-              <Tabs.TabPane tab="Học sinh" key="1">
+              <Tabs.TabPane tab={t('my_class.student')} key="1">
                 <StudentList
                   handleOpenBadgeStudent={handleOpenBadgeStudent}
                   classId={classId}
                   dataListStudent={dataClass?.getClassById?.students}
                   onlines={onlines}
                   loading={loadingClass}
+                  role={auth.role}
                 />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Nhóm" key="2">
+              <Tabs.TabPane tab={t('my_class.group')} key="2">
                 <GroupList
                   dataListStudent={dataListStudent}
                   dataGroup={dataGroup}
+                  role={auth.role}
+
                 />
               </Tabs.TabPane>
             </Tabs>
