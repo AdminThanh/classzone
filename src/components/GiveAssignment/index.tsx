@@ -25,16 +25,23 @@ function GiveAssingment() {
     const onFinish = (values: any) => {
         console.log(values);
 
-        const fromDate = values.startTime.format('DD-MM-YYYY HH:mm:ss');
-        const endDate = values.endTime.format('DD-MM-YYYY HH:mm:ss');
+        const fromDate = values.startTime;
+        const endDate = values.endTime;
+
         if (values.isAllowReview) {
             setAllowReview(true);
         } else {
             setAllowReview(false);
         }
 
-        console.log(fromDate, endDate);
+        if (endDate < fromDate) {
+            notification.error({
+                message: "Ngày kết thúc không được nhỏ hơn ngày bắt đầu!"
+            })
+            return;
+        }
 
+        notification.destroy();
         notification.open({
             message: (
                 <>
@@ -54,8 +61,8 @@ function GiveAssingment() {
                         classRoom: classId as string,
                         isAllowReview: allowReview as boolean,
                         minutes: values.timeMake,
-                        dateFrom: fromDate,
-                        dateEnd: endDate,
+                        dateFrom: fromDate.toISOString(),
+                        dateEnd: endDate.toISOString(),
                     }
                 }
             })
@@ -101,7 +108,7 @@ function GiveAssingment() {
                     <Checkbox checked={false} value={false}></Checkbox>
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">{t("management.give_assignment")}</Button>
+                    <Button type="primary" className="btn-give" htmlType="submit">{t("management.give_assignment")}</Button>
                 </Form.Item>
             </Form>
         </div>

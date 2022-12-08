@@ -6,7 +6,7 @@ import {
   GetAllExamDocument,
   GetMyExamDocument,
 } from 'gql/graphql';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { AddIcon, CancelIcon, EditIcon } from 'utils/drawer';
@@ -53,10 +53,8 @@ function ExamManagement() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { data, refetch, loading } = useQuery(GetMyExamDocument);
-  console.log(loading);
   const [fireDeleteExam] = useMutation(DeleteExamDocument);
   const handleDelete = async (id: string) => {
-    console.log(id);
     try {
       await fireDeleteExam({
         variables: {
@@ -76,6 +74,10 @@ function ExamManagement() {
     }
   };
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <div className="management-page">
       <BreadCrumb
@@ -90,7 +92,7 @@ function ExamManagement() {
         {!loading ? (
           <div className="name_class">Bài đã giao</div>
         ) : (
-          <Skeleton.Button size='large' />
+          <Skeleton.Button size="large" />
         )}
         <div className="action">
           {!loading ? (
@@ -103,14 +105,14 @@ function ExamManagement() {
               {t('management.create_exam')}
             </button>
           ) : (
-            <Skeleton.Button size='large' />
+            <Skeleton.Button size="large" />
           )}
           {!loading ? (
             <button type="button" className="give-exam primary">
               {t('management.give_assignment')}
             </button>
           ) : (
-            <Skeleton.Button size='large' />
+            <Skeleton.Button size="large" />
           )}
         </div>
       </div>
@@ -119,14 +121,14 @@ function ExamManagement() {
           <thead>
             <tr>
               <th>Tags</th>
-              <th>{t('management.class')}</th>
-              <th>{t('management.had_done')}</th>
+              <th>{t('assignment.name')}</th>
+              <th>{t('action.action')}</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {!loading ? (
-              data?.getMyExam?.map((item, index) => (
+            {!loading
+              ? data?.getMyExam?.map((item, index) => (
                 <tr key={index}>
                   <td className="td-management">
                     {item.tags?.map((tag, key) => (
@@ -155,13 +157,12 @@ function ExamManagement() {
                     </Popconfirm>
                   </td>
                 </tr>
-              ))) : (
-              [1, 2, 3, 4].map(() => (
-                <div className='loading-skeleton'>
-                  <Skeleton.Input active size='default' />
-                </div>
               ))
-            )}
+              : [1, 2, 3, 4].map(() => (
+                <div className="loading-skeleton">
+                  <Skeleton.Input active size="default" />
+                </div>
+              ))}
           </tbody>
         </table>
       </div>

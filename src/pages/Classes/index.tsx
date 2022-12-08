@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { Button, Col, Form, Row, Select, Skeleton } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import BreadCrumb from 'components/BreadCrumb';
@@ -30,9 +30,12 @@ const Classes = () => {
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
   const { auth } = useAuth();
-  const { data, loading, refetch }: any = useQuery(
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [fetchClass]: any = useLazyQuery(
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument,
     {
+      fetchPolicy: 'no-cache',
       variables: {
         fitlerClassType: {
           // name: '',
@@ -45,8 +48,14 @@ const Classes = () => {
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
-  const handleRefetch = () => {
-    refetch();
+  const handleRefetch = async () => {
+    const res = await fetchClass({
+      variables: {
+        fitlerClassType: {},
+      },
+    });
+
+    setData(res.data);
   };
 
   const fields: TField[] = useMemo(
@@ -83,23 +92,36 @@ const Classes = () => {
     [i18next.language]
   );
 
-  const handleChangeFilterMenu = (values: any) => {
-    console.log('Change', values);
+  const handleChangeFilterMenu = async (values: any) => {
+    setLoading(true);
+    const res = await fetchClass({
+      variables: {
+        fitlerClassType: {
+          name: values.search,
+          from_date: moment(values.start_date).toISOString(),
+          end_date: moment(values.end_date).toISOString(),
+          // sortType: ',
+          // status: 'AVAILABLE',
+        },
+      },
+    });
 
-    try {
-      refetch({
-        variables: {
-          fitlerClassType: {
-            // status: values.status === 0 ? 'AVAILABLE' : 'END' as string,
-            from_date: moment(values.start_date).toISOString(),
-            end_date: moment(values.end_date).toISOString(),
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
+    setData(res.data);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true);
+      const res = await fetchClass();
+
+      setLoading(false);
+
+      setData(res.data);
+    };
+
+    fetch();
+  }, []);
 
   return (
     <div className="site_wrapper">

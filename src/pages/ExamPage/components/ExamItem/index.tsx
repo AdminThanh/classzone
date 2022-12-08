@@ -1,33 +1,34 @@
-import './ExamItem.scss';
-import { EditIcon } from 'utils/drawer';
-import { useTranslation } from 'react-i18next';
+import { useMutation } from '@apollo/client';
+import { notification, Spin } from 'antd';
 import clsx from 'clsx';
-import Link from 'antd/lib/typography/Link';
-import { useNavigate } from 'react-router-dom';
 import {
   CreateAssignmentDocument,
   UpdateAssignmentDocument,
 } from 'gql/graphql';
-import { useMutation } from '@apollo/client';
-import { notification, Spin } from 'antd';
-import React, { useState, useEffect } from 'react';
-import Item from 'antd/lib/list/Item';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { EditIcon } from 'utils/drawer';
+import './ExamItem.scss';
 
 function ExamItem(props: any) {
   const {
     name_exam,
-    start_time,
+    startTime,
     work_time,
-    deadline,
+    deadLine,
     num_question,
     status,
     isAllowReview,
     examClassId,
+    examId,
     assignmentId,
-    dateEnd,
   } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  console.log('ExamItem', props);
   const [fireCreateAssignment, { data: dataAssignment }] = useMutation(
     CreateAssignmentDocument
   );
@@ -37,7 +38,7 @@ function ExamItem(props: any) {
   const handleCreateAssignment = async () => {
     setLoadingItem(true);
     if (status === 'DONE') {
-      alert("chưa xem được đâu");
+      navigate(`/review/${examId}/${assignmentId}`);
     } else if (status === 'DOING') {
       setTimeout(() => {
         navigate('/assignments/' + examClassId + '/' + assignmentId);
@@ -96,10 +97,12 @@ function ExamItem(props: any) {
           <h3 className="content-title">{name_exam}</h3>
           <div className="exam-detail">
             <p className="title-detail">
-              {t('exam.start_time')} {start_time}
+              {t('exam.start_time')}
+              {moment(startTime).format('HH:MM - DD/MM/YYYY')}
             </p>
             <p className="title-detail">
-              {t('exam.deadline')} {deadline}
+              {t('exam.deadline')}
+              {moment(deadLine).format('HH:MM - DD/MM/YYYY')}
             </p>
             <p className="title-detail">
               {t('exam.work_time')} {work_time}
@@ -137,11 +140,10 @@ function ExamItem(props: any) {
               className={clsx('btn-make', {
                 take: status === 'DONT_DO',
                 seen: status === 'DOING',
-                disable: status === 'DONE' && isAllowReview == false,
-                disable2: +new Date() - +new Date(dateEnd) < 0,
+                disable: Boolean(moment(Date()).isBetween(startTime, deadLine)),
               })}
             >
-              <EditIcon />{' '}
+              <EditIcon />
               {/* {status === 'DONE' ? t('exam.review') : t('exam.doing')} */}
               {status === 'DONE'
                 ? 'Xem điểm'

@@ -50,6 +50,10 @@
       color: green;
       cursor: pointer;
     }
+
+    span {
+      white-space: nowrap;
+    }
   }
   .btn-export {
     padding: 8px 16px;

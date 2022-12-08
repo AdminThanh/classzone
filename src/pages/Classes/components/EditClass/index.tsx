@@ -104,6 +104,7 @@ const EditClass = (props: any) => {
           key: 'success',
           message: t('action.add_success'),
         });
+
         handleRefetch();
       } catch (error) {
         notification.error({

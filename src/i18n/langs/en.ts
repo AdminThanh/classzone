@@ -77,6 +77,11 @@ export default {
     join_class_act: 'Please click the button below to join the class',
   },
 
+  history_attendance: {
+    student_name: 'Full name',
+    total: 'Total',
+  },
+
   auth: {
     login_success: 'Login success',
     logout_success: 'Logout success',
@@ -227,6 +232,10 @@ export default {
       'Select the test for the automatic score column',
   },
 
+  assignment: {
+    name: 'Assignment name',
+  },
+
   create_assignment: {
     assignment_name: 'Assignment name',
     add_question: 'Add question',
@@ -280,6 +289,7 @@ export default {
     val_startDate: 'Please choose start date',
     val_endDate: 'Please choose end date',
     val_makeTime: 'Please choose make time',
+    val_result: 'Please choose result true!',
   },
   my_quession: {
     tags: 'Tags',

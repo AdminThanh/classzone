@@ -1,0 +1,102 @@
+@use '/src/assets/styles/colors' as c;
+
+.content__question-item {
+  .question {
+    padding: 90px 30px 30px 30px;
+    font-size: 16px;
+
+    label {
+      font-weight: 600;
+    }
+
+    &__heading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #8e6cf7;
+      width: 80px;
+      border-radius: 0 0 60px;
+      height: 65px;
+      display: block;
+      text-align: left;
+
+      p {
+        color: c.$second;
+        font-size: 17px;
+        padding-left: 15px;
+      }
+
+      span {
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .correct {
+    background-color: green !important;
+
+    span {
+      color: #fff !important;
+    }
+  }
+
+  .incorrect {
+    background-color: red !important;
+    span {
+      color: #fff !important;
+    }
+  }
+
+  .ant-tabs > .ant-tabs-nav {
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .answer {
+    margin: 40px 0 30px 0;
+
+    &__title {
+      margin-bottom: 20px;
+    }
+
+    .answer__list {
+      label.ant-checkbox-wrapper {
+        width: 100%;
+        border-radius: 10px;
+        background-color: c.$second;
+        margin-bottom: 10px;
+        color: c.$black;
+        padding: 5px 0;
+        border: 1px solid c.$gray3_color;
+        font-size: 15px;
+        font-weight: 400;
+      }
+
+      .ant-avatar {
+        margin-right: 5px;
+        color: c.$second;
+        background-color: c.$primary;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+      }
+
+      span.ant-checkbox {
+        display: none;
+      }
+
+      label.ant-checkbox-wrapper.ant-checkbox-wrapper-checked {
+        background-color: c.$primary;
+        color: c.$second;
+
+        .ant-avatar {
+          margin-right: 5px;
+          color: c.$primary;
+          background-color: c.$second;
+        }
+      }
+    }
+  }
+}

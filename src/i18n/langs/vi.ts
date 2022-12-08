@@ -79,6 +79,11 @@ export default {
     join_class_act: 'Hãy nhấn nút bên dưới để tham gia vào lớp học',
   },
 
+  history_attendance: {
+    student_name: 'Tên học sinh',
+    total: 'Tổng buổi học',
+  },
+
   auth: {
     login_success: 'Đăng nhập thành công',
     logout_success: 'Đăng xuất thành công',
@@ -234,6 +239,10 @@ export default {
       'Chọn bài kiểm tra cho cột điểm tự động',
   },
 
+  assignment: {
+    name: 'Tên bài kiểm tra',
+  },
+
   create_assignment: {
     create_assignment: 'Tạo bài kiểm tra',
     assignment_name: 'Tên bài kiểm tra',
@@ -288,6 +297,7 @@ export default {
     val_startDate: 'Mời bạn chọn ngày bắt đầu!',
     val_endDate: 'Mời bạn chọn ngày kết thúc!',
     val_makeTime: 'Mời bạn chọn thời gian làm!',
+    val_result: 'Mời bạn chọn đáp án đúng!',
   },
   my_quession: {
     tags: 'Thẻ',

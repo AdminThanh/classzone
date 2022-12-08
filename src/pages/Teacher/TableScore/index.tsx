@@ -48,6 +48,8 @@ interface IColumnTable {
   type: string;
   test: string;
   multiplier: number;
+  examOfClass_id: string;
+  assignments: Object;
 }
 
 const TableScore = () => {
@@ -104,16 +106,26 @@ const TableScore = () => {
         const scoreOfStudent: any = {};
 
         colScore?.forEach((cs: any) => {
-          Object.keys(cs?.scores || {}).forEach((student_id) => {
-            if (student.id === student_id) {
-              scoreOfStudent[cs.id] = cs?.scores[student_id] ?? null;
-            }
-          });
+          if (Object.keys(cs.assignments).length) {
+            Object.keys(cs?.assignments || cs?.scores || {}).forEach(
+              (student_id) => {
+                if (student.id === student_id) {
+                  scoreOfStudent[cs.id] = cs?.assignments[student_id] ?? null;
+                }
+              }
+            );
+          } else {
+            Object.keys(cs?.scores || {}).forEach((student_id) => {
+              if (student.id === student_id) {
+                scoreOfStudent[cs.id] = cs?.scores[student_id] ?? null;
+              }
+            });
+          }
         });
 
         return {
           key: student.id,
-          name: student.firstName || '' + student.lastName || '',
+          name: student.lastName + ' ' + student.firstName || '',
           student_id: student.id,
           ...scoreOfStudent,
         };
@@ -176,6 +188,7 @@ const TableScore = () => {
           return (
             <InputNumber
               value={value}
+              disabled={Boolean(col?.examOfClass_id)}
               {...propsInput}
               onChange={(value) => {
                 if (value) {
@@ -664,6 +677,9 @@ const TableScore = () => {
       .saveAs('Excel.xlsx');
   };
 
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <div className="tableScore">
       <BreadCrumb
