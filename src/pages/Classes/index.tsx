@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { Button, Col, Form, Row, Select, Skeleton } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import BreadCrumb from 'components/BreadCrumb';
@@ -45,6 +45,8 @@ const Classes = () => {
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
 
+  const [fireGetMyClass] = useLazyQuery(GetMyClassDocument);
+
   const handleRefetch = () => {
     refetch();
   };
@@ -85,6 +87,20 @@ const Classes = () => {
 
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
+    try {
+      fireGetMyClass({
+        variables: {
+          fitlerClassType: {
+            // status: values.status === 0 ? 'AVAILABLE' : 'END' as string,
+            from_date: values.start_date,
+            end_date: values.end_date
+          }
+        }
+      })
+      handleRefetch();
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (

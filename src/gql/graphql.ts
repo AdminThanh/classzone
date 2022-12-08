@@ -224,6 +224,7 @@ export type CreateUserInput = {
 export type ExamClassType = {
   __typename?: 'ExamClassType';
   _id: Scalars['ID'];
+  assignmentDone?: Maybe<Array<AssignmentType>>;
   classRoom: Class;
   createdAt: Scalars['DateTime'];
   dateEnd: Scalars['DateTime'];
@@ -250,6 +251,8 @@ export type ExamType = {
 };
 
 export type FilterClassType = {
+  end_date?: InputMaybe<Scalars['DateTime']>;
+  from_date?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   sortType?: InputMaybe<ClassSortType>;
   status?: InputMaybe<ClassStatus>;
@@ -548,7 +551,7 @@ export type Query = {
   getAllClasses: Array<Class>;
   getAllExam: Array<ExamType>;
   getAllExamClass: Array<ExamClassType>;
-  getAllExamOfClass: Array<ExamClassType>;
+  getAllExamClassOfClass: Array<ExamClassType>;
   getAllGroup: Array<GroupType>;
   getAllMyAssignment: Array<AssignmentType>;
   getAllQuestion: Array<QuestionType>;
@@ -562,6 +565,7 @@ export type Query = {
   getExamClassById: ExamClassType;
   getGroupById: GroupType;
   getGroupOfClass: Array<GroupType>;
+  getHistoryAttendanceByClass: Array<Array<Attendance>>;
   getMyClass: Array<Class>;
   getMyClassStudent: Array<Class>;
   getMyExam: Array<ExamType>;
@@ -578,7 +582,7 @@ export type Query = {
 };
 
 
-export type QueryGetAllExamOfClassArgs = {
+export type QueryGetAllExamClassOfClassArgs = {
   classId: Scalars['String'];
 };
 
@@ -625,6 +629,11 @@ export type QueryGetGroupByIdArgs = {
 
 export type QueryGetGroupOfClassArgs = {
   classId: Scalars['String'];
+};
+
+
+export type QueryGetHistoryAttendanceByClassArgs = {
+  class_id: Scalars['String'];
 };
 
 
