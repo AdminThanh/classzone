@@ -7,6 +7,7 @@ import FilterMenu, { TField } from 'components/FilterMenu';
 import { useAuth } from 'contexts/AuthContext';
 import { GetMyClassDocument, GetMyClassStudentDocument } from 'gql/graphql';
 import i18next from 'i18next';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './Classes.scss';
@@ -23,14 +24,13 @@ export interface IClassInfo {
   scoreFactor: number;
   owner: any;
 }
-
 const { Option } = Select;
 
 const Classes = () => {
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
   const { auth } = useAuth();
-  const { data, refetch, loading }: any = useQuery(
+  const { data, loading, refetch }: any = useQuery(
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument,
     {
       variables: {
@@ -44,8 +44,6 @@ const Classes = () => {
   );
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
-
-  const [fireGetMyClass] = useLazyQuery(GetMyClassDocument);
 
   const handleRefetch = () => {
     refetch();
@@ -87,17 +85,17 @@ const Classes = () => {
 
   const handleChangeFilterMenu = (values: any) => {
     console.log('Change', values);
+
     try {
-      fireGetMyClass({
+      refetch({
         variables: {
           fitlerClassType: {
             // status: values.status === 0 ? 'AVAILABLE' : 'END' as string,
-            from_date: values.start_date,
-            end_date: values.end_date
+            from_date: moment(values.start_date).toISOString(),
+            end_date: moment(values.end_date).toISOString(),
           }
         }
-      })
-      handleRefetch();
+      });
     } catch (error) {
       console.log(error)
     }
@@ -153,7 +151,7 @@ const Classes = () => {
 
             {openModal && (
               <EditClass
-                handleRefetch={handleRefetch}
+                // handleRefetch={handleRefetch}
                 type={'add'}
                 title={t('my_class.add_class')}
                 setOpenModal={setOpenModal}

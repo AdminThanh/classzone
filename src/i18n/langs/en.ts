@@ -12,7 +12,7 @@ export default {
     table_score: 'Table score',
     attendance: 'Attendance',
     schedule: 'Schedule',
-    history_attendance: "History attendance"
+    history_attendance: 'History attendance',
   },
   user_control: {
     account_management: 'Account management',
@@ -272,6 +272,12 @@ export default {
     //button
     doing: 'Doing',
     review: 'review',
+
+    //validate
+    choose_assignment: 'Please choose assignment',
+    val_startDate: 'Please choose start date',
+    val_endDate: 'Please choose end date',
+    val_makeTime: 'Please choose make time',
   },
   my_quession: {
     tags: 'Tags',

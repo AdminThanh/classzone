@@ -1,4 +1,4 @@
-import { PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { ExportOutlined, PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
 import Table, { ColumnsType, ColumnType } from 'antd/lib/table';
 
 import { useMutation, useQuery } from '@apollo/client';
@@ -165,14 +165,14 @@ const TableScore = () => {
         render: (value: number, record: DataType) => {
           const propsInput =
             columns[iCol].type === ScoreType.Minus ||
-            columns[iCol].type === ScoreType.Plus
+              columns[iCol].type === ScoreType.Plus
               ? {
-                  min: 0,
-                }
+                min: 0,
+              }
               : {
-                  max: 10,
-                  min: 0,
-                };
+                max: 10,
+                min: 0,
+              };
           return (
             <InputNumber
               value={value}
@@ -678,7 +678,7 @@ const TableScore = () => {
           },
         ]}
       />
-      <button onClick={handleExportTableScore}>Xuất bảng điêm</button>
+      <button className='btn-export' onClick={handleExportTableScore}>Xuất bảng điêm <ExportOutlined /></button>
       <Table
         className="tableScore__table"
         columns={columns}

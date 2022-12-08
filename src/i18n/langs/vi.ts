@@ -280,6 +280,12 @@ export default {
     //button
     doing: 'Làm bài',
     review: 'Xem lại',
+
+    //validate
+    choose_assignment: 'Mời bạn chọn bài kiểm tra!',
+    val_startDate: 'Mời bạn chọn ngày bắt đầu!',
+    val_endDate: 'Mời bạn chọn ngày kết thúc!',
+    val_makeTime: 'Mời bạn chọn thời gian làm!',
   },
   my_quession: {
     tags: 'Thẻ',

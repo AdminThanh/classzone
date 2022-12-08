@@ -330,10 +330,10 @@
     border-radius: 4px;
     cursor: pointer;
     padding: 4px 0;
-    background: c.$gray2_color;
+    background: c.$white;
     color: c.$primary;
     &:hover {
-      background: c.$gray4_color;
+      background: c.$gray2_color;
     }
     .icon-flag {
       width: 24px;
