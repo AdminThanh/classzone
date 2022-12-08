@@ -1,0 +1,129 @@
+@use '../../assets/styles/colors' as c;
+@use '/src/assets/styles/breakpoints' as brkp;
+
+.management-page {
+  .action-exam {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 40px 0;
+    .name_class {
+      background: c.$white;
+      border-radius: 12px;
+      color: c.$primary_hover;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 10px 30px;
+    }
+    .action {
+      display: flex;
+      .create-exam {
+        display: flex;
+        align-items: center;
+        margin-right: 16px;
+        svg {
+          margin-right: 8px;
+          padding-bottom: 2px;
+        }
+      }
+    }
+    .ant-skeleton-button {
+      margin-right: 10px;
+    }
+  }
+  .management-table {
+    margin-top: 36px;
+    width: 100%;
+    thead {
+      background: c.$header_table;
+      border-radius: 10px 10px 0 0;
+      tr {
+        th {
+          padding: 15px 0;
+          &:nth-child(even) {
+            border-left: 1px solid c.$border;
+            border-right: 1px solid c.$border;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        .td-management {
+          text-align: center;
+          padding: 8px;
+          svg {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+          }
+          svg:first-child {
+            margin-right: 20px;
+          }
+          &:nth-child(even) {
+            border-left: 1px solid c.$border;
+            border-right: 1px solid c.$border;
+          }
+          .avatar-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+          .input-note {
+            width: 100%;
+            padding: 4px 12px;
+            border: 1px solid c.$border;
+            outline: none;
+          }
+        }
+        &:nth-child(odd) {
+          background: c.$white;
+        }
+        &:nth-child(even) {
+          background: c.$gray2_color;
+        }
+      }
+    }
+    .loading-skeleton {
+      display: flex;
+      flex-direction: column;
+      .ant-skeleton-input {
+        width: 162.7%;
+      }
+    }
+  }
+  @media screen and (max-width: brkp.$md) {
+    .action-exam {
+      flex-direction: column;
+      .name_class {
+        width: 100%;
+      }
+      .action {
+        margin-top: 16px;
+        width: 100%;
+        .give-exam {
+          flex: 1;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: brkp.$sm) {
+    .action {
+      flex-direction: column;
+      .create-exam {
+        width: 100%;
+        justify-content: center;
+      }
+      .give-exam {
+        margin-top: 16px;
+      }
+    }
+    .management-container {
+      width: 100%;
+      .management-table {
+        overflow-x: auto;
+      }
+    }
+  }
+}

@@ -269,8 +269,8 @@ export default {
     //content
     start_time: 'Bắt đầu từ:',
     deadline: 'Hạn nộp:',
-    work_time: 'Thời gian làm:',
-    num_question: 'Số lượng câu hỏi: ',
+    work_time: 'Thời gian làm',
+    num_question: 'Số lượng câu hỏi',
     status: 'Trạng thái:',
     status_done: 'Đã làm',
     status_not: 'Chưa làm',
