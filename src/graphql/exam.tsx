@@ -55,6 +55,10 @@ export const getExamById = graphql(`
         id
         question
         answers
+        correctAnswer {
+          text
+          result
+        }
         tags {
           id
           name
@@ -65,58 +69,6 @@ export const getExamById = graphql(`
         id
         name
         color
-      }
-    }
-  }
-`);
-
-export const getAllExamClass = graphql(`
-  query getAllExamClass {
-    getAllExamClass {
-      id
-      minutes
-      dateFrom
-      dateEnd
-      scoreFactor
-      isAllowReview
-    }
-  }
-`);
-export const getMyExamClass = graphql(`
-  query getMyExamClass {
-    getMyExamClass {
-      id
-      exam {
-        name
-        questions {
-          id
-        }
-      }
-      dateFrom
-      dateEnd
-      minutes
-      isAllowReview
-    }
-  }
-`);
-
-export const getExamClassById = graphql(`
-  query getExamClassById($id: String!) {
-    getExamClassById(id: $id) {
-      id
-      dateFrom
-      dateEnd
-      minutes
-      scoreFactor
-      id
-      exam {
-        id
-        name
-        questions {
-          id
-          question
-          answers
-        }
       }
     }
   }
@@ -162,22 +114,5 @@ export const updateExam = graphql(`
 export const deleteExam = graphql(`
   mutation deleteExam($id: String!) {
     deleteExam(id: $id)
-  }
-`);
-
-export const createExamClass = graphql(`
-  mutation createExamClass($createExamClassInput: CreateExamClassInput!) {
-    createExamClass(createExamClassInput: $createExamClassInput) {
-      exam {
-        id
-      }
-      classRoom {
-        id
-      }
-      isAllowReview
-      minutes
-      dateFrom
-      dateEnd
-    }
   }
 `);

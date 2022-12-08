@@ -20,7 +20,7 @@ import {
   UpdateExamDocument,
 } from 'gql/graphql';
 import { renderHTML } from 'pages/Question';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { SortableContainerProps, SortEnd } from 'react-sortable-hoc';
 import {
   SortableContainer,
@@ -28,6 +28,7 @@ import {
   SortableHandle,
 } from 'react-sortable-hoc';
 import QuestionTable from './components/QuestionTable';
+import Color from 'color';
 
 interface IQuestions {
   id: string;
@@ -70,6 +71,7 @@ const CreateAssignment = () => {
   const [form] = useForm();
   const { examId } = useParams();
   const skip = examId ? false : true;
+  const navigate = useNavigate();
   const { data, refetch } = useQuery(GetExamByIdDocument, {
     variables: {
       id: examId as string,
@@ -112,8 +114,13 @@ const CreateAssignment = () => {
       render: (tags) => (
         <>
           {tags?.map((tag: any, index: any) => {
+            const color = new Color(tag.color);
             return (
-              <Tag color={tag.color} key={index}>
+              <Tag
+                color={tag.color}
+                key={index}
+                style={{ color: color.isLight() ? '#000' : '#fff' }}
+              >
                 {tag.name}
               </Tag>
             );
@@ -217,6 +224,10 @@ const CreateAssignment = () => {
           message: t('action.edit_success'),
         });
         refetch();
+
+        setTimeout(() => {
+          navigate('/exam_management');
+        }, 500);
       } catch (error) {
         notification.error({
           key: 'error',
