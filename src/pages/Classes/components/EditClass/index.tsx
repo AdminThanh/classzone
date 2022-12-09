@@ -74,6 +74,7 @@ const EditClass = (props: any) => {
       };
     });
   };
+  console.log('handleRefetch', handleRefetch);
 
   const handleChangeFile = async (e: any) => {
     const file = e.target.files[0];
@@ -104,8 +105,6 @@ const EditClass = (props: any) => {
           key: 'success',
           message: t('action.add_success'),
         });
-
-        handleRefetch();
       } catch (error) {
         notification.error({
           key: 'error',
@@ -113,6 +112,7 @@ const EditClass = (props: any) => {
         });
       } finally {
         setConfirmLoading(false);
+        handleRefetch();
       }
     } else if (type === 'edit') {
       try {
@@ -131,7 +131,6 @@ const EditClass = (props: any) => {
           key: 'success',
           message: t('action.edit_success'),
         });
-        handleRefetch();
       } catch (error) {
         notification.error({
           key: 'error',
@@ -139,13 +138,13 @@ const EditClass = (props: any) => {
         });
       } finally {
         setConfirmLoading(false);
+        handleRefetch();
       }
     }
     setTimeout(() => {
       setOpen(false);
       setOpenModal(false);
       setConfirmLoading(false);
-      handleRefetch();
     }, 1000);
   };
 
@@ -167,7 +166,14 @@ const EditClass = (props: any) => {
           {fileImage ? (
             <img src={URL.createObjectURL(fileImage)} alt={name} />
           ) : (
-            <img src={avatar} alt={name} />
+            <img
+              src={
+                avatar
+                  ? avatar
+                  : 'https://png.pngtree.com/background/20210710/original/pngtree-math-improve-class-enrollment-cartoon-blue-background-picture-image_1003463.jpg'
+              }
+              alt={name}
+            />
           )}
           <div className="background">
             <div className="icon_upload">

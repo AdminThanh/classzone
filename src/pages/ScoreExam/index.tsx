@@ -39,7 +39,7 @@ interface IExamClassOfClass {
 const ScoreExam = () => {
   const [currentModal, setCurrentModal] = useState(false);
   const { t } = useTranslation();
-  const { classId } = useParams();
+  const { classId, asmDoneId } = useParams();
   const navigate = useNavigate();
 
   const { data: dataExamOfClass } = useQuery(GetAllExamClassOfClassDocument, {
@@ -59,6 +59,7 @@ const ScoreExam = () => {
   const dataListAssignmentDone = assignmentDone.map(
     (student: any) => student.assignmentDone
   );
+  console.log('dataListAssignmentDone', dataListAssignmentDone);
 
   var postsItems = [];
   for (let i = 0; i < dataListAssignmentDone.length; i++) {
@@ -67,6 +68,8 @@ const ScoreExam = () => {
     }
   }
 
+  const doneData = postsItems.map((item: any, index: any) => item);
+
   const dataTable = postsItems.map((item: any) => ({
     nameExam: item.student.firstName + ' ' + item.student.lastName,
     startTime: item.startTime,
@@ -74,6 +77,11 @@ const ScoreExam = () => {
     score: item.score,
     id: item.id,
   }));
+
+  const filter = dataTable.filter((element) => element.id === asmDoneId);
+  console.log('dataTable',dataTable);
+  console.log('filter',filter);
+  
 
   const columns: ColumnsType<any> = [
     {
@@ -142,7 +150,7 @@ const ScoreExam = () => {
         <Table
           className="tableScoreExam"
           columns={columns}
-          dataSource={dataTable}
+          dataSource={filter}
         />
         <Modal
           title={t('my_class.give_assignment')}

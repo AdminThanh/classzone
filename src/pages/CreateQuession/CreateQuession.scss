@@ -134,4 +134,12 @@
       border: none;
     }
   }
+  .ant-btn-primary[disabled],
+  .ant-btn-primary[disabled]:active,
+  .ant-btn-primary[disabled]:focus,
+  .ant-btn-primary[disabled]:hover {
+    background-color: c.$primary;
+    color: c.$second;
+    opacity: 0.9;
+  }
 }

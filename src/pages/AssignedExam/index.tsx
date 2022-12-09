@@ -33,6 +33,7 @@ interface IExamClassOfClass {
   numQuestion: string;
   status: string;
   minutes: number;
+  asmDoneId: string;
   submitted: string;
   deadline: string;
 }
@@ -48,12 +49,17 @@ const AssignedExam = () => {
       classId: classId as string,
     },
   });
+  console.log(
+    'dataExamOfClass?.getAllExamClassOfClass',
+    dataExamOfClass?.getAllExamClassOfClass
+  );
 
   const dataListExamOfClass: any = dataExamOfClass?.getAllExamClassOfClass.map(
     (item) => ({
       nameExam: item.exam.name,
       numQuestion: item.exam.questions.length,
       minutes: item.minutes as number,
+      asmDoneId: item.assignmentDone,
       // status: 'Chưa',
       tags: item.exam.tags,
       deadline:
@@ -118,19 +124,26 @@ const AssignedExam = () => {
 
     {
       title: t('action.action'),
-      key: 'id',
-      render: (_, id) => (
-        <Space size="middle" className='view'>
-          <Tag
-            icon={<EyeOutlined />}
-            color="warning"
-            onClick={() => {
-              navigate('score_exam');
-            }}
-          >
-            {t('action.detail')}
-          </Tag>
-        </Space>
+      dataIndex: 'asmDoneId',
+      key: 'asmDoneId',
+      render: (tags: any) => (
+        <>
+          {tags?.map((tag: any, index: any) => {
+            return (
+              <Space size="middle" className="view">
+                <Tag
+                  icon={<EyeOutlined />}
+                  color="warning"
+                  onClick={() => {
+                    navigate(tag.id);
+                  }}
+                >
+                  {t('action.detail')}
+                </Tag>
+              </Space>
+            );
+          })}
+        </>
       ),
     },
   ];
@@ -157,7 +170,11 @@ const AssignedExam = () => {
         >
           {t('management.give_assignment')}
         </Button>
-        <Table className='tableExamOfClass' columns={columns} dataSource={dataListExamOfClass} />
+        <Table
+          className="tableExamOfClass"
+          columns={columns}
+          dataSource={dataListExamOfClass}
+        />
         <Modal
           title={t('my_class.give_assignment')}
           open={currentModal}

@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Col, Form, Row, Select, Skeleton } from 'antd';
+import { Button, Col, Form, Row, Select, Skeleton, Space, Alert } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
@@ -32,7 +32,8 @@ const Classes = () => {
   const { auth } = useAuth();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [fetchClass]: any = useLazyQuery(
+
+  const [fetchClass, { data: dataClass }]: any = useLazyQuery(
     auth?.role === 'STUDENT' ? GetMyClassStudentDocument : GetMyClassDocument,
     {
       fetchPolicy: 'no-cache',
@@ -47,14 +48,12 @@ const Classes = () => {
   );
 
   const datas = (data?.getMyClass || data?.getMyClassStudent) as IClassInfo[];
-
   const handleRefetch = async () => {
     const res = await fetchClass({
       variables: {
         fitlerClassType: {},
       },
     });
-
     setData(res.data);
   };
 
@@ -114,9 +113,7 @@ const Classes = () => {
     const fetch = async () => {
       setLoading(true);
       const res = await fetchClass();
-
       setLoading(false);
-
       setData(res.data);
     };
 
@@ -173,7 +170,7 @@ const Classes = () => {
 
             {openModal && (
               <EditClass
-                // handleRefetch={handleRefetch}
+                handleRefetch={handleRefetch}
                 type={'add'}
                 title={t('my_class.add_class')}
                 setOpenModal={setOpenModal}
