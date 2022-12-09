@@ -32,6 +32,7 @@ function CheckHistoryAttendance() {
       id: classId || '',
     },
   });
+  
 
   return (
     <div className="site_wrapper">
