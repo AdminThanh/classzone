@@ -277,8 +277,8 @@ export default {
     tags: 'Thẻ',
 
     //content
-    start_time: 'Bắt đầu từ:',
-    deadline: 'Hạn nộp:',
+    start_time: 'Bắt đầu từ',
+    deadline: 'Hạn nộp',
     work_time: 'Thời gian làm',
     num_question: 'Số lượng câu hỏi',
     status: 'Trạng thái:',

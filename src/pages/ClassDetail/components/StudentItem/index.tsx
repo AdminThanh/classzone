@@ -9,7 +9,7 @@ const StudentItem = (props: any) => {
 
   return (
     <div
-      className={clsx("student-item", { disable: auth.role === "TEACHER" })}
+      className={clsx("student-item", { disable: auth.role === "STUDENT" })}
       onClick={() => handleOpenBadgeStudent(id, name)}
     >
       <Badge color={isOnline ? 'green' : 'red'} />

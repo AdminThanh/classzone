@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Col, Form, Row, Select, Skeleton } from 'antd';
+import { Button, Col, Form, Row, Select, Skeleton, Space, Alert } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import BreadCrumb from 'components/BreadCrumb';
 import FilterMenu, { TField } from 'components/FilterMenu';
@@ -114,9 +114,7 @@ const Classes = () => {
     const fetch = async () => {
       setLoading(true);
       const res = await fetchClass();
-
       setLoading(false);
-
       setData(res.data);
     };
 

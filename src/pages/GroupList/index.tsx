@@ -18,6 +18,8 @@ import {
   notification,
   Row,
   Tooltip,
+  Alert,
+  Space,
 } from 'antd';
 import { useTranslation } from 'react-i18next';
 import CreateGroup from './components/CreateGroup';
@@ -28,6 +30,7 @@ import ButtonGroup from 'antd/lib/button/button-group';
 import FormItem from 'antd/es/form/FormItem';
 import { useForm } from 'antd/es/form/Form';
 import GroupDetail from '../GroupDetail';
+
 interface IStudentInfo {
   id: string;
   name: string;
@@ -75,7 +78,6 @@ const GroupList = (props: any) => {
       classId: classId as string,
     },
   });
-
 
   const datas = groupOfClass?.getGroupOfClass.map((item) => ({
     id: item.id,
@@ -151,8 +153,16 @@ const GroupList = (props: any) => {
           </Col>
         ))}
 
-      {
-        role === "TEACHER" &&
+      {datas?.length == 0 && role === 'STUDENT' && (
+        <Space direction="vertical" style={{ width: '80%', margin : '0 auto', textAlign: 'center' }}>
+          <Alert
+            message="Lớp học này chưa có nhóm nào"
+            type="warning"
+          />
+        </Space>
+      )}
+
+      {role === 'TEACHER' && (
         <Col
           onClick={() => {
             // setShowCreateGroup(true);
@@ -170,7 +180,7 @@ const GroupList = (props: any) => {
             <PlusCircleOutlined />
           </div>
         </Col>
-      }
+      )}
       {showCreateGroup && (
         <CreateGroup
           groupDetailInfo={groupDetailInfo}
