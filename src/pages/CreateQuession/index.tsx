@@ -36,6 +36,7 @@ const CreateQuession = () => {
   const { t } = useTranslation();
   const [form] = useForm();
   const questionId = useParams();
+  const [disabledBtn, setDisabledBtn] = useState(true);
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const [fireCreateQuestion] = useMutation(CreateQuestionDocument);
   const [fireUpdateQuestion] = useMutation(UpdateQuestionDocument);
@@ -49,6 +50,11 @@ const CreateQuession = () => {
   });
 
   useEffect(() => {
+    if (questionId.questionId) {
+      setDisabledBtn(false);
+    }
+    console.log(data?.getQuestionById?.correctAnswer);
+
     form.setFieldsValue({
       question: data?.getQuestionById?.question,
       answer: data?.getQuestionById?.correctAnswer.map((aswr) => ({
@@ -60,8 +66,6 @@ const CreateQuession = () => {
   }, [data]);
 
   const handleQuestion = async (formData: any) => {
-    console.log('Payload:', formData);
-
     if (questionId.questionId) {
       try {
         await fireUpdateQuestion({
@@ -85,6 +89,7 @@ const CreateQuession = () => {
           message: t('action.edit_error'),
         });
       }
+
     } else {
       try {
         await fireCreateQuestion({
@@ -135,6 +140,15 @@ const CreateQuession = () => {
   };
 
   const handleChooseCorrectAnswer = (e: any, index: any) => {
+    const checkValidateAnswer = form
+      .getFieldValue('answer')
+      .map((item: any) => item.result);
+    if (checkValidateAnswer.includes(true)) {
+      setDisabledBtn(false);
+    } else {
+      setDisabledBtn(true);
+    }
+
     const newValue = e.target.checked;
     const isMultiple = form.getFieldValue('isMultiple');
     const listAnswer = form.getFieldValue('answer');
@@ -183,7 +197,6 @@ const CreateQuession = () => {
     form.setFieldValue('answer', answer);
   };
 
-  console.log('Re-render');
   return (
     <div className="site_wrapper">
       <div className="site_container">
@@ -205,10 +218,10 @@ const CreateQuession = () => {
             onFinish={handleQuestion}
             autoComplete="off"
             form={form}
-          // initialValues={{
-          //   answer: correctAnswer,
-          //   isMultiple: isMultiple,
-          // }}
+            // initialValues={{
+            //   answer: correctAnswer,
+            //   isMultiple: isMultiple,
+            // }}
           >
             <div className="action-navbar">
               <label>{t('my_quession.tags')}</label>
@@ -237,48 +250,65 @@ const CreateQuession = () => {
               </Checkbox>
             </Form.Item>
 
-            <Form.List name="answer"
-
+            <Form.List
+              name="answer"
+              // rules={[
+              //   {
+              //     validator: async (_, answer) => {
+              //       const dataAnswer = answer.map((item: any) => item.result);
+              //       if (!dataAnswer.includes(true)) {
+              //         return Promise.reject(
+              //           new Error('Vui lòng chọn đáp án đúng')
+              //         );
+              //       }
+              //     },
+              //   },
+              // ]}
             >
               {(fields, { add, remove }, { errors }) => (
                 <>
                   <label>{t('my_quession.answer')}</label>
                   {fields.map(({ key, name, ...restField }, index) => (
-                    <Space
-                      key={key}
-                      style={{ display: 'flex', marginBottom: 8 }}
-                      align="baseline"
-                    >
-                      <Form.Item
-                        className="check_result"
-                        name={[name, 'result']}
-                        {...restField}
-                        valuePropName="checked"
-                        initialValue={false}
+                    <>
+                      <Space
+                        key={key}
+                        style={{ display: 'flex', marginBottom: 8 }}
+                        align="baseline"
                       >
-                        <Checkbox
-                          onChange={(e) => handleChooseCorrectAnswer(e, index)}
-                          className="hidden"
-                          value={key + 1}
+                        <Form.Item
+                          className="check_result"
+                          name={[name, 'result']}
+                          {...restField}
+                          valuePropName="checked"
+                          initialValue={false}
                         >
-                          {alphabet.charAt(index).toLowerCase()}
-                        </Checkbox>
-                      </Form.Item>
+                          <Checkbox
+                            onChange={(e) =>
+                              handleChooseCorrectAnswer(e, index)
+                            }
+                            className="hidden"
+                            value={key + 1}
+                          >
+                            {alphabet.charAt(index).toLowerCase()}
+                          </Checkbox>
+                        </Form.Item>
 
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'text']}
-                        rules={[
-                          {
-                            required: true,
-                            message: t('my_quession.not_blank'),
-                          },
-                        ]}
-                      >
-                        <Input placeholder={t('my_quession.enter_answer')} />
-                      </Form.Item>
-                      <DeleteOutlined onClick={() => remove(name)} />
-                    </Space>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'text']}
+                          rules={[
+                            {
+                              required: true,
+                              message: t('my_quession.not_blank'),
+                            },
+                          ]}
+                        >
+                          <Input placeholder={t('my_quession.enter_answer')} />
+                        </Form.Item>
+                        <DeleteOutlined onClick={() => remove(name)} />
+                      </Space>
+                      <Form.ErrorList errors={errors} />
+                    </>
                   ))}
                   <Form.Item>
                     <Button
@@ -295,13 +325,7 @@ const CreateQuession = () => {
             </Form.List>
 
             <Form.Item className="btn_action">
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={() => {
-                  console.log('asd', form.getFieldsValue());
-                }}
-              >
+              <Button type="primary" htmlType="submit" disabled={disabledBtn}>
                 {t('my_quession.publish')}
               </Button>
             </Form.Item>

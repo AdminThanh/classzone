@@ -87,7 +87,6 @@ const CreateAssignment = () => {
       tags: item.tags,
       index: index,
     }));
-
     if (dataExam) {
       setDataQuestionList(dataExam as any);
     }
@@ -206,56 +205,57 @@ const CreateAssignment = () => {
   const listTags = data?.getExamById?.tags?.map((item) => item.name);
 
   const handleAxam = async (value: any) => {
-    console.log(value);
-    if (examId) {
-      try {
-        await fireUpdateExam({
-          variables: {
-            updateExamInput: {
-              name: value.asssignment_name as string | '',
-              questions: value.question_ids,
-              tags: value.tags,
-            },
-            id: examId,
-          },
-        });
-        notification.success({
-          key: 'success',
-          message: t('action.edit_success'),
-        });
-        refetch();
+    console.log('value', value.tags);
 
-        setTimeout(() => {
-          navigate('/exam_management');
-        }, 500);
-      } catch (error) {
-        notification.error({
-          key: 'error',
-          message: t('action.edit_error'),
-        });
-      }
-    } else {
-      try {
-        await fireCreateExam({
-          variables: {
-            createExamInput: {
-              name: value.asssignment_name as string | '',
-              questions: value.question_ids,
-              tags: value.tags,
-            },
-          },
-        });
-        notification.success({
-          key: 'success',
-          message: t('action.add_success'),
-        });
-      } catch (error) {
-        notification.error({
-          key: 'error',
-          message: t('action.add_error'),
-        });
-      }
-    }
+    // if (examId) {
+    //   try {
+    //     await fireUpdateExam({
+    //       variables: {
+    //         updateExamInput: {
+    //           name: value.asssignment_name as string | '',
+    //           questions: value.question_ids,
+    //           tags: value.tags,
+    //         },
+    //         id: examId,
+    //       },
+    //     });
+    //     notification.success({
+    //       key: 'success',
+    //       message: t('action.edit_success'),
+    //     });
+    //     refetch();
+
+    //     setTimeout(() => {
+    //       navigate('/exam_management');
+    //     }, 500);
+    //   } catch (error) {
+    //     notification.error({
+    //       key: 'error',
+    //       message: t('action.edit_error'),
+    //     });
+    //   }
+    // } else {
+    //   try {
+    //     await fireCreateExam({
+    //       variables: {
+    //         createExamInput: {
+    //           name: value.asssignment_name as string | '',
+    //           questions: value.question_ids,
+    //           tags: value.tags,
+    //         },
+    //       },
+    //     });
+    //     notification.success({
+    //       key: 'success',
+    //       message: t('action.add_success'),
+    //     });
+    //   } catch (error) {
+    //     notification.error({
+    //       key: 'error',
+    //       message: t('action.add_error'),
+    //     });
+    //   }
+    // }
   };
 
   return (
@@ -293,7 +293,7 @@ const CreateAssignment = () => {
               <Form.Item name="tags" label={t('create_assignment.tag')}>
                 <FilterTags
                   listTags={listTags}
-                  opts={tagOpts}
+                  opts={data?.getExamById?.tags?.map((item) => item.id)}
                   isShowTagControl
                 />
               </Form.Item>

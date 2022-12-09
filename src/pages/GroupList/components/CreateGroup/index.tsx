@@ -26,6 +26,7 @@ import {
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useForm } from 'antd/es/form/Form';
 import Item from 'antd/lib/list/Item';
+import { useAuth } from 'contexts/AuthContext';
 
 const layout = {
   labelCol: { span: 24 },
@@ -51,6 +52,7 @@ const CreateGroup = (props: any) => {
   const [form] = useForm();
 
   const [fireDeleteGroup] = useMutation(DeleteGroupDocument);
+  const { auth } = useAuth();
 
   if (groupDetailInfo) {
     const membersId = groupDetailInfo.members.map((item: any) => item.id);
@@ -59,7 +61,6 @@ const CreateGroup = (props: any) => {
       members: membersId,
     });
   }
-
   const handleCancel = () => {
     setShowCreateGroup(false);
   };
@@ -96,7 +97,6 @@ const CreateGroup = (props: any) => {
 
   const onFinish = async (values: any) => {
     if (groupDetailInfo) {
-      console.log(groupDetailInfo.id);
       try {
         await fireUpdateGroup({
           variables: {
@@ -163,7 +163,11 @@ const CreateGroup = (props: any) => {
           label={t('my_group.name_group')}
           rules={[{ required: true }]}
         >
-          <Input placeholder={t('my_group.name_group')} />
+          {auth.role === 'STUDENT' ? (
+            <Input placeholder={t('my_group.name_group')} disabled={true} />
+          ) : (
+            <Input placeholder={t('my_group.name_group')} />
+          )}
         </Form.Item>
 
         <Form.Item
@@ -173,37 +177,62 @@ const CreateGroup = (props: any) => {
         >
           <Checkbox.Group style={{ width: '100%' }}>
             <Row className="groups_list" gutter={[20, 20]}>
-              {dataListStudent.map((item: any) => (
-                <Col
-                  key={item.id}
-                  className="StudentGroup StudentGroup_Item"
-                  xs={6}
-                  sm={6}
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  xxl={4}
-                >
-                  <Checkbox value={item.id}>
+              {auth.role === 'TEACHER' &&
+                dataListStudent.map((item: any) => (
+                  <Col
+                    key={item.id}
+                    className="StudentGroup StudentGroup_Item"
+                    xs={6}
+                    sm={6}
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    xxl={4}
+                  >
+                    <Checkbox value={item.id}>
+                      <div className="student-item">
+                        <Avatar src={item.avatar}>
+                          {item.firstName?.charAt(0).toUpperCase()}
+                        </Avatar>
+                        <div className="name">
+                          <a>{item.firstName + ' ' + item.lastName}</a>
+                        </div>
+                      </div>
+                    </Checkbox>
+                  </Col>
+                ))}
+              {auth.role === 'STUDENT' &&
+                groupDetailInfo.members.map((item: any) => (
+                  <Col
+                    key={item.id}
+                    className="StudentGroup StudentGroup_Item"
+                    xs={6}
+                    sm={6}
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    xxl={4}
+                  >
                     <div className="student-item">
                       <Avatar src={item.avatar}>
-                        {item.firstName?.charAt(0).toUpperCase()}
+                        {item.name?.charAt(0).toUpperCase()}
                       </Avatar>
                       <div className="name">
-                        <a>{item.firstName + ' ' + item.lastName}</a>
+                        <a>{item.name}</a>
                       </div>
                     </div>
-                  </Checkbox>
-                </Col>
-              ))}
+                  </Col>
+                ))}
             </Row>
           </Checkbox.Group>
         </Form.Item>
 
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 0 }}>
-          <Button loading={loadingOK} type="primary" htmlType="submit">
-            {t('my_group.create')}
-          </Button>
+          {auth.role === 'TEACHER' && (
+            <Button loading={loadingOK} type="primary" htmlType="submit">
+              {t('my_group.create')}
+            </Button>
+          )}
           <Button
             style={{ marginLeft: '10px' }}
             onClick={handleCancel}
@@ -211,7 +240,7 @@ const CreateGroup = (props: any) => {
           >
             {t('action.close')}
           </Button>
-          {groupDetailInfo && (
+          {auth.role === 'TEACHER' && groupDetailInfo && (
             <Button
               style={{ float: 'right' }}
               onClick={() => handleDeleteGroup(groupDetailInfo.id)}
