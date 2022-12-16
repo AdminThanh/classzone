@@ -51,6 +51,7 @@ const EditClass = (props: any) => {
     id,
     handleRefetch,
   } = props;
+  console.log("EditClass", props)
   const [avatarBase64, setAvatarBase64] = useState<any>(null);
   const [open, setOpen] = useState(true);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -74,7 +75,6 @@ const EditClass = (props: any) => {
       };
     });
   };
-  console.log('handleRefetch', handleRefetch);
 
   const handleChangeFile = async (e: any) => {
     const file = e.target.files[0];
@@ -110,10 +110,9 @@ const EditClass = (props: any) => {
           key: 'error',
           message: t('action.add_error'),
         });
-      } finally {
-        setConfirmLoading(false);
-        handleRefetch();
       }
+      setConfirmLoading(false);
+      handleRefetch();
     } else if (type === 'edit') {
       try {
         await fireUpdateMyClass({
@@ -136,10 +135,10 @@ const EditClass = (props: any) => {
           key: 'error',
           message: t('action.edit_error'),
         });
-      } finally {
-        setConfirmLoading(false);
-        handleRefetch();
       }
+      console.log("chạy")
+      setConfirmLoading(false);
+      handleRefetch();
     }
     setTimeout(() => {
       setOpen(false);

@@ -243,7 +243,7 @@ const ClassItem = (props: IClassInfo) => {
           scoreFactor={scoreFactor}
           id={id}
           setOpenModal={setOpenModal}
-        // handleRefetch={handleRefetch}
+          handleRefetch={handleRefetch}
         />
       )}
       <Modal
