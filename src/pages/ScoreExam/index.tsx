@@ -63,8 +63,8 @@ const ScoreExam = () => {
 
   var postsItems = [];
   for (let i = 0; i < dataListAssignmentDone.length; i++) {
-    for (let j = 0; j < dataListAssignmentDone[i].length; j++) {
-      postsItems.push(dataListAssignmentDone[i][j]);
+    for (let j = 0; j < dataListAssignmentDone[i]?.length; j++) {
+      postsItems.push(dataListAssignmentDone?.[i]?.[j]);
     }
   }
 
@@ -79,9 +79,8 @@ const ScoreExam = () => {
   }));
 
   const filter = dataTable.filter((element) => element.id === asmDoneId);
-  console.log('dataTable',dataTable);
-  console.log('filter',filter);
-  
+  console.log('dataTable', dataTable);
+  console.log('filter', filter);
 
   const columns: ColumnsType<any> = [
     {
