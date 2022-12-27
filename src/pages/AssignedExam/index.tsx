@@ -1,25 +1,14 @@
-import React from 'react';
-import { Button, Modal, Popconfirm, Space, Table, Tag } from 'antd';
+import { EyeOutlined, PullRequestOutlined } from '@ant-design/icons';
+import { useQuery } from '@apollo/client';
+import { Button, Modal, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import BreadCrumb from 'components/BreadCrumb';
-import {
-  CloseCircleOutlined,
-  EditOutlined,
-  EyeOutlined,
-  PullRequestOutlined,
-} from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
-import { useQuery } from '@apollo/client';
-import { useNavigate, useParams } from 'react-router-dom';
-import {
-  DeleteQuestionDocument,
-  GetAllQuestionDocument,
-  GetMyQuestionDocument,
-  GetAllExamClassOfClassDocument,
-} from 'gql/graphql';
-import { useMemo, useState, useEffect } from 'react';
 import GiveAssingment from 'components/GiveAssignment';
+import { GetAllExamClassOfClassDocument } from 'gql/graphql';
 import moment from 'moment';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import './AssignedExam.scss';
 
 interface ITags {
@@ -128,7 +117,7 @@ const AssignedExam = () => {
       key: 'asmDoneId',
       render: (tags: any) => (
         <>
-          {tags?.map((tag: any, index: any) => {
+          {/* {tags?.map((tag: any, index: any) => {
             return (
               <Space size="middle" className="view">
                 <Tag
@@ -142,7 +131,19 @@ const AssignedExam = () => {
                 </Tag>
               </Space>
             );
-          })}
+          })} */}
+
+          <Space size="middle" className="view">
+            <Tag
+              icon={<EyeOutlined />}
+              color="warning"
+              onClick={() => {
+                navigate(tags[0].id);
+              }}
+            >
+              {t('action.detail')}
+            </Tag>
+          </Space>
         </>
       ),
     },
