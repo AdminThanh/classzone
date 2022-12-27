@@ -1,5 +1,4 @@
 import { Avatar, Checkbox, Col, Row } from 'antd';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
 import './AssignmentItem.scss';
@@ -28,7 +27,6 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
     answerSubmit,
     correctAnswer,
   } = props;
-  console.log('AssignmentItem', props);
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   const correctAnswers = useMemo(() => {
@@ -72,20 +70,13 @@ const AssignmentItem: React.FC<IAssignment> = (props) => {
                     let isCorrect = undefined;
 
                     // Đúng khi đáp án đó người dùng chọn và đúng
-                    if (answerSubmit.includes(item)) {
-                      if (correctAnswers.includes(item)) {
+                    if (answerSubmit?.includes(item)) {
+                      if (correctAnswers?.includes(item)) {
                         isCorrect = true;
                       } else {
                         isCorrect = false;
                       }
                     }
-
-                    console.log('isCorrect', {
-                      item,
-                      correctAnswers,
-                      isCorrect,
-                      answerSubmit,
-                    });
 
                     return (
                       <Col key={index} xs={24} sm={24} lg={12}>
