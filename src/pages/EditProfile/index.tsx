@@ -248,7 +248,7 @@ function EditProfile() {
                       name="phone"
                       initialValue={auth?.phoneNumber}
                     >
-                      <InputNumber
+                      <Input
                         disabled={!isEdit}
                         className="input-profile"
                         placeholder={t('edit_profile.ph_phone')}
